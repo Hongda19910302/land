@@ -120,5 +120,8 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-
+    <!-- 新增欢迎页（登录页）-->
+    <welcome-file-list>
+        <welcome-file>login.jsp</welcome-file>
+    </welcome-file-list>
 </web-app>
