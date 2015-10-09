@@ -146,6 +146,10 @@ body {
     margin-right: 5px;
 }
 
+#codeImg{
+    cursor: pointer;
+}
+
 .login_bar {
     padding-left: 70px;
 }

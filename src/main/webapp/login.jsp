@@ -6,7 +6,7 @@
     <title>国土行政执法信息平台</title>
     <link href="${resourceRoot}/dwz/themes/css/login.css" rel="stylesheet" type="text/css"/>
 
-    <script src="${resourceRoot}/dwz/js/jquery-1.7.2.min.js"></script>
+    <script src="${resourceRoot}/dwz/js/jquery-1.7.2.min.js" type="text/javascript"></script>
     <script type="text/javascript">
         $(function () {
 
@@ -39,6 +39,14 @@
                     }
                 }
             });
+
+            /**
+             * 点击验证码更新图片
+             */
+            $('#codeImg').click(function () {
+                $(this).attr("src",'/stickyImg?' + Math.floor(Math.random()*100));
+            });
+
         });
     </script>
 </head>
@@ -81,7 +89,7 @@
                 <p>
                     <label>验证码：</label>
                     <input class="code" id="code" type="text" size="5"/>
-                    <span><img src="${resourceRoot}/dwz/themes/default/images/header_bg.png"
+                    <span><img id="codeImg" src="/stickyImg"
                                alt="" width="75" height="24"/></span>
                 </p>
 
