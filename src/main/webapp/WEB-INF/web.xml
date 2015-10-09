@@ -43,7 +43,6 @@
     </listener>
 
 
-
     <!--展示Druid的统计信息-->
     <!--提供监视信息展示的html页面-->
     <!--提供监视信息的JSON API-->
@@ -118,6 +117,24 @@
     <servlet-mapping>
         <servlet-name>deniro</servlet-name>
         <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <!-- 验证码-->
+    <servlet>
+        <servlet-name>StickyCaptcha</servlet-name>
+        <servlet-class>net.deniro.land.common.captcha.CustomCaptchaServlet</servlet-class>
+        <init-param>
+            <param-name>width</param-name>
+            <param-value>75</param-value>
+        </init-param>
+        <init-param>
+            <param-name>height</param-name>
+            <param-value>24</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StickyCaptcha</servlet-name>
+        <url-pattern>/stickyImg</url-pattern>
     </servlet-mapping>
 
     <!-- 新增欢迎页（登录页）-->

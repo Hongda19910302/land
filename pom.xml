@@ -60,6 +60,14 @@
 
     <dependencies>
 
+        <!-- 验证码-->
+        <dependency>
+            <groupId>com.liferay</groupId>
+            <artifactId>nl.captcha.simplecaptcha</artifactId>
+            <version>1.2.1</version>
+        </dependency>
+
+
         <!-- mysql driver -->
         <dependency>
             <groupId>mysql</groupId>
