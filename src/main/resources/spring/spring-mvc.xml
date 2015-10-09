@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!-- 扫描包下所有的类，让标注Spring注解的类生效 -->
+    <context:component-scan base-package="net.deniro"/>
+
+    <!--配置注解驱动-->
+    <mvc:annotation-driven/>
+
+
+    <!--Freemaker基础设施-->
+    <!--指定模板存放路径、指定模板文件编码格式-->
+    <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer"
+          p:templateLoaderPath="/WEB-INF/ftl"
+          p:defaultEncoding="UTF-8">
+        <property name="freemarkerSettings">
+            <props>
+                <!--当遇见值为null的对象属性时，返回一个空白字符串-->
+                <prop key="classic_compatible">true</prop>
+            </props>
+        </property>
+    </bean>
+
+
+    <!--&lt;!&ndash;用户列表的xml视图&ndash;&gt;-->
+    <!--&lt;!&ndash;通过modelKey指定模型中的哪个属性需要输出为XML&ndash;&gt;-->
+    <!--<bean id="userListXml" class="org.springframework.web.servlet.view.xml.MarshallingView"-->
+    <!--p:modelKey="userList"-->
+    <!--p:marshaller-ref="xmlMarshaller"/>-->
+
+    <!--REST风格，根据请求信息从上下文选择一个合适的视图解析器负责解析-->
+    <!--优先级设置最高-->
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver"
+          p:order="0">
+        <property name="contentNegotiationManager" ref="contentNegotiationManager"/>
+        <property name="defaultViews">
+            <list>
+                <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
+                <bean class="org.springframework.web.servlet.view.xml.MarshallingView"
+                      p:marshaller-ref="xmlMarshaller"
+                      p:modelKey="userList"
+                        />
+            </list>
+        </property>
+    </bean>
+
+    <!--REST风格，内容协商管理器-->
+    <!--ignoreAcceptHeader：不支持Accept报文头指定的MIME类型，默认为false-->
+    <!--favorParameter：根据请求参数的值确定MIME类型，默认的请求参数是format，默认为false，可通过parameterName参数指定一个自定义的参数-->
+    <!--favorPathExtension：根据URL中的文件扩展名确定MIME类型，默认为true-->
+    <bean id="contentNegotiationManager"
+          class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean"
+          p:ignoreAcceptHeader="true"
+          p:favorPathExtension="true"
+          p:favorParameter="true"
+          p:parameterName="content">
+
+        <!--根据请求参数值和MIME类型的映射表-->
+        <property name="mediaTypes">
+            <map>
+                <entry key="xml" value="application/xml"/>
+                <entry key="json" value="application/json"/>
+            </map>
+        </property>
+    </bean>
+
+    <!--Freemaker视图解析器-->
+    <!--指定视图解析器优先级、指定后缀、指定输出内容编码格式-->
+    <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver"
+          p:order="1"
+          p:suffix=".ftl"
+          p:contentType="text/html;charset=utf-8"/>
+
+    <!--Bean视图解析器-->
+    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver"
+          p:order="2"/>
+    <!--视图配置定义在独立的XML文件中，提高主配置文件的简洁性-->
+    <bean class="org.springframework.web.servlet.view.XmlViewResolver"
+          p:order="3"
+          p:location="classpath:spring/spring-views.xml"/>
+
+    <!-- 视图名称解析器，将逻辑名解析为/WEB-INF/views/<viewName>.jsp -->
+    <!-- 使用JSTL -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:order="100"
+          p:viewClass="org.springframework.web.servlet.view.JstlView"
+          p:prefix="/WEB-INF/views/" p:suffix=".jsp">
+    </bean>
+
+    <!--文件上传解析器-->
+    <!--defaultEncoding：请求的编码格式，默认为ISO-8859-1，必须与JSP的pageEncoding属性一致，以便正确读取表单内容-->
+    <!--maxUploadSize：上传文件的大小上限，单位为字节(5MB)-->
+    <!--uploadTempDir：上传文件的临时路径，文件上传完成后，临时目录中的临时文件会被自动清除-->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+          p:defaultEncoding="UTF-8"
+          p:maxUploadSize="5242880"
+          p:uploadTempDir="upload/temp/"
+            />
+
+    <!-- 解决No mapping found for HTTP request with URI问题-->
+    <mvc:default-servlet-handler/>
+
+    <!--静态资源路径-->
+    <!--设置容器启动时初始化-->
+    <bean id="rpe" class="net.deniro.land.common.spring.mvc.ResourcePathExposer"
+          init-method="init"></bean>
+
+    <!-- 静态资源映射 -->
+    <!-- cache-period：设置静态资源在客户端浏览器中的缓存有效时间-->
+    <!--一般设置为一年，以充分使用客户端的缓存数据-->
+    <mvc:resources mapping="#{rpe.resourceRoot}/**" location="/static/"
+                   cache-period="31536000"/>
+
+</beans>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!-- 对数据源进行代理，使数据源具有事务上下文感知的能力-->
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy"
+          p:targetDataSource-ref="druidDataSource"/>
+
+    <!--druid 数据源-->
+    <bean id="druidDataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <!--基本属性-->
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+
+        <!--配置初始化大小、最大、最小-->
+        <!--通常来说，只需要修改initialSize、minIdle、maxActive。-->
+        <property name="initialSize" value="1"/>
+        <property name="minIdle" value="1"/>
+        <property name="maxActive" value="20"/>
+
+        <!--配置获取连接等待超时的时间-->
+        <property name="maxWait" value="60000"/>
+
+        <!--配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒-->
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+
+        <!--配置一个连接在池中最小生存的时间，单位是毫秒-->
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+
+        <!--连接测试-->
+        <property name="validationQuery" value="SELECT 'X'"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+
+        <!--打开PSCache，并且指定每个连接上的PSCache的大小-->
+        <!--如果用Oracle，则把poolPreparedStatements配置为true，mysql可以配置为false。分库分表较多的数据库，建议配置为false。-->
+        <property name="poolPreparedStatements" value="false"/>
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="20"/>
+
+
+        <!--配置统计监控过滤器-->
+        <property name="proxyFilters">
+            <list>
+                <ref bean="stat-filter"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--配置统计监控信息-->
+    <bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+        <!--合并没有参数化的SQL-->
+        <property name="mergeSql" value="true"/>
+        <!--配置SQL慢的标准，单位：毫秒-->
+        <property name="slowSqlMillis" value="10000"/>
+        <!--记录执行慢的SQL-->
+        <property name="logSlowSql" value="true"/>
+    </bean>
+
+
+    <!-- spring jdbc -->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
+          p:dataSource-ref="dataSource"/>
+
+    <!-- 支持命名参数变量 jdbc-->
+    <bean id="namedParamJdbcTemplate"
+          class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+
+    <!-- 为操作大二进制字段和大文本字段提供统一访问接口 -->
+    <bean id="lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler"
+          lazy-init="true"/>
+
+    <!-- Hibernate -->
+    <!-- AnnotationSessionFactoryBean 可以根据实体类的注解获取ORM的配置信息。也允许混合使用XML配置和注解配置对象关系映射-->
+    <!-- mappingLocations：指定xml映射文件路径-->
+    <!-- p:mappingDirectoryLocations="classpath:/net/deniro/db/hibernate/domain/oracle"-->
+    <!-- packagesToScan：指定注解实体类路径-->
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
+          p:dataSource-ref="dataSource"
+          p:packagesToScan="net.deniro.application.sunner.*.domain"
+          p:lobHandler-ref="lobHandler"
+            >
+
+        <!-- 指定Hibernate配置属性-->
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">
+                    org.hibernate.dialect.Oracle10gDialect
+                </prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+
+        <!-- hibernate 事件监听器-->
+        <property name="eventListeners">
+            <map>
+                <!-- 事件监听器类型-->
+                <!-- 事件类型必须是Hibernate预定义的类型-->
+                <entry key="merge">
+                    <!-- 事件监听器处理类-->
+                    <!-- 通过 IdTransferringMergeEventListener 将ID值传递给原对象-->
+                    <bean
+                            class="org.springframework.orm.hibernate3.support.IdTransferringMergeEventListener"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <!-- 配置 HibernateTemplate Bean-->
+    <bean id="hibernateTemplate"
+          class="org.springframework.orm.hibernate3.HibernateTemplate"
+          p:sessionFactory-ref="sessionFactory"/>
+
+</beans>

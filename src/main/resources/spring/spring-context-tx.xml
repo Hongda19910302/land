@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+    <!--基于数据源的事务管理器-->
+    <bean id="txManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+          p:dataSource-ref="dataSource">
+        <!-- 为事务管理器标识一个名字-->
+        <qualifier value="jdbcTx"/>
+    </bean>
+
+    <!-- 配置 Hibernate事务管理器-->
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate3.HibernateTransactionManager"
+          p:sessionFactory-ref="sessionFactory"/>
+
+
+    <!-- aop/tx 事务配置 begin-->
+
+    <!-- 事务增强-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <!-- 事务属性定义-->
+        <!-- 可以为不同的业务类应用不同的事务管理演绎风格-->
+        <tx:attributes>
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="add*" rollback-for="Exception"/>
+            <tx:method name="update*"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- 使用切点表达式语言定义目标方法-->
+    <!-- 可以定义多套事务切面-->
+    <aop:config>
+        <!-- 使用aop定义事务增强切面-->
+        <aop:pointcut id="serviceMethod"
+                      expression="execution(* net.deniro.*.service.*(..))"/>
+        <!-- 引用事务增强-->
+        <aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice"/>
+    </aop:config>
+
+    <!-- aop/tx 事务配置 end-->
+
+    <!-- 对标注@Transaction注解的Bean进行加工处理，织入事务管理切面-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+
+</beans>
