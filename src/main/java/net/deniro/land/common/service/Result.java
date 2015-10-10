@@ -1,6 +1,8 @@
 package net.deniro.land.common.service;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import lombok.Data;
 
@@ -20,5 +22,19 @@ public class Result implements Serializable {
      * 信息
      */
     private String message;
+
+    /**
+     * 额外信息
+     */
+    private Map<String, Object> extrasInfo = new HashMap();
+
+    public Object get(String key) {
+        return extrasInfo.get(key);
+    }
+
+    public void set(String key, Object value) {
+        extrasInfo.put(key, value);
+    }
+
 
 }
