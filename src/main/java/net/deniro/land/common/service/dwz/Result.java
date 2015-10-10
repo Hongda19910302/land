@@ -1,9 +1,8 @@
 package net.deniro.land.common.service.dwz;
 
 import com.google.common.collect.Lists;
-
-import net.deniro.land.common.action.Constants;
-import net.deniro.land.common.service.ServiceResult;
+import lombok.Data;
+import net.deniro.land.common.service.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.validation.FieldError;
@@ -11,8 +10,6 @@ import org.springframework.validation.FieldError;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import lombok.Data;
 
 /**
  * 返回结果
@@ -49,10 +46,6 @@ public abstract class Result {
      */
     private String message = "";
 
-    /**
-     * 服务层返回结果
-     */
-    private ServiceResult serviceResult;
 
 
     /**
