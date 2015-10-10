@@ -6,7 +6,7 @@ import java.security.SecureRandom;
 import java.util.Random;
 
 /**
- * ×Ô¶¨Òå×Ö·ûÉú³ÉÆ÷
+ * è‡ªå®šä¹‰å­—ç¬¦ç”Ÿæˆå™¨
  *
  * @author deniro
  *         2015/10/9
@@ -14,11 +14,11 @@ import java.util.Random;
 public class CustomTextProducer implements TextProducer {
     private static final Random RAND = new SecureRandom();
     /**
-     * Ä¬ÈÏ³¤¶È
+     * é»˜è®¤é•¿åº¦
      */
     private static final int DEFAULT_LENGTH = 4;
     /**
-     * ×Ö·û¼¯
+     * å­—ç¬¦é›†
      */
     private static final char[] DEFAULT_CHARS = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'k', 'm', 'n', 'p', 'r', 'w', 'x', 'y', '2', '3', '4', '5', '6', '7', '8'};
     private final int _length;

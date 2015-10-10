@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * ×Ô¶¨ÒåÑéÖ¤ÂëÉú³É¹æÔò
+ * è‡ªå®šä¹‰éªŒè¯ç ç”Ÿæˆè§„åˆ™
  *
  * @author deniro
  *         2015/10/9
@@ -32,12 +32,12 @@ public class CustomCaptchaServlet extends HttpServlet {
     private static int _height = 50;
 
     /**
-     * ÑÕÉ«¿â
+     * é¢œè‰²åº“
      */
     private static final java.util.List<Color> COLORS = new ArrayList(2);
 
     /**
-     * ×ÖÌå¿â
+     * å­—ä½“åº“
      */
     private static final java.util.List<Font> FONTS = new ArrayList(3);
 
@@ -80,7 +80,7 @@ public class CustomCaptchaServlet extends HttpServlet {
             CaptchaServletUtil.writeImage(resp, captcha.getImage());
             req.getSession().setAttribute("simpleCaptcha", captcha);
         } catch (Exception e) {
-            logger.error("×Ô¶¨ÒåÑéÖ¤ÂëÉú³É¹æÔò", e);
+            logger.error("è‡ªå®šä¹‰éªŒè¯ç ç”Ÿæˆè§„åˆ™", e);
         }
     }
 }
