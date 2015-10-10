@@ -46,25 +46,20 @@ public class UserService {
         Result result = new Result();
 
         /**
-         * 验证
+         * 验证参数是否为空
          */
         if (StringUtils.isBlank(account)) {
             result.setMessage("请输入账号！");
             return result;
         }
-
         if (StringUtils.isBlank(password)) {
             result.setMessage("请输入密码！");
             return result;
         }
 
-        LoginSource loginSource = LoginSource.get(loginSourceCode);
-        if (loginSource == null) {
-            result.setMessage("登录来源码非法！");
-            logger.error("登录来源码非法！loginSourceCode:" + loginSourceCode);
-            return result;
-        }
-
+        /**
+         * 验证账号是否存在
+         */
         List<User> users = userDao.findByAccount(account);
         if (users == null || users.isEmpty()) {
             result.setMessage("不存在这个账号！");
@@ -72,8 +67,11 @@ public class UserService {
         } else if (users.size() > 1) {
             logger.warn("存在 " + users.size() + " 个相同账号的用户！");
         }
-
         User user = users.get(0);
+
+        /**
+         * 验证账号状态
+         */
         int statusCode = user.getStatus();
         UserStatus userStatus = UserStatus.get(statusCode);
         if (userStatus == null) {
@@ -92,15 +90,24 @@ public class UserService {
                 break;
         }
 
+        /**
+         * 验证密码
+         */
+        LoginSource loginSource = LoginSource.get(loginSourceCode);
+        if (loginSource == null) {
+            result.setMessage("登录来源码非法！");
+            logger.error("登录来源码非法！loginSourceCode:" + loginSourceCode);
+            return result;
+        }
         switch (loginSource) {
-            case WEB:
+            case WEB://md5加密后验证
                 password = Md5Utils.encryptIn16(password);
                 if (!StringUtils.equals(password, user.getPassword())) {
                     result.setMessage("密码错误！");
                     return result;
                 }
                 break;
-            case ANDROID:
+            case ANDROID://取配置文件中的密码进行验证
                 if (!StringUtils.equals(password, PropertiesReader.value("gzty.android" +
                         ".password"))) {
                     result.setMessage("密码错误！");
