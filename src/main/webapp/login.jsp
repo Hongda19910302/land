@@ -4,13 +4,38 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>国土行政执法信息平台</title>
+    <link href="${resourceRoot}/dwz/opentip/opentip.css" rel="stylesheet" type="text/css"/>
     <link href="${resourceRoot}/dwz/themes/css/login.css" rel="stylesheet" type="text/css"/>
 
-    <script src="${resourceRoot}/dwz/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="${resourceRoot}/dwz/js/jquery-1.7.2.min.js"
+            type="text/javascript"></script>
+    <script src="${resourceRoot}/dwz/opentip/opentip-jquery.min.js"
+            type="text/javascript"></script>
     <script type="text/javascript">
         $(function () {
+            validate();
+            handleCodeImg();
+        });
 
-            //验证
+        //处理验证码图片
+        function handleCodeImg() {
+            var $codeImg = $("#codeImg");
+            var codeImgTip = new Opentip($codeImg, {showOn: null, style: 'dark'});//验证码图片提示
+            $codeImg.click(function () {//点击验证码更新图片
+                $(this).attr("src", '/stickyImg?' + Math.floor(Math.random() * 100));
+                codeImgTip.hide();
+            }).mouseover(function () {//出现提示
+                codeImgTip.setContent("看不清，换一张");
+                codeImgTip.show();
+            }).mouseout(function () {//隐藏提示
+                codeImgTip.hide();
+            });
+        }
+
+        /**
+         * 验证
+         */
+        function validate() {
             $('form :input').blur(function () {//为表单元素添加失去焦点事件
                 var $parent = $(this).parent();
 
@@ -39,15 +64,7 @@
                     }
                 }
             });
-
-            /**
-             * 点击验证码更新图片
-             */
-            $('#codeImg').click(function () {
-                $(this).attr("src",'/stickyImg?' + Math.floor(Math.random()*100));
-            });
-
-        });
+        }
     </script>
 </head>
 
@@ -92,6 +109,7 @@
                     <span><img id="codeImg" src="/stickyImg"
                                alt="" width="75" height="24"/></span>
                 </p>
+
 
                 <div class="login_bar">
                     <input class="sub" type="submit" value=" "/>
