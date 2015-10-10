@@ -1,7 +1,6 @@
 package net.deniro.land.module.account.action;
 
 import net.deniro.land.common.service.dwz.Result;
-import net.deniro.land.common.service.ServiceResult;
 import net.deniro.land.module.account.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
