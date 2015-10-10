@@ -8,12 +8,22 @@
     <context:component-scan base-package="net.deniro"/>
 
     <!--引用外部属性文件-->
-    <context:property-placeholder location="classpath*:deniro-land.properties"/>
+    <context:property-placeholder location="classpath*:system.properties"/>
 
     <!-- Spring 上下文环境工具-->
     <bean class="net.deniro.land.common.utils.SpringContextUtils"/>
 
     <!-- Spring容器加载所有Bean后，执行的处理器-->
     <bean class="net.deniro.land.common.spring.AfterAllBeanInitProcessor"/>
+
+    <!-- 读取配置文件管理器-->
+    <bean id="resourceBundleMessageSource"
+          class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>system</value>
+            </list>
+        </property>
+    </bean>
 
 </beans>
