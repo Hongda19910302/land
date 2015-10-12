@@ -409,12 +409,7 @@ body, #splitBar {
 }
 
 /*#header .logo { background:url(./images/logo.png) no-repeat;}*/
-#logo2 {
-    font-family: "Microsoft YaHei", Georgia, "Times New Roman", Times, serif;
-    color: white;
-    font-size: 28px;
-    padding: 10px 10px;
-}
+
 
 #header .nav li {
     float: left;
@@ -587,6 +582,27 @@ body, #splitBar {
     background: url(../default/images/search-bg.gif) no-repeat;
 }
 
+/*----------------------------------------主界面-------------------------------*/
+#logo2 {
+    font-family: "Microsoft YaHei", Georgia, "Times New Roman", Times, serif;
+    color: white;
+    font-size: 28px;
+    padding: 10px 10px;
+}
+
+#mainIntroduction{
+    margin: 150px auto;
+    text-align: center;
+    font-size: 18px;
+    padding: 10px 15px;
+}
+
+#mainIntroduction h2{
+    color: #0092fb;
+    font-family: "微软雅黑";
+    font-weight: bold;
+    font-size: 18px;
+}
 
 
 
