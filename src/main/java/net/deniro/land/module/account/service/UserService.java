@@ -108,14 +108,14 @@ public class UserService {
                 case WEB://md5加密后验证
                     password = Md5Utils.encryptIn16(password);
                     if (!StringUtils.equals(password, user.getPassword())) {
-                        result.setMessage("密码错误！");
+                        result.setMessage("账号或密码错误！");
                         return result;
                     }
                     break;
                 case ANDROID://取配置文件中的密码进行验证
                     if (!StringUtils.equals(password, PropertiesReader.value("gzty.android" +
                             ".password"))) {
-                        result.setMessage("密码错误！");
+                        result.setMessage("账号或密码错误！");
                         return result;
                     }
                     break;
