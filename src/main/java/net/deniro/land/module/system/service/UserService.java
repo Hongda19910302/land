@@ -1,12 +1,12 @@
-package net.deniro.land.module.account.service;
+package net.deniro.land.module.system.service;
 
 import net.deniro.land.common.service.dwz.Result;
 import net.deniro.land.common.service.dwz.ResultError;
 import net.deniro.land.common.service.dwz.ResultSuccess;
 import net.deniro.land.common.utils.Md5Utils;
 import net.deniro.land.common.utils.PropertiesReader;
-import net.deniro.land.module.account.dao.UserDao;
-import net.deniro.land.module.account.entity.User;
+import net.deniro.land.module.system.dao.UserDao;
+import net.deniro.land.module.system.entity.User;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static net.deniro.land.module.account.entity.User.LoginSource;
-import static net.deniro.land.module.account.entity.User.UserStatus;
+import static net.deniro.land.module.system.entity.User.LoginSource;
+import static net.deniro.land.module.system.entity.User.UserStatus;
 
 /**
  * 用户

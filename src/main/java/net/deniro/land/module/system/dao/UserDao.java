@@ -1,7 +1,7 @@
-package net.deniro.land.module.account.dao;
+package net.deniro.land.module.system.dao;
 
 import net.deniro.land.common.dao.BaseDao;
-import net.deniro.land.module.account.entity.User;
+import net.deniro.land.module.system.entity.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

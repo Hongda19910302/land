@@ -1,4 +1,4 @@
-package net.deniro.land.module.account.entity;
+package net.deniro.land.module.system.entity;
 
 import lombok.Data;
 import lombok.Setter;

@@ -146,12 +146,6 @@
                     <ul class="tree treeFolder">
                         <li><a href="demo_page1.html" target="navTab" rel="demo_page1">查询我的客户</a>
                         </li>
-                        <li><a href="demo_page1.html" target="navTab" rel="demo_page2">表单查询页面</a>
-                        </li>
-                        <li><a href="demo_page4.html" target="navTab" rel="demo_page4">表单录入页面</a>
-                        </li>
-                        <li><a href="demo_page5.html" target="navTab" rel="demo_page5">有文本输入的表单</a>
-                        </li>
                     </ul>
                 </div>
                 <div class="accordionHeader">

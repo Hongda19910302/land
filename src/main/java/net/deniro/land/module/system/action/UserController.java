@@ -1,8 +1,8 @@
-package net.deniro.land.module.account.action;
+package net.deniro.land.module.system.action;
 
 import net.deniro.land.common.service.dwz.Result;
 import net.deniro.land.common.service.dwz.ResultError;
-import net.deniro.land.module.account.service.UserService;
+import net.deniro.land.module.system.service.UserService;
 import nl.captcha.Captcha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
