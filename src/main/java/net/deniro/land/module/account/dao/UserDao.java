@@ -22,7 +22,7 @@ public class UserDao extends BaseDao<User> {
      * @return
      */
     public List<User> findByAccount(String account) {
-        String hql = " from TUser where status=0 and account = ?";
+        String hql = " from User where status=0 and account = ?";
         return this.find(hql, new Object[]{account});
     }
 }
