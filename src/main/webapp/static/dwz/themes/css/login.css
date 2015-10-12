@@ -150,6 +150,10 @@ body {
     cursor: pointer;
 }
 
+.formtips{
+    list-style-type: disc;
+}
+
 .login_bar {
     padding-left: 70px;
 }
@@ -222,4 +226,5 @@ body {
 .onError {
     color: red;
     margin-left: 10px;
+    padding:2px 0px;
 }

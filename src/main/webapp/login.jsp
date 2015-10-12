@@ -4,6 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>国土行政执法信息平台</title>
+
     <link href="${resourceRoot}/dwz/opentip/opentip.css" rel="stylesheet" type="text/css"/>
     <link href="${resourceRoot}/dwz/themes/css/login.css" rel="stylesheet" type="text/css"/>
 
@@ -11,10 +12,27 @@
             type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/opentip/opentip-jquery.min.js"
             type="text/javascript"></script>
+    <script src="${resourceRoot}/dwz/form/jquery.form.min.js"
+            type="text/javascript"></script>
+
     <script type="text/javascript">
         $(function () {
-            validate();
             handleCodeImg();
+
+            $('#loginForm').ajaxForm({
+                target: '.formtips',
+                url: '/user/login',
+                beforeSubmit: function () {
+                    validate();
+                    if ($('.formtips').children().length > 0) {//验证不通过
+                        return false;
+                    }
+                    return true;
+                },
+                success: function () {
+                    alert('Thanks for your comment!');
+                }
+            });
         });
 
         //处理验证码图片
@@ -36,34 +54,25 @@
          * 验证
          */
         function validate() {
-            $('form :input').blur(function () {//为表单元素添加失去焦点事件
-                var $parent = $(this).parent();
+            var $formtips = $(".formtips");
 
-                //删除以前的提醒元素
-                $parent.find(".formtips").remove();
+            //删除以前的提醒元素
+            $formtips.children().remove();
 
-                //验证用户名
-                if ($(this).is('#username')) {
-                    if (this.value == '') {
-                        var errorMsg = '请输入用户名！';
-                        $(".formtips").html(errorMsg);
-                    }
-                }
-                //验证密码
-                if ($(this).is('#password')) {
-                    if (this.value == '') {
-                        var errorMsg = '请输入密码！';
-                        $(".formtips").html(errorMsg);
-                    }
-                }
-                //验证验证码
-                if ($(this).is('#code')) {
-                    if (this.value == '') {
-                        var errorMsg = '请输入验证码！';
-                        $(".formtips").html(errorMsg);
-                    }
-                }
-            });
+            //验证用户名
+            if ($("#username").val() == '') {
+                $formtips.append($('<li class="onError">请输入用户名！</li>'));
+            }
+
+            //验证密码
+            if ($("#password").val() == '') {
+                $formtips.append($('<li class="onError">请输入密码！</li>'));
+            }
+
+            //验证验证码
+            if ($("#code").val() == '') {
+                $formtips.append($('<li class="onError">请输入验证码！</li>'));
+            }
         }
     </script>
 </head>
@@ -90,7 +99,7 @@
     </div>
     <div id="login_content">
         <div class="loginForm">
-            <form>
+            <form id="loginForm">
                 <p>
                     <label>用户名：</label>
                     <input type="text" id="username" name="username" size="20"
@@ -112,11 +121,14 @@
 
 
                 <div class="login_bar">
-                    <input class="sub" type="submit" value=" "/>
+                    <div
+                            class="button"><input id="loginBtn" class="sub" type="submit"
+                                                  value=" "
+                            /></div>
                 </div>
 
                 <p>
-                    <span class="formtips onError"></span>
+                <ul class="formtips"></ul>
                 </p>
             </form>
 
@@ -124,12 +136,12 @@
         <div class="login_banner"><img
                 src="${resourceRoot}/dwz/themes/default/images/login_banner.jpg"/></div>
         <div class="login_main">
-            <ul class="helpList">
-                <li><a href="#">下载驱动程序</a></li>
-                <li><a href="#">如何安装密钥驱动程序？</a></li>
-                <li><a href="#">忘记密码怎么办？</a></li>
-                <li><a href="#">为什么登录失败？</a></li>
-            </ul>
+            <%--<ul class="helpList">--%>
+            <%--<li><a href="#">下载驱动程序</a></li>--%>
+            <%--<li><a href="#">如何安装密钥驱动程序？</a></li>--%>
+            <%--<li><a href="#">忘记密码怎么办？</a></li>--%>
+            <%--<li><a href="#">为什么登录失败？</a></li>--%>
+            <%--</ul>--%>
             <div class="login_inner">
                 <p>您可以使用 网易网盘 ，随时存，随地取</p>
 
