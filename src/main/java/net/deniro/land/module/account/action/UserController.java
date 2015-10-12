@@ -26,13 +26,29 @@ public class UserController {
     private UserService userService;
 
     /**
+     * 退出（登出）
+     *
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/exit")
+    public String exit(HttpSession session) {
+        session.removeAttribute(UserService.USER_CODE);
+        return "../../login";
+    }
+
+
+
+
+
+    /**
      * 登录
      *
      * @param account         账号
      * @param password        密码
      * @param code            验证码
      * @param loginSourceCode 登录来源
-     * @param session     session
+     * @param session         session
      * @return
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -42,7 +58,7 @@ public class UserController {
 
         //判断验证码是否正确
         Captcha captcha = (Captcha) session.getAttribute(Captcha.NAME);
-        if(!captcha.isCorrect(code)){
+        if (!captcha.isCorrect(code)) {
             return new ResultError("验证码不正确！");
         }
 
