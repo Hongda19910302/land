@@ -29,8 +29,20 @@
                     }
                     return true;
                 },
-                success: function () {
-                    alert('Thanks for your comment!');
+                success: function (responseText) {
+                    var $formtips = $(".formtips");
+                    //删除以前的提醒元素
+                    $formtips.children().remove();
+
+                    if(responseText){
+                        if(responseText.statusCode==200){//登录成功
+
+                        }else{//登录失败
+                            $formtips.append($('<li class="onError">'+responseText.message+'</li>'));
+                        }
+                    }else{
+                        $formtips.append($('<li class="onError">登录失败！</li>'));
+                    }
                 }
             });
         });
@@ -59,9 +71,9 @@
             //删除以前的提醒元素
             $formtips.children().remove();
 
-            //验证用户名
-            if ($("#username").val() == '') {
-                $formtips.append($('<li class="onError">请输入用户名！</li>'));
+            //验证账号
+            if ($("#account").val() == '') {
+                $formtips.append($('<li class="onError">请输入账号！</li>'));
             }
 
             //验证密码
@@ -99,10 +111,11 @@
     </div>
     <div id="login_content">
         <div class="loginForm">
-            <form id="loginForm">
+            <form id="loginForm" method="post">
+                <input type="hidden" name="loginSourceCode" value="1"/>
                 <p>
-                    <label>用户名：</label>
-                    <input type="text" id="username" name="username" size="20"
+                    <label>账号：</label>
+                    <input type="text" id="account" name="account" size="20"
                            class="login_input"/>
                 </p>
 
@@ -114,7 +127,7 @@
 
                 <p>
                     <label>验证码：</label>
-                    <input class="code" id="code" type="text" size="5"/>
+                    <input class="code" id="code" name="code" type="text" size="5"/>
                     <span><img id="codeImg" src="/stickyImg"
                                alt="" width="75" height="24"/></span>
                 </p>
@@ -142,13 +155,9 @@
             <%--<li><a href="#">忘记密码怎么办？</a></li>--%>
             <%--<li><a href="#">为什么登录失败？</a></li>--%>
             <%--</ul>--%>
-            <div class="login_inner">
-                <p>您可以使用 网易网盘 ，随时存，随地取</p>
-
-                <p>您还可以使用 闪电邮 在桌面随时提醒邮件到达，快速收发邮件。</p>
-
-                <p>在 百宝箱 里您可以查星座，订机票，看小说，学做菜…</p>
-            </div>
+            <%--<div class="login_inner">--%>
+                <%--<p>发现在初始，解决在萌芽</p>--%>
+            <%--</div>--%>
         </div>
     </div>
     <div id="login_footer">
