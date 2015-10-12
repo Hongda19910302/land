@@ -18,7 +18,11 @@
     <script type="text/javascript">
         $(function () {
             handleCodeImg();
+            login();
+        });
 
+        //登录
+        function login() {
             $('#loginForm').ajaxForm({
                 target: '.formtips',
                 url: '/user/login',
@@ -34,18 +38,18 @@
                     //删除以前的提醒元素
                     $formtips.children().remove();
 
-                    if(responseText){
-                        if(responseText.statusCode==200){//登录成功
-
-                        }else{//登录失败
-                            $formtips.append($('<li class="onError">'+responseText.message+'</li>'));
+                    if (responseText) {
+                        if (responseText.statusCode == 200) {//登录成功，跳转到主界面
+                            location.href = "/index";
+                        } else {//登录失败
+                            $formtips.append($('<li class="onError">' + responseText.message + '</li>'));
                         }
-                    }else{
-                        $formtips.append($('<li class="onError">登录失败！</li>'));
+                    } else {
+                        $formtips.append($('<li class="onError">连不上服务器，登录失败！</li>'));
                     }
                 }
             });
-        });
+        }
 
         //处理验证码图片
         function handleCodeImg() {
@@ -113,6 +117,7 @@
         <div class="loginForm">
             <form id="loginForm" method="post">
                 <input type="hidden" name="loginSourceCode" value="1"/>
+
                 <p>
                     <label>账号：</label>
                     <input type="text" id="account" name="account" size="20"
@@ -156,7 +161,7 @@
             <%--<li><a href="#">为什么登录失败？</a></li>--%>
             <%--</ul>--%>
             <%--<div class="login_inner">--%>
-                <%--<p>发现在初始，解决在萌芽</p>--%>
+            <%--<p>发现在初始，解决在萌芽</p>--%>
             <%--</div>--%>
         </div>
     </div>
