@@ -1,10 +1,13 @@
 package net.deniro.land.module.account.action;
 
 import net.deniro.land.common.service.dwz.Result;
+import net.deniro.land.common.service.dwz.ResultError;
 import net.deniro.land.module.account.service.UserService;
+import nl.captcha.Captcha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
@@ -25,16 +28,28 @@ public class UserController {
     /**
      * 登录
      *
+     * @param account         账号
+     * @param password        密码
+     * @param code            验证码
+     * @param loginSourceCode 登录来源
+     * @param session     session
      * @return
      */
-    @RequestMapping(value = "/login")
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public Result login(String account, String password, int
-            loginSourceCode, HttpSession httpSession) {
+    public Result login(String account, String password, String code, int
+            loginSourceCode, HttpSession session) {
+
+        //判断验证码是否正确
+        Captcha captcha = (Captcha) session.getAttribute(Captcha.NAME);
+        if(!captcha.isCorrect(code)){
+            return new ResultError("验证码不正确！");
+        }
+
         Result result = userService.login(account, password, loginSourceCode);
 
         if (result.isSuccess()) {//写入session
-            httpSession.setAttribute(UserService.USER_CODE, result.get(UserService.USER_CODE));
+            session.setAttribute(UserService.USER_CODE, result.get(UserService.USER_CODE));
         }
 
         return result;
