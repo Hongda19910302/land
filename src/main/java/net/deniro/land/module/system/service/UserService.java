@@ -37,7 +37,7 @@ public class UserService {
     public static final String USER_CODE = "user";
 
     /**
-     * 登录·
+     * 登录
      *
      * @param account         账号
      * @param password        密码
@@ -123,9 +123,9 @@ public class UserService {
                     break;
             }
 
-
+            result=new ResultSuccess("登陆成功！");
             result.set(USER_CODE, user);
-            return new ResultSuccess("登陆成功！");
+            return result;
         } catch (Exception e) {
             logger.error("登录", e);
             result.setMessage("系统异常！");
