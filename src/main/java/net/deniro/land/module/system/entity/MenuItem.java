@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 菜单项
@@ -50,10 +52,9 @@ public class MenuItem implements Serializable {
     private Integer sortNo;
 
     /**
-     * 父菜单项
+     * 子菜单项
      */
-    @ManyToOne
-    @JoinColumn(name = "PARENT_ID", referencedColumnName = "BACK_PRIVILEGE_ID", nullable = true)
-    private MenuItem parentMenuItem;
+    @Transient
+    private List<MenuItem> child=new ArrayList<MenuItem>();
 
 }
