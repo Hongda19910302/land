@@ -79,39 +79,25 @@
     <script src="${resourceRoot}/dwz/js/dwz.regional.zh.js" type="text/javascript"></script>
 
     <script type="text/javascript">
-        $(function () {
-            DWZ.init("${resourceRoot}/dwz/dwz.frag.xml", {
-                loginUrl: "login.jsp", loginTitle: "登录",	// 弹出登录对话框
-                statusCode: {ok: 200, error: 300, timeout: 301}, //【可选】
-                pageInfo: {
-                    pageNum: "pageNum",
-                    numPerPage: "numPerPage",
-                    orderField: "orderField",
-                    orderDirection: "orderDirection"
-                }, //【可选】
-                keys: {statusCode: "statusCode", message: "message"}, //【可选】
-                ui: {hideMode: 'offsets'}, //【可选】hideMode:navTab组件切换的隐藏方式，支持的值有’display’，’offsets’负数偏移位置的值，默认值为’display’
-                debug: false,	// 调试模式 【true|false】
-                callback: function () {
-                    initEnv();
-                    $("#themeList").theme({themeBase: "themes"}); // themeBase 相对于index页面的主题base路径
-                }
-            });
-
-            /**
-             * 退出
-             */
-            $("#exit").click(function () {
-                location.href = "/user/exit";
-            });
-
-            /**
-             * 获取可查看的所有菜单模块
-             */
-            $.get("/menu/findAll");
+        DWZ.init("${resourceRoot}/dwz/dwz.frag.xml", {
+            loginUrl: "login.jsp", loginTitle: "登录",	// 弹出登录对话框
+            statusCode: {ok: 200, error: 300, timeout: 301}, //【可选】
+            pageInfo: {
+                pageNum: "pageNum",
+                numPerPage: "numPerPage",
+                orderField: "orderField",
+                orderDirection: "orderDirection"
+            }, //【可选】
+            keys: {statusCode: "statusCode", message: "message"}, //【可选】
+            ui: {hideMode: 'offsets'}, //【可选】hideMode:navTab组件切换的隐藏方式，支持的值有’display’，’offsets’负数偏移位置的值，默认值为’display’
+            debug: false,	// 调试模式 【true|false】
+            callback: function () {
+                initEnv();
+                $("#themeList").theme({themeBase: "themes"}); // themeBase 相对于index页面的主题base路径
+            }
         });
-
     </script>
+    <script src="${resourceRoot}/dwz/js/index.js" type="text/javascript"></script>
 </head>
 
 <body scroll="no">
@@ -144,30 +130,6 @@
             </div>
 
             <div class="accordion" fillSpace="sidebar">
-                <div class="accordionHeader">
-                    <h2><span>Folder</span>典型页面</h2>
-                </div>
-                <div class="accordionContent">
-                    <ul class="tree treeFolder">
-                        <li><a href="demo_page1.html" target="navTab" rel="demo_page1">查询我的客户</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="accordionHeader">
-                    <h2><span>Folder</span>典型页面</h2>
-                </div>
-                <div class="accordionContent">
-                    <ul class="tree treeFolder">
-                        <li><a href="demo_page1.html" target="navTab" rel="demo_page1">查询我的客户</a>
-                        </li>
-                        <li><a href="demo_page1.html" target="navTab" rel="demo_page2">表单查询页面</a>
-                        </li>
-                        <li><a href="demo_page4.html" target="navTab" rel="demo_page4">表单录入页面</a>
-                        </li>
-                        <li><a href="demo_page5.html" target="navTab" rel="demo_page5">有文本输入的表单</a>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </div>
     </div>
@@ -196,7 +158,7 @@
                         <div id="mainIntroduction">
                             <h2>欢迎进入行政执法平台</h2>
                             <img src="${resourceRoot}/dwz/images/main_introduction.jpg"
-                                 width="793" height="256" />
+                                 width="793" height="256"/>
                         </div>
                     </div>
                 </div>
