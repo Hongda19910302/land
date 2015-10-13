@@ -33,6 +33,7 @@
         <!-- 可以为不同的业务类应用不同的事务管理演绎风格-->
         <tx:attributes>
             <tx:method name="get*" read-only="true"/>
+            <tx:method name="find*" read-only="true"/>
             <tx:method name="add*" rollback-for="Exception"/>
             <tx:method name="update*"/>
         </tx:attributes>
