@@ -104,6 +104,11 @@
             $("#exit").click(function () {
                 location.href = "/user/exit";
             });
+
+            /**
+             * 获取可查看的所有菜单模块
+             */
+            $.get("/menu/findAll");
         });
 
     </script>

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 菜单
+ * 菜单模块
  *
  * @author deniro
  *         2015/10/13
