@@ -25,17 +25,50 @@ public class MenuDao extends BaseDao<MenuItem> {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
-     * 查询顶级菜单模块列表（依据角色ID）
+     * 依据角色ID，获取可查看的菜单模块ID列表
+     */
+    public static final String MENU_ITEMS_BY_ROLE_ID_SQL = "SELECT DISTINCT(v" +
+            ".BACK_PRIVILEGE_ID) " +
+            "FROM t_back_role_privilege v WHERE v.BACK_ROLE_ID=:roleId";
+
+    /**
+     * 查询所有子菜单模块（依据角色ID）
+     *
+     * @param roleId 角色ID
+     * @return
+     */
+    public List<MenuItem> findChildrenByRoleId(Integer roleId) {
+        String sql = "SELECT b.* FROM t_back_privilege AS a,t_back_privilege AS b WHERE a" +
+                ".BACK_PRIVILEGE_ID= b.PARENT_ID AND a.BACK_PRIVILEGE_ID in("
+                + MENU_ITEMS_BY_ROLE_ID_SQL + ") ORDER " +
+                "BY b.PARENT_ID,b.SORT_NO";
+        MapSqlParameterSource mps = new MapSqlParameterSource().addValue("roleId", roleId);
+        return findMenuItems(sql, mps);
+    }
+
+    /**
+     * 查询顶级菜单模块（依据角色ID）
      *
      * @param roleId 角色ID
      * @return
      */
     public List<MenuItem> findTopByRoleId(Integer roleId) {
         String sql = "SELECT * from t_back_privilege x WHERE x.PARENT_ID is null  AND x.BACK_PRIVILEGE_ID in(" +
-                "SELECT DISTINCT(v.BACK_PRIVILEGE_ID) FROM t_back_role_privilege v WHERE v.BACK_ROLE_ID=:roleId) " +
-                "ORDER BY x.SORT_NO";
+                MENU_ITEMS_BY_ROLE_ID_SQL +
+                ")ORDER BY x.SORT_NO";
         MapSqlParameterSource mps = new MapSqlParameterSource().addValue("roleId", roleId);
 
+        return findMenuItems(sql, mps);
+    }
+
+    /**
+     * 查询菜单项列表
+     *
+     * @param sql
+     * @param mps
+     * @return
+     */
+    private List<MenuItem> findMenuItems(String sql, MapSqlParameterSource mps) {
         return namedParameterJdbcTemplate.query(sql, mps, new RowMapper<MenuItem>() {
             @Override
             public MenuItem mapRow(ResultSet resultSet, int i) throws SQLException {

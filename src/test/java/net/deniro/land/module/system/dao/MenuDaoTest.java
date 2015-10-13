@@ -27,6 +27,14 @@ public class MenuDaoTest {
     @Autowired
     private MenuDao menuDao;
 
+
+
+    @Test
+    public void testFindChildrenByRoleId() throws Exception {
+        List<MenuItem> datas = menuDao.findChildrenByRoleId(1);
+        System.out.println("datas:" + datas);
+    }
+
     @Test
     public void testFindTopByRoleId() throws Exception {
         List<MenuItem> datas = menuDao.findTopByRoleId(1);
