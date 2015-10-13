@@ -78,6 +78,7 @@ public class MenuDao extends BaseDao<MenuItem> {
                 entity.setLevel(resultSet.getInt("LEVEL"));
                 entity.setParentId(resultSet.getInt("PARENT_ID"));
                 entity.setSortNo(resultSet.getInt("SORT_NO"));
+                entity.setUrl(resultSet.getString("URL2"));
                 return entity;
             }
         });
