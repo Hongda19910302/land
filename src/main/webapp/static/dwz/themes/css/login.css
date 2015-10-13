@@ -146,11 +146,11 @@ body {
     margin-right: 5px;
 }
 
-#codeImg{
+#codeImg {
     cursor: pointer;
 }
 
-.formtips{
+.formtips {
     list-style-type: disc;
 }
 
@@ -224,7 +224,10 @@ body {
 }
 
 .onError {
-    color: red;
+    color: #e18700;
+    font-weight: bold;
     margin-left: 10px;
-    padding:2px 0px;
+    padding: 5px 10px;
+    list-style-type: none;
+    background: transparent url(../../images/list/link_dot3.gif) 0 7px no-repeat;
 }
