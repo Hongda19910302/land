@@ -63,4 +63,48 @@ public class Role implements Serializable {
     @Column(name = "REPORT_ROLE", nullable = true, length = 2)
     private Integer reportRole = 0;
 
+    /**
+     * 角色状态
+     */
+    public enum Status {
+        /**
+         * 正常
+         */
+        NORMAL(0),
+        /**
+         * 禁用
+         */
+        DISABLE(1),
+        /**
+         * 删除
+         */
+        DELETE(2);
+
+        private int code;
+
+        Status(int code) {
+            this.code = code;
+        }
+
+        /**
+         * 获取枚举对象
+         *
+         * @param code 来源码
+         * @return
+         */
+        public static Status get(int code) {
+            Status[] sources = Status.values();
+            for (Status source : sources) {
+                if (source.code() == code) {
+                    return source;
+                }
+            }
+            return null;
+        }
+
+        public int code() {
+            return code;
+        }
+    }
+
 }

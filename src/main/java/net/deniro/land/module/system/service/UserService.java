@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static net.deniro.land.module.system.entity.User.LoginSource;
-import static net.deniro.land.module.system.entity.User.UserStatus;
+import static net.deniro.land.module.system.entity.User.Status;
 
 /**
  * 用户
@@ -78,13 +78,13 @@ public class UserService {
              * 验证账号状态
              */
             int statusCode = user.getStatus();
-            UserStatus userStatus = UserStatus.get(statusCode);
-            if (userStatus == null) {
+            Status status = Status.get(statusCode);
+            if (status == null) {
                 result.setMessage("账号状态码非法！");
                 logger.error("账号状态码非法！statusCode:" + statusCode);
                 return result;
             }
-            switch (userStatus) {
+            switch (status) {
                 case FREEZE:
                     result.setMessage("该账号已被冻结！");
                     return result;
