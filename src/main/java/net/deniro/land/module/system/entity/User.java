@@ -134,7 +134,7 @@ public class User implements Serializable {
     /**
      * 用户状态
      */
-    public enum UserStatus {
+    public enum Status {
         /**
          * 正常
          */
@@ -150,7 +150,7 @@ public class User implements Serializable {
 
         private int code;
 
-        UserStatus(int code) {
+        Status(int code) {
             this.code = code;
         }
 
@@ -160,17 +160,17 @@ public class User implements Serializable {
          * @param code 来源码
          * @return
          */
-        public static UserStatus get(int code) {
-            UserStatus[] sources = UserStatus.values();
-            for (UserStatus source : sources) {
-                if (source.getCode() == code) {
+        public static Status get(int code) {
+            Status[] sources = Status.values();
+            for (Status source : sources) {
+                if (source.code() == code) {
                     return source;
                 }
             }
             return null;
         }
 
-        public int getCode() {
+        public int code() {
             return code;
         }
     }
