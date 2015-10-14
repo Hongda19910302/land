@@ -4,14 +4,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Data;
+
 /**
  * 分页对象
- * <p/>
+ * <p>
  * 包含当前页数据及分页信息
  *
  * @author deniro
  *         2015/4/24
  */
+@Data
 public class Page implements Serializable {
 
     private static final int DEFAULT_PAGE_SIZE = 20;
@@ -89,7 +92,7 @@ public class Page implements Serializable {
      *
      * @return
      */
-    public List getResult() {
+    public List getData() {
         return data;
     }
 
