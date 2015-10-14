@@ -4,7 +4,10 @@ import net.deniro.land.common.dao.BaseDao;
 import net.deniro.land.module.system.entity.User;
 import org.springframework.stereotype.Repository;
 
+import static net.deniro.land.module.system.entity.User.Status.*;
+
 import java.util.List;
+
 
 /**
  * 用户
@@ -22,7 +25,9 @@ public class UserDao extends BaseDao<User> {
      * @return
      */
     public List<User> findByAccount(String account) {
-        String hql = " from User where status=0 and account = ?";
-        return this.find(hql, new Object[]{account});
+        StringBuilder hql = new StringBuilder(" from User where status=");
+        hql.append(NORMAL.code());
+        hql.append(" and account = ?");
+        return this.find(hql.toString(), new Object[]{account});
     }
 }
