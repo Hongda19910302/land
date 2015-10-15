@@ -1,14 +1,21 @@
-<form id="pagerForm" method="post" action="demo_page1.html">
+<script type="text/javascript">
+    $(function () {
+            //显示条数赋值
+            $(".perPageNumCombox").val("${page.pageSize}");
+    });
+</script>
+
+<form id="pagerForm" method="post" action="/role/index">
     <input type="hidden" name="status" value="${param.status}">
     <input type="hidden" name="keywords" value="${param.keywords}"/>
     <input type="hidden" name="pageNum" value="1"/>
-    <input type="hidden" name="numPerPage" value="${model.numPerPage}"/>
+    <input type="hidden" name="numPerPage" value="${page.pageSize}"/>
     <input type="hidden" name="orderField" value="${param.orderField}"/>
 </form>
 
 <#--查询条件-->
 <div class="pageHeader">
-    <form onsubmit="return navTabSearch(this);" action="demo_page1.html" method="post">
+    <form onsubmit="return navTabSearch(this);" action="/role/index" method="post">
         <div class="searchBar">
             <table class="searchContent">
                 <tr>
@@ -39,8 +46,6 @@
                             </div>
                         </div>
                     </li>
-                    <li><a class="button" href="demo_page6.html" target="dialog" mask="true"
-                           title="查询框"><span>高级检索</span></a></li>
                 </ul>
             </div>
         </div>
@@ -104,7 +109,7 @@
     <div class="panelBar pageBar">
         <div class="pages">
             <span>显示</span>
-            <select class="combox" name="numPerPage"
+            <select class="combox perPageNumCombox" name="numPerPage"
                     onchange="navTabPageBreak({numPerPage:this.value})">
                 <option value="20">20</option>
                 <option value="50">50</option>

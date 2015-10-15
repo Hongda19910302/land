@@ -31,8 +31,8 @@ public class RoleDao extends BaseDao<Role> {
     public Page findPage(QueryParam queryParam) {
         StringBuilder hql = new StringBuilder(" from Role t where 1=1 ");
         hql.append(" and t.status<>").append(DELETE.code());
-        return super.pagedQuery(hql.toString(), queryParam.getPageNo(), queryParam
-                .getPageSize());
+        return super.pagedQuery(hql.toString(), queryParam.getPageNum(), queryParam
+                .getNumPerPage());
     }
 
 

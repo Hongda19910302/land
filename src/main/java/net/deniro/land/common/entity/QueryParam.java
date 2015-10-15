@@ -14,10 +14,20 @@ public class QueryParam {
     /**
      * 页号，从1开始
      */
-    private int pageNo = 1;
+    private int pageNum = 1;
 
     /**
      * 每页记录条数
      */
-    private int pageSize = 20;
+    private int numPerPage = 20;
+
+    /**
+     * 排序字段名称
+     */
+    private String orderField;
+
+    /**
+     * 升序（asc）或降序（desc）
+     */
+    private String orderDirection;
 }
