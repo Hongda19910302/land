@@ -75,35 +75,6 @@
         <url-pattern>/druid/*</url-pattern>
     </servlet-mapping>
 
-    <!--UTF-8字符集-->
-    <filter>
-        <filter-name>encodingFilter</filter-name>
-        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-        <init-param>
-            <param-name>encoding</param-name>
-            <param-value>UTF-8</param-value>
-        </init-param>
-        <init-param>
-            <param-name>forceEncoding</param-name>
-            <param-value>true</param-value>
-        </init-param>
-    </filter>
-    <filter-mapping>
-        <filter-name>encodingFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
-    <!-- 将Hibernate Session绑定到请求线程中，解决延迟加载数据的访问异常问题-->
-    <filter>
-        <filter-name>hibernateFilter</filter-name>
-        <filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter
-        </filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>hibernateFilter</filter-name>
-        <url-pattern>/</url-pattern>
-    </filter-mapping>
-
     <!-- 默认自动加载/WEB-INF/deniro-servlet.xml -->
     <servlet>
         <servlet-name>deniro</servlet-name>
@@ -136,6 +107,78 @@
         <servlet-name>StickyCaptcha</servlet-name>
         <url-pattern>/stickyImg</url-pattern>
     </servlet-mapping>
+
+    <!--UTF-8字符集-->
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- 将Hibernate Session绑定到请求线程中，解决延迟加载数据的访问异常问题-->
+    <filter>
+        <filter-name>hibernateFilter</filter-name>
+        <filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter
+        </filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>hibernateFilter</filter-name>
+        <url-pattern>/</url-pattern>
+    </filter-mapping>
+
+    <!-- 用于采集web-jdbc关联监控的数据-->
+    <filter>
+        <filter-name>DruidWebStatFilter</filter-name>
+        <filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
+
+        <!-- 排除不必要的URL-->
+        <init-param>
+            <param-name>exclusions</param-name>
+            <param-value>*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*</param-value>
+        </init-param>
+
+        <!-- 最大统计数配置-->
+        <init-param>
+            <param-name>sessionStatMaxCount</param-name>
+            <param-value>1000</param-value>
+        </init-param>
+
+        <!-- 是否开启session统计功能-->
+        <init-param>
+            <param-name>sessionStatEnable</param-name>
+            <param-value>true</param-value>
+        </init-param>
+
+        <!-- 设置当前的session账号对象-->
+        <init-param>
+            <param-name>principalSessionName</param-name>
+            <param-value>user</param-value>
+        </init-param>
+
+        <!-- 是否开启监控单个url调用的sql列表-->
+        <init-param>
+            <param-name>profileEnable</param-name>
+            <param-value>true</param-value>
+        </init-param>
+
+    </filter>
+    <filter-mapping>
+        <filter-name>DruidWebStatFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
 
     <!-- 新增欢迎页（登录页）-->
     <welcome-file-list>
