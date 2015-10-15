@@ -97,7 +97,7 @@
             }
         });
     </script>
-    <script src="${resourceRoot}/dwz/js/index.js" type="text/javascript"></script>
+    <script src="${resourceRoot}/dwz/js/land.index.js" type="text/javascript"></script>
 </head>
 
 <body scroll="no">

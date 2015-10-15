@@ -33,6 +33,13 @@ function renderAllMenu() {
         });
 //                console.log(html.join(""));
         $(".accordion").html(html.join(""));
+
+        //渲染菜单UI
+        //console.log(navTab.getCurrentPanel());
+        $('div.accordion' ,navTab.getCurrentPanel()).each(function(){
+            var $this = $(this);
+            $this.accordion({fillSpace:$this.attr("fillSpace"),alwaysOpen:true,active:0});
+        });
     });
 }
 
