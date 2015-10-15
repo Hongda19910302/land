@@ -37,6 +37,7 @@ public class MenuController {
      */
     @RequestMapping(value = "/findAll")
     @ResponseBody
+    @Deprecated
     public List<MenuItem> findAll(HttpSession session) {
         User currentUser = (User) session.getAttribute(UserService.USER_CODE);
         if (currentUser == null) {

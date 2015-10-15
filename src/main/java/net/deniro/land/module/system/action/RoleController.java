@@ -39,7 +39,7 @@ public class RoleController {
      */
     @RequestMapping(value = "/index")
     public String index() {
-        return "/role/index";
+        return "role/index";
     }
 
 
