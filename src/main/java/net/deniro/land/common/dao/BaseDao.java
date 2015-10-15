@@ -1,10 +1,12 @@
 package net.deniro.land.common.dao;
 
 import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
 import org.springframework.util.Assert;
@@ -13,6 +15,7 @@ import org.springframework.util.Assert;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -20,7 +23,7 @@ import java.util.regex.Pattern;
 
 /**
  * DAO基类，其他DAO可以直接继承这个DAO，不但可以复用共用的方法，还可以获得泛型的好处
- * <p/>
+ * <p>
  * 基于Hibernate模板类的 DAO
  *
  * @author deniro
@@ -32,7 +35,7 @@ public class BaseDao<T> {
 
     /**
      * 注入Hibernate模板类
-     * <p/>
+     * <p>
      * 子类只要打上@Repository的注解就自然拥有了HibernateTemplate成员变量
      */
     @Autowired
@@ -132,9 +135,8 @@ public class BaseDao<T> {
     /**
      * 按参数名称占位符映射表查询
      *
-     *
      * @param queryString 查询字符串
-     * @param params 参数名称占位符映射表
+     * @param params      参数名称占位符映射表
      * @return
      * @throws DataAccessException
      */
@@ -176,7 +178,7 @@ public class BaseDao<T> {
      * <pre>
      * dao.getQuery(hql).setMaxResult(100).setCacheable(true).list();
      * </pre>
-     * <p/>
+     * <p>
      * 调用方式：
      * <pre>
      *     dao.createQuery(hql);
@@ -185,10 +187,13 @@ public class BaseDao<T> {
      *     dao.createQuery(hql,new Object[arg0,arg1,arg2])
      * </pre>
      *
+     * 不再使用，因为会造成连接泄漏
+     *
      * @param hql
      * @param values 可变参数
      * @return
      */
+    @Deprecated
     public Query createQuery(String hql, Object... values) {
         Assert.hasText(hql);
         Query query = getSession().createQuery(hql);
@@ -207,7 +212,7 @@ public class BaseDao<T> {
      * @param values   查询参数
      * @return 分页对象
      */
-    public Page pagedQuery(String hql, int pageNo, int pageSize, Object... values) {
+    public Page pagedQuery(final String hql, int pageNo, final int pageSize, final Object... values) {
         Assert.hasText(hql);
         Assert.isTrue(pageNo >= 1, "页号必须从1开始");
 
@@ -219,9 +224,19 @@ public class BaseDao<T> {
             return new Page();
         }
 
-        int startIndex = Page.getStartOfPage(pageNo, pageSize);
-        Query query = createQuery(hql, values);
-        List list = query.setFirstResult(startIndex).setMaxResults(pageSize).list();
+        final int startIndex = Page.getStartOfPage(pageNo, pageSize);
+
+        //使用回调方式，实现分页
+        List list = getHibernateTemplate().execute(new HibernateCallback<List>() {
+            public List doInHibernate(Session session) throws HibernateException, SQLException {
+                Query query = session.createQuery(hql);
+                for (int i = 0; i < values.length; i++) {
+                    query.setParameter(i, values[i]);
+                }
+                return query.setFirstResult(startIndex).setMaxResults(pageSize).list();
+            }
+        });
+
         return new Page(pageSize, startIndex, list, totalCount);
     }
 
@@ -267,6 +282,7 @@ public class BaseDao<T> {
         return hibernateTemplate;
     }
 
+    @Deprecated
     public Session getSession() {
         return SessionFactoryUtils.getSession(hibernateTemplate.getSessionFactory(), true);
     }
