@@ -119,6 +119,6 @@
             <span>条，共 ${page.totalCount}  条</span>
         </div>
         <div class="pagination" targetType="navTab" totalCount="${page.totalCount}"
-             numPerPage="${page.pageSize}"
+             numPerPage="${page.pageSize}" currentPage="${page.start / page.pageSize + 1}"
     </div>
 </div>
