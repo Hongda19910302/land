@@ -1,6 +1,6 @@
 <script type="text/javascript">
     $(function () {
-            //显示条数赋值
+            //对显示条数赋值
             $(".perPageNumCombox").val("${page.pageSize}");
     });
 </script>
