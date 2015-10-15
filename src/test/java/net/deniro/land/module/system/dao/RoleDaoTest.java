@@ -34,7 +34,7 @@ public class RoleDaoTest {
 
         Page page = roleDao.findPage(queryParam);
 
-        List<Role> roles = page.getResult();
+        List<Role> roles = page.getData();
         for (Role role : roles) {
             System.out.println(role);
         }
