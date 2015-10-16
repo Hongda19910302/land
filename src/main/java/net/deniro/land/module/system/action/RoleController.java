@@ -2,6 +2,7 @@ package net.deniro.land.module.system.action;
 
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.common.entity.QueryParam;
+import net.deniro.land.module.system.service.CompanyService;
 import net.deniro.land.module.system.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,9 @@ public class RoleController {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private CompanyService companyService;
 
     /**
      * 分页查询
@@ -42,9 +46,15 @@ public class RoleController {
     @RequestMapping(value = "/index")
     public String index(QueryParam queryParam, ModelMap mm) {
 
-        //分页查询
+        //分页查询角色
         mm.addAttribute("page", roleService.findPage(queryParam));
+
+        //查询所有单位
+        mm.addAttribute("companys", companyService.findAll());
+
         return "role/index";
+
+
     }
 
 
