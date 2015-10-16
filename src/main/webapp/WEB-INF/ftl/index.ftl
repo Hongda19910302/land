@@ -24,6 +24,8 @@
     <script src="${resourceRoot}/dwz/js/jquery.cookie.js" type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/js/jquery.validate.js" type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/js/jquery.bgiframe.js" type="text/javascript"></script>
+    <script src="${resourceRoot}/dwz/form/jquery.form.js"
+            type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/xheditor/xheditor-1.2.1.min.js"
             type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/xheditor/xheditor_lang/zh-cn.js"
@@ -95,7 +97,7 @@
 <div id="layout">
     <div id="header">
         <div class="headerNav">
-            <div id="logo2">国土行政执法信息平台2.1</div>
+            <#--<div id="logo2">国土行政执法信息平台2.1</div>-->
             <a class="logo" href="#">标志</a>
             <ul class="nav">
                 <li><a id="changePassword" href="#">修改密码</a></li>
@@ -128,13 +130,15 @@
                     <h2><span>Folder</span>${top.name}</h2>
                 </div>
 
-                <#--渲染子菜单模块-->
+            <#--渲染子菜单模块-->
                 <div class="accordionContent">
                     <ul class="tree treeFolder">
 
-                    <#list top.child as child>
-                        <li><a href="${child.url}" target="navTab" rel="child_menu_${child.backPrivilegeId}">${child.name}</a></li>
-                    </#list>
+                        <#list top.child as child>
+                            <li><a href="${child.url}" target="navTab"
+                                   rel="child_menu_${child.backPrivilegeId}">${child.name}</a>
+                            </li>
+                        </#list>
 
                     </ul>
                 </div>

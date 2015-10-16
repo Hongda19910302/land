@@ -408,7 +408,9 @@ body, #splitBar {
     background-color: #102c4a;
 }
 
-/*#header .logo { background:url(./images/logo.png) no-repeat;}*/
+#header .logo {
+    background: url(./images/logo.png) no-repeat;
+}
 
 #header .nav li {
     float: left;

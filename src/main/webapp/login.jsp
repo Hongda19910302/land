@@ -98,7 +98,7 @@
     <div id="login_header">
         <h1 class="login_logo">
             <a href="#"><img
-                    src="${resourceRoot}/dwz/themes/default/images/login_logo.gif"/></a>
+                    src="${resourceRoot}/dwz/themes/default/images/login_logo.jpg"/></a>
         </h1>
 
         <div class="login_headerContent">
