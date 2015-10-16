@@ -18,13 +18,22 @@
             <table class="searchContent">
                 <tr>
                     <td>
-                        <select class="combox" name="companyId">
-                            <option value="">所有单位</option>
-                        </select>
-                    </td>
-                    <td>
                         角色名称：<input type="text" name="backRoleName"/>
                     </td>
+                    <td>单位名称：</td>
+                    <td>
+                        <select class="combox" name="companyId">
+                            <option value="">所有单位</option>
+
+                            <#--渲染单位下拉框-->
+                            <#list companys as company>
+                                <option value="${company.companyId}">${company.companyName}</option>
+                            </#list>
+
+                        </select>
+                    </td>
+
+                    <td>状态：</td>
                     <td>
                         <select class="combox" name="status">
                             <option value="">所有状态</option>
@@ -83,6 +92,7 @@
         </thead>
         <tbody>
 
+        <#--渲染表格内容-->
         <#list page.data as data>
         <tr rel="${data.backRoleId}">
             <td>${data.backRoleName}</td>
