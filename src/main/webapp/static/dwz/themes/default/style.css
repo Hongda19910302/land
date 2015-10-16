@@ -410,7 +410,6 @@ body, #splitBar {
 
 /*#header .logo { background:url(./images/logo.png) no-repeat;}*/
 
-
 #header .nav li {
     float: left;
     margin-left: -1px;
@@ -590,19 +589,22 @@ body, #splitBar {
     padding: 10px 10px;
 }
 
-#mainIntroduction{
+#mainIntroduction {
     margin: 150px auto;
     text-align: center;
     font-size: 18px;
     padding: 10px 15px;
 }
 
-#mainIntroduction h2{
+#mainIntroduction h2 {
     color: #0092fb;
     font-family: "微软雅黑";
     font-weight: bold;
     font-size: 18px;
 }
 
-
+/*--------------------------------按钮-------------------------*/
+.button {
+    margin: 0 2px;
+}
 
