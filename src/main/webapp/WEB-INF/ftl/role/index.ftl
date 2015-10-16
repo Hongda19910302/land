@@ -6,8 +6,6 @@
 </script>
 
 <form id="pagerForm" method="post" action="/role/index">
-    <input type="hidden" name="status" value="${param.status}">
-    <input type="hidden" name="keywords" value="${param.keywords}"/>
     <input type="hidden" name="pageNum" value="1"/>
     <input type="hidden" name="numPerPage" value="${page.pageSize}"/>
     <input type="hidden" name="orderField" value="${param.orderField}"/>
@@ -20,29 +18,33 @@
             <table class="searchContent">
                 <tr>
                     <td>
-                        我的客户：<input type="text" name="keyword"/>
-                    </td>
-                    <td>
-                        <select class="combox" name="province">
-                            <option value="">所有省市</option>
-                            <option value="北京">北京</option>
-                            <option value="上海">上海</option>
-                            <option value="天津">天津</option>
-                            <option value="重庆">重庆</option>
-                            <option value="广东">广东</option>
+                        <select class="combox" name="companyId">
+                            <option value="">所有单位</option>
                         </select>
                     </td>
                     <td>
-                        建档日期：<input type="text" class="date" readonly="true"/>
+                        角色名称：<input type="text" name="backRoleName"/>
+                    </td>
+                    <td>
+                        <select class="combox" name="status">
+                            <option value="">所有状态</option>
+                            <option value="0">正常</option>
+                            <option value="1">禁用</option>
+                        </select>
                     </td>
                 </tr>
             </table>
             <div class="subBar">
                 <ul>
                     <li>
-                        <div class="buttonActive">
+                        <div class="button">
                             <div class="buttonContent">
                                 <button type="submit">检索</button>
+                            </div>
+                        </div>
+                        <div class="button">
+                            <div class="buttonContent">
+                                <button type="button">重置</button>
                             </div>
                         </div>
                     </li>
