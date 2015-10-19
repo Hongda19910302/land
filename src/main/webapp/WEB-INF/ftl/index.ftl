@@ -24,7 +24,7 @@
     <script src="${resourceRoot}/dwz/js/jquery.cookie.js" type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/js/jquery.validate.js" type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/js/jquery.bgiframe.js" type="text/javascript"></script>
-    <script src="${resourceRoot}/dwz/form/jquery.form.js"
+    <script src="${resourceRoot}/dwz/form/jquery.form.land.js"
             type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/xheditor/xheditor-1.2.1.min.js"
             type="text/javascript"></script>
