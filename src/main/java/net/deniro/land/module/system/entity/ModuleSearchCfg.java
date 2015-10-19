@@ -50,5 +50,11 @@ public class ModuleSearchCfg {
     @Column(name = "order_no", nullable = true, length = 32)
     private Integer orderNo;
 
+    /**
+     * 下拉选择框对应的数据列表（java对象名称）
+     */
+    @Column(name = "select_data_list_object_name", nullable = true, length = 100)
+    private String selectDataListObjectName;
+
 
 }

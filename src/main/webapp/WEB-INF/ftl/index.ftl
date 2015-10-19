@@ -135,8 +135,9 @@
                     <ul class="tree treeFolder">
 
                         <#list top.child as child>
-                            <li><a href="${child.url}" target="navTab"
-                                   rel="child_menu_${child.backPrivilegeId}">${child.name}</a>
+                            <li><a href="${child.url}?moduleId=${child.backPrivilegeId}" target="navTab"
+                                   rel="child_menu_${child.backPrivilegeId}">${child
+                            .name}</a>
                             </li>
                         </#list>
 

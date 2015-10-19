@@ -30,4 +30,9 @@ public abstract class QueryParam {
      * 升序（asc）或降序（desc）
      */
     private String orderDirection;
+
+    /**
+     * 模块ID
+     */
+    private Integer moduleId;
 }
