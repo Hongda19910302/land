@@ -17,16 +17,7 @@
     });
 </script>
 
-
-<form id="pagerForm" method="post" action="/role/index">
-    <input type="hidden" name="pageNum" value="1"/>
-    <input type="hidden" name="numPerPage" value="${page.pageSize}"/>
-    <input type="hidden" name="orderField" value="${param.orderField}"/>
-
-    <input type="hidden" name="backRoleName" value="${queryParam.backRoleName}"/>
-    <input type="hidden" name="companyId" value="${queryParam.companyId}"/>
-    <input type="hidden" name="status" value="${queryParam.status}"/>
-</form>
+<#include "include/pagerForm.ftl">
 
 <#--查询条件-->
 <div class="pageHeader">
@@ -84,20 +75,7 @@
 
 <div class="pageContent">
 
-<#--工具栏-->
-    <div class="panelBar toolBarPanel">
-        <ul class="toolBar">
-            <li><a class="add" href="#" target="navTab"><span>添加</span></a>
-            </li>
-            <li><a class="delete" href="#"
-                   target="ajaxTodo" title="确定要删除吗?"><span>删除</span></a></li>
-            <li><a class="edit" href="#" target="navTab"><span>修改</span></a>
-            </li>
-            <li class="line">line</li>
-            <li><a class="icon" href="#" target="dwzExport"
-                   targetType="navTab" title="确实要导出这些记录吗?"><span>导出EXCEL</span></a></li>
-        </ul>
-    </div>
+<#include "include/toolBar.ftl">
 
 <#--表格容器-->
     <table class="table" width="100%" layoutH="138">
@@ -136,6 +114,6 @@
         </tbody>
     </table>
 
-<#include "include/paging.ftl">
+<#include "include/pagingBar.ftl">
 
 </div>
