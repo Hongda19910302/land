@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 菜单项
+ * 菜单项（即模块）
  *
  * @author deniro
  *         2015/10/12
@@ -55,6 +55,6 @@ public class MenuItem implements Serializable {
      * 子菜单项
      */
     @Transient
-    private List<MenuItem> child=new ArrayList<MenuItem>();
+    private List<MenuItem> child = new ArrayList<MenuItem>();
 
 }
