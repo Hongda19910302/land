@@ -3,10 +3,14 @@
         //对显示条数赋值
         $(".perPageNumCombox").val("${page.pageSize}");
 
+        //查询条件初始化
+        $("#roleCompanyId").val("${queryParam.companyId!""}");
+        $("#roleStatus").val("${queryParam.status!""}");
+
+
         //绑定重置按钮
         $("#roleResetBtn").click(function () {
             $("#roleSearchForm").clearForm();
-
         });
 
     });
@@ -16,6 +20,10 @@
     <input type="hidden" name="pageNum" value="1"/>
     <input type="hidden" name="numPerPage" value="${page.pageSize}"/>
     <input type="hidden" name="orderField" value="${param.orderField}"/>
+
+    <input type="hidden" name="backRoleName" value="${queryParam.backRoleName}"/>
+    <input type="hidden" name="companyId" value="${queryParam.companyId}"/>
+    <input type="hidden" name="status" value="${queryParam.status}"/>
 </form>
 
 <#--查询条件-->
@@ -26,7 +34,8 @@
             <table class="searchContent">
                 <tr>
                     <td>
-                        角色名称：<input type="text" name="backRoleName"/>
+                        角色名称：<input type="text" name="backRoleName" value="${queryParam
+                    .backRoleName!""}">
                     </td>
                     <td>单位名称：</td>
                     <td>
@@ -43,7 +52,7 @@
 
                     <td>状态：</td>
                     <td>
-                        <select class="combox" name="status">
+                        <select class="combox" id="roleStatus" name="status">
                             <option value="" selected="selected">所有状态</option>
                             <option value="0">正常</option>
                             <option value="1">禁用</option>
@@ -76,11 +85,11 @@
 <#--工具栏-->
     <div class="panelBar toolBarPanel">
         <ul class="toolBar">
-            <li><a class="add" href="demo_page4.html" target="navTab"><span>添加</span></a>
+            <li><a class="add" href="#" target="navTab"><span>添加</span></a>
             </li>
-            <li><a class="delete" href="demo/common/ajaxDone.html?uid={sid_user}"
+            <li><a class="delete" href="#"
                    target="ajaxTodo" title="确定要删除吗?"><span>删除</span></a></li>
-            <li><a class="edit" href="demo_page4.html?uid={sid_user}" target="navTab"><span>修改</span></a>
+            <li><a class="edit" href="#" target="navTab"><span>修改</span></a>
             </li>
             <li class="line">line</li>
             <li><a class="icon" href="demo/common/dwz-team.xls" target="dwzExport"
@@ -131,6 +140,7 @@
             <span>显示</span>
             <select class="combox perPageNumCombox" name="numPerPage"
                     onchange="navTabPageBreak({numPerPage:this.value})">
+                <option value="10">10</option>
                 <option value="20">20</option>
                 <option value="50">50</option>
                 <option value="100">100</option>

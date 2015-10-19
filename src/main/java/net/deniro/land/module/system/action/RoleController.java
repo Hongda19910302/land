@@ -53,6 +53,9 @@ public class RoleController {
         //查询所有单位
         mm.addAttribute("companys", companyService.findAll());
 
+        //传递查询参数
+        mm.addAttribute("queryParam", queryParam);
+
         return "role/index";
 
 
