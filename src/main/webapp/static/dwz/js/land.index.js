@@ -4,7 +4,7 @@
 $(function () {
 
     bindingExitBtn();
-    renderAllMenu();
+    //renderAllMenu();
 
 });
 
