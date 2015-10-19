@@ -4,6 +4,7 @@ import net.deniro.land.common.dao.Page;
 import net.deniro.land.common.entity.QueryParam;
 import net.deniro.land.module.system.dao.MenuDao;
 import net.deniro.land.module.system.dao.RoleDao;
+import net.deniro.land.module.system.entity.RoleQueryParam;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class RoleService {
      * @param queryParam 查询参数
      * @return
      */
-    public Page findPage(QueryParam queryParam) {
+    public Page findPage(RoleQueryParam queryParam) {
         try {
             return roleDao.findPage(queryParam);
         } catch (Exception e) {

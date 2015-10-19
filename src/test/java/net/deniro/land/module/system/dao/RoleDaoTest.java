@@ -3,6 +3,7 @@ package net.deniro.land.module.system.dao;
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.common.entity.QueryParam;
 import net.deniro.land.module.system.entity.Role;
+import net.deniro.land.module.system.entity.RoleQueryParam;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class RoleDaoTest {
 
     @Test
     public void testFindPage() throws Exception {
-        QueryParam queryParam = new QueryParam();
+        RoleQueryParam queryParam = new RoleQueryParam();
 
 
         Page page = roleDao.findPage(queryParam);

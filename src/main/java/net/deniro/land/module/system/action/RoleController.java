@@ -2,6 +2,7 @@ package net.deniro.land.module.system.action;
 
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.common.entity.QueryParam;
+import net.deniro.land.module.system.entity.RoleQueryParam;
 import net.deniro.land.module.system.service.CompanyService;
 import net.deniro.land.module.system.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class RoleController {
     @RequestMapping(value = "/findPage")
     @ResponseBody
     @Deprecated
-    public Page findPage(QueryParam queryParam) {
+    public Page findPage(RoleQueryParam queryParam) {
         return roleService.findPage(queryParam);
     }
 
@@ -44,7 +45,7 @@ public class RoleController {
      * @return
      */
     @RequestMapping(value = "/index")
-    public String index(QueryParam queryParam, ModelMap mm) {
+    public String index(RoleQueryParam queryParam, ModelMap mm) {
 
         //分页查询角色
         mm.addAttribute("page", roleService.findPage(queryParam));
