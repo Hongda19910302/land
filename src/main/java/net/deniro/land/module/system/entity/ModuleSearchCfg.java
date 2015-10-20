@@ -71,7 +71,13 @@ public class ModuleSearchCfg {
         /**
          * 单位
          */
-        COMPANY
+        COMPANY,
+
+        /**
+         * 角色状态
+         */
+        ROLE_STATUS
+
     }
 
     /**

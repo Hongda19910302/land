@@ -7,12 +7,11 @@ import net.deniro.land.module.system.entity.MenuItem;
 import net.deniro.land.module.system.entity.ModuleSearchCfg;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import javax.annotation.Resource;
+import java.util.*;
 
 import static net.deniro.land.module.system.entity.ModuleSearchCfg.InputType;
 import static net.deniro.land.module.system.entity.ModuleSearchCfg.SelectListDataSetType;
@@ -33,6 +32,9 @@ public class ModuleService {
 
     @Autowired
     private CompanyService companyService;
+
+    @Resource(name="roleStatus")
+    private Map<String, String> roleStatus;
 
     /**
      * 查询
@@ -56,6 +58,8 @@ public class ModuleService {
                                 cfg.setSelectListDataSet(companyService
                                         .findAllInSelect());
                                 break;
+                            case ROLE_STATUS:
+                                cfg.setSelectListDataSet(roleStatus);
                         }
                         break;
                 }

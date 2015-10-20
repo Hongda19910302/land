@@ -18,14 +18,13 @@
 
 <#include "include/pagerForm.ftl">
 
-<#--查询条件-->
+<#--查询条件表单-->
 <div class="pageHeader">
     <form id="roleSearchForm" onsubmit="return navTabSearch(this);" action="/role/index"
           method="post">
         <div class="searchBar">
             <table class="searchContent">
                 <tr>
-                <#--渲染查询条件表单-->
                 <#list moduleSearchCfg as cfg>
                     <td>${cfg.displayName}：</td>
                     <td>
