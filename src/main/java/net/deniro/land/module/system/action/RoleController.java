@@ -18,13 +18,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/role")
-public class RoleController {
+public class RoleController extends BaseController {
 
     @Autowired
     private RoleService roleService;
-
-    @Autowired
-    private ModuleService moduleService;
 
     /**
      * 分页查询
@@ -45,22 +42,8 @@ public class RoleController {
      */
     @RequestMapping(value = "/index")
     public String index(RoleQueryParam queryParam, ModelMap mm) {
-
-        //分页查询角色
-        mm.addAttribute("page", roleService.findPage(queryParam));
-
-        //传递查询参数
-        mm.addAttribute("queryParam", queryParam);
-
-        //模块配置
-        mm.addAttribute("moduleSearchCfg", moduleService.findByModuleId(queryParam.getModuleId()));
-
-        //传递action地址
-        mm.addAttribute("actionUrl","role/index");
-
+        super.handleModule(mm, roleService.findPage(queryParam), queryParam, "role/index");
         return "common/index";
-
-
     }
 
 
