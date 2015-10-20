@@ -2,7 +2,6 @@ package net.deniro.land.module.system.action;
 
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.module.system.entity.RoleQueryParam;
-import net.deniro.land.module.system.service.ModuleService;
 import net.deniro.land.module.system.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
