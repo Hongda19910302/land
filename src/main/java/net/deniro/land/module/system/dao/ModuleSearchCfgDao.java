@@ -23,7 +23,7 @@ public class ModuleSearchCfgDao extends BaseDao<ModuleSearchCfg> {
      */
     public List<ModuleSearchCfg> findByModuleId(Integer moduleId) {
         StringBuilder hql = new StringBuilder(" from ModuleSearchCfg t where 1=1 ");
-        hql.append(" and t.moduleId=").append(moduleId);
+        hql.append(" and t.moduleId=").append(moduleId).append(" order by t.orderNo");
         return this.find(hql.toString(), new Object[]{});
     }
 }
