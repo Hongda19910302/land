@@ -6,8 +6,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * 单位
@@ -22,6 +21,25 @@ public class CompanyService {
 
     @Autowired
     private CompanyDao companyDao;
+
+    /**
+     * 查询所有单位（用于下拉选择）
+     *
+     * @return
+     */
+    public Map<String, String> findAllInSelect() {
+        try {
+            List<Company> companies = companyDao.findAll();
+            Map<String, String> maps = new LinkedHashMap<String, String>();
+            for (Company company : companies) {
+                maps.put(String.valueOf(company.getCompanyId()), company.getCompanyName());
+            }
+            return maps;
+        } catch (Exception e) {
+            logger.error("查询所有单位", e);
+            return new HashMap<String, String>();
+        }
+    }
 
     /**
      * 查询所有单位
