@@ -1,14 +1,19 @@
-<#--查询条件表单-->
+<#--渲染查询条件表单-->
 <div class="pageHeader">
+
+    <#--表单中的元素命名规则为 “xxx_模块ID” -->
     <form id="searchForm_${moduleId}" onsubmit="return navTabSearch(this);"
           action="${url}"
           method="post">
         <div class="searchBar">
             <table class="searchContent">
                 <tr>
+
                 <#list moduleSearchCfg as cfg>
                     <td>${cfg.displayName}：</td>
                     <td>
+
+                        <#--依照输入框的类型，进行渲染-->
                         <#switch cfg.inputType>
                             <#case "TEXT">
                                 <input type="text" name="${cfg.fieldName}" id="${cfg
@@ -34,6 +39,8 @@
                 </#list>
                 </tr>
             </table>
+
+            <#--渲染按钮组-->
             <div class="subBar">
                 <ul>
                     <li>
