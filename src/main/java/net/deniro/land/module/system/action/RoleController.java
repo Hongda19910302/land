@@ -1,8 +1,7 @@
 package net.deniro.land.module.system.action;
 
 import net.deniro.land.common.dao.Page;
-import net.deniro.land.common.entity.QueryParam;
-import net.deniro.land.module.system.entity.Company;
+import net.deniro.land.module.system.entity.ModuleSearchCfg;
 import net.deniro.land.module.system.entity.RoleQueryParam;
 import net.deniro.land.module.system.service.CompanyService;
 import net.deniro.land.module.system.service.ModuleService;
@@ -13,10 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 角色
@@ -60,17 +56,10 @@ public class RoleController {
         //分页查询角色
         mm.addAttribute("page", roleService.findPage(queryParam));
 
-        //查询所有单位
-        List<Company> companies = companyService.findAll();
-        Map<Integer, String> returnCompanies = new LinkedHashMap<Integer, String>();
-        for (Company company : companies) {
-            returnCompanies.put(company.getCompanyId(), company.getCompanyName());
-        }
-        mm.addAttribute("companys", returnCompanies);
-
         //传递查询参数
         mm.addAttribute("queryParam", queryParam);
 
+        //模块配置
         mm.addAttribute("moduleSearchCfg", moduleService.findByModuleId(queryParam.getModuleId()));
 
         return "common/index";

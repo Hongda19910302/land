@@ -29,37 +29,28 @@
                 <#list moduleSearchCfg as cfg>
                     <td>${cfg.displayName}：</td>
                     <td>
-                    <input type="text" name="${cfg.fieldName}" value="${queryParam
-                    .fieldName!""}"
+                        <#switch cfg.inputType>
+                            <#case "TEXT">
+                                <input type="text" name="${cfg.fieldName}"
+                                       value="${queryParam
+                                       .fieldName!""}"
+                                <#break>
+                            <#case "SELECT">
+                                <select class="combox" name="${cfg.fieldName}">
+                                    <option value="" selected="selected">所有</option>
+                                    <#assign selectListDataSet=cfg.selectListDataSet>
+                                    <#if selectListDataSet?exists>
+                                        <#list selectListDataSet?keys as key>
+                                            <option
+                                                    value="${key}">${selectListDataSet[key]}</option>
+                                        </#list>
+                                    </#if>
+                                </select>
+                                <#break>
+                        </#switch>
+
                     </td>
-
-                    <#--<td>-->
-                    <#--<select class="combox" name="${cfg.fieldName}">-->
-                        <#--<option value="" selected="selected">所有</option>-->
-
-                        <#--<#assign selectDatas=cfg.selectDataListObjectName>-->
-                    <#--&lt;#&ndash;渲染单位下拉框&ndash;&gt;-->
-                        <#--<#if selectDatas?exists>-->
-                            <#--<#list selectDatas as data>-->
-                                <#--<option value="${data.value}">${data.name}</option>-->
-                            <#--</#list>-->
-                        <#--</#if>-->
-                    <#--</select>-->
-                    <#--</td>-->
-
-
-
-
                 </#list>
-
-                    <td>状态：</td>
-                    <td>
-                        <select class="combox" id="roleStatus" name="status">
-                            <option value="" selected="selected">所有状态</option>
-                            <option value="0">正常</option>
-                            <option value="1">禁用</option>
-                        </select>
-                    </td>
                 </tr>
             </table>
             <div class="subBar">
