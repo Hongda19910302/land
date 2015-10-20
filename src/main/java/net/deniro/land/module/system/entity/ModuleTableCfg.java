@@ -3,6 +3,8 @@ package net.deniro.land.module.system.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * 模块分页表格配置
@@ -57,7 +59,7 @@ public class ModuleTableCfg {
     private String moduleId;
 
     /**
-     * 转换数据集名称
+     * 转换数据集类型
      */
     @Column(name = "transform_data_set_type", nullable = true, length = 100)
     private String transformDataSetType;
@@ -67,5 +69,11 @@ public class ModuleTableCfg {
      */
     @Column(name = "is_key", nullable = true, length = 10)
     private String iskey;
+
+    /**
+     * 转换数据集
+     */
+    @Transient
+    private Map<String, String> transformDataSet = new LinkedHashMap<String, String>();
 
 }

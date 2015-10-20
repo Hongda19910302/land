@@ -56,7 +56,7 @@ public class ModuleSearchCfg {
      * 下拉列表数据集类型
      */
     @Column(name = "select_list_data_set_type", nullable = true, length = 100)
-    private String selectListDataSetType;
+    private String DataSetType;
 
     /**
      * 下拉列表数据集，key：值；value：显示值
@@ -64,21 +64,6 @@ public class ModuleSearchCfg {
     @Transient
     private Map<String, String> selectListDataSet = new LinkedHashMap<String, String>();
 
-    /**
-     * 下拉列表数据集类型
-     */
-    public enum SelectListDataSetType {
-        /**
-         * 单位
-         */
-        COMPANY,
-
-        /**
-         * 角色状态
-         */
-        ROLE_STATUS
-
-    }
 
     /**
      * 输入框类型

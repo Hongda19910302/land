@@ -1,36 +1,55 @@
+<#--表格主键-->
+<#assign tableKey="">
+
 <#--表格容器-->
 <table class="table" width="100%" layoutH="138">
     <thead>
     <tr>
-
-        <th width="150">角色名称</th>
-        <th width="150">角色描述</th>
-        <th width="150">单位名称</th>
-        <th width="80" style="text-align:center">状态</th>
+    <#list moduleTableCfg as cfg>
+        <#if cfg.iskey=="true">
+            <#assign tableKey=cfg.fieldName>
+        <#else>
+            <th width="${cfg.width}" style="${cfg.style!""}">${cfg.displayName}</th>
+        </#if>
+    </#list>
     </tr>
     </thead>
     <tbody>
 
     <#--渲染表格内容-->
     <#list page.data as data>
-    <tr rel="${data.backRoleId}">
-        <td>${data.backRoleName}</td>
-        <td>${data.comment}</td>
-        <td>${data.companyName}</td>
-        <td>
+    <tr rel="${data[tableKey]}">
 
-            <#switch data.status>
-                <#case 0>
-                    正常
-                    <#break>
-                <#case 1>
-                    禁用
-                    <#break>
-                <#case 2>
-                    删除
-                    <#break>
-            </#switch>
-        </td>
+        <#list moduleTableCfg as cfg>
+
+        <#--非主键展示-->
+            <#if cfg.iskey=="false">
+
+                <td
+                <#--添加样式-->
+                    <#if cfg.style??>
+                            style="${cfg.style}"
+                    </#if>
+                        >
+
+                <#--字段值-->
+                <#assign fieldValue=data[cfg.fieldName]>
+
+                <#--数据转换-->
+                <#if cfg.transformDataSetType??>
+                    <#list cfg.transformDataSet?keys as key>
+                        <#if key=="${fieldValue}">
+                        ${cfg.transformDataSet[key]}
+                        </#if>
+                    </#list>
+                <#else>
+                ${fieldValue}
+                </#if>
+
+                </td>
+            </#if>
+        </#list>
+
     </tr>
     </#list>
     </tbody>

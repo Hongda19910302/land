@@ -43,7 +43,7 @@ public class CommonController {
         mm.addAttribute("queryParam", queryParam);
 
         //模块配置
-        mm.addAttribute("moduleSearchCfg", moduleService.findByModuleId(queryParam.getModuleId()));
+        mm.addAttribute("moduleSearchCfg", moduleService.findForSearchCfg(queryParam.getModuleId()));
 
         /**
          * 分模块处理
