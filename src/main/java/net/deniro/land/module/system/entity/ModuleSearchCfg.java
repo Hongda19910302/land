@@ -3,6 +3,8 @@ package net.deniro.land.module.system.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * 模块查询配置
@@ -33,10 +35,10 @@ public class ModuleSearchCfg {
     private String displayName;
 
     /**
-     * 表单类型；1-文本输入框；2-下拉框
+     * 输入框类型
      */
-    @Column(name = "type", nullable = true, length = 1)
-    private Integer type;
+    @Column(name = "input_type", nullable = true, length = 100)
+    private String inputType;
 
     /**
      * 对应的模块ID
@@ -51,10 +53,40 @@ public class ModuleSearchCfg {
     private Integer orderNo;
 
     /**
-     * 下拉选择框对应的数据列表（java对象名称）
+     * 下拉列表数据集类型
      */
-    @Column(name = "select_data_list_object_name", nullable = true, length = 100)
-    private String selectDataListObjectName;
+    @Column(name = "select_list_data_set_type", nullable = true, length = 100)
+    private String selectListDataSetType;
 
+    /**
+     * 下拉列表数据集，key：值；value：显示值
+     */
+    @Transient
+    private Map<String, String> selectListDataSet = new LinkedHashMap<String, String>();
+
+    /**
+     * 下拉列表数据集类型
+     */
+    public enum SelectListDataSetType {
+        /**
+         * 单位
+         */
+        COMPANY
+    }
+
+    /**
+     * 输入框类型
+     */
+    public enum InputType {
+        /**
+         * 文本输入框
+         */
+        TEXT,
+
+        /**
+         * 下拉选择框
+         */
+        SELECT
+    }
 
 }
