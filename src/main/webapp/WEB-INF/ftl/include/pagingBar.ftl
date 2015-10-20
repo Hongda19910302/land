@@ -1,4 +1,11 @@
 <#--分页条-->
+<script type="text/javascript">
+    $(function () {
+        //对显示条数赋值
+        $(".perPageNumCombox").val("${page.pageSize}");
+    });
+</script>
+
 <div class="panelBar pageBar">
     <div class="pages">
         <span>显示</span>

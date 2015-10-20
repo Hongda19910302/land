@@ -1,9 +1,7 @@
 package net.deniro.land.module.system.action;
 
 import net.deniro.land.common.dao.Page;
-import net.deniro.land.module.system.entity.ModuleSearchCfg;
 import net.deniro.land.module.system.entity.RoleQueryParam;
-import net.deniro.land.module.system.service.CompanyService;
 import net.deniro.land.module.system.service.ModuleService;
 import net.deniro.land.module.system.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.List;
 
 /**
  * 角色
@@ -26,9 +22,6 @@ public class RoleController {
 
     @Autowired
     private RoleService roleService;
-
-    @Autowired
-    private CompanyService companyService;
 
     @Autowired
     private ModuleService moduleService;
@@ -61,6 +54,9 @@ public class RoleController {
 
         //模块配置
         mm.addAttribute("moduleSearchCfg", moduleService.findByModuleId(queryParam.getModuleId()));
+
+        //传递action地址
+        mm.addAttribute("actionUrl","role/index");
 
         return "common/index";
 

@@ -1,10 +1,10 @@
 <#--分页器表单-->
-<form id="pagerForm" method="post" action="/role/index">
+<form id="pagerForm" method="post" action="${url}">
     <input type="hidden" name="pageNum" value="1"/>
     <input type="hidden" name="numPerPage" value="${page.pageSize}"/>
     <input type="hidden" name="orderField" value="${param.orderField}"/>
 
-    <input type="hidden" name="backRoleName" value="${queryParam.backRoleName}"/>
-    <input type="hidden" name="companyId" value="${queryParam.companyId}"/>
-    <input type="hidden" name="status" value="${queryParam.status}"/>
+    <#list moduleSearchCfg as cfg>
+        <input type="hidden" name="${cfg.fieldName}" value="${queryParam[cfg.fieldName]}"/>
+    </#list>
 </form>

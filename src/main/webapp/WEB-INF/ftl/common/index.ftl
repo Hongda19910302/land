@@ -1,16 +1,20 @@
+<#--模块ID-->
+<#assign moduleId=queryParam.moduleId>
+
+<#--请求URL-->
+<#assign url="${actionUrl}?moduleId=${moduleId}">
+
+
 <script type="text/javascript">
     $(function () {
-        //对显示条数赋值
-        $(".perPageNumCombox").val("${page.pageSize}");
-
         //查询条件初始化
-        $("#roleCompanyId").val("${queryParam.companyId!""}");
-        $("#roleStatus").val("${queryParam.status!""}");
-
+    <#list moduleSearchCfg as cfg>
+        $("#${cfg.fieldName}_${moduleId}").val("${queryParam[cfg.fieldName]!""}");
+    </#list>
 
         //绑定重置按钮
-        $("#roleResetBtn").click(function () {
-            $("#roleSearchForm").clearForm();
+        $("#resetBtn_${moduleId}").click(function () {
+            $("#searchForm_${moduleId}").clearForm();
         });
 
     });
@@ -20,7 +24,8 @@
 
 <#--查询条件表单-->
 <div class="pageHeader">
-    <form id="roleSearchForm" onsubmit="return navTabSearch(this);" action="/role/index"
+    <form id="searchForm_${moduleId}" onsubmit="return navTabSearch(this);"
+          action="${url}"
           method="post">
         <div class="searchBar">
             <table class="searchContent">
@@ -30,12 +35,14 @@
                     <td>
                         <#switch cfg.inputType>
                             <#case "TEXT">
-                                <input type="text" name="${cfg.fieldName}"
+                                <input type="text" name="${cfg.fieldName}" id="${cfg
+                                .fieldName}_${moduleId}"
                                        value="${queryParam
                                        .fieldName!""}"
                                 <#break>
                             <#case "SELECT">
-                                <select class="combox" name="${cfg.fieldName}">
+                                <select class="combox" name="${cfg.fieldName}" id="${cfg
+                                .fieldName}_${moduleId}">
                                     <option value="" selected="selected">所有</option>
                                     <#assign selectListDataSet=cfg.selectListDataSet>
                                     <#if selectListDataSet?exists>
@@ -47,7 +54,6 @@
                                 </select>
                                 <#break>
                         </#switch>
-
                     </td>
                 </#list>
                 </tr>
@@ -62,7 +68,7 @@
                         </div>
                         <div class="button">
                             <div class="buttonContent">
-                                <button id="roleResetBtn" type="button">重置</button>
+                                <button id="resetBtn_${moduleId}" type="button">重置</button>
                             </div>
                         </div>
                     </li>

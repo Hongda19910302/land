@@ -9,7 +9,7 @@ import lombok.Data;
  *         2015/10/14
  */
 @Data
-public abstract class QueryParam {
+public class QueryParam {
 
     /**
      * 页号，从1开始
