@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
 * ${tableDefinition.comment}
 *
-* @author deniro
+* @author deniro（AnnotationHibernateCodeMarker）
 *         ${markDate?date}
 */
 @Data
@@ -25,7 +25,6 @@ public class ${className} implements Serializable {
 <#assign fieldLength=field.characterMaximumLength>
 <#--字段类型-->
 <#assign fieldType="String">
-
 <#if field.columnKey=="PRI">
 <#--主键-->
 @Id
