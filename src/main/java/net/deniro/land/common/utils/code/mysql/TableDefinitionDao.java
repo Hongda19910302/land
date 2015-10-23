@@ -61,7 +61,7 @@ public class TableDefinitionDao {
     public List<FieldDefinition> findFields(String tableName) {
         StringBuilder sql = new StringBuilder("SELECT");
         sql.append(" COLUMN_NAME,COLUMN_COMMENT,DATA_TYPE,CHARACTER_MAXIMUM_LENGTH," +
-                "NUMERIC_PRECISION");
+                "NUMERIC_PRECISION,COLUMN_KEY");
         sql.append(" FROM information_schema.`COLUMNS` WHERE TABLE_NAME =:tableName");
 
         MapSqlParameterSource mps = new MapSqlParameterSource().addValue("tableName", tableName);
@@ -75,6 +75,7 @@ public class TableDefinitionDao {
                 entity.setDataType(resultSet.getString("DATA_TYPE"));
                 entity.setCharacterMaximumLength(resultSet.getInt("CHARACTER_MAXIMUM_LENGTH"));
                 entity.setNumbericPrecision(resultSet.getInt("NUMERIC_PRECISION"));
+                entity.setColumnKey(resultSet.getString("COLUMN_KEY"));
                 return entity;
             }
         });

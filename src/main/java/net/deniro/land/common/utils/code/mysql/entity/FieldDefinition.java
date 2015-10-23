@@ -36,5 +36,10 @@ public class FieldDefinition {
      */
     private int numbericPrecision;
 
+    /**
+     * 字段键类型
+     */
+    private String columnKey;
+
 
 }
