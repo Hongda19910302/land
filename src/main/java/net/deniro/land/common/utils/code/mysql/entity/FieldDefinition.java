@@ -17,6 +17,11 @@ public class FieldDefinition {
     private String name;
 
     /**
+     * 字段在java类中的名称
+     */
+    private String className;
+
+    /**
      * 注释
      */
     private String comment;
