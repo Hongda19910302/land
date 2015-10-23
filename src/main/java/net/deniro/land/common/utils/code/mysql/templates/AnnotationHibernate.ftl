@@ -38,6 +38,6 @@ public class ${className} implements Serializable {
             <#break >
     </#switch>
 @Column(name = "${field.name}", nullable = true, length = ${fieldLength})
-private ${fieldType} ${field.name};
+private ${fieldType} ${field.className};
 </#list>
 }
