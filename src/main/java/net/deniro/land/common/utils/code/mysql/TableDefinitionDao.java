@@ -1,5 +1,6 @@
 package net.deniro.land.common.utils.code.mysql;
 
+import net.deniro.land.common.utils.StrUtils;
 import net.deniro.land.common.utils.code.mysql.entity.FieldDefinition;
 import net.deniro.land.common.utils.code.mysql.entity.TableDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,13 @@ public class TableDefinitionDao {
             @Override
             public FieldDefinition mapRow(ResultSet resultSet, int i) throws SQLException {
                 FieldDefinition entity = new FieldDefinition();
-                entity.setName(resultSet.getString("COLUMN_NAME"));
+
+                String columnName = resultSet.getString("COLUMN_NAME");
+                entity.setName(columnName);
+
+                //将字段名称转换为字段在类中的名称
+                entity.setClassName(StrUtils.replaceUnderLineAndFirstUpper(columnName, false));
+
                 entity.setComment(resultSet.getString("COLUMN_COMMENT"));
                 entity.setDataType(resultSet.getString("DATA_TYPE"));
                 entity.setCharacterMaximumLength(resultSet.getInt("CHARACTER_MAXIMUM_LENGTH"));
