@@ -24,6 +24,7 @@ import static net.deniro.land.module.system.entity.ModuleSearchCfg.InputType;
  *         2015/10/19
  */
 @Service
+@Deprecated
 public class ModuleService {
 
     static Logger logger = Logger.getLogger(ModuleService.class);
