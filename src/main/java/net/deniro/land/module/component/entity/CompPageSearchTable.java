@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * 分页查询表格
@@ -74,6 +76,12 @@ public class CompPageSearchTable implements Serializable {
     @ManyToOne
     @JoinColumn(name="comp_page_search_id")
     private CompPageSearch compPageSearch;
+
+    /**
+     * 转换数据集
+     */
+    @Transient
+    private Map<String, String> transformDataSet = new LinkedHashMap<String, String>();
 
     @Override
     public String toString() {

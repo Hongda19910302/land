@@ -41,10 +41,12 @@ public class CompPageSearch implements Serializable {
     private String remarks;
 
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "compPageSearch",fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "compPageSearch", fetch = FetchType.EAGER)
+    @OrderBy("orderNo ASC ")
     private Set<CompPageSearchForm> compPageSearchFormFields;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "compPageSearch",fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "compPageSearch", fetch = FetchType.EAGER)
+    @OrderBy("orderNo ASC ")
     private Set<CompPageSearchTable> compPageSearchTableFields;
 
 }
