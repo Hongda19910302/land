@@ -15,6 +15,7 @@ import java.util.Map;
 @Data
 @Entity
 @Table(name = "t_module_search_cfg")
+@Deprecated
 public class ModuleSearchCfg {
 
     @Id
@@ -68,6 +69,7 @@ public class ModuleSearchCfg {
     /**
      * 输入框类型
      */
+    @Deprecated
     public enum InputType {
         /**
          * 文本输入框

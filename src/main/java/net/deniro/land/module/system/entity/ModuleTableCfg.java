@@ -15,6 +15,7 @@ import java.util.Map;
 @Data
 @Entity
 @Table(name = "t_module_table_cfg")
+@Deprecated
 public class ModuleTableCfg {
 
     @Id
