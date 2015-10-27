@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/spring-context-base.xml",
         "classpath:spring/spring-context-db.xml", "classpath:spring/spring-context-tx.xml"
-        , "classpath:spring/spring-context-module.xml"})
+        , "classpath:spring/spring-context-dataset-type.xml"})
 @TransactionConfiguration
 @Transactional
 public class ModuleTableCfgDaoTest {

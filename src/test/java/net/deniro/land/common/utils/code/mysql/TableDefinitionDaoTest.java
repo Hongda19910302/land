@@ -1,7 +1,6 @@
 package net.deniro.land.common.utils.code.mysql;
 
 import net.deniro.land.common.utils.code.mysql.entity.FieldDefinition;
-import net.deniro.land.common.utils.code.mysql.entity.TableDefinition;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/spring-context-base.xml",
         "classpath:spring/spring-context-db.xml", "classpath:spring/spring-context-tx" +
-        ".xml", "classpath:spring/spring-context-module.xml"})
+        ".xml", "classpath:spring/spring-context-dataset-type.xml"})
 @TransactionConfiguration
 @Transactional
 public class TableDefinitionDaoTest {
