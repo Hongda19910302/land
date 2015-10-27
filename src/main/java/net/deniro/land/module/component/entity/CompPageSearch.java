@@ -1,10 +1,8 @@
 package net.deniro.land.module.component.entity;
 
 import lombok.Data;
-import lombok.Setter;
 
 import javax.persistence.*;
-import javax.persistence.criteria.Fetch;
 import java.io.Serializable;
 import java.util.Set;
 
