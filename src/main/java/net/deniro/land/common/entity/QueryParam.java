@@ -34,5 +34,16 @@ public class QueryParam {
     /**
      * 模块ID
      */
+    @Deprecated
     private Integer moduleId;
+
+    /**
+     * 组件ID
+     */
+    private Integer componentId;
+
+    /**
+     * 组件类型
+     */
+    private String componentType;
 }
