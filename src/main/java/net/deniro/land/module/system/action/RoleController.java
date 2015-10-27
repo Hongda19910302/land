@@ -41,8 +41,8 @@ public class RoleController extends BaseController {
      */
     @RequestMapping(value = "/index")
     public String index(RoleQueryParam queryParam, ModelMap mm) {
-        super.handleModule(mm, roleService.findPage(queryParam), queryParam, "role/index");
-        return "common/index";
+        super.pageSearch(mm, roleService.findPage(queryParam), queryParam, "role/index");
+        return COMPONENT_PAGE_SEARCH_URL;
     }
 
 
