@@ -6,7 +6,7 @@ package net.deniro.land.module.system.entity;
  * @author deniro
  *         2015/10/20
  */
-public enum  DataSetType {
+public enum DataSetType {
     /**
      * 单位
      */
@@ -20,5 +20,13 @@ public enum  DataSetType {
     /**
      * 是否 “有” 状态
      */
-    HAS_STATUS
+    HAS_STATUS,
+    /**
+     * 用户状态
+     */
+    USER_STATUS,
+    /**
+     * 性别
+     */
+    SEX
 }

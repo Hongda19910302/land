@@ -40,6 +40,12 @@ public class CompPageSearchService {
     @Resource(name = "hasStatus")
     private Map<String, String> hasStatus;
 
+    @Resource(name = "userStatus")
+    private Map<String, String> userStatus;
+
+    @Resource(name = "sex")
+    private Map<String, String> sex;
+
     /**
      * 查询 分页查询组件配置信息
      *
@@ -68,6 +74,12 @@ public class CompPageSearchService {
                     case HAS_STATUS:
                         field.setTransformDataSet(hasStatus);
                         break;
+                    case SEX:
+                        field.setTransformDataSet(sex);
+                        break;
+                    case USER_STATUS:
+                        field.setTransformDataSet(userStatus);
+                        break;
                 }
             }
             pageSearch.setCompPageSearchTableFields(tableFields);
@@ -92,6 +104,12 @@ public class CompPageSearchService {
                                 break;
                             case HAS_STATUS:
                                 field.setSelectListDataSet(hasStatus);
+                                break;
+                            case SEX:
+                                field.setSelectListDataSet(sex);
+                                break;
+                            case USER_STATUS:
+                                field.setSelectListDataSet(userStatus);
                                 break;
                         }
                         break;

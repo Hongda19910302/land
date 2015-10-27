@@ -1,5 +1,6 @@
 package net.deniro.land.module.system.service;
 
+import net.deniro.land.common.dao.Page;
 import net.deniro.land.common.service.dwz.Result;
 import net.deniro.land.common.service.dwz.ResultError;
 import net.deniro.land.common.service.dwz.ResultSuccess;
@@ -7,6 +8,7 @@ import net.deniro.land.common.utils.Md5Utils;
 import net.deniro.land.common.utils.PropertiesReader;
 import net.deniro.land.module.system.dao.UserDao;
 import net.deniro.land.module.system.entity.User;
+import net.deniro.land.module.system.entity.UserQueryParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,21 @@ public class UserService {
      * 用户码（用于向action传递参数）
      */
     public static final String USER_CODE = "user";
+
+    /**
+     * 分页查询
+     *
+     * @param queryParam 查询参数
+     * @return
+     */
+    public Page findPage(UserQueryParam queryParam) {
+        try {
+            return userDao.findPage(queryParam);
+        } catch (Exception e) {
+            logger.error("分页查询", e);
+            return new Page();
+        }
+    }
 
     /**
      * 登录
@@ -123,7 +140,7 @@ public class UserService {
                     break;
             }
 
-            result=new ResultSuccess("登陆成功！");
+            result = new ResultSuccess("登陆成功！");
             result.set(USER_CODE, user);
             return result;
         } catch (Exception e) {

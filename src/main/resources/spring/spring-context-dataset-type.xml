@@ -7,6 +7,19 @@
 	http://www.springframework.org/schema/util/spring-util-3.0.xsd
        ">
 
+    <!-- 用户状态-->
+    <util:map id="userStatus" map-class="java.util.LinkedHashMap">
+        <entry key="0" value="正常"/>
+        <entry key="1" value="冻结"/>
+        <entry key="2" value="注销"/>
+    </util:map>
+
+    <!-- 性别-->
+    <util:map id="sex" map-class="java.util.LinkedHashMap">
+        <entry key="0" value="女"/>
+        <entry key="1" value="男"/>
+    </util:map>
+
     <!-- 是否“有”状态-->
     <util:map id="hasStatus" map-class="java.util.LinkedHashMap">
         <entry key="0" value="没有"/>

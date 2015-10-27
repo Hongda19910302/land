@@ -142,7 +142,17 @@
 
             <#list tableFields as field>
                 <#--字段值-->
-                <#assign fieldValue=data[field.fieldName]>
+                <#--处理 对象"."语法-->
+
+                <#if field.fieldName?contains(".")>
+                    <#assign childObjName=field.fieldName?keep_before(".")>
+                    <#assign childObjFieldName=field.fieldName?keep_after(".")>
+                    <#assign fieldValue=data[childObjName][childObjFieldName]?trim>
+                <#else>
+                    <#assign fieldValue=data[field.fieldName]?trim>
+                </#if>
+
+
 
                 <#--非主键展示-->
                 <#if field.isKey=="false">

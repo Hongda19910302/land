@@ -57,7 +57,7 @@ public class BaseController {
                 case PAGE_SEARCH:
                     CompPageSearch compPageSearch = compPageSearchService.findById(queryParam
                             .getComponentId());
-                    logger.info("compPageSearch:"+compPageSearch);
+//                    logger.info("compPageSearch:"+compPageSearch);
                     mm.addAttribute("compPageSearch", compPageSearch);
                     break;
                 default:

@@ -2,6 +2,8 @@ package net.deniro.land.module.system.action;
 
 import net.deniro.land.common.service.dwz.Result;
 import net.deniro.land.common.service.dwz.ResultError;
+import net.deniro.land.module.system.entity.RoleQueryParam;
+import net.deniro.land.module.system.entity.UserQueryParam;
 import net.deniro.land.module.system.service.UserService;
 import nl.captcha.Captcha;
 import org.apache.log4j.Logger;
@@ -23,12 +25,23 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BaseController {
 
     static Logger logger = Logger.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
+
+    /**
+     * 跳转至账户管理主界面
+     *
+     * @return
+     */
+    @RequestMapping(value = "/index")
+    public String index(UserQueryParam queryParam, ModelMap mm) {
+        super.pageSearch(mm, userService.findPage(queryParam), queryParam, "user/index");
+        return COMPONENT_PAGE_SEARCH_URL;
+    }
 
     /**
      * 退出（登出）
