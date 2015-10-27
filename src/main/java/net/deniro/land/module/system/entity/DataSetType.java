@@ -15,5 +15,10 @@ public enum  DataSetType {
     /**
      * 角色状态
      */
-    ROLE_STATUS
+    ROLE_STATUS,
+
+    /**
+     * 是否 “有” 状态
+     */
+    HAS_STATUS
 }

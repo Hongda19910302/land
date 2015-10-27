@@ -37,6 +37,9 @@ public class CompPageSearchService {
     @Resource(name = "roleStatus")
     private Map<String, String> roleStatus;
 
+    @Resource(name = "hasStatus")
+    private Map<String, String> hasStatus;
+
     /**
      * 查询 分页查询组件配置信息
      *
@@ -61,6 +64,10 @@ public class CompPageSearchService {
                 switch (DataSetType.valueOf(dataSetType)) {
                     case ROLE_STATUS:
                         field.setTransformDataSet(roleStatus);
+                        break;
+                    case HAS_STATUS:
+                        field.setTransformDataSet(hasStatus);
+                        break;
                 }
             }
             pageSearch.setCompPageSearchTableFields(tableFields);
@@ -82,6 +89,10 @@ public class CompPageSearchService {
                                 break;
                             case ROLE_STATUS:
                                 field.setSelectListDataSet(roleStatus);
+                                break;
+                            case HAS_STATUS:
+                                field.setSelectListDataSet(hasStatus);
+                                break;
                         }
                         break;
                 }
