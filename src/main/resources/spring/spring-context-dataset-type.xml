@@ -7,6 +7,12 @@
 	http://www.springframework.org/schema/util/spring-util-3.0.xsd
        ">
 
+    <!-- 是否“有”状态-->
+    <util:map id="hasStatus" map-class="java.util.LinkedHashMap">
+        <entry key="0" value="没有"/>
+        <entry key="1" value="有"/>
+    </util:map>
+
     <!-- 角色状态-->
     <util:map id="roleStatus" map-class="java.util.LinkedHashMap">
         <entry key="0" value="正常"/>
