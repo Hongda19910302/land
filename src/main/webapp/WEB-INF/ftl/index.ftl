@@ -97,7 +97,6 @@
 <div id="layout">
     <div id="header">
         <div class="headerNav">
-            <#--<div id="logo2">国土行政执法信息平台2.1</div>-->
             <a class="logo" href="#">标志</a>
             <ul class="nav">
                 <li><a id="changePassword" href="#">修改密码</a></li>
@@ -135,7 +134,7 @@
                     <ul class="tree treeFolder">
 
                         <#list top.child as child>
-                            <li><a href="${child.url}?moduleId=${child.backPrivilegeId}" target="navTab"
+                            <li><a href="${child.url}" target="navTab"
                                    rel="child_menu_${child.backPrivilegeId}">${child
                             .name}</a>
                             </li>
