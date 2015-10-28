@@ -13,6 +13,7 @@ import java.util.List;
  *         2015/10/20
  */
 @Repository
+@Deprecated
 public class ModuleTableCfgDao extends BaseDao<ModuleTableCfg> {
 
     /**
