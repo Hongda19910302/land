@@ -33,9 +33,9 @@ public class AnnotationHibernateCodeMarkerTest {
     public void testMark() throws Exception {
 
         List<String> tableNames = new ArrayList<String>();
-        tableNames.add("comp_page_search");
-        tableNames.add("comp_page_search_form");
-        tableNames.add("comp_page_search_table");
+        tableNames.add("t_region_relation");
+
+        String packagePath = "net.deniro.land.module.system.entity";
 
         Map<String, String> names = new HashMap<String, String>();
         for (String tableName : tableNames) {
@@ -43,8 +43,6 @@ public class AnnotationHibernateCodeMarkerTest {
             names.put(tableName, StrUtils
                     .replaceUnderLineAndFirstUpper(tableName, true));
         }
-
-        String packagePath = "net.deniro.land.module.component.entity";
 
         codeMarker.mark(packagePath, names);
     }
