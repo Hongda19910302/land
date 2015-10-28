@@ -7,6 +7,8 @@
           type="text/css" media="screen"/>
     <link href="${resourceRoot}/dwz/themes/css/core.css" rel="stylesheet" type="text/css"
           media="screen"/>
+    <link href="${resourceRoot}/dwz/themes/css/land.core.css" rel="stylesheet" type="text/css"
+          media="screen"/>
     <link href="${resourceRoot}/dwz/themes/css/print.css" rel="stylesheet" type="text/css"
           media="print"/>
     <link href="${resourceRoot}/dwz/uploadify/css/uploadify.css" rel="stylesheet"

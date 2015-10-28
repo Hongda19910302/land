@@ -1,3 +1,5 @@
+<#--分页查询组件-->
+
 <#--组件ID-->
 <#assign componentId=queryParam.componentId>
 
@@ -80,6 +82,21 @@
                         </#switch>
                     </td>
                 </#list>
+
+
+                    <td class="lookupCompanyDepartment">
+                        <span>归属单位：</span>
+                        <input name="company.id" value="" type="hidden"/>
+                        <input name="company.name" type="text" readonly>
+                        <span>部门：</span>
+                        <input name="company.departmentId" value="" type="hidden"/>
+                        <input name="company.departmentName" type="text"
+                                            readonly>
+                        <a class="btnLook" href="/comp/lookupCompanyDepartment"
+                                 lookupGroup="company">选择单位与部门</a>
+                    </td>
+                    <td></td>
+
                 </tr>
             </table>
 
@@ -141,15 +158,14 @@
         <tr rel="${data[tableKey]}">
 
             <#list tableFields as field>
-                <#--字段值-->
+                <#--获取字段值-->
                 <#--处理 对象"."语法-->
-
                 <#if field.fieldName?contains(".")>
                     <#assign childObjName=field.fieldName?keep_before(".")>
                     <#assign childObjFieldName=field.fieldName?keep_after(".")>
-                    <#assign fieldValue=data[childObjName][childObjFieldName]?trim>
+                    <#assign fieldValue=data[childObjName][childObjFieldName]>
                 <#else>
-                    <#assign fieldValue=data[field.fieldName]?trim>
+                    <#assign fieldValue=data[field.fieldName]>
                 </#if>
 
 
