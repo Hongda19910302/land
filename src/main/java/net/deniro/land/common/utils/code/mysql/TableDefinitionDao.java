@@ -1,5 +1,6 @@
 package net.deniro.land.common.utils.code.mysql;
 
+import com.sun.tools.javac.util.StringUtils;
 import net.deniro.land.common.utils.StrUtils;
 import net.deniro.land.common.utils.code.mysql.entity.FieldDefinition;
 import net.deniro.land.common.utils.code.mysql.entity.TableDefinition;
@@ -72,7 +73,8 @@ public class TableDefinitionDao {
             public FieldDefinition mapRow(ResultSet resultSet, int i) throws SQLException {
                 FieldDefinition entity = new FieldDefinition();
 
-                String columnName = resultSet.getString("COLUMN_NAME");
+                String columnName = StringUtils.toLowerCase(resultSet.getString
+                        ("COLUMN_NAME"));//列名称小写化处理
                 entity.setName(columnName);
 
                 //将字段名称转换为字段在类中的名称
