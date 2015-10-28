@@ -1,8 +1,8 @@
-/*分页查询表单中的选择单位和部门组件*/
-.lookupCompanyDepartment a{
+/*分页查询表单中的选择部门组件*/
+.lookupDepartment a{
     position: relative;
     left:475px;
 }
-.lookupCompanyDepartment span{
+.lookupDepartment span{
     margin:0 10px;
 }

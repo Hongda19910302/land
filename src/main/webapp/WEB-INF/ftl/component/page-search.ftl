@@ -84,7 +84,7 @@
                 </#list>
 
 
-                    <td class="lookupCompanyDepartment">
+                    <td class="lookupDepartment">
                         <span>归属单位：</span>
                         <input name="company.id" value="" type="hidden"/>
                         <input name="company.name" type="text" readonly>
@@ -92,8 +92,8 @@
                         <input name="company.departmentId" value="" type="hidden"/>
                         <input name="company.departmentName" type="text"
                                             readonly>
-                        <a class="btnLook" href="/comp/lookupCompanyDepartment"
-                                 lookupGroup="company">选择单位与部门</a>
+                        <a class="btnLook" href="/comp/lookupDepartment"
+                                 lookupGroup="company">选择部门</a>
                     </td>
                     <td></td>
 
