@@ -11,8 +11,14 @@
           media="screen"/>
     <link href="${resourceRoot}/dwz/themes/css/print.css" rel="stylesheet" type="text/css"
           media="print"/>
+
     <link href="${resourceRoot}/dwz/uploadify/css/uploadify.css" rel="stylesheet"
           type="text/css" media="screen"/>
+
+    <link href="${resourceRoot}/dwz/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet"
+          type="text/css" media="screen"/>
+
+
     <!--[if IE]>
     <link href="${resourceRoot}/dwz/themes/css/ieHack.css" rel="stylesheet" type="text/css"
           media="screen"/>
@@ -26,14 +32,22 @@
     <script src="${resourceRoot}/dwz/js/jquery.cookie.js" type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/js/jquery.validate.js" type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/js/jquery.bgiframe.js" type="text/javascript"></script>
+
     <script src="${resourceRoot}/dwz/form/jquery.form.land.js"
             type="text/javascript"></script>
+
     <script src="${resourceRoot}/dwz/xheditor/xheditor-1.2.1.min.js"
             type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/xheditor/xheditor_lang/zh-cn.js"
             type="text/javascript"></script>
+
     <script src="${resourceRoot}/dwz/uploadify/scripts/jquery.uploadify.js"
             type="text/javascript"></script>
+
+    <script src="${resourceRoot}/dwz/zTree/js/jquery.ztree.all-3.5.min.js"
+            type="text/javascript"></script>
+
+
 
     <script src="${resourceRoot}/dwz/js/dwz.core.js" type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/js/dwz.util.date.js" type="text/javascript"></script>
