@@ -1,18 +1,11 @@
-<#--单位与部门查找带回组件-->
+<#--部门选择组件-->
 <script type="text/javascript">
     $(function () {
-        var nodes = [
-            {name: "父节点1", children: [
-                {name: "子节点1"},
-                {name: "子节点2"}
-            ]}
-        ];
-
         var ztreeSetting={
             async:{
                 enable:true,
                 url:"/comp/findDepartmentTreeNode",
-                autoParam:["id=departmentId"],
+                autoParam:["departmentId=departmentId"],
                 otherParam:{"companyId":31}
             }
         };
