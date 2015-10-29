@@ -24,6 +24,11 @@ public class DepartmentDaoTest {
     private DepartmentDao departmentDao;
 
     @Test
+    public void testFindParentIds(){
+        System.out.println(departmentDao.findParentIds());
+    }
+
+    @Test
     public void testFindAllChild() throws Exception {
         System.out.println(departmentDao.findChilds(85));
     }

@@ -2,8 +2,14 @@ package net.deniro.land.module.system.dao;
 
 import net.deniro.land.common.dao.BaseDao;
 import net.deniro.land.module.system.entity.Department;
+import net.deniro.land.module.system.entity.MenuItem;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import static net.deniro.land.module.system.entity.Department.Status.*;
@@ -16,6 +22,26 @@ import static net.deniro.land.module.system.entity.Department.Status.*;
  */
 @Repository
 public class DepartmentDao extends BaseDao<Department> {
+
+
+    @Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    /**
+     * 查询所有父部门ID
+     *
+     * @return
+     */
+    public List<Integer> findParentIds() {
+        StringBuilder sql = new StringBuilder("SELECT DISTINCT(w.PARENT_ID) PARENT_ID FROM" +
+                " " +
+                "t_department w");
+        return namedParameterJdbcTemplate.query(sql.toString(), new RowMapper<Integer>() {
+            public Integer mapRow(ResultSet resultSet, int i) throws SQLException {
+                return resultSet.getInt("PARENT_ID");
+            }
+        });
+    }
 
     /**
      * 查询所有子部门信息（正常状态）
