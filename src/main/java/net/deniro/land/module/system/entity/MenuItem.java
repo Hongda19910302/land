@@ -24,23 +24,28 @@ public class MenuItem implements Serializable {
     private Integer backPrivilegeId;
 
     /**
-     * 菜单名称
+     * 菜单项名称（模块名称）
      */
-    @Column(name = "NAME", nullable = true, length = 11, insertable = false, updatable = false)
+    @Column(name = "NAME", nullable = true, length = 20, insertable = false, updatable =
+            false)
     private String name;
 
-    @Column(name = "URL2", nullable = true, length = 11, insertable = false, updatable =
+    /**
+     * action url地址
+     */
+    @Column(name = "URL2", nullable = true, length = 200, insertable = false, updatable =
             false)
     private String url;
 
     /**
      * 级别
      */
-    @Column(name = "LEVEL", nullable = true, length = 11, insertable = false, updatable = false)
+    @Column(name = "LEVEL", nullable = true, length = 2, insertable = false, updatable =
+            false)
     private Integer level;
 
     /**
-     * 上级菜单项id
+     * 上级菜单项ID
      */
     @Column(name = "PARENT_ID", nullable = true, length = 11, insertable = false, updatable = false)
     private Integer parentId;

@@ -29,14 +29,14 @@ public class Department implements Serializable {
     private String name;
 
     /**
-     * 上级部门
+     * 上级部门ID
      */
     @Column(name = "PARENT_ID", nullable = true, length = 11)
     private Integer parentId;
 
 
     /**
-     * 所属单位
+     * 所属单位ID
      */
     @Column(name = "COMPANY_ID", nullable = true, length = 11)
     private Integer companyId;

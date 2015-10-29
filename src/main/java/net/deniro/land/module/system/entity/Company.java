@@ -27,7 +27,7 @@ public class Company implements Serializable {
     private String companyName;
 
     /**
-     * 上级单位id
+     * 上级单位ID
      */
     @Column(name = "PARENT_ID", nullable = true, length = 11)
     private Integer parentId;
@@ -45,7 +45,7 @@ public class Company implements Serializable {
     private String code;
 
     /**
-     * 状态 todo:有哪些？
+     * 状态 0:正常 1：禁用 2：删除
      */
     @Column(name = "STATUS", nullable = true, length = 2)
     private Integer status;

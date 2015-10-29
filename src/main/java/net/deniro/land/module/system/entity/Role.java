@@ -52,13 +52,13 @@ public class Role implements Serializable {
     private String companyName;
 
     /**
-     * 删除权限；0:没有,1:有
+     * 是否有删除权限；0:没有,1:有
      */
     @Column(name = "DEL_ROLE", nullable = true, length = 2)
     private Integer delRole = 0;
 
     /**
-     * 上报权限；0:没有,1:有
+     * 是否有上报权限；0:没有,1:有
      */
     @Column(name = "REPORT_ROLE", nullable = true, length = 2)
     private Integer reportRole = 0;
