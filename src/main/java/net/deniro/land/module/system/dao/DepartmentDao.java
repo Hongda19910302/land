@@ -28,7 +28,7 @@ public class DepartmentDao extends BaseDao<Department> {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
-     * 查询所有父部门ID
+     * 查询所有父部门ID（去重、正常状态）
      *
      * @return
      */
@@ -36,6 +36,7 @@ public class DepartmentDao extends BaseDao<Department> {
         StringBuilder sql = new StringBuilder("SELECT DISTINCT(w.PARENT_ID) PARENT_ID FROM" +
                 " " +
                 "t_department w");
+        sql.append(" WHERE w.`STATUS`=0 AND w.PARENT_ID IS NOT NULL");
         return namedParameterJdbcTemplate.query(sql.toString(), new RowMapper<Integer>() {
             public Integer mapRow(ResultSet resultSet, int i) throws SQLException {
                 return resultSet.getInt("PARENT_ID");
