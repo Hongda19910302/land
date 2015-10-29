@@ -49,6 +49,12 @@ public class Department implements Serializable {
     private Integer status;
 
     /**
+     * 是否为父节点；true：是；false：否
+     */
+    @Transient
+    private String isParent;
+
+    /**
      * 部门
      */
     @Setter

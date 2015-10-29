@@ -23,6 +23,7 @@ public class DepartmentService {
     @Autowired
     private DepartmentDao departmentDao;
 
+
     /**
      * 查询所有子部门信息（正常状态）
      *
@@ -31,10 +32,28 @@ public class DepartmentService {
      */
     public List<Department> findChilds(Integer parentDepartmentId) {
         try {
-            return departmentDao.findChilds(parentDepartmentId);
+            List<Department> departments = departmentDao.findChilds(parentDepartmentId);
+            setIsParentAttribute(departments);
+            return departments;
         } catch (Exception e) {
             logger.error("查询所有子部门信息（正常状态）", e);
             return new ArrayList<Department>();
+        }
+    }
+
+    /**
+     * 设置是否为父部门属性
+     *
+     * @param departments
+     */
+    private void setIsParentAttribute(List<Department> departments) {
+        List<Integer> parentDepartmentIds = departmentDao.findParentIds();
+        for (Department department : departments) {
+            if (parentDepartmentIds.contains(department.getDepartmentId())) {//是父节点
+                department.setIsParent("true");
+            } else {
+                department.setIsParent("false");
+            }
         }
     }
 
@@ -46,7 +65,9 @@ public class DepartmentService {
      */
     public List<Department> findTops(Integer companyId) {
         try {
-            return departmentDao.findTops(companyId);
+            List<Department> departments = departmentDao.findTops(companyId);
+            setIsParentAttribute(departments);
+            return departments;
         } catch (Exception e) {
             logger.error(" 查询所有顶级部门（正常状态）", e);
             return new ArrayList<Department>();

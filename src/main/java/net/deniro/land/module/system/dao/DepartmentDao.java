@@ -2,7 +2,6 @@ package net.deniro.land.module.system.dao;
 
 import net.deniro.land.common.dao.BaseDao;
 import net.deniro.land.module.system.entity.Department;
-import net.deniro.land.module.system.entity.MenuItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -12,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import static net.deniro.land.module.system.entity.Department.Status.*;
+import static net.deniro.land.module.system.entity.Department.Status.NORMAL;
 
 /**
  * 部门
