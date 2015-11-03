@@ -1199,7 +1199,11 @@
      * Clears the selected form elements.
      */
     $.fn.clearFields = $.fn.clearInputs = function (includeHidden) {
-        var re = /^(?:color|date|datetime|email|month|number|password|range|search|tel|text|time|url|week)$/i; // 'hidden' is not in this list
+
+        //让hidden的表单字段支持重置操作
+        //@author deniro
+        var re = /^(?:color|date|datetime|email|month|number|password|range|search|tel|text|time|url|week|hidden)$/i; // 'hidden' is in this list
+
         return this.each(function () {
             var t = this.type, tag = this.tagName.toLowerCase();
             if (re.test(t) || tag == 'textarea') {
@@ -1212,6 +1216,7 @@
                 this.selectedIndex = -1;
 
                 //针对dwz的下拉框进行特殊处理，初始化为默认选中
+                //@author deniro
                 var $ref = $(this);
                 $ref.val("");
                 //console.log($ref.val());
