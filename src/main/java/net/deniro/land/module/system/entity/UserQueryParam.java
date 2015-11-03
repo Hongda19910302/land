@@ -21,4 +21,14 @@ public class UserQueryParam extends QueryParam{
      * 账号
      */
     private String account;
+
+    /**
+     * 单位ID
+     */
+    private String companyId;
+
+    /**
+     * 部门ID
+     */
+    private String departmentId;
 }

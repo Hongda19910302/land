@@ -43,6 +43,12 @@ public class UserDao extends BaseDao<User> {
             hql.append(" and t.name like '").append(queryParam.getName())
                     .append("%'");
         }
+        if (StringUtils.isNotBlank(queryParam.getCompanyId())) {
+            hql.append(" and t.companyId = '").append(queryParam.getCompanyId()).append("'");
+        }
+        if (StringUtils.isNotBlank(queryParam.getDepartmentId())) {
+            hql.append(" and t.departmentId = '").append(queryParam.getDepartmentId()).append("'");
+        }
 
         hql.append(" order by createTime desc");
 
