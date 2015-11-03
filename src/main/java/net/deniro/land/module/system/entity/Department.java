@@ -55,6 +55,26 @@ public class Department implements Serializable {
     private String isParent;
 
     /**
+     * 父节点展开图标
+     */
+    @Transient
+    private String iconOpen;
+
+    /**
+     * 父节点折叠图标
+     */
+    @Transient
+    private String iconClose;
+
+    /**
+     * 叶子节点图标
+     */
+    @Transient
+    private String icon;
+
+
+
+    /**
      * 部门
      */
     @Setter
