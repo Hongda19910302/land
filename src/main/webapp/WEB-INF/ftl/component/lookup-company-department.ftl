@@ -58,6 +58,10 @@
                     initDepartmentTree(treeNode.companyId);
                     $("#companyId_${pageSearchComponentId}").val(treeNode.companyId);
                     $("#companyName_${pageSearchComponentId}").val(treeNode.name);
+
+                    //初始化部门信息
+                    $("#departmentId_${pageSearchComponentId}").val("");
+                    $("#departmentName_${pageSearchComponentId}").val("");
                 }
             }
         };
