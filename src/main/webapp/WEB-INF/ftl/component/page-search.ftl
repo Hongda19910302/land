@@ -18,10 +18,19 @@
 <#-------------------------脚本 开始-------------------------------------------->
 <script type="text/javascript">
     $(function () {
-        //查询条件初始化
+
+        //初始化 查询条件
     <#list formFields as field>
         $("#${field.fieldName}_${componentId}").val("${queryParam[field.fieldName]!""}");
     </#list>
+
+        //初始化 单位或部门选择组件参数
+    <#if compPageSearch.isLookupCompanyDepartment=="true">
+        $("#companyId_${componentId}").val("${queryParam["companyId"]!""}");
+        $("#companyName_${componentId}").val("${queryParam["companyName"]!""}");
+        $("#departmentId_${componentId}").val("${queryParam["departmentId"]!""}");
+        $("#departmentName_${componentId}").val("${queryParam["departmentName"]!""}");
+    </#if>
 
         //绑定重置按钮
         $("#resetBtn_${componentId}").click(function () {
@@ -40,6 +49,14 @@
 <#list formFields as field>
     <input type="hidden" name="${field.fieldName}" value="${queryParam[field.fieldName]}"/>
 </#list>
+
+<#--保存单位或部门选择组件参数-->
+<#if compPageSearch.isLookupCompanyDepartment=="true">
+    <input type="hidden" name="companyId" value="${queryParam["companyId"]}"/>
+    <input type="hidden" name="companyName" value="${queryParam["companyName"]}"/>
+    <input type="hidden" name="departmentId" value="${queryParam["departmentId"]}"/>
+    <input type="hidden" name="departmentName" value="${queryParam["departmentName"]}"/>
+</#if>
 </form>
 <#-------------------------分页器表单 结束---------------------------------------->
 
@@ -58,12 +75,16 @@
                 <#if compPageSearch.isLookupCompanyDepartment=="true">
                     <td class="lookupCompanyDepartmentBtn">
                         <span>归属单位：</span>
-                        <input name="companyId" value="" type="hidden"/>
-                        <span><input name="companyName" type="text" readonly></span>
+                        <input name="companyId" id="companyId_${componentId}" value=""
+                               type="hidden"/>
+                        <span><input name="companyName" id="companyName_${componentId}"
+                                     type="text" readonly></span>
                         <span>部门：</span>
-                        <input name="departmentId" value="" type="hidden"/>
+                        <input name="departmentId" id="departmentId_${componentId}" value=""
+                               type="hidden"/>
                         <span>
-                            <input name="departmentName" type="text"
+                            <input name="departmentName" id="departmentName_${componentId}"
+                                   type="text"
 
                                    readonly>
                         </span>

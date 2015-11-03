@@ -10,7 +10,7 @@ import net.deniro.land.common.entity.QueryParam;
  *         2015/10/27
  */
 @Data
-public class UserQueryParam extends QueryParam{
+public class UserQueryParam extends QueryParam {
 
     /**
      * 姓名
@@ -28,7 +28,17 @@ public class UserQueryParam extends QueryParam{
     private String companyId;
 
     /**
+     * 单位名称
+     */
+    private String companyName;
+
+    /**
      * 部门ID
      */
     private String departmentId;
+
+    /**
+     * 部门名称
+     */
+    private String departmentName;
 }
