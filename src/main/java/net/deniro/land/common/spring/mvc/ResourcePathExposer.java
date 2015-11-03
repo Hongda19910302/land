@@ -13,7 +13,7 @@ import javax.servlet.ServletContext;
 public class ResourcePathExposer implements ServletContextAware {
 
     private ServletContext servletContext;
-    private String resourceRoot;
+    private static String resourceRoot;
 
     public void init() {
 //        实际应用中，可以在外部属性文件或数据库保存应用的发布版本号，在此获取。
@@ -36,7 +36,7 @@ public class ResourcePathExposer implements ServletContextAware {
         this.servletContext = servletContext;
     }
 
-    public String getResourceRoot() {
+    public static String getResourceRoot() {
         return resourceRoot;
     }
 }
