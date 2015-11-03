@@ -29,7 +29,7 @@
     right: 7px;
 }
 
-.lookupCompanyDepartmentTree div>span {
+.lookupCompanyDepartmentTree div>span:first-child {
     overflow: hidden;
     height: 14px;
     padding: 2px 5px 2px 20px;
@@ -42,5 +42,16 @@
     height: 336px;
     overflow:auto;
     margin: 2px;
+}
+
+/*弹出框的按钮行*/
+.dialogBtnRow{
+    position: relative;
+}
+
+/*弹出框说明提示*/
+.dialogBtnRow span{
+    position: absolute;
+    left:1%
 }
 

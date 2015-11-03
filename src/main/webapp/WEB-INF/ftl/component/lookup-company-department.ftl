@@ -3,8 +3,6 @@
     $(function () {
         //初始化单位树
         initCompanyTree();
-
-
     });
 
     /**
@@ -34,9 +32,9 @@
                 autoParam: ["companyId=companyId"]
             },
 
-            callback:{
+            callback: {
                 //点击某个单位，初始化部门树
-                onClick: function (event,treeId,treeNode,clickFlag) {
+                onClick: function (event, treeId, treeNode, clickFlag) {
 //                    console.log(treeNode);
                     initDepartmentTree(treeNode.companyId);
                 }
@@ -44,7 +42,6 @@
         };
 
         $.fn.zTree.init($("#companyTree"), companySetting);
-
     }
 </script>
 
@@ -63,9 +60,17 @@
     </div>
 </div>
 
-<div class="formBar">
+<div class="formBar dialogBtnRow">
     <ul>
         <li>
+            <span>说明：如果需要选择部门，请点击左边单位列表的某个具体单位</span>
+        </li>
+        <li>
+            <div class="button">
+                <div class="buttonContent">
+                    <button type="button">确定</button>
+                </div>
+            </div>
             <div class="button">
                 <div class="buttonContent">
                     <button class="close" type="button">关闭</button>
