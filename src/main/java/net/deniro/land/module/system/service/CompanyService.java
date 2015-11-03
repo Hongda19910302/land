@@ -23,7 +23,7 @@ public class CompanyService {
     private CompanyDao companyDao;
 
     /**
-     * 查询所有单位（用于下拉选择）
+     * 查询所有单位（用于下拉选择）,key：单位ID；value：单位名称
      *
      * @return
      */
