@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -84,10 +85,12 @@ public class CompController {
     /**
      * 跳转至单位、部门选择组件
      *
+     * @param pageSearchComponentId 分页查询组件ID
      * @return
      */
     @RequestMapping(value = "/lookupCompanyDepartment")
-    public String lookupDepartment() {
+    public String lookupDepartment(Integer pageSearchComponentId,ModelMap mm) {
+        mm.addAttribute("pageSearchComponentId",pageSearchComponentId);
         return "/component/lookup-company-department";
     }
 }

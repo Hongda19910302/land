@@ -17,6 +17,34 @@
 	};
 	
 	$.extend({
+		/**
+		 * 带回选择的单位与部门信息
+		 * @param args
+		 */
+		bringBackCompanyAndDepartment: function (args) {
+			//console.log(args);
+
+			//获取公司单位选择的字段区域
+			var $CompanyDepartment= $("#searchForm_"+args.pageSearchComponentId+" .lookupCompanyDepartmentBtn");
+
+			//寻找具体字段并赋值
+			$CompanyDepartment.find(":input").each(function(){
+				var $input = $(this);
+				var inputName = $input.attr("name");
+				for (var key in args) {
+					if (key == inputName) {
+						$input.val(args[key]);
+						break;
+					}
+				}
+
+			});
+
+
+			$.pdialog.closeCurrent();
+		},
+
+
 		bringBackSuggest: function(args){
 			var $box = _lookup['$target'].parents(".unitBox:first");
 			$box.find(":input").each(function(){

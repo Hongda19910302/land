@@ -3,6 +3,18 @@
     $(function () {
         //初始化单位树
         initCompanyTree();
+
+        $(".companyDepartmentBtn").click(function () {
+            $.bringBackCompanyAndDepartment(
+                    {
+                        pageSearchComponentId:${pageSearchComponentId},
+                        companyId: $("#companyId_${pageSearchComponentId}").val(),
+                        companyName: $("#companyName_${pageSearchComponentId}").val(),
+                        departmentId: $("#departmentId_${pageSearchComponentId}").val(),
+                        departmentName: $("#departmentName_${pageSearchComponentId}").val()
+                    });
+        });
+
     });
 
     /**
@@ -16,10 +28,17 @@
                 url: "/comp/findDepartmentTreeNode",
                 autoParam: ["departmentId=departmentId"],
                 otherParam: {"companyId": companyId}
+            },
+            callback: {
+                //点击某个部门，保存选择的部门信息
+                onClick: function (event, treeId, treeNode, clickFlag) {
+                    $("#departmentId_${pageSearchComponentId}").val(treeNode.departmentId);
+                    $("#departmentName_${pageSearchComponentId}").val(treeNode.name);
+                }
             }
         };
 
-        $.fn.zTree.init($("#departmentTree"), departmentSetting);
+        $.fn.zTree.init($("#departmentTree_${pageSearchComponentId}"), departmentSetting);
     }
 
     //初始化单位树
@@ -37,25 +56,33 @@
                 onClick: function (event, treeId, treeNode, clickFlag) {
 //                    console.log(treeNode);
                     initDepartmentTree(treeNode.companyId);
+                    $("#companyId_${pageSearchComponentId}").val(treeNode.companyId);
+                    $("#companyName_${pageSearchComponentId}").val(treeNode.name);
                 }
             }
         };
 
-        $.fn.zTree.init($("#companyTree"), companySetting);
+        $.fn.zTree.init($("#companyTree_${pageSearchComponentId}"), companySetting);
     }
 </script>
 
+<form>
+    <input type="hidden" id="companyId_${pageSearchComponentId}"/>
+    <input type="hidden" id="companyName_${pageSearchComponentId}"/>
+    <input type="hidden" id="departmentId_${pageSearchComponentId}"/>
+    <input type="hidden" id="departmentName_${pageSearchComponentId}"/>
+</form>
 
 <div class="pageContent">
     <div class="pageFormContent lookupCompanyDepartmentTree" layoutH="58">
         <div>
             <span>选择单位</span>
-            <ul id="companyTree" class="ztree"></ul>
+            <ul id="companyTree_${pageSearchComponentId}" class="ztree"></ul>
         </div>
 
         <div>
             <span>选择部门</span>
-            <ul id="departmentTree" class="ztree"></ul>
+            <ul id="departmentTree_${pageSearchComponentId}" class="ztree"></ul>
         </div>
     </div>
 </div>
@@ -68,7 +95,7 @@
         <li>
             <div class="button">
                 <div class="buttonContent">
-                    <button type="button">确定</button>
+                    <button class="companyDepartmentBtn" type="button">确定</button>
                 </div>
             </div>
             <div class="button">

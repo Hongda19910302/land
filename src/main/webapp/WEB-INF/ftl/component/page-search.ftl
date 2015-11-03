@@ -86,14 +86,15 @@
 
                     <td class="lookupCompanyDepartmentBtn">
                         <span>归属单位：</span>
-                        <input name="company.id" value="" type="hidden"/>
-                        <input name="company.name" type="text" readonly>
+                        <input name="companyId" value="" type="hidden"/>
+                        <input name="companyName" type="text" readonly>
                         <span>部门：</span>
-                        <input name="company.departmentId" value="" type="hidden"/>
-                        <input name="company.departmentName" type="text"
+                        <input name="departmentId" value="" type="hidden"/>
+                        <input name="departmentName" type="text"
                                readonly>
 
-                        <a class="btnLook" href="/comp/lookupCompanyDepartment"
+                        <a class="btnLook"
+                           href="/comp/lookupCompanyDepartment?pageSearchComponentId=${componentId}"
                            target="dialog"
                         <#--rel:标识此弹出层ID-->
                            rel="lookupCompanyDepartment"

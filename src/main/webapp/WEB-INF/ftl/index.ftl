@@ -78,7 +78,8 @@
     <script src="${resourceRoot}/dwz/js/dwz.taskBar.js" type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/js/dwz.ajax.js" type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/js/dwz.pagination.js" type="text/javascript"></script>
-    <script src="${resourceRoot}/dwz/js/dwz.database.js" type="text/javascript"></script>
+    <script src="${resourceRoot}/dwz/js/dwz.database.land.js"
+            type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/js/dwz.datepicker.js" type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/js/dwz.effects.js" type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/js/dwz.panel.js" type="text/javascript"></script>
