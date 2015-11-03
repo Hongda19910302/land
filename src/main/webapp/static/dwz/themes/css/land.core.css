@@ -1,8 +1,39 @@
-/*分页查询表单中的选择部门组件*/
-.lookupDepartment a{
+/*分页查询表单中的选择单位或部门组件按钮*/
+.lookupCompanyDepartmentBtn>a {
     position: relative;
-    left:475px;
+    left: 475px;
 }
-.lookupDepartment span{
-    margin:0 10px;
+
+.lookupCompanyDepartmentBtn>span {
+    margin: 0 10px;
 }
+
+/*单位与部门选择组件*/
+.lookupCompanyDepartmentTree {
+    position: relative;
+}
+
+.lookupCompanyDepartmentTree>div {
+    border: 1px solid #B8D0D6;
+    position: absolute;
+    padding: 10px;
+    width: 200px;
+}
+
+.lookupCompanyDepartmentTree>div:first-child {
+    left: 10%
+}
+
+.lookupCompanyDepartmentTree>div:last-child {
+    right: 30%
+}
+
+.lookupCompanyDepartmentTree div>span {
+    overflow: hidden;
+    height: 14px;
+    padding: 2px 5px 2px 20px;
+    line-height: 14px;
+    background: url("../default/images/dialog/chart_organisation.png") no-repeat;
+    font-weight: bold;
+}
+
