@@ -1,5 +1,6 @@
 package net.deniro.land.module.component;
 
+import net.deniro.land.common.spring.mvc.ResourcePathExposer;
 import net.deniro.land.module.component.entity.CompanyTreeNode;
 import net.deniro.land.module.component.entity.TreeQueryParam;
 import net.deniro.land.module.system.entity.Company;
@@ -48,6 +49,8 @@ public class CompController {
             CompanyTreeNode companyTreeNode = new CompanyTreeNode();
             companyTreeNode.setCompanyId(s);
             companyTreeNode.setName(companys.get(s));
+            companyTreeNode.setIcon(ResourcePathExposer.getResourceRoot()
+                    + "/dwz/themes/default/images/dialog/award_star_gold_2.png");
             tree.add(companyTreeNode);
         }
 
@@ -77,6 +80,7 @@ public class CompController {
         return departments;
     }
 
+
     /**
      * 跳转至单位、部门选择组件
      *
@@ -86,5 +90,4 @@ public class CompController {
     public String lookupDepartment() {
         return "/component/lookup-company-department";
     }
-
 }
