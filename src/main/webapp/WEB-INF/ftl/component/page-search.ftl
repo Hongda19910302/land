@@ -91,9 +91,26 @@
                         <span>部门：</span>
                         <input name="company.departmentId" value="" type="hidden"/>
                         <input name="company.departmentName" type="text"
-                                            readonly>
+                               readonly>
+
                         <a class="btnLook" href="/comp/lookupCompanyDepartment"
-                                 lookupGroup="company">选择单位或部门</a>
+                           target="dialog"
+                        <#--rel:标识此弹出层ID-->
+                           rel="lookupCompanyDepartment"
+                        <#--resizable：是否可变大小-->
+                           resizable="false"
+                        <#--minable：是否可最小化-->
+                           minable="false"
+                        <#--maxable：是否可最大化-->
+                           maxable="false"
+                        <#--是否将背景遮盖-->
+                           mask="true"
+                        <#--弹出框宽度-->
+                           width="600"
+                        <#--弹出框高度-->
+                           height="480"
+                        <#--标题-->
+                           title="选择单位或部门"></a>
                     </td>
                     <td></td>
 
@@ -158,8 +175,8 @@
         <tr rel="${data[tableKey]}">
 
             <#list tableFields as field>
-                <#--获取字段值-->
-                <#--处理 对象"."语法-->
+            <#--获取字段值-->
+            <#--处理 对象"."语法-->
                 <#if field.fieldName?contains(".")>
                     <#assign childObjName=field.fieldName?keep_before(".")>
                     <#assign childObjFieldName=field.fieldName?keep_after(".")>
@@ -170,28 +187,28 @@
 
 
 
-                <#--非主键展示-->
+            <#--非主键展示-->
                 <#if field.isKey=="false">
-                <td
-                <#--添加样式-->
-                    <#if field.style??>
-                            style="${field.style}"
-                    </#if>
-                        >
-                <#--数据转换后展示-->
-                <#if field.transformDataSetType??>
-                    <#list field.transformDataSet?keys as key>
-                        <#if key=="${fieldValue}">
-                        ${field.transformDataSet[key]}
+                    <td
+                    <#--添加样式-->
+                        <#if field.style??>
+                                style="${field.style}"
                         </#if>
-                    </#list>
+                            >
+                    <#--数据转换后展示-->
+                <#if field.transformDataSetType??>
+                        <#list field.transformDataSet?keys as key>
+                            <#if key=="${fieldValue}">
+                            ${field.transformDataSet[key]}
+                            </#if>
+                        </#list>
 
-                <#--普通展示-->
-                <#else>
-                ${fieldValue}
-                </#if>
+                    <#--普通展示-->
+                    <#else>
+                    ${fieldValue}
+                    </#if>
 
-                </td>
+                    </td>
                 </#if>
             </#list>
         </tr>
