@@ -20,4 +20,9 @@ public class CompanyTreeNode {
      * 名称
      */
     private String name;
+
+    /**
+     * 叶子节点个性化图标
+     */
+    private String icon;
 }
