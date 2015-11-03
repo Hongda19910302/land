@@ -1,5 +1,6 @@
 package net.deniro.land.module.system.service;
 
+import net.deniro.land.common.spring.mvc.ResourcePathExposer;
 import net.deniro.land.module.system.dao.DepartmentDao;
 import net.deniro.land.module.system.entity.Department;
 import org.apache.log4j.Logger;
@@ -33,7 +34,7 @@ public class DepartmentService {
     public List<Department> findChilds(Integer parentDepartmentId) {
         try {
             List<Department> departments = departmentDao.findChilds(parentDepartmentId);
-            setIsParentAttribute(departments);
+            setAttribute(departments);
             return departments;
         } catch (Exception e) {
             logger.error("查询所有子部门信息（正常状态）", e);
@@ -42,17 +43,23 @@ public class DepartmentService {
     }
 
     /**
-     * 设置是否为父部门属性
+     * 设置属性（是否为父部门、个性化图标）
      *
      * @param departments
      */
-    private void setIsParentAttribute(List<Department> departments) {
+    private void setAttribute(List<Department> departments) {
+        String ICON_URL_PREFIX = ResourcePathExposer.getResourceRoot()
+                + "/dwz/themes/default/images/dialog/";
+
         List<Integer> parentDepartmentIds = departmentDao.findParentIds();
         for (Department department : departments) {
             if (parentDepartmentIds.contains(department.getDepartmentId())) {//是父节点
                 department.setIsParent("true");
+                department.setIconOpen(ICON_URL_PREFIX + "house.png");
+                department.setIconClose(ICON_URL_PREFIX + "house_go.png");
             } else {
                 department.setIsParent("false");
+                department.setIcon(ICON_URL_PREFIX+"group.png");
             }
         }
     }
@@ -66,7 +73,7 @@ public class DepartmentService {
     public List<Department> findTops(Integer companyId) {
         try {
             List<Department> departments = departmentDao.findTops(companyId);
-            setIsParentAttribute(departments);
+            setAttribute(departments);
             return departments;
         } catch (Exception e) {
             logger.error(" 查询所有顶级部门（正常状态）", e);
