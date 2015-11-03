@@ -1,19 +1,21 @@
 /*分页查询表单中的选择单位或部门组件按钮*/
-.lookupCompanyDepartmentBtn>a {
+.lookupCompanyDepartmentBtn > a {
     position: relative;
-    left: 475px;
+    left: 96%;
 }
 
-.lookupCompanyDepartmentBtn>span {
-    margin: 0 10px;
+.lookupCompanyDepartmentBtn > span {
+    padding-right:20px;
 }
+
+
 
 /*单位与部门选择组件*/
 .lookupCompanyDepartmentTree {
     position: relative;
 }
 
-.lookupCompanyDepartmentTree>div {
+.lookupCompanyDepartmentTree > div {
     border: 1px solid #B8D0D6;
     position: absolute;
     padding: 10px;
@@ -21,15 +23,15 @@
 
 }
 
-.lookupCompanyDepartmentTree>div:first-child {
+.lookupCompanyDepartmentTree > div:first-child {
     left: 7px;
 }
 
-.lookupCompanyDepartmentTree>div:last-child {
+.lookupCompanyDepartmentTree > div:last-child {
     right: 7px;
 }
 
-.lookupCompanyDepartmentTree div>span:first-child {
+.lookupCompanyDepartmentTree div > span:first-child {
     overflow: hidden;
     height: 14px;
     padding: 2px 5px 2px 20px;
@@ -38,20 +40,20 @@
     font-weight: bold;
 }
 
-.lookupCompanyDepartmentTree div>ul{
+.lookupCompanyDepartmentTree div > ul {
     height: 336px;
-    overflow:auto;
+    overflow: auto;
     margin: 2px;
 }
 
 /*弹出框的按钮行*/
-.dialogBtnRow{
+.dialogBtnRow {
     position: relative;
 }
 
 /*弹出框说明提示*/
-.dialogBtnRow span{
+.dialogBtnRow span {
     position: absolute;
-    left:1%
+    left: 1%
 }
 

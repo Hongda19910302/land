@@ -54,6 +54,42 @@
             <table class="searchContent">
                 <tr>
 
+                    <#--单位或部门选择组件-->
+                    <td class="lookupCompanyDepartmentBtn">
+                        <span>归属单位：</span>
+                        <input name="companyId" value="" type="hidden"/>
+                        <span><input name="companyName" type="text" readonly></span>
+                        <span>部门：</span>
+                        <input name="departmentId" value="" type="hidden"/>
+                        <span>
+                            <input name="departmentName" type="text"
+
+                               readonly>
+                        </span>
+
+                        <a class="btnLook"
+                           href="/comp/lookupCompanyDepartment?pageSearchComponentId=${componentId}"
+                           target="dialog"
+                        <#--rel:标识此弹出层ID-->
+                           rel="lookupCompanyDepartment"
+                        <#--resizable：是否可变大小-->
+                           resizable="false"
+                        <#--minable：是否可最小化-->
+                           minable="false"
+                        <#--maxable：是否可最大化-->
+                           maxable="false"
+                        <#--是否将背景遮盖-->
+                           mask="true"
+                        <#--弹出框宽度-->
+                           width="600"
+                        <#--弹出框高度-->
+                           height="480"
+                        <#--标题-->
+                           title="选择单位或部门"></a>
+
+                    </td>
+
+
                 <#list formFields as field>
                     <td>${field.displayName}：</td>
                     <td>
@@ -83,37 +119,6 @@
                     </td>
                 </#list>
 
-
-                    <td class="lookupCompanyDepartmentBtn">
-                        <span>归属单位：</span>
-                        <input name="companyId" value="" type="hidden"/>
-                        <input name="companyName" type="text" readonly>
-                        <span>部门：</span>
-                        <input name="departmentId" value="" type="hidden"/>
-                        <input name="departmentName" type="text"
-                               readonly>
-
-                        <a class="btnLook"
-                           href="/comp/lookupCompanyDepartment?pageSearchComponentId=${componentId}"
-                           target="dialog"
-                        <#--rel:标识此弹出层ID-->
-                           rel="lookupCompanyDepartment"
-                        <#--resizable：是否可变大小-->
-                           resizable="false"
-                        <#--minable：是否可最小化-->
-                           minable="false"
-                        <#--maxable：是否可最大化-->
-                           maxable="false"
-                        <#--是否将背景遮盖-->
-                           mask="true"
-                        <#--弹出框宽度-->
-                           width="600"
-                        <#--弹出框高度-->
-                           height="480"
-                        <#--标题-->
-                           title="选择单位或部门"></a>
-                    </td>
-                    <td></td>
 
                 </tr>
             </table>
