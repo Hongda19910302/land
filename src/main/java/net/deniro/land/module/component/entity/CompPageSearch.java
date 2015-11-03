@@ -38,6 +38,12 @@ public class CompPageSearch implements Serializable {
     @Column(name = "remarks", nullable = true, length = 500)
     private String remarks;
 
+    /**
+     * 查询表单是否包含单位或部门选择组件
+     */
+    @Column(name = "is_lookup_company_department", nullable = true, length = 5)
+    private String isLookupCompanyDepartment;
+
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "compPageSearch", fetch = FetchType.EAGER)
     @OrderBy("orderNo ASC ")

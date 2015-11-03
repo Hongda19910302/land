@@ -89,8 +89,8 @@ public class CompController {
      * @return
      */
     @RequestMapping(value = "/lookupCompanyDepartment")
-    public String lookupDepartment(Integer pageSearchComponentId,ModelMap mm) {
-        mm.addAttribute("pageSearchComponentId",pageSearchComponentId);
+    public String lookupCompanyDepartment(Integer pageSearchComponentId,ModelMap mm) {
+        mm.addAttribute("pageSearchComponentId", pageSearchComponentId);
         return "/component/lookup-company-department";
     }
 }

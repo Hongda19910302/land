@@ -54,7 +54,8 @@
             <table class="searchContent">
                 <tr>
 
-                    <#--单位或部门选择组件-->
+                <#--渲染单位或部门选择组件-->
+                <#if compPageSearch.isLookupCompanyDepartment=="true">
                     <td class="lookupCompanyDepartmentBtn">
                         <span>归属单位：</span>
                         <input name="companyId" value="" type="hidden"/>
@@ -64,7 +65,7 @@
                         <span>
                             <input name="departmentName" type="text"
 
-                               readonly>
+                                   readonly>
                         </span>
 
                         <a class="btnLook"
@@ -86,8 +87,9 @@
                            height="480"
                         <#--标题-->
                            title="选择单位或部门"></a>
-
                     </td>
+
+                </#if>
 
 
                 <#list formFields as field>
