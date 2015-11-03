@@ -18,6 +18,8 @@
     <link href="${resourceRoot}/dwz/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet"
           type="text/css" media="screen"/>
 
+    <link href="${resourceRoot}/dwz/opentip/opentip.css" rel="stylesheet" type="text/css"/>
+
 
     <!--[if IE]>
     <link href="${resourceRoot}/dwz/themes/css/ieHack.css" rel="stylesheet" type="text/css"
@@ -45,6 +47,9 @@
             type="text/javascript"></script>
 
     <script src="${resourceRoot}/dwz/zTree/js/jquery.ztree.all-3.5.min.js"
+            type="text/javascript"></script>
+
+    <script src="${resourceRoot}/dwz/opentip/opentip-jquery.min.js"
             type="text/javascript"></script>
 
 
