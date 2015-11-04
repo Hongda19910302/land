@@ -26,6 +26,13 @@
         <entry key="1" value="有"/>
     </util:map>
 
+    <!-- 基本状态-->
+    <util:map id="commonStatus" map-class="java.util.LinkedHashMap">
+        <entry key="0" value="正常"/>
+        <entry key="1" value="禁用"/>
+        <entry key="2" value="删除"/>
+    </util:map>
+
     <!-- 角色状态-->
     <util:map id="roleStatus" map-class="java.util.LinkedHashMap">
         <entry key="0" value="正常"/>

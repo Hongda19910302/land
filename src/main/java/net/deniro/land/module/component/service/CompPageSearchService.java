@@ -34,6 +34,9 @@ public class CompPageSearchService {
     @Autowired
     private CompanyService companyService;
 
+    @Resource(name = "commonStatus")
+    private Map<String, String> commonStatus;
+
     @Resource(name = "roleStatus")
     private Map<String, String> roleStatus;
 
@@ -68,6 +71,9 @@ public class CompPageSearchService {
                     continue;
                 }
                 switch (DataSetType.valueOf(dataSetType)) {
+                    case COMMON_STATUS:
+                        field.setTransformDataSet(commonStatus);
+                        break;
                     case ROLE_STATUS:
                         field.setTransformDataSet(roleStatus);
                         break;
@@ -95,6 +101,9 @@ public class CompPageSearchService {
                     case SELECT://填充下拉选择数据
                         switch (DataSetType.valueOf(field
                                 .getSelectListDataSetType())) {
+                            case COMMON_STATUS:
+                                field.setSelectListDataSet(commonStatus);
+                                break;
                             case COMPANY:
                                 field.setSelectListDataSet(companyService
                                         .findAllInSelect());
