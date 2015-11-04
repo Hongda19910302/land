@@ -60,7 +60,7 @@ public class AnnotationHibernateCodeMarker {
             cfg.setDirectoryForTemplateLoading(new File(TEMPLATE_PATH));
             cfg.setDefaultEncoding(ENCODING);
         } catch (IOException e) {
-            logger.error("创建配置实例", e);
+            logger.warn("创建配置实例", e);
         }
     }
 
