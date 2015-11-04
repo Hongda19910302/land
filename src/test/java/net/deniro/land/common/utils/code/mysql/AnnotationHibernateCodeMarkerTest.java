@@ -33,9 +33,9 @@ public class AnnotationHibernateCodeMarkerTest {
     public void testMark() throws Exception {
 
         List<String> tableNames = new ArrayList<String>();
-        tableNames.add("t_region");
+        tableNames.add("t_data_type");
 
-        String packagePath = "net.deniro.land.module.system.entity";
+        String packagePath = "net.deniro.land.module.icase.entity";
 
         Map<String, String> names = new HashMap<String, String>();
         for (String tableName : tableNames) {
