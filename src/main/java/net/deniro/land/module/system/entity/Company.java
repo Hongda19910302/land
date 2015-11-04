@@ -1,6 +1,7 @@
 package net.deniro.land.module.system.entity;
 
 import lombok.Data;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -49,4 +50,12 @@ public class Company implements Serializable {
      */
     @Column(name = "STATUS", nullable = true, length = 2)
     private Integer status;
+
+    /**
+     * 上级单位
+     */
+    @Setter
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "PARENT_ID", referencedColumnName = "COMPANY_ID", insertable = false, updatable = false)
+    private Company company;
 }

@@ -1,7 +1,9 @@
 package net.deniro.land.module.system.service;
 
+import net.deniro.land.common.dao.Page;
 import net.deniro.land.module.system.dao.CompanyDao;
 import net.deniro.land.module.system.entity.Company;
+import net.deniro.land.module.system.entity.CompanyQueryParam;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,21 @@ public class CompanyService {
 
     @Autowired
     private CompanyDao companyDao;
+
+    /**
+     * 分页查询
+     *
+     * @param queryParam 查询参数
+     * @return
+     */
+    public Page findPage(CompanyQueryParam queryParam) {
+        try {
+            return companyDao.findPage(queryParam);
+        } catch (Exception e) {
+            logger.error("分页查询", e);
+            return new Page();
+        }
+    }
 
     /**
      * 查询所有单位（用于下拉选择）,key：单位ID；value：单位名称
