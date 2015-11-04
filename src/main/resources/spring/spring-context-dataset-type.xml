@@ -7,6 +7,14 @@
 	http://www.springframework.org/schema/util/spring-util-3.0.xsd
        ">
 
+    <!-- 案件字段类型-->
+    <util:map id="variableFieldType" map-class="java.util.LinkedHashMap">
+        <entry key="0" value="整数"/>
+        <entry key="1" value="带小数"/>
+        <entry key="2" value="字符串"/>
+        <entry key="3" value="日期字符串"/>
+    </util:map>
+
     <!-- 用户状态-->
     <util:map id="userStatus" map-class="java.util.LinkedHashMap">
         <entry key="0" value="正常"/>
@@ -18,6 +26,12 @@
     <util:map id="sex" map-class="java.util.LinkedHashMap">
         <entry key="0" value="女"/>
         <entry key="1" value="男"/>
+    </util:map>
+
+    <!-- 是否状态-->
+    <util:map id="isYes" map-class="java.util.LinkedHashMap">
+        <entry key="0" value="是"/>
+        <entry key="1" value="否"/>
     </util:map>
 
     <!-- 是否“有”状态-->

@@ -49,6 +49,13 @@ public class CompPageSearchService {
     @Resource(name = "sex")
     private Map<String, String> sex;
 
+    @Resource(name = "variableFieldType")
+    private Map<String, String> variableFieldType;
+
+    @Resource(name = "isYes")
+    private Map<String, String> isYes;
+
+
     /**
      * 查询 分页查询组件配置信息
      *
@@ -86,6 +93,13 @@ public class CompPageSearchService {
                     case USER_STATUS:
                         field.setTransformDataSet(userStatus);
                         break;
+                    case VARIABLE_FIELD_TYPE:
+                        field.setTransformDataSet(variableFieldType);
+                        break;
+                    case IS_YES:
+                        field.setTransformDataSet(isYes);
+                        break;
+
                 }
             }
             pageSearch.setCompPageSearchTableFields(tableFields);
@@ -119,6 +133,12 @@ public class CompPageSearchService {
                                 break;
                             case USER_STATUS:
                                 field.setSelectListDataSet(userStatus);
+                                break;
+                            case VARIABLE_FIELD_TYPE:
+                                field.setSelectListDataSet(variableFieldType);
+                                break;
+                            case IS_YES:
+                                field.setSelectListDataSet(isYes);
                                 break;
                         }
                         break;

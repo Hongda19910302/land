@@ -33,5 +33,13 @@ public enum DataSetType {
     /**
      * 性别
      */
-    SEX
+    SEX,
+    /**
+     * 案件字段类型
+     */
+    VARIABLE_FIELD_TYPE,
+    /**
+     * 是否类型
+     */
+    IS_YES
 }
