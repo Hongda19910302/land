@@ -1,8 +1,11 @@
 package net.deniro.land.module.system.service;
 
+import net.deniro.land.common.dao.Page;
 import net.deniro.land.common.spring.mvc.ResourcePathExposer;
 import net.deniro.land.module.system.dao.DepartmentDao;
 import net.deniro.land.module.system.entity.Department;
+import net.deniro.land.module.system.entity.DepartmentQueryParam;
+import net.deniro.land.module.system.entity.UserQueryParam;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +26,21 @@ public class DepartmentService {
 
     @Autowired
     private DepartmentDao departmentDao;
+
+    /**
+     * 分页查询
+     *
+     * @param queryParam 查询参数
+     * @return
+     */
+    public Page findPage(DepartmentQueryParam queryParam) {
+        try {
+            return departmentDao.findPage(queryParam);
+        } catch (Exception e) {
+            logger.error("分页查询", e);
+            return new Page();
+        }
+    }
 
 
     /**
