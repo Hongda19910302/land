@@ -132,6 +132,46 @@ public class User implements Serializable {
     private Company company;
 
     /**
+     * 登陆方式
+     */
+    public enum LoginType {
+        /**
+         * 正常
+         */
+        NORMAL(0),
+        /**
+         * 工作添翼
+         */
+        GZTY(1);
+
+        private int code;
+
+        LoginType(int code) {
+            this.code = code;
+        }
+
+        /**
+         * 获取枚举对象
+         *
+         * @param code 来源码
+         * @return
+         */
+        public static LoginType get(int code) {
+            LoginType[] values = LoginType.values();
+            for (LoginType value : values) {
+                if (value.code() == code) {
+                    return value;
+                }
+            }
+            return null;
+        }
+
+        public int code() {
+            return code;
+        }
+    }
+
+    /**
      * 用户状态
      */
     public enum Status {
