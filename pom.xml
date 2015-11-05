@@ -60,6 +60,13 @@
 
     <dependencies>
 
+        <!-- http模拟-->
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>3.1</version>
+        </dependency>
+
         <!-- 验证码-->
         <dependency>
             <groupId>com.liferay</groupId>
