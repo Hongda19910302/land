@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * 客户端权限（临时）
+ * 客户端权限（用来维护接口返回的权限字符串）
  * <p>
  *
  * @author deniro（AnnotationHibernateCodeMarker）
