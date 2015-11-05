@@ -70,7 +70,6 @@ public class MenuDao extends BaseDao<MenuItem> {
      */
     private List<MenuItem> findMenuItems(String sql, MapSqlParameterSource mps) {
         return namedParameterJdbcTemplate.query(sql, mps, new RowMapper<MenuItem>() {
-            @Override
             public MenuItem mapRow(ResultSet resultSet, int i) throws SQLException {
                 MenuItem entity = new MenuItem();
                 entity.setName(resultSet.getString("name"));
