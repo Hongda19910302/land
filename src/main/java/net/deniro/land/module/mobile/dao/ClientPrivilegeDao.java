@@ -1,7 +1,7 @@
-package net.deniro.land.mobile.dao;
+package net.deniro.land.module.mobile.dao;
 
 import net.deniro.land.common.dao.BaseDao;
-import net.deniro.land.mobile.entity.TClientPrivilege;
+import net.deniro.land.module.mobile.entity.TClientPrivilege;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

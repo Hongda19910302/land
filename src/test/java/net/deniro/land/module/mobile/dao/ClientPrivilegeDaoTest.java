@@ -1,5 +1,6 @@
-package net.deniro.land.mobile.dao;
+package net.deniro.land.module.mobile.dao;
 
+import net.deniro.land.module.mobile.dao.ClientPrivilegeDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

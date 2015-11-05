@@ -1,7 +1,5 @@
-package net.deniro.land.mobile.entity;
+package net.deniro.land.api.entity;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import net.deniro.land.module.system.entity.User;
 

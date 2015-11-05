@@ -1,4 +1,4 @@
-package net.deniro.land.mobile.entity;
+package net.deniro.land.api.entity;
 
 import org.apache.commons.lang3.StringUtils;
 

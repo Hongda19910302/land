@@ -1,10 +1,6 @@
-package net.deniro.land.mobile.entity;
+package net.deniro.land.api.entity;
 
 import lombok.Data;
-
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 响应结果

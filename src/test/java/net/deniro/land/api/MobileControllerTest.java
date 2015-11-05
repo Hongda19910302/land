@@ -1,4 +1,4 @@
-package net.deniro.land.mobile;
+package net.deniro.land.api;
 
 import junit.framework.Assert;
 import net.deniro.land.common.utils.HttpUtils;

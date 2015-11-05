@@ -1,10 +1,9 @@
-package net.deniro.land.mobile;
+package net.deniro.land.api;
 
 import net.deniro.land.common.service.dwz.Result;
-import net.deniro.land.mobile.entity.LoginParam;
-import net.deniro.land.mobile.entity.LoginResult;
-import net.deniro.land.mobile.entity.ResponseResult;
-import net.deniro.land.mobile.entity.ResultCode;
+import net.deniro.land.api.entity.LoginParam;
+import net.deniro.land.api.entity.ResponseResult;
+import net.deniro.land.api.entity.ResultCode;
 import net.deniro.land.module.system.entity.User;
 import net.deniro.land.module.system.service.UserService;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 移动客户端接口

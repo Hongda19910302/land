@@ -33,9 +33,9 @@ public class AnnotationHibernateCodeMarkerTest {
     public void testMark() throws Exception {
 
         List<String> tableNames = new ArrayList<String>();
-        tableNames.add("t_client_privilege");
+        tableNames.add("t_back_role_privilege");
 
-        String packagePath = "net.deniro.land.mobile.entity";
+        String packagePath = "net.deniro.land.module.system.entity";
 
         Map<String, String> names = new HashMap<String, String>();
         for (String tableName : tableNames) {
