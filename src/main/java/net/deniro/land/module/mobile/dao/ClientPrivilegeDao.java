@@ -2,9 +2,15 @@ package net.deniro.land.module.mobile.dao;
 
 import net.deniro.land.common.dao.BaseDao;
 import net.deniro.land.module.mobile.entity.TClientPrivilege;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static net.deniro.land.module.mobile.entity.TClientPrivilege.*;
 
 /**
  * 客户端权限
@@ -14,6 +20,26 @@ import java.util.List;
  */
 @Repository
 public class ClientPrivilegeDao extends BaseDao<TClientPrivilege> {
+
+    @Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+
+    /**
+     * 更新所有记录的权限
+     *
+     * @param type 权限类型
+     * @return 更新的记录数
+     */
+    public int updateAll(PrivilegeType type) {
+        String sql = " update t_client_privilege set is_exist=:isExist ";
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("isExist", type.code());
+
+        return namedParameterJdbcTemplate.update(sql, params);
+    }
+
     /**
      * 依据名称，获取权限
      *

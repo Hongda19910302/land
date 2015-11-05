@@ -1,6 +1,7 @@
 package net.deniro.land.module.mobile.dao;
 
 import net.deniro.land.module.mobile.dao.ClientPrivilegeDao;
+import net.deniro.land.module.mobile.entity.TClientPrivilege;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,11 @@ public class ClientPrivilegeDaoTest {
 
     @Autowired
     private ClientPrivilegeDao clientPrivilegeDao;
+
+    @Test
+    public void updateAll() {
+        System.out.println(clientPrivilegeDao.updateAll(TClientPrivilege.PrivilegeType.YES));
+    }
 
     @Test
     public void testFindByName() throws Exception {
