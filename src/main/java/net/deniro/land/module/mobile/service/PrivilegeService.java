@@ -4,11 +4,17 @@ import net.deniro.land.module.mobile.dao.BackRolePrivilegeDao;
 import net.deniro.land.module.mobile.dao.ClientPrivilegeDao;
 import net.deniro.land.module.mobile.entity.TBackRolePrivilege;
 import net.deniro.land.module.mobile.entity.TClientPrivilege;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static net.deniro.land.module.mobile.entity.TClientPrivilege.*;
 
 /**
  * 权限
@@ -30,6 +36,7 @@ public class PrivilegeService {
     /**
      * 第二级菜单
      */
+    @Deprecated
     public static final Integer SECOND_LEVEL = 2;
 
 
@@ -56,52 +63,32 @@ public class PrivilegeService {
      */
     public String findByRoleId(Integer roleId) {
 
-        /**
-         * 重置临时权限表
-         */
-        List<TClientPrivilege> privileges = clientPrivilegeDao.findAll();
-        for (TClientPrivilege privilege : privileges) {
-            privilege.setIsExist(TClientPrivilege.PrivilegeType.NO.code());
-            clientPrivilegeDao.update(privilege);
-        }
+        try {
+            /**
+             * 生成当前角色已拥有的权限名称集合
+             */
+            List<TBackRolePrivilege> rolePrivileges = backRolePrivilegeDao.findByRoleId(roleId);
+            Set<String> privilegeNames = new HashSet<String>();
+            for (TBackRolePrivilege rolePrivilege : rolePrivileges) {
+                privilegeNames.add(rolePrivilege.getBackPrivilege().getName());
+            }
 
-        /**
-         * 设置权限
-         */
-        List<TBackRolePrivilege> rolePrivileges = backRolePrivilegeDao.findByRoleId(roleId);
-        for (TBackRolePrivilege rolePrivilege : rolePrivileges) {
-            if (rolePrivilege.getBackPrivilege() != null) {
-
-                if (rolePrivilege.getBackPrivilege().getLevel().equals(SECOND_LEVEL)) {
-                    String _privilegeName = rolePrivilege.getBackPrivilege().getName();
-                    List<TClientPrivilege> currentPrivileges = clientPrivilegeDao.findByName
-                            (_privilegeName);
-                    if (currentPrivileges != null && !currentPrivileges.isEmpty()) {
-                        TClientPrivilege currentPrivilege = currentPrivileges.get(0);
-
-                        //表示该菜单模块存在
-                        currentPrivilege.setIsExist(TClientPrivilege.PrivilegeType.YES
-                                .code());
-                        clientPrivilegeDao.update(currentPrivilege);
-                    }
+            /**
+             * 设置权限字符串
+             */
+            StringBuilder str = new StringBuilder();
+            List<TClientPrivilege> clientPrivileges = clientPrivilegeDao.findAll();
+            for (TClientPrivilege clientPrivilege : clientPrivileges) {
+                if (privilegeNames.contains(clientPrivilege.getPrivilegeName())) {//有权限
+                    str.append(PrivilegeType.YES.code());
+                } else {//无权限
+                    str.append(PrivilegeType.NO.code());
                 }
             }
+            return str.toString();
+        } catch (Exception e) {
+            logger.error("依据角色ID，获取权限字符串", e);
+            return "";
         }
-
-        /**
-         * 格式化
-         */
-        String _roleStr = null;
-        List<TClientPrivilege> _privilegeList = clientPrivilegeDao.findAll();
-        for (TClientPrivilege _clientPrivilege : _privilegeList) {
-            Integer _privilege = _clientPrivilege.getIsExist();
-            String _str = String.valueOf(_privilege);
-            if (_roleStr != null) {
-                _roleStr = _roleStr + _str;
-            } else {
-                _roleStr = _str;
-            }
-        }
-        return _roleStr;
     }
 }

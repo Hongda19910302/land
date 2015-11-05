@@ -39,8 +39,9 @@ public class TClientPrivilege implements Serializable {
     private Integer privilegeOrder;
 
     /**
-     * 是否有权限；1:有权限，0:没权限
+     * 是否有权限；1:有权限，0:没权限（弃用）
      */
+    @Deprecated
     @Column(name = "is_exist", nullable = true, length = 10)
     private Integer isExist;
 

@@ -10,6 +10,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static net.deniro.land.module.mobile.entity.TClientPrivilege.*;
+import static net.deniro.land.module.mobile.entity.TClientPrivilege.PrivilegeType.*;
+
 /**
  * @author deniro
  *         2015/11/5
@@ -27,7 +33,7 @@ public class ClientPrivilegeDaoTest {
 
     @Test
     public void updateAll() {
-        System.out.println(clientPrivilegeDao.updateAll(TClientPrivilege.PrivilegeType.YES));
+        System.out.println(clientPrivilegeDao.updateAll(YES));
     }
 
     @Test
