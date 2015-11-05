@@ -19,4 +19,9 @@ public class Constants {
      * html 换行符
      */
     public static final String HTML_NEW_LINE = "<br>";
+
+    /**
+     * 字符集
+     */
+    public static final String CHARSET = "UTF-8";
 }

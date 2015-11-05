@@ -3,6 +3,8 @@ package net.deniro.land.common.utils;
 import net.deniro.land.common.service.Constants;
 import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -22,6 +24,61 @@ import java.util.Map;
 public class HttpUtils {
 
     static Logger logger = Logger.getLogger(HttpUtils.class);
+
+    /**
+     * 模拟Post请求
+     *
+     * 未测试
+     *
+     * @param url      请求地址
+     * @param params   请求参数
+     * @param isPretty 返回的结果字符串是否美化
+     * @return
+     */
+    public static String doPost(String url, Map<String, String> params, boolean isPretty) {
+        if (StringUtils.isBlank(url)) {
+            return "";
+        }
+
+        StringBuilder response = new StringBuilder();
+
+        HttpClient httpClient = new HttpClient();
+        HttpMethod httpMethod = new PostMethod(url);
+        if (params != null && !params.isEmpty()) {//添加参数
+            HttpMethodParams methodParams = new HttpMethodParams();
+            for (Map.Entry<String, String> entry : params.entrySet()) {
+                methodParams.setParameter(entry.getKey(), entry.getValue());
+            }
+            httpMethod.setParams(methodParams);
+        }
+
+        try {
+            httpClient.executeMethod(httpMethod);
+            logger.info("getStatusCode：" + httpMethod.getStatusCode());
+            if (httpMethod.getStatusCode() == HttpStatus.SC_OK) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(httpMethod
+                        .getResponseBodyAsStream(), Constants.CHARSET));
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    if (isPretty) {
+                        response.append(line).append(Constants.NEW_LINE);
+                    } else {
+                        response.append(line);
+                    }
+                }
+
+                reader.close();
+            }
+
+        } catch (IOException e) {
+            logger.error("模拟Post请求", e);
+        } finally {
+            httpMethod.releaseConnection();
+        }
+
+        return response.toString();
+    }
 
 
     /**
