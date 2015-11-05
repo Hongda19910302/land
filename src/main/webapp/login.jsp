@@ -5,6 +5,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>国土行政执法信息平台</title>
 
+    <%--添加应用图标--%>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+
     <link href="${resourceRoot}/dwz/opentip/opentip.css" rel="stylesheet" type="text/css"/>
     <link href="${resourceRoot}/dwz/themes/css/login.css" rel="stylesheet" type="text/css"/>
 
