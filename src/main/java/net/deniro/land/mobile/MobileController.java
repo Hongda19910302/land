@@ -3,12 +3,14 @@ package net.deniro.land.mobile;
 import net.deniro.land.common.service.dwz.Result;
 import net.deniro.land.mobile.entity.LoginParam;
 import net.deniro.land.mobile.entity.LoginResult;
+import net.deniro.land.mobile.entity.ResponseResult;
 import net.deniro.land.mobile.entity.ResultCode;
 import net.deniro.land.module.system.entity.User;
 import net.deniro.land.module.system.service.UserService;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -32,8 +34,7 @@ public class MobileController {
      * @return
      */
     @RequestMapping(value = "/user-login")
-    @ResponseBody
-    public LoginResult login(LoginParam param) {
+    public String login(LoginParam param, ModelMap mm) {
 
         /**
          * 尝试登录
@@ -46,16 +47,18 @@ public class MobileController {
         /**
          * 生成结果
          */
-        LoginResult loginResult = new LoginResult();
+        ResponseResult r = new ResponseResult();
         if (result.isSuccess()) {//成功后，设置账户对象
-            loginResult.setUser((User) result.get(UserService.USER_CODE));
-            loginResult.setResult(ResultCode.SUCCESS.value());
+            mm.addAttribute("user", (User) result.get(UserService.USER_CODE));
+            r.setResult(ResultCode.SUCCESS.value());
         } else {//失败
-            loginResult.setResult(ResultCode.FAILURE.value());
+            r.setResult(ResultCode.FAILURE.value());
         }
-        loginResult.setDescribe(result.getMessage());
+        r.setDescribe(result.getMessage());
 
-        return loginResult;
+        mm.addAttribute("r",r);
+
+        return "mobile/login";
     }
 
 }
