@@ -3,6 +3,7 @@ package net.deniro.land.module.system.action;
 import net.deniro.land.common.service.dwz.Result;
 import net.deniro.land.common.service.dwz.ResultError;
 import net.deniro.land.module.system.entity.RoleQueryParam;
+import net.deniro.land.module.system.entity.User;
 import net.deniro.land.module.system.entity.UserQueryParam;
 import net.deniro.land.module.system.service.UserService;
 import nl.captcha.Captcha;
@@ -78,7 +79,8 @@ public class UserController extends BaseController {
                 return new ResultError("验证码不正确！");
             }
 
-            Result result = userService.login(account, password, loginSourceCode);
+            Result result = userService.login(account, password, loginSourceCode,
+                    User.LoginType.NORMAL.code());
 
             {//当前登录账号写入session
                 if (result.isSuccess())

@@ -38,10 +38,10 @@ public class MobileController {
         /**
          * 尝试登录
          */
-        Result result = userService.login(param.getAccount(), param.getPassword(), NumberUtils
-                .toInt(param
-                        .getLoginType
-                                ()));
+        int loginTypeCode = NumberUtils.toInt(param.getLoginType());
+        int loginSourceCode = NumberUtils.toInt(param.getSource());
+        Result result = userService.login(param.getAccount(), param.getPassword(),
+                loginSourceCode, loginTypeCode);
 
         /**
          * 生成结果

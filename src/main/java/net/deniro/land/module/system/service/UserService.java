@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static net.deniro.land.module.system.entity.User.LoginSource;
+import static net.deniro.land.module.system.entity.User.LoginType;
 import static net.deniro.land.module.system.entity.User.Status;
 
 /**
@@ -58,11 +59,12 @@ public class UserService {
      *
      * @param account         账号
      * @param password        密码
-     * @param loginSourceCode 登录来源码
+     * @param loginSourceCode 登录来源码；0-android；1-web
+     * @param loginTypeCode   登录类型码；0-常规；1-工作添翼登录
      * @return
      */
     public Result login(String account, String password, int
-            loginSourceCode) {
+            loginSourceCode, int loginTypeCode) {
 
         Result result = new ResultError();
 
@@ -129,14 +131,26 @@ public class UserService {
                         return result;
                     }
                     break;
-                case ANDROID://取配置文件中的密码进行验证
+                case ANDROID:
+                    break;
+                default:
+                    break;
+            }
+            LoginType loginType = LoginType.get(loginTypeCode);
+            if (loginType == null) {
+                result.setMessage("登录方式码非法！");
+                logger.error("登录方式码非法！loginTypeCode:" + loginTypeCode);
+                return result;
+            }
+            switch (loginType) {
+                case NORMAL:
+                    break;
+                case GZTY://取配置文件中的密码进行验证
                     if (!StringUtils.equals(password, PropertiesReader.value("gzty.android" +
                             ".password"))) {
                         result.setMessage("账号或密码错误！");
                         return result;
                     }
-                    break;
-                default:
                     break;
             }
 

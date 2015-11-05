@@ -22,7 +22,12 @@ public class LoginParam {
     private String password;
 
     /**
-     * 登录类型；0-正常登录；1-工作添翼登录
+     * 登录方式；0-正常登录；1-工作添翼登录
      */
     private String loginType;
+
+    /**
+     * 登录来源；0-android；1-web
+     */
+    private String source;
 }
