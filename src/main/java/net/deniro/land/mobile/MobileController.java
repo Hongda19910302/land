@@ -58,7 +58,7 @@ public class MobileController {
 
         mm.addAttribute("r",r);
 
-        return "mobile/login";
+        return "mobile/login-result";
     }
 
 }
