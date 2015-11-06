@@ -64,16 +64,16 @@ public class MobileController {
     /**
      * 根据单位id获取顶级行政机构
      *
-     * @param comparyId
+     * @param companyId
      * @return
      */
     @RequestMapping(value = "/get-top-region-by-company")
-    public String findTopRegionByCompanyId(Integer comparyId, ModelMap mm) {
+    public String findTopRegionByCompanyId(Integer companyId, ModelMap mm) {
 
         ResponseResult r = null;
 
         try {
-            List<TRegion> regions = regionService.findByCompanyId(comparyId);
+            List<TRegion> regions = regionService.findByCompanyId(companyId);
             mm.addAttribute("regionList", regions);
             r = new SuccessResult();
         } catch (Exception e) {
