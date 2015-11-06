@@ -1,15 +1,18 @@
 package net.deniro.land.api;
 
-import net.deniro.land.api.entity.LoginParam;
-import net.deniro.land.api.entity.ResponseResult;
-import net.deniro.land.api.entity.ResultCode;
+import net.deniro.land.api.entity.*;
 import net.deniro.land.common.service.dwz.Result;
+import net.deniro.land.module.system.entity.TRegion;
+import net.deniro.land.module.system.service.RegionService;
 import net.deniro.land.module.system.service.UserService;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 /**
  * 移动客户端接口
@@ -21,8 +24,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("gtweb/android")
 public class MobileController {
 
+    static Logger logger = Logger.getLogger(MobileController.class);
+
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RegionService regionService;
+
+    /**
+     * 渲染文件的路径前缀
+     */
+    public static final String URL_PREFIX = "mobile/";
+
+    /**
+     * 根据单位id获取顶级行政机构
+     *
+     * @param comparyId
+     * @return
+     */
+    @RequestMapping(value = "/get-top-region-by-company")
+    public String findTopRegionByCompanyId(Integer comparyId, ModelMap mm) {
+
+        ResponseResult r = null;
+
+        try {
+            List<TRegion> regions = regionService.findByCompanyId(comparyId);
+            mm.addAttribute("regionList", regions);
+            r = new SuccessResult();
+        } catch (Exception e) {
+            logger.error("根据单位id获取顶级行政机构");
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX + "findTopRegionByCompanyIdResult";
+        }
+    }
 
     /**
      * 登录
@@ -55,7 +92,7 @@ public class MobileController {
 
         mm.addAttribute("r", r);
 
-        return "mobile/login-result";
+        return URL_PREFIX + "loginResult";
     }
 
 }
