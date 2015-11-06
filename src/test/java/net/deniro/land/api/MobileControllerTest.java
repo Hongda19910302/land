@@ -48,6 +48,18 @@ public class MobileControllerTest {
     }
 
     @Test
+    public void findRegionChildrenByRegionId() {
+        String queryString = "regionId=31";
+
+        String action = "get-next-child-region";
+        String url = URL_PREFIX + action;
+        String newUrl = NEW_URL_PREFIX + action;
+
+//        Assert.assertEquals(HttpUtils.doGet(url, queryString, false), HttpUtils.doGet(newUrl,
+//                queryString, false));
+    }
+
+    @Test
     public void findTopRegionByCompanyId() {
         String queryString = "comparyId=31";
 

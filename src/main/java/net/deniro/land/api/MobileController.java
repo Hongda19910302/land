@@ -38,6 +38,30 @@ public class MobileController {
     public static final String URL_PREFIX = "mobile/";
 
     /**
+     * 依据区域ID，获取子区域列表
+     *
+     * @param regionId
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "get-next-child-region")
+    public String findRegionChildrenByRegionId(Integer regionId, ModelMap mm) {
+        ResponseResult r = null;
+
+        try {
+            List<TRegion> regions = regionService.findChildrenByRegionId(regionId);
+            mm.addAttribute("regionList", regions);
+            r = new SuccessResult();
+        } catch (Exception e) {
+            logger.error("  依据区域ID，获取子区域列表");
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX + "findRegionChildrenByRegionIdResult";
+        }
+    }
+
+    /**
      * 根据单位id获取顶级行政机构
      *
      * @param comparyId

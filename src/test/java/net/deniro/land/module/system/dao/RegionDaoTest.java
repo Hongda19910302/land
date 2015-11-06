@@ -25,6 +25,11 @@ public class RegionDaoTest {
     private RegionDao regionDao;
 
     @Test
+    public void findChildrenByRegionId() {
+        System.out.println(regionDao.findChildrenByRegionId(1));
+    }
+
+    @Test
     public void findByCompanyId() {
         System.out.println(regionDao.findByCompanyId(1));
     }

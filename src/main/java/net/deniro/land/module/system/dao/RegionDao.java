@@ -19,6 +19,18 @@ import static net.deniro.land.module.system.entity.TRegionRelation.RelationType.
 public class RegionDao extends BaseDao<TRegion> {
 
     /**
+     * 依据区域ID，获取子区域列表
+     *
+     * @param regionId
+     * @return
+     */
+    public List<TRegion> findChildrenByRegionId(Integer regionId) {
+        String hql = " from TRegion t where 1=1 ";
+        hql += " and t.parentRegion.regionId=? ";
+        return this.find(hql, regionId);
+    }
+
+    /**
      * 依据单位ID，获取行政区域
      *
      * @param companyId
