@@ -78,4 +78,11 @@ public class TRegion implements Serializable {
      */
     @Column(name = "lat", nullable = true, length = 0)
     private String lat;
+
+    /**
+     * 上级区域
+     */
+    @ManyToOne
+    @JoinColumn(name = "PARENT_ID", referencedColumnName = "REGION_ID", nullable = true, insertable = false, updatable = false)
+    private TRegion parentRegion;
 }
