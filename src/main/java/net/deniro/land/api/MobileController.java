@@ -1,10 +1,9 @@
 package net.deniro.land.api;
 
-import net.deniro.land.common.service.dwz.Result;
 import net.deniro.land.api.entity.LoginParam;
 import net.deniro.land.api.entity.ResponseResult;
 import net.deniro.land.api.entity.ResultCode;
-import net.deniro.land.module.system.entity.User;
+import net.deniro.land.common.service.dwz.Result;
 import net.deniro.land.module.system.service.UserService;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,14 +46,14 @@ public class MobileController {
          */
         ResponseResult r = new ResponseResult();
         if (result.isSuccess()) {//成功后，设置账户对象
-            mm.addAttribute("user", (User) result.get(UserService.USER_CODE));
+            mm.addAttribute("user", result.get(UserService.USER_CODE));
             r.setResult(ResultCode.SUCCESS.value());
         } else {//失败
             r.setResult(ResultCode.FAILURE.value());
         }
         r.setDescribe(result.getMessage());
 
-        mm.addAttribute("r",r);
+        mm.addAttribute("r", r);
 
         return "mobile/login-result";
     }

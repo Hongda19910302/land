@@ -1,6 +1,9 @@
 package net.deniro.land.module.system.entity;
 
+import jdk.nashorn.internal.objects.annotations.Setter;
 import lombok.Data;
+import net.deniro.land.common.utils.SpringContextUtils;
+import net.deniro.land.module.mobile.service.PrivilegeService;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -130,6 +133,21 @@ public class User implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "COMPANY_ID", referencedColumnName = "COMPANY_ID", nullable = true, insertable = false, updatable = false)
     private Company company;
+
+
+    @Transient
+    private String authority;
+
+    /**
+     * 获取权限（用于客户端接口）
+     *
+     * @return
+     */
+    public String getAuthority() {
+        authority = ((PrivilegeService) SpringContextUtils.
+                getBean("privilegeService")).findByRoleId(roleId);
+        return authority;
+    }
 
     /**
      * 登陆方式

@@ -19,7 +19,7 @@
 "phone":"${(user.phone)!''}",
 "mobile":"${(user.tel)!''}",
 "address":"${(user.addr)!''}",
-"authority":"${(user.getThority())!''}"
+"authority":"${(user.getAuthority())!''}"
 }
 
 }

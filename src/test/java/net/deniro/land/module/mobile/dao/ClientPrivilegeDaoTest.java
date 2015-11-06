@@ -38,8 +38,7 @@ public class ClientPrivilegeDaoTest {
 
     @Test
     public void testFindByName() throws Exception {
-        System.out.println(clientPrivilegeDao.findByName("新建案件 privilegeName=新建案件, privilegeOrder=0, isExist=1)]\n" +
-                "[2015-11-05 16:40:47.996] [DEBUG]: [org.springframework.jdbc.datasource.DataSourceUtils.doRelea"));
+        System.out.println(clientPrivilegeDao.findByName("新建案件"));
     }
 
     @Test
