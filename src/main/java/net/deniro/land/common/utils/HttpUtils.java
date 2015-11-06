@@ -27,7 +27,7 @@ public class HttpUtils {
 
     /**
      * 模拟Post请求
-     *
+     * <p>
      * 未测试
      *
      * @param url      请求地址
@@ -40,11 +40,11 @@ public class HttpUtils {
             return "";
         }
 
-        StringBuilder response = new StringBuilder();
-
-        HttpClient httpClient = new HttpClient();
+        /**
+         * 添加参数
+         */
         HttpMethod httpMethod = new PostMethod(url);
-        if (params != null && !params.isEmpty()) {//添加参数
+        if (params != null && !params.isEmpty()) {
             HttpMethodParams methodParams = new HttpMethodParams();
             for (Map.Entry<String, String> entry : params.entrySet()) {
                 methodParams.setParameter(entry.getKey(), entry.getValue());
@@ -52,30 +52,38 @@ public class HttpUtils {
             httpMethod.setParams(methodParams);
         }
 
-        try {
-            httpClient.executeMethod(httpMethod);
-            logger.info("getStatusCode：" + httpMethod.getStatusCode());
-            if (httpMethod.getStatusCode() == HttpStatus.SC_OK) {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(httpMethod
-                        .getResponseBodyAsStream(), Constants.CHARSET));
+        StringBuilder response = new StringBuilder();
+        HttpClient httpClient = new HttpClient();
+        executeMethod(isPretty, response, httpClient, httpMethod);
 
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    if (isPretty) {
-                        response.append(line).append(Constants.NEW_LINE);
-                    } else {
-                        response.append(line);
-                    }
-                }
+        return response.toString();
+    }
 
-                reader.close();
-            }
-
-        } catch (IOException e) {
-            logger.error("模拟Post请求", e);
-        } finally {
-            httpMethod.releaseConnection();
+    /**
+     * 模拟Get请求
+     *
+     * @param url         请求地址
+     * @param queryString 请求参数串，形如param=value&param2=value2
+     * @param isPretty    返回的结果字符串是否美化
+     * @return
+     */
+    public static String doGet(String url, String queryString, boolean isPretty) {
+        if (StringUtils.isBlank(url)) {
+            return "";
         }
+
+        HttpMethod httpMethod = new GetMethod(url);
+
+        /**
+         * 添加参数
+         */
+        if (StringUtils.isNotBlank(queryString)) {
+            httpMethod.setQueryString(queryString);
+        }
+
+        StringBuilder response = new StringBuilder();
+        HttpClient httpClient = new HttpClient();
+        executeMethod(isPretty, response, httpClient, httpMethod);
 
         return response.toString();
     }
@@ -85,7 +93,7 @@ public class HttpUtils {
      * 模拟Get请求
      *
      * @param url      请求地址
-     * @param params   请求参数
+     * @param params   请求参数，只支持字符串格式
      * @param isPretty 返回的结果字符串是否美化
      * @return
      */
@@ -94,9 +102,9 @@ public class HttpUtils {
             return "";
         }
 
-        StringBuilder response = new StringBuilder();
-
-        HttpClient httpClient = new HttpClient();
+        /**
+         * 添加参数
+         */
         HttpMethod httpMethod = new GetMethod(url);
         if (params != null && !params.isEmpty()) {//添加参数
             List<NameValuePair> pairs = new ArrayList<NameValuePair>(params.size());
@@ -107,6 +115,22 @@ public class HttpUtils {
             httpMethod.setQueryString(pairs.toArray(new NameValuePair[0]));
         }
 
+        HttpClient httpClient = new HttpClient();
+        StringBuilder response = new StringBuilder();
+        executeMethod(isPretty, response, httpClient, httpMethod);
+
+        return response.toString();
+    }
+
+    /**
+     * 模拟http请求
+     *
+     * @param isPretty   返回的结果字符串是否美化
+     * @param response   返回的结果字符串
+     * @param httpClient
+     * @param httpMethod
+     */
+    private static void executeMethod(boolean isPretty, StringBuilder response, HttpClient httpClient, HttpMethod httpMethod) {
         try {
             httpClient.executeMethod(httpMethod);
             logger.info("getStatusCode：" + httpMethod.getStatusCode());
@@ -127,11 +151,9 @@ public class HttpUtils {
             }
 
         } catch (IOException e) {
-            logger.error("模拟Get请求", e);
+            logger.error("模拟http请求", e);
         } finally {
             httpMethod.releaseConnection();
         }
-
-        return response.toString();
     }
 }
