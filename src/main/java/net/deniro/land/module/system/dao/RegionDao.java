@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static net.deniro.land.module.system.entity.TRegionRelation.RelationType.COMPANY;
+
 /**
  * 行政区域
  *
@@ -15,6 +17,22 @@ import java.util.List;
  */
 @Repository
 public class RegionDao extends BaseDao<TRegion> {
+
+    /**
+     * 依据单位ID，获取行政区域
+     *
+     * @param companyId
+     * @return
+     */
+    public List<TRegion> findByCompanyId(Integer companyId) {
+        StringBuilder hql = new StringBuilder("select t from TRegionRelation s,TRegion t ");
+        hql.append("where t.regionId = s.regionId ");
+        hql.append(" and s.relationType=? ");
+        hql.append(" and s.relationId=? ");
+        hql.append(" order by t.regionLevel");
+        return this.find(hql.toString(), COMPANY.code(), companyId);
+    }
+
 
     /**
      * 根据部门ID或单位ID，获取区域信息

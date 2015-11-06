@@ -25,11 +25,16 @@ public class RegionDaoTest {
     private RegionDao regionDao;
 
     @Test
+    public void findByCompanyId() {
+        System.out.println(regionDao.findByCompanyId(1));
+    }
+
+    @Test
     public void testFindById() throws Exception {
-        System.out.println("COMPANY:"+regionDao.findById(37, TRegionRelation.RelationType
+        System.out.println("COMPANY:" + regionDao.findById(37, TRegionRelation.RelationType
                 .COMPANY));
 
-        System.out.println("DEPARTMENT:"+regionDao.findById(1, TRegionRelation.RelationType
+        System.out.println("DEPARTMENT:" + regionDao.findById(1, TRegionRelation.RelationType
                 .DEPARTMENT));
     }
 }
