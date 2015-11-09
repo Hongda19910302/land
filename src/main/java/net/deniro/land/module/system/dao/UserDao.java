@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import static net.deniro.land.module.icase.entity.TCase.*;
 import static net.deniro.land.module.system.entity.User.Status.*;
 
 import java.sql.ResultSet;
@@ -32,6 +33,20 @@ public class UserDao extends BaseDao<User> {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
+     * 依据部门ID，获取巡查员列表
+     *
+     * @param departmentId
+     * @return
+     */
+    public List<User> findInspectorsByDepartmentId(Integer departmentId) {
+        String hql = "select u from User u,TBackRolePrivilege cp where 1=1 ";
+        hql += " and u.department.departmentId=? ";
+        hql += " and u.roleId = cp.backRoleId ";
+        hql += " and cp.backPrivilegeId = ? ";
+        return this.find(hql, departmentId, CASE_INSPECTOR_PRIVILEGE_MODULE_ID);
+    }
+
+    /**
      * 依据创建者ID，获取巡查员列表
      *
      * @param creatorId
@@ -47,8 +62,8 @@ public class UserDao extends BaseDao<User> {
                 "t_user w WHERE w.USER_ID=" + creatorId + ")");//同一个部门
         sql.append(" and u.back_role_id =r.back_role_id");
         sql.append(" and r.back_role_id =cp.back_role_id");
-        sql.append(" and cp.BACK_PRIVILEGE_ID=").append(TCase
-                .CASE_INSPECTOR_PRIVILEGE_MODULE_ID);//巡查员权限
+        sql.append(" and cp.BACK_PRIVILEGE_ID=").append(
+                CASE_INSPECTOR_PRIVILEGE_MODULE_ID);//巡查员权限
 
         return namedParameterJdbcTemplate.query(sql.toString(), new RowMapper<User>() {
             public User mapRow(ResultSet resultSet, int i) throws SQLException {
