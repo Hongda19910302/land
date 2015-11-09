@@ -1,10 +1,14 @@
 package net.deniro.land.module.icase.entity;
 
 import lombok.Data;
+import lombok.Setter;
+import net.deniro.land.common.utils.SpringContextUtils;
+import net.deniro.land.module.icase.dao.SelectTypeDao;
 import net.deniro.land.module.system.entity.Company;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 字段（主要是案件字段）
@@ -78,7 +82,7 @@ public class TVariableField implements Serializable {
      * 是否下拉 0：下拉1：非下拉
      */
     @Column(name = "is_pulldown", nullable = true, length = 10)
-    private Integer isPulldown;
+    private Integer isPullDown;
 
     /**
      * 是否隐藏 0：隐藏 1：显示
@@ -105,6 +109,30 @@ public class TVariableField implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "data_field_id", referencedColumnName = "data_field_id", nullable = true, insertable = false, updatable = false)
     private TDataField dataField;
+
+    /**
+     * 下拉框数据
+     */
+    @Transient
+    @Setter
+    private List<TSelectType> selectTypeList;
+
+    /**
+     * 获取下拉框数据
+     *
+     * @return
+     */
+    public List<TSelectType> getSelectTypeList() {
+        if (isPullDown == 0) {//设置下拉框数据
+            if (this.getVariableFieldId() != null) {
+                selectTypeList = ((SelectTypeDao) SpringContextUtils.
+                        getBean("selectTypeDao")).findByVariableFieldId
+                        (variableFieldId);
+            }
+        }
+        return selectTypeList;
+    }
+
 
     /**
      * 所属表
