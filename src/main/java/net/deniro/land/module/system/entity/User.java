@@ -171,7 +171,6 @@ public class User implements Serializable {
     private Company company;
 
     @Setter
-    @Getter
     @Transient
     private String authority;
 

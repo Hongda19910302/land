@@ -51,6 +51,31 @@ public class MobileController {
     public static final String URL_PREFIX = "mobile/";
 
     /**
+     * 依据用户ID，获取巡查员信息
+     *
+     * @param xcyId 用户ID（即UserId）
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "get-inspector-by-userId")
+    public String findInspectorByUserId(Integer xcyId, ModelMap mm) {
+        ResponseResult r = null;
+
+        try {
+            User user = userService.get(xcyId);
+            mm.addAttribute("user", user);
+
+            r = new SuccessResult();
+        } catch (Exception e) {
+            logger.error("依据用户ID，获取巡查员信息");
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX + "findInspectorByUserIdResult";
+        }
+    }
+
+    /**
      * 依据部门ID，获取巡查员
      *
      * @param departmentId

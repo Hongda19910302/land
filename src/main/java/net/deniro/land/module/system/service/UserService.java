@@ -42,6 +42,20 @@ public class UserService {
     public static final String USER_CODE = "user";
 
     /**
+     * 依据ID，获取用户
+     *
+     * @param userId
+     * @return
+     */
+    public User get(Integer userId) {
+        try {
+            return userDao.get(userId);
+        } catch (Exception e) {
+            return new User();
+        }
+    }
+
+    /**
      * 依据部门ID，获取巡查员列表
      *
      * @param departmentId
