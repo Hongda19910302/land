@@ -2,6 +2,8 @@ package net.deniro.land.api;
 
 import net.deniro.land.api.entity.*;
 import net.deniro.land.common.service.dwz.Result;
+import net.deniro.land.module.icase.entity.TVariableField;
+import net.deniro.land.module.icase.service.VariableFieldService;
 import net.deniro.land.module.system.entity.TRegion;
 import net.deniro.land.module.system.service.RegionService;
 import net.deniro.land.module.system.service.UserService;
@@ -32,10 +34,37 @@ public class MobileController {
     @Autowired
     private RegionService regionService;
 
+    @Autowired
+    private VariableFieldService variableFieldService;
+
     /**
      * 渲染文件的路径前缀
      */
     public static final String URL_PREFIX = "mobile/";
+
+    /**
+     * 依据单位ID，获取字段信息
+     *
+     * @param companyId
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "get-variable-field-list")
+    public String findVariableFieldByCompanyId(Integer companyId, ModelMap mm) {
+        ResponseResult r = null;
+
+        try {
+            List<TVariableField> list = variableFieldService.findByCompanyId(companyId);
+            mm.addAttribute("tVariableFieldList", list);
+            r = new SuccessResult();
+        } catch (Exception e) {
+            logger.error(" 依据单位ID，获取字段信息");
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX + "findVariableFieldByCompanyIdResult";
+        }
+    }
 
     /**
      * 依据区域ID，获取子区域列表

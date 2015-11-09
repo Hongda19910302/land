@@ -48,6 +48,18 @@ public class MobileControllerTest {
     }
 
     @Test
+    public void findVariableFieldByCompanyId() {
+        String queryString = "companyId=1";
+
+        String action = "get-variable-field-list";
+        String url = URL_PREFIX + action;
+        String newUrl = NEW_URL_PREFIX + action;
+
+        Assert.assertEquals(HttpUtils.doGet(url, queryString, false), HttpUtils.doGet(newUrl,
+                queryString, false));
+    }
+
+    @Test
     public void findRegionChildrenByRegionId() {
         String queryString = "regionId=31";
 
