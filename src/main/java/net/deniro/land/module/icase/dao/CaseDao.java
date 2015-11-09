@@ -35,13 +35,13 @@ public class CaseDao extends BaseDao<TCase> {
         sql.append(" from t_user u,t_back_role r,T_BACK_ROLE_PRIVILEGE cp ");
         sql.append(" where 1=1 ");
         sql.append(" and r.company_Id in ").append("(SELECT w.COMPANY_ID FROM t_user w " +
-                "WHERE w.USER_ID=37)");
+                "WHERE w.USER_ID=37)");//同一家公司
         sql.append(" and u.department_Id in").append(" (SELECT w.DEPARTMENT_ID FROM " +
-                "t_user w WHERE w.USER_ID=" + creatorId + ")");
+                "t_user w WHERE w.USER_ID=" + creatorId + ")");//同一个部门
         sql.append(" and u.back_role_id =r.back_role_id");
         sql.append(" and r.back_role_id =cp.back_role_id");
         sql.append(" and cp.BACK_PRIVILEGE_ID=").append(TCase
-                .CASE_INSPECTOR_PRIVILEGE_MODULE_ID);
+                .CASE_INSPECTOR_PRIVILEGE_MODULE_ID);//巡查员权限
 
         return namedParameterJdbcTemplate.query(sql.toString(), new RowMapper<User>() {
             public User mapRow(ResultSet resultSet, int i) throws SQLException {
