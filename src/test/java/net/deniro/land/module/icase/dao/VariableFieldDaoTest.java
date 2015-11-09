@@ -25,7 +25,6 @@ public class VariableFieldDaoTest {
 
     @Test
     public void testFindByCompanyId() throws Exception {
-//todo 待测试
-//        System.out.println(variableFieldDao.findByCompanyId(1));
+        System.out.println(variableFieldDao.findByCompanyId(1));
     }
 }
