@@ -1,6 +1,7 @@
 package net.deniro.land.module.system.entity;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -12,11 +13,12 @@ import java.io.Serializable;
  * @author deniro
  *         2015/10/10
  */
-@Data
 @Entity
 @Table(name = "t_department")
 public class Department implements Serializable {
 
+    @Getter
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "DEPARTMENT_ID", unique = true, nullable = false)
@@ -25,12 +27,16 @@ public class Department implements Serializable {
     /**
      * 部门名称
      */
+    @Getter
+    @Setter
     @Column(name = "NAME", nullable = true, length = 60)
     private String name;
 
     /**
      * 上级部门ID
      */
+    @Getter
+    @Setter
     @Column(name = "PARENT_ID", nullable = true, length = 11)
     private Integer parentId;
 
@@ -38,6 +44,8 @@ public class Department implements Serializable {
     /**
      * 所属单位ID
      */
+    @Getter
+    @Setter
     @Column(name = "COMPANY_ID", nullable = true, length = 11)
     private Integer companyId;
 
@@ -45,30 +53,40 @@ public class Department implements Serializable {
     /**
      * 状态 0:正常 1：禁用 2：删除
      */
+    @Getter
+    @Setter
     @Column(name = "STATUS", nullable = true, length = 2)
     private Integer status;
 
     /**
      * 是否为父节点；true：是；false：否
      */
+    @Getter
+    @Setter
     @Transient
     private String isParent;
 
     /**
      * 父节点展开图标
      */
+    @Getter
+    @Setter
     @Transient
     private String iconOpen;
 
     /**
      * 父节点折叠图标
      */
+    @Getter
+    @Setter
     @Transient
     private String iconClose;
 
     /**
      * 叶子节点图标
      */
+    @Getter
+    @Setter
     @Transient
     private String icon;
 

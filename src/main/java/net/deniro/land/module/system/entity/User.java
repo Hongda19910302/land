@@ -2,6 +2,7 @@ package net.deniro.land.module.system.entity;
 
 import jdk.nashorn.internal.objects.annotations.Setter;
 import lombok.Data;
+import lombok.Getter;
 import net.deniro.land.common.utils.SpringContextUtils;
 import net.deniro.land.module.mobile.service.PrivilegeService;
 
@@ -14,10 +15,11 @@ import java.io.Serializable;
  * @author deniro
  *         2015/10/10
  */
-@Data
 @Entity
 @Table(name = "t_user")
 public class User implements Serializable {
+
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_ID", unique = true, nullable = false)
@@ -26,42 +28,49 @@ public class User implements Serializable {
     /**
      * 账号
      */
+    @Getter
     @Column(name = "ACCOUNT", nullable = true, length = 30)
     private String account;
 
     /**
      * 密码
      */
+    @Getter
     @Column(name = "PASSWORD", nullable = true, length = 64)
     private String password;
 
     /**
      * 手机号
      */
+    @Getter
     @Column(name = "TEL", nullable = true, length = 11)
     private String tel;
 
     /**
      * 地址
      */
+    @Getter
     @Column(name = "ADDR", nullable = true, length = 255)
     private String addr;
 
     /**
      * 性别； 0：女 1：男
      */
+    @Getter
     @Column(name = "SEX", nullable = true, length = 1)
     private Integer sex;
 
     /**
      * 邮箱
      */
+    @Getter
     @Column(name = "EMAIL", nullable = true, length = 60)
     private String email;
 
     /**
      * 创建时间
      */
+    @Getter
     @Column(name = "CREATE_TIME", nullable = true)
     private java.sql.Timestamp createTime;
 
@@ -74,24 +83,28 @@ public class User implements Serializable {
     /**
      * 职位
      */
+    @Getter
     @Column(name = "POSITION", nullable = true, length = 20)
     private String position;
 
     /**
      * 部门id
      */
+    @Getter
     @Column(name = "DEPARTMENT_ID", nullable = true, length = 11)
     private Integer departmentId;
 
     /**
      * 单位ID
      */
+    @Getter
     @Column(name = "COMPANY_ID", nullable = true, length = 11)
     private Integer companyId;
 
     /**
      * 状态；0:正常 1：冻结：2注销
      */
+    @Getter
     @Column(name = "STATUS", nullable = true, length = 2)
     private Integer status;
 
@@ -104,18 +117,21 @@ public class User implements Serializable {
     /**
      * 电话
      */
+    @Getter
     @Column(name = "PHONE", nullable = true, length = 11)
     private String phone;
 
     /**
      * 角色id
      */
+    @Getter
     @Column(name = "BACK_ROLE_ID", nullable = true, length = 11)
     private Integer roleId;
 
     /**
      * 角色
      */
+    @Getter
     @ManyToOne
     @JoinColumn(name = "BACK_ROLE_ID", referencedColumnName = "BACK_ROLE_ID", nullable = true, insertable = false, updatable = false)
     private Role role;
@@ -123,6 +139,7 @@ public class User implements Serializable {
     /**
      * 部门
      */
+    @Getter
     @ManyToOne
     @JoinColumn(name = "DEPARTMENT_ID", referencedColumnName = "DEPARTMENT_ID", nullable = true, insertable = false, updatable = false)
     private Department department;
@@ -130,6 +147,7 @@ public class User implements Serializable {
     /**
      * 单位
      */
+    @Getter
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "COMPANY_ID", referencedColumnName = "COMPANY_ID", nullable = true, insertable = false, updatable = false)
     private Company company;
