@@ -42,6 +42,21 @@ public class UserService {
     public static final String USER_CODE = "user";
 
     /**
+     * 依据部门ID，获取巡查员列表
+     *
+     * @param departmentId
+     * @return
+     */
+    public List<User> findInspectorsByDepartmentId(Integer departmentId) {
+        try {
+            return userDao.findInspectorsByDepartmentId(departmentId);
+        } catch (Exception e) {
+            logger.error("依据部门ID，获取巡查员列表", e);
+            return new ArrayList<User>();
+        }
+    }
+
+    /**
      * 依据创建者ID，获取巡查员列表
      *
      * @param creatorId

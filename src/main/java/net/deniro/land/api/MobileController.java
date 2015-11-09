@@ -6,8 +6,10 @@ import net.deniro.land.module.icase.dao.CaseDao;
 import net.deniro.land.module.icase.entity.TVariableField;
 import net.deniro.land.module.icase.service.CaseService;
 import net.deniro.land.module.icase.service.VariableFieldService;
+import net.deniro.land.module.system.entity.Department;
 import net.deniro.land.module.system.entity.TRegion;
 import net.deniro.land.module.system.entity.User;
+import net.deniro.land.module.system.service.DepartmentService;
 import net.deniro.land.module.system.service.RegionService;
 import net.deniro.land.module.system.service.UserService;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -40,13 +42,41 @@ public class MobileController {
     @Autowired
     private VariableFieldService variableFieldService;
 
-//    @Autowired
-//    private CaseService caseService;
+    @Autowired
+    private DepartmentService departmentService;
 
     /**
      * 渲染文件的路径前缀
      */
     public static final String URL_PREFIX = "mobile/";
+
+    /**
+     * 依据部门ID，获取巡查员
+     *
+     * @param departmentId
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "get-inspector-by-com")
+    public String findInspectorsByDepartmentId(Integer departmentId, ModelMap mm) {
+        ResponseResult r = null;
+
+        try {
+            List<User> users = userService.findInspectorsByDepartmentId(departmentId);
+            mm.addAttribute("userList", users);
+
+            List<Department> departments = departmentService.findChilds(departmentId);
+            mm.addAttribute("departmentList", departments);
+
+            r = new SuccessResult();
+        } catch (Exception e) {
+            logger.error("获取单位网下的巡查员");
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX + "findInspectorsByDepartmentIdResult";
+        }
+    }
 
     /**
      * 依据创建者ID，获取巡查员列表
