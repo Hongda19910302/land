@@ -48,6 +48,18 @@ public class MobileControllerTest {
     }
 
     @Test
+    public void findInspectorsByCreatorId(){
+        String queryString = "creatorId=37";
+
+        String action = "get-recommond-inspector";
+        String url = URL_PREFIX + action;
+        String newUrl = NEW_URL_PREFIX + action;
+
+        Assert.assertEquals(HttpUtils.doGet(url, queryString, false), HttpUtils.doGet(newUrl,
+                queryString, false));
+    }
+
+    @Test
     public void findVariableFieldByCompanyId() {
         String queryString = "companyId=1";
 
