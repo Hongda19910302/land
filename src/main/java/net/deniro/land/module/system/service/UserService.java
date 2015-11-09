@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static net.deniro.land.module.system.entity.User.LoginSource;
@@ -34,10 +35,26 @@ public class UserService {
     @Autowired
     private UserDao userDao;
 
+
     /**
      * 用户码（用于向action传递参数）
      */
     public static final String USER_CODE = "user";
+
+    /**
+     * 依据创建者ID，获取巡查员列表
+     *
+     * @param creatorId
+     * @return
+     */
+    public List<User> findInspectorsByCreatorId(Integer creatorId) {
+        try {
+            return userDao.findInspectorsByCreatorId(creatorId);
+        } catch (Exception e) {
+            logger.error("依据创建者ID，获取巡查员列表", e);
+            return new ArrayList<User>();
+        }
+    }
 
     /**
      * 分页查询

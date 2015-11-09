@@ -40,8 +40,8 @@ public class MobileController {
     @Autowired
     private VariableFieldService variableFieldService;
 
-    @Autowired
-    private CaseService caseService;
+//    @Autowired
+//    private CaseService caseService;
 
     /**
      * 渲染文件的路径前缀
@@ -60,7 +60,7 @@ public class MobileController {
         ResponseResult r = null;
 
         try {
-            List<User> list = caseService.findByCreatorId(creatorId);
+            List<User> list = userService.findInspectorsByCreatorId(creatorId);
             mm.addAttribute("userList", list);
             r = new SuccessResult();
         } catch (Exception e) {

@@ -23,18 +23,5 @@ public class CaseService {
     @Autowired
     private CaseDao caseDao;
 
-    /**
-     * 依据创建者ID，获取巡查员列表
-     *
-     * @param creatorId
-     * @return
-     */
-    public List<User> findByCreatorId(Integer creatorId) {
-        try {
-            return caseDao.findByCreatorId(creatorId);
-        } catch (Exception e) {
-            logger.error("依据创建者ID，获取巡查员列表", e);
-            return new ArrayList<User>();
-        }
-    }
+
 }

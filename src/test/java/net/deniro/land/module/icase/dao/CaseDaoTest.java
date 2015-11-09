@@ -23,8 +23,5 @@ public class CaseDaoTest {
     @Autowired
     private CaseDao caseDao;
 
-    @Test
-    public void testFindByCreatorId() throws Exception {
-        System.out.println("findByCreatorId:" + caseDao.findByCreatorId(37));
-    }
+
 }

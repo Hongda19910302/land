@@ -24,6 +24,11 @@ public class UserDaoTest {
     private UserDao userDao;
 
     @Test
+    public void testFindByCreatorId() throws Exception {
+        System.out.println("findByCreatorId:" + userDao.findInspectorsByCreatorId(37));
+    }
+
+    @Test
     public void testFindByAccount() throws Exception {
         System.out.println(userDao.findByAccount("admin"));
     }
