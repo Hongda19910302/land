@@ -33,8 +33,7 @@ public class AnnotationHibernateCodeMarkerTest {
     public void testMark() throws Exception {
 
         List<String> tableNames = new ArrayList<String>();
-        tableNames.add("t_select_type");
-        tableNames.add("t_select_type_conf");
+        tableNames.add("t_case");
 
         String packagePath = "net.deniro.land.module.icase.entity";
 
