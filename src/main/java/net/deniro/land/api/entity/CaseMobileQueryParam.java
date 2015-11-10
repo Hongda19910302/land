@@ -35,4 +35,44 @@ public class CaseMobileQueryParam {
      * 每页条数，固定不变
      */
     private Integer limit;
+
+    /**
+     * 开始时间
+     */
+    private String beginDate;
+
+    /**
+     * 结束时间
+     */
+    private String endDate;
+
+    /**
+     * 案件号
+     */
+    private String caseNum;
+
+    /**
+     * 案件状态
+     */
+    private Integer caseStatus;
+
+    /**
+     * 违法当事人
+     */
+    private String parties;
+
+    /**
+     * 巡查员姓名
+     */
+    private String xcyName;
+
+    /**
+     * 创建人姓名
+     */
+    private String createrName;
+
+    /**
+     * 地区id
+     */
+    private Integer regionId;
 }

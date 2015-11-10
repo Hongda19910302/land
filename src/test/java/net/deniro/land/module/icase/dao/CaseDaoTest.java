@@ -1,7 +1,6 @@
 package net.deniro.land.module.icase.dao;
 
 import net.deniro.land.module.icase.entity.CaseQueryParam;
-import net.deniro.land.module.icase.entity.TCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +25,21 @@ public class CaseDaoTest {
 
     @Autowired
     private CaseDao caseDao;
+
+    @Test
+    public void testComplexFindPage() throws Exception {
+        CaseQueryParam caseQueryParam = new CaseQueryParam();
+        caseQueryParam.setUserId("37");
+        caseQueryParam.setNumPerPage(10);
+        caseQueryParam.setPageNum(1);
+        caseQueryParam.setMoblieStatus(String.valueOf(PREPARE.mobileCode()));
+        caseQueryParam.setDepartmentId("26");
+        caseQueryParam.setRegionId(102);
+        caseQueryParam.setBeginDate("2014-10-23");
+        caseQueryParam.setCreatorName("18905910011");
+
+        System.out.println(caseDao.findPage(caseQueryParam));
+    }
 
     @Test
     public void testFindPage() throws Exception {

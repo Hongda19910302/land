@@ -16,6 +16,7 @@ import net.deniro.land.module.system.service.RegionService;
 import net.deniro.land.module.system.service.UserService;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -70,10 +71,14 @@ public class MobileController {
 
         try {
             CaseQueryParam caseQueryParam = new CaseQueryParam();
-            caseQueryParam.setUserId(caseMobileQueryParam.getUserId());
             caseQueryParam.setNumPerPage(caseMobileQueryParam.getLimit());
             caseQueryParam.setPageNum(caseMobileQueryParam.getPageNo());
             caseQueryParam.setMoblieStatus(caseMobileQueryParam.getSearchType());
+
+            BeanUtils.copyProperties(caseMobileQueryParam, caseQueryParam);
+
+            System.out.println(caseQueryParam);
+
             Page page = caseService.findPage(caseQueryParam);
             mm.addAttribute("nativePage", page);
             mm.addAttribute("pageNo", caseMobileQueryParam.getPageNo());

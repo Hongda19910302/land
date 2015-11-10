@@ -38,8 +38,19 @@ public class CaseDao extends BaseDao<TCase> {
      * @return
      */
     public Page findPage(CaseQueryParam queryParam) {
-        StringBuilder sql = new StringBuilder(" select distinct t.* from t_case t where " +
-                "1=1 ");
+        StringBuilder sql = new StringBuilder(" select distinct t.* from t_case t ");
+
+        if (StringUtils.isNotBlank(queryParam.getXcyName()) || StringUtils.isNotBlank
+                (queryParam.getCreatorName())) {//关联用户表
+            sql.append(" ,t_user u ");
+        }
+
+        sql.append(" where 1=1 ");
+
+        if (StringUtils.isNotBlank(queryParam.getXcyName()) || StringUtils.isNotBlank
+                (queryParam.getCreatorName())) {//添加关联用户表条件
+            sql.append(" and t.creater_id = u.user_id ");
+        }
 
         Map<String, Object> params = new HashMap<String, Object>();
 
@@ -82,6 +93,47 @@ public class CaseDao extends BaseDao<TCase> {
                     params.put("departmentId", departmentId);
                 }
             }
+        }
+
+        if (StringUtils.isNotBlank(queryParam.getBeginDate())) {
+            sql.append(" and date_format(t.CREATE_TIME,'%Y-%m-%d')>=:beginDate");
+            params.put("beginDate", queryParam.getBeginDate());
+        }
+        if (StringUtils.isNotBlank(queryParam.getEndDate())) {
+            sql.append(" and date_format(t.CREATE_TIME,'%Y-%m-%d')<=:endDate");
+            params.put("endDate", queryParam.getEndDate());
+        }
+        if (StringUtils.isNotBlank(queryParam.getCaseNum())) {
+            sql.append(" and t.case_Num like :caseNum");
+            params.put("caseNum", "%" + queryParam.getCaseNum() + "%");
+        }
+        if (queryParam.getCaseStatus() != null && queryParam.getCaseStatus() != 0) {
+            sql.append(" and t.status=:caseStatus");
+            params.put("caseStatus", queryParam.getCaseStatus());
+        }
+        if (StringUtils.isNotBlank(queryParam.getParties())) {
+            sql.append(" and t.parties like :parties");
+            params.put("parties", "%" + queryParam.getParties() + "%");
+        }
+
+        if (StringUtils.isNotBlank(queryParam.getXcyName()) || StringUtils.isNotBlank
+                (queryParam.getCreatorName())) {
+            sql.append(" and u.name like :userName");
+
+            //以“创建者名称”的条件为主
+            String userName = (StringUtils.isBlank(queryParam.getCreatorName())
+                    ? queryParam.getXcyName() : queryParam.getCreatorName());
+            params.put("userName", "%" + userName + "%");
+        }
+
+        if (queryParam.getRegionId() != null && queryParam.getRegionId() != 0) {
+            sql.append(" and FIND_IN_SET(t.REGION_ID, getChildRegion(:regionId))");
+            params.put("regionId", queryParam.getRegionId());
+        }
+        if (StringUtils.isNotBlank(queryParam.getDepartmentId())) {
+            sql.append(" and FIND_IN_SET(t.DEPARTMENT_ID, getChildDepartment" +
+                    "(:departmentId))");
+            params.put("departmentId", queryParam.getDepartmentId());
         }
 
 
