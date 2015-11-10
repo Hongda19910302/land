@@ -1,13 +1,14 @@
 package net.deniro.land.module.icase.service;
 
+import net.deniro.land.common.dao.Page;
 import net.deniro.land.module.icase.dao.CaseDao;
+import net.deniro.land.module.icase.entity.CaseQueryParam;
+import net.deniro.land.module.system.dao.UserDao;
 import net.deniro.land.module.system.entity.User;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 案件
@@ -22,6 +23,30 @@ public class CaseService {
 
     @Autowired
     private CaseDao caseDao;
+
+    @Autowired
+    private UserDao userDao;
+
+    /**
+     * 分页查询
+     *
+     * @param queryParam 查询参数
+     * @return
+     */
+    public Page findPage(CaseQueryParam queryParam) {
+        try {
+
+            User user = userDao.get(NumberUtils.toInt(queryParam.getUserId()));
+            if (user != null) {
+                queryParam.setDepartmentId(String.valueOf(user.getDepartmentId()));
+            }
+
+            return caseDao.findPage(queryParam);
+        } catch (Exception e) {
+            logger.error("分页查询", e);
+            return new Page();
+        }
+    }
 
 
 }

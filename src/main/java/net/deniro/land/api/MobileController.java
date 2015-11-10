@@ -1,8 +1,10 @@
 package net.deniro.land.api;
 
 import net.deniro.land.api.entity.*;
+import net.deniro.land.common.dao.Page;
 import net.deniro.land.common.service.dwz.Result;
 import net.deniro.land.module.icase.dao.CaseDao;
+import net.deniro.land.module.icase.entity.CaseQueryParam;
 import net.deniro.land.module.icase.entity.TVariableField;
 import net.deniro.land.module.icase.service.CaseService;
 import net.deniro.land.module.icase.service.VariableFieldService;
@@ -20,6 +22,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+
+import static net.deniro.land.module.icase.entity.TCase.CaseStatus.PREPARE;
 
 /**
  * 移动客户端接口
@@ -45,10 +49,45 @@ public class MobileController {
     @Autowired
     private DepartmentService departmentService;
 
+    @Autowired
+    private CaseService caseService;
+
     /**
      * 渲染文件的路径前缀
      */
     public static final String URL_PREFIX = "mobile/";
+
+    /**
+     * 分页查询案件
+     *
+     * @param caseMobileQueryParam 案件 移动端查询参数
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "search-case")
+    public String findPageCase(CaseMobileQueryParam caseMobileQueryParam, ModelMap mm) {
+        ResponseResult r = null;
+
+        try {
+            CaseQueryParam caseQueryParam = new CaseQueryParam();
+            caseQueryParam.setUserId(caseMobileQueryParam.getUserId());
+            caseQueryParam.setNumPerPage(caseMobileQueryParam.getLimit());
+            caseQueryParam.setPageNum(caseMobileQueryParam.getPageNo());
+            caseQueryParam.setMoblieStatus(caseMobileQueryParam.getSearchType());
+            Page page = caseService.findPage(caseQueryParam);
+            mm.addAttribute("nativePage", page);
+            mm.addAttribute("pageNo", caseMobileQueryParam.getPageNo());
+
+            r = new SuccessResult();
+        } catch (Exception e) {
+            logger.error("分页查询案件");
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX + "findPageCaseResult";
+        }
+
+    }
 
     /**
      * 依据用户ID，获取巡查员信息

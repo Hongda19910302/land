@@ -1,6 +1,8 @@
 package net.deniro.land.module.icase.entity;
 
 import lombok.Data;
+import lombok.Setter;
+import net.deniro.land.module.system.entity.TRegion;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -223,6 +225,12 @@ public class TCase implements Serializable {
      */
     @Column(name = "illegal_use", nullable = true, length = 10)
     private Integer illegalUse;
+
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "REGION_ID", referencedColumnName = "REGION_ID" ,insertable = false, updatable = false)
+    private TRegion findRegion;
+
 
     /**
      * 案件状态
