@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 案件
@@ -39,7 +41,7 @@ public class TCase implements Serializable {
      * 创建时间
      */
     @Column(name = "create_time", nullable = true, length = 0)
-    private String createTime;
+    private Date createTime;
 
     /**
      * 创建人id
@@ -99,19 +101,19 @@ public class TCase implements Serializable {
      * 违法面积
      */
     @Column(name = "illegal_area_space", nullable = true, length = 0)
-    private String illegalAreaSpace;
+    private Float illegalAreaSpace;
 
     /**
      * 占地面积
      */
     @Column(name = "floor_space", nullable = true, length = 0)
-    private String floorSpace;
+    private Float floorSpace;
 
     /**
      * 建筑面积
      */
     @Column(name = "building_space", nullable = true, length = 0)
-    private String buildingSpace;
+    private Float buildingSpace;
 
     /**
      * 违建类型；1.违法用地 2.违法建设
@@ -160,13 +162,13 @@ public class TCase implements Serializable {
      * 经度
      */
     @Column(name = "lng", nullable = true, length = 0)
-    private String lng;
+    private BigDecimal lng;
 
     /**
      * 纬度
      */
     @Column(name = "lat", nullable = true, length = 0)
-    private String lat;
+    private BigDecimal lat;
 
     /**
      * 定位类型
@@ -175,7 +177,7 @@ public class TCase implements Serializable {
     private Integer locateType;
 
     /**
-     * 回收状态
+     * 回收状态；0：不处于；1：已处于
      */
     @Column(name = "recycle_status", nullable = true, length = 10)
     private Integer recycleStatus;
@@ -190,13 +192,13 @@ public class TCase implements Serializable {
      * 修改时间
      */
     @Column(name = "modify_time", nullable = true, length = 0)
-    private String modifyTime;
+    private Date modifyTime;
 
     /**
      * 删除时间
      */
     @Column(name = "del_time", nullable = true, length = 0)
-    private String delTime;
+    private Date delTime;
 
     /**
      * 单位id
@@ -221,4 +223,141 @@ public class TCase implements Serializable {
      */
     @Column(name = "illegal_use", nullable = true, length = 10)
     private Integer illegalUse;
+
+    /**
+     * 案件状态
+     */
+    public enum CaseStatus {
+        /**
+         * 所有
+         */
+        ALL(0, 0),
+        /**
+         * 预立案
+         */
+        PREPARE(1,2),
+        /**
+         * 巡查制止
+         */
+        INSPECT(2,3),
+        /**
+         * 申请结案
+         */
+        APPLY(3,4),
+        /**
+         * 结案审核通过
+         */
+        FIRST_OVER(4,5),
+        /**
+         * 二次结案审核通过
+         */
+        SECOND_OVER(5),
+
+        /**
+         * 删除
+         */
+        DEL(6),
+
+        /**
+         * 撤销案件
+         */
+        CANCEL(7);
+
+        /**
+         * 移动端码
+         */
+        private int moblieCode;
+
+        private int code;
+
+        CaseStatus(int code) {
+            this.code = code;
+        }
+
+        CaseStatus(int code,int moblieCode) {
+
+            this.moblieCode = moblieCode;
+            this.code = code;
+        }
+
+        /**
+         * 获取枚举对象
+         *
+         * @param mobileCode 码
+         * @return
+         */
+        public static CaseStatus getStatusMobileCode(int mobileCode) {
+            CaseStatus[] sources = CaseStatus.values();
+            for (CaseStatus source : sources) {
+                if (source.moblieCode == mobileCode) {
+                    return source;
+                }
+            }
+            return null;
+        }
+
+        /**
+         * 获取枚举对象
+         *
+         * @param code 码
+         * @return
+         */
+        public static CaseStatus get(int code) {
+            CaseStatus[] sources = CaseStatus.values();
+            for (CaseStatus source : sources) {
+                if (source.code() == code) {
+                    return source;
+                }
+            }
+            return null;
+        }
+
+        public int code() {
+            return code;
+        }
+
+        public int mobileCode() {
+            return moblieCode;
+        }
+    }
+
+    /**
+     * 回收状态
+     */
+    public enum RecycleStatus {
+        /**
+         * 正常
+         */
+        NO(0),
+        /**
+         * 禁用
+         */
+        YES(1);
+
+        private int code;
+
+        RecycleStatus(int code) {
+            this.code = code;
+        }
+
+        /**
+         * 获取枚举对象
+         *
+         * @param code 码
+         * @return
+         */
+        public static RecycleStatus get(int code) {
+            RecycleStatus[] sources = RecycleStatus.values();
+            for (RecycleStatus source : sources) {
+                if (source.code() == code) {
+                    return source;
+                }
+            }
+            return null;
+        }
+
+        public int code() {
+            return code;
+        }
+    }
 }

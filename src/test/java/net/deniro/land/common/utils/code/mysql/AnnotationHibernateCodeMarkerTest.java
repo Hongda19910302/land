@@ -35,6 +35,8 @@ public class AnnotationHibernateCodeMarkerTest {
         List<String> tableNames = new ArrayList<String>();
         tableNames.add("t_case");
 
+        //todo Float格式、Date格式、BigDecimal格式
+
         String packagePath = "net.deniro.land.module.icase.entity";
 
         Map<String, String> names = new HashMap<String, String>();
