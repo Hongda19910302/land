@@ -59,6 +59,18 @@ public class MobileController {
     public static final String URL_PREFIX = "mobile/";
 
     /**
+     * 分页查询案件（搜索案件）
+     *
+     * @param caseMobileQueryParam 案件 移动端查询参数
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "query-case")
+    public String findPageCase2(CaseMobileQueryParam caseMobileQueryParam, ModelMap mm) {
+        return findPageCase(caseMobileQueryParam, mm);
+    }
+
+    /**
      * 分页查询案件
      *
      * @param caseMobileQueryParam 案件 移动端查询参数
@@ -91,7 +103,6 @@ public class MobileController {
             mm.addAttribute("r", r);
             return URL_PREFIX + "findPageCaseResult";
         }
-
     }
 
     /**

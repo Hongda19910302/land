@@ -48,6 +48,19 @@ public class MobileControllerTest {
     }
 
     @Test
+    public void complexPageCase(){
+        String queryString = "userId=37&searchType=2&pageNo=1&limit=10&regionId=102" +
+                "&beginDate=2014-10-23&creatorName=18905910011";
+
+        String action = "query-case";
+        String url = URL_PREFIX + action;
+        String newUrl = NEW_URL_PREFIX + action;
+
+        Assert.assertEquals(HttpUtils.doGet(url, queryString, false), HttpUtils.doGet(newUrl,
+                queryString, false));
+    }
+
+    @Test
     public void findPageCase(){
         String queryString = "userId=37&searchType=2&pageNo=1&limit=10";
 
