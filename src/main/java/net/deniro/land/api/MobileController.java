@@ -3,8 +3,8 @@ package net.deniro.land.api;
 import net.deniro.land.api.entity.*;
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.common.service.dwz.Result;
-import net.deniro.land.module.icase.dao.CaseDao;
 import net.deniro.land.module.icase.entity.CaseQueryParam;
+import net.deniro.land.module.icase.entity.TCase;
 import net.deniro.land.module.icase.entity.TVariableField;
 import net.deniro.land.module.icase.service.CaseService;
 import net.deniro.land.module.icase.service.VariableFieldService;
@@ -14,6 +14,7 @@ import net.deniro.land.module.system.entity.User;
 import net.deniro.land.module.system.service.DepartmentService;
 import net.deniro.land.module.system.service.RegionService;
 import net.deniro.land.module.system.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
@@ -22,9 +23,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.persistence.Column;
+import java.lang.reflect.Field;
 import java.util.List;
-
-import static net.deniro.land.module.icase.entity.TCase.CaseStatus.PREPARE;
 
 /**
  * 移动客户端接口
@@ -57,6 +58,33 @@ public class MobileController {
      * 渲染文件的路径前缀
      */
     public static final String URL_PREFIX = "mobile/";
+
+    /**
+     * 案件详情
+     *
+     * @param caseId
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "case-detail")
+    public String findCaseById(Integer caseId, ModelMap mm) {
+        ResponseResult r = null;
+
+        try {
+            TCase tCase = caseService.findById(caseId);
+            mm.addAttribute("tCase", tCase);
+            mm.addAttribute("tVariableFieldList", variableFieldService.findByCompanyId
+                    (tCase.getCompanyId()));
+
+            r = new SuccessResult();
+        } catch (Exception e) {
+            logger.error("分页查询案件");
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX + "findCaseByIdResult";
+        }
+    }
 
     /**
      * 分页查询案件（搜索案件）
@@ -288,4 +316,46 @@ public class MobileController {
         return URL_PREFIX + "loginResult";
     }
 
+    /**
+     * 获取案件字段值
+     * <p>
+     * 该方法每次获取时，都会查询一次库表，耗资源
+     *
+     * @param caseId    案件ID
+     * @param fieldName 字段名称
+     * @return
+     */
+    @Deprecated
+    public Object getCaseFieldValue(Integer caseId, String fieldName) {
+        TCase tCase = caseService.findById(caseId);
+        return getFieldValue(tCase, fieldName);
+    }
+
+
+    /**
+     * 获取对象实例中的字段值
+     *
+     * @param t         对象实例
+     * @param fieldName 对象名称
+     * @param <T>       对象类型
+     * @return
+     */
+    @Deprecated
+    public static <T> Object getFieldValue(T t, String fieldName) {
+        Object r = null;
+        try {
+            Class clazz = t.getClass();
+            Field[] fields = clazz.getDeclaredFields();
+            for (Field field : fields) {
+                Column column = field.getAnnotation(Column.class);
+                if (column != null && StringUtils.equalsIgnoreCase(column.name(), fieldName)) {
+                    field.setAccessible(true);
+                    r = field.get(t);
+                }
+            }
+        } catch (IllegalAccessException e) {
+            logger.error("获取对象实例中的字段值", e);
+        }
+        return r;
+    }
 }

@@ -27,6 +27,11 @@ public class CaseDaoTest {
     private CaseDao caseDao;
 
     @Test
+    public void findVariablesById(){
+        System.out.println("CaseDaoTest1:"+caseDao.findVariablesById(129));
+    }
+
+    @Test
     public void findById() {
         System.out.println("findById:"+caseDao.findById(129));
     }

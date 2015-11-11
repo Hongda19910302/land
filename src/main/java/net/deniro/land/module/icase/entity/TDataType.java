@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
-* 案件下拉项
+* 数据键值对
 *
 * @author deniro（AnnotationHibernateCodeMarker）
 *         2015-11-4

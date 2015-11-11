@@ -133,6 +133,30 @@ public class TVariableField implements Serializable {
         return selectTypeList;
     }
 
+    /**
+     * 通过值，获取下拉框类型
+     *
+     * @param value 值
+     * @return
+     */
+    @Deprecated
+    public TSelectType getSelectTypeByValue(Integer value) {
+        TSelectType selectType = new TSelectType();
+
+        if (value == null) {
+            return selectType;
+        }
+        if (this.getIsPullDown() != null && this.getIsPullDown().equals(0)) {
+
+            selectType = ((SelectTypeDao) SpringContextUtils.
+                    getBean("selectTypeDao")).findByFieldAndValue
+                    (variableFieldId, value);
+
+        }
+
+        return selectType;
+    }
+
 
     /**
      * 所属表

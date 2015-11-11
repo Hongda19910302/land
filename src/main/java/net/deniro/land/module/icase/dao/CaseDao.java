@@ -1,5 +1,6 @@
 package net.deniro.land.module.icase.dao;
 
+import net.deniro.land.api.entity.CaseVariableField;
 import net.deniro.land.common.dao.BaseDao;
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.module.icase.entity.CaseQueryParam;
@@ -30,6 +31,39 @@ public class CaseDao extends BaseDao<TCase> {
 
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    /**
+     * 依据案件ID，查询案件可变字段列表
+     *
+     * @param caseId
+     * @return
+     */
+    public List<CaseVariableField> findVariablesById(Integer caseId) {
+        StringBuilder sql = new StringBuilder("SELECT x.FIELD_KEY, x.ALIAS, x.IS_HIDE,x.IS_PULLDOWN,x.VARIABLE_FIELD_ID,y.TABLE_FIELD");
+        sql.append(" FROM t_variable_field x,t_data_field y");
+        sql.append(" where x.DATA_FIELD_ID=y.DATA_FIELD_ID");
+        sql.append(" AND x.COMPANY_ID =(");
+        sql.append(" SELECT a.COMPANY_ID FROM t_case a WHERE a.CASE_ID=:caseId");
+        sql.append(" );");
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("caseId", caseId);
+
+        return namedParameterJdbcTemplate.query(sql.toString(), params, new
+                RowMapper<CaseVariableField>() {
+                    public CaseVariableField mapRow(ResultSet resultSet, int i) throws SQLException {
+                        CaseVariableField entity = new CaseVariableField();
+                        entity.setFieldKey(resultSet.getString("FIELD_KEY"));
+                        entity.setFieldName(resultSet.getString("ALIAS"));
+                        entity.setIsHide(resultSet.getInt("IS_HIDE"));
+                        entity.setPullDown(resultSet.getInt("IS_PULLDOWN"));
+                        entity.setVariableFieldId(resultSet.getInt("VARIABLE_FIELD_ID"));
+                        entity.setTableField(resultSet.getString("TABLE_FIELD"));
+                        return entity;
+                    }
+                });
+
+    }
 
     /**
      * 依据ID，获取案件
