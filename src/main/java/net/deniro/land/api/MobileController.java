@@ -73,8 +73,7 @@ public class MobileController {
         try {
             TCase tCase = caseService.findById(caseId);
             mm.addAttribute("tCase", tCase);
-            mm.addAttribute("tVariableFieldList", variableFieldService.findByCompanyId
-                    (tCase.getCompanyId()));
+            mm.addAttribute("tVariableFieldList", caseService.findVariablesById(caseId));
 
             r = new SuccessResult();
         } catch (Exception e) {

@@ -22,15 +22,14 @@
     <#if tVariableFieldList??>
         <#list tVariableFieldList as data>
         {
-            <#assign value = (action.getCaseFieldValue(tCase.caseId,data.findDataField.tableField))/>
         "fieldKey": "${(data.fieldKey)!''}",
-        "fieldName":"${(data.alias)!''}",
-        "fieldValue": "<#if value??>${value}</#if>",
+        "fieldName":"${(data.fieldName)!''}",
+        "fieldValue": "<#if data.fieldValue??>${data.fieldValue}</#if>",
         "isHide":"${(data.isHide)!0}",
-            <#if data.isPullDown?? && data.isPullDown==0>
-            "fieldShow": "<#if value?? && value gt 0 && (data.getSelectTypeByValue(value))??>${data.getSelectTypeByValue(value).selectTypeName}</#if>",
+            <#if data.pullDown?? && data.pullDown==0>
+            "fieldShow": "<#if data.fieldShow??>${data.fieldShow}</#if>",
             </#if>
-        "pullDown": "${(data.isPullDown)!0}"
+        "pullDown": "${(data.pullDown)!0}"
         }
             <#if data_has_next>,</#if>
         </#list>
