@@ -24,6 +24,11 @@ public class SelectTypeDaoTest {
     private SelectTypeDao selectTypeDao;
 
     @Test
+    public void findByFieldAndValue(){
+        System.out.println("t2:"+selectTypeDao.findByFieldAndValue(16,1));
+    }
+
+    @Test
     public void testFindByVariableFieldId() throws Exception {
         System.out.println(selectTypeDao.findByVariableFieldId(17));
     }

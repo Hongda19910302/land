@@ -4,6 +4,7 @@ import net.deniro.land.common.dao.BaseDao;
 import net.deniro.land.module.icase.entity.TSelectType;
 import org.springframework.stereotype.Repository;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -26,4 +27,39 @@ public class SelectTypeDao extends BaseDao<TSelectType> {
         hql += " and s.variableField.variableFieldId = ? ";
         return this.find(hql, variableFieldId);
     }
+
+    /**
+     * 获取下拉框类型
+     *
+     * @param variableFieldId 变量字段ID
+     * @param dataTypeValue   数据键值对的值
+     * @return
+     */
+    public TSelectType findByFieldAndValue(Integer variableFieldId, Integer dataTypeValue) {
+
+
+        StringBuilder hql = new StringBuilder("select t from TSelectTypeConf s,TSelectType t where s.selectType.selectTypeId = t.selectTypeId ");
+
+        LinkedHashMap<String, Object>
+                params = new LinkedHashMap<String, Object>();
+
+        if (variableFieldId != null) {
+            hql.append(" and s.variableField.variableFieldId = :variableFieldId ");
+            params.put("variableFieldId", variableFieldId);
+        }
+
+        if (dataTypeValue != null) {
+            hql.append(" and t.dataType.dataTypeValue = :dataTypeValue");
+            params.put("dataTypeValue", dataTypeValue);
+        }
+
+        List<TSelectType> selectTypeList = this.findByNamedParam(hql.toString(), params);
+
+        if (selectTypeList == null || selectTypeList.isEmpty()) {
+            return new TSelectType();
+        } else {
+            return selectTypeList.get(0);
+        }
+    }
+
 }

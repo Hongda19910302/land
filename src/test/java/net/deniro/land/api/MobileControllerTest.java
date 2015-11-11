@@ -12,7 +12,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,7 +47,19 @@ public class MobileControllerTest {
     }
 
     @Test
-    public void complexPageCase(){
+    public void findCaseById() {
+        String queryString = "caseId=129";
+
+        String action = "case-detail";
+        String url = URL_PREFIX + action;
+        String newUrl = NEW_URL_PREFIX + action;
+
+        Assert.assertEquals(HttpUtils.doGet(url, queryString, false), HttpUtils.doGet(newUrl,
+                queryString, false));
+    }
+
+    @Test
+    public void complexPageCase() {
         String queryString = "userId=37&searchType=2&pageNo=1&limit=10&regionId=102" +
                 "&beginDate=2014-10-23&creatorName=18905910011";
 
@@ -61,7 +72,7 @@ public class MobileControllerTest {
     }
 
     @Test
-    public void findPageCase(){
+    public void findPageCase() {
         String queryString = "userId=37&searchType=2&pageNo=1&limit=10";
 
         String action = "search-case";
@@ -73,7 +84,7 @@ public class MobileControllerTest {
     }
 
     @Test
-    public void findInspectorByUserId(){
+    public void findInspectorByUserId() {
         String queryString = "xcyId=1";
 
         String action = "get-inspector-by-userId";
@@ -85,7 +96,7 @@ public class MobileControllerTest {
     }
 
     @Test
-    public void findInspectorsByDepartmentId(){
+    public void findInspectorsByDepartmentId() {
         String queryString = "departmentId=1";
 
         String action = "get-inspector-by-com";
@@ -97,7 +108,7 @@ public class MobileControllerTest {
     }
 
     @Test
-    public void findInspectorsByCreatorId(){
+    public void findInspectorsByCreatorId() {
         String queryString = "creatorId=37";
 
         String action = "get-recommond-inspector";
