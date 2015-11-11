@@ -27,6 +27,11 @@ public class CaseDaoTest {
     private CaseDao caseDao;
 
     @Test
+    public void findById() {
+        System.out.println("findById:"+caseDao.findById(129));
+    }
+
+    @Test
     public void testComplexFindPage() throws Exception {
         CaseQueryParam caseQueryParam = new CaseQueryParam();
         caseQueryParam.setUserId("37");

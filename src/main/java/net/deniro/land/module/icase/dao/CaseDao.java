@@ -32,6 +32,23 @@ public class CaseDao extends BaseDao<TCase> {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
+     * 依据ID，获取案件
+     *
+     * @param caseId
+     * @return
+     */
+    public TCase findById(Integer caseId) {
+        String hql = " from TCase where recycleStatus =0 and caseId=? ";
+        List<TCase> list = this.find(hql, caseId);
+        if (list != null && !list.isEmpty()) {
+            return list.get(0);
+        } else {
+            return new TCase();
+        }
+    }
+
+
+    /**
      * 分页查询
      *
      * @param queryParam 查询参数
