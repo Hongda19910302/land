@@ -1,10 +1,12 @@
 package net.deniro.land.module.icase.dao;
 
-import net.deniro.land.api.entity.CaseVariableField;
 import net.deniro.land.common.dao.BaseDao;
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.module.icase.entity.CaseQueryParam;
+import net.deniro.land.module.icase.entity.CaseVariableField;
 import net.deniro.land.module.icase.entity.TCase;
+import net.deniro.land.module.icase.entity.VariableDataValueSelectName;
+import org.apache.commons.collections.map.MultiKeyMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
@@ -31,6 +33,34 @@ public class CaseDao extends BaseDao<TCase> {
 
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    /**
+     * 查询所有 可变字段+数据值，确定选择类型名称 映射列表
+     * <p>
+     * 有需要，可以做成系统缓存
+     *
+     * @return
+     */
+    public List<VariableDataValueSelectName> findAllVSD() {
+        StringBuilder sql = new StringBuilder("SELECT * FROM v_find_select_type_by_variable_and_value");
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        return namedParameterJdbcTemplate.query(sql.toString(), params, new
+                RowMapper<VariableDataValueSelectName>() {
+                    public VariableDataValueSelectName mapRow(ResultSet resultSet, int i) throws SQLException {
+                        Integer variableFieldId = resultSet.getInt("VARIABLE_FIELD_ID");
+                        Integer dataTypeValue = resultSet.getInt("DATA_TYPE_VALUE");
+                        String selectTypeName = resultSet.getString("SELECT_TYPE_NAME");
+
+                        VariableDataValueSelectName entity = new
+                                VariableDataValueSelectName();
+                        entity.setDataTypeValue(dataTypeValue);
+                        entity.setSelectTypeName(selectTypeName);
+                        entity.setVariableFieldId(variableFieldId);
+                        return entity;
+                    }
+                });
+    }
 
     /**
      * 依据案件ID，查询案件可变字段列表

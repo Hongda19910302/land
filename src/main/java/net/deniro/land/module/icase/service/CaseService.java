@@ -3,13 +3,21 @@ package net.deniro.land.module.icase.service;
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.module.icase.dao.CaseDao;
 import net.deniro.land.module.icase.entity.CaseQueryParam;
+import net.deniro.land.module.icase.entity.CaseVariableField;
 import net.deniro.land.module.icase.entity.TCase;
+import net.deniro.land.module.icase.entity.VariableDataValueSelectName;
 import net.deniro.land.module.system.dao.UserDao;
 import net.deniro.land.module.system.entity.User;
+import org.apache.commons.collections.map.MultiKeyMap;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.Column;
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * 案件
@@ -27,6 +35,69 @@ public class CaseService {
 
     @Autowired
     private UserDao userDao;
+
+    /**
+     * 依据案件ID，查询案件可变字段列表
+     *
+     * 设置字段值、下拉框显示名称
+     *
+     * @param caseId
+     * @return
+     */
+    public List<CaseVariableField> findVariablesById(Integer caseId) {
+
+        List<CaseVariableField> variableFields = caseDao.findVariablesById(caseId);
+
+        /**
+         * 组装多键Map；key：可变字段+数据值；value:选择类型名称
+         */
+        MultiKeyMap data = new MultiKeyMap();
+        List<VariableDataValueSelectName> vsd = caseDao.findAllVSD();
+        for (VariableDataValueSelectName v : vsd) {
+            data.put(v.getVariableFieldId(), v.getDataTypeValue(), v.getSelectTypeName());
+        }
+        System.out.println("data:" + data);
+
+
+        /**
+         * 设置字段值、下拉框显示名称
+         */
+        TCase tCase = caseDao.findById(caseId);
+        for (CaseVariableField v : variableFields) {
+            Object fieldValue = getFieldValue(tCase, v.getTableField());
+            v.setFieldValue(fieldValue);
+            v.setFieldShow((String) data.get(v.getVariableFieldId(), NumberUtils.toInt
+                    (String.valueOf(fieldValue))));
+        }
+
+        return variableFields;
+    }
+
+    /**
+     * 获取对象实例中的字段值
+     *
+     * @param t         对象实例
+     * @param fieldName 对象名称
+     * @param <T>       对象类型
+     * @return
+     */
+    private static <T> Object getFieldValue(T t, String fieldName) {
+        Object r = null;
+        try {
+            Class clazz = t.getClass();
+            Field[] fields = clazz.getDeclaredFields();
+            for (Field field : fields) {
+                Column column = field.getAnnotation(Column.class);
+                if (column != null && StringUtils.equalsIgnoreCase(column.name(), fieldName)) {
+                    field.setAccessible(true);
+                    r = field.get(t);
+                }
+            }
+        } catch (IllegalAccessException e) {
+            logger.error("获取对象实例中的字段值", e);
+        }
+        return r;
+    }
 
     /**
      * 依据ID，获取案件

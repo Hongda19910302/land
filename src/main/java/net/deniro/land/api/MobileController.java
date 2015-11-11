@@ -315,47 +315,4 @@ public class MobileController {
 
         return URL_PREFIX + "loginResult";
     }
-
-    /**
-     * 获取案件字段值
-     * <p>
-     * 该方法每次获取时，都会查询一次库表，耗资源
-     *
-     * @param caseId    案件ID
-     * @param fieldName 字段名称
-     * @return
-     */
-    @Deprecated
-    public Object getCaseFieldValue(Integer caseId, String fieldName) {
-        TCase tCase = caseService.findById(caseId);
-        return getFieldValue(tCase, fieldName);
-    }
-
-
-    /**
-     * 获取对象实例中的字段值
-     *
-     * @param t         对象实例
-     * @param fieldName 对象名称
-     * @param <T>       对象类型
-     * @return
-     */
-    @Deprecated
-    public static <T> Object getFieldValue(T t, String fieldName) {
-        Object r = null;
-        try {
-            Class clazz = t.getClass();
-            Field[] fields = clazz.getDeclaredFields();
-            for (Field field : fields) {
-                Column column = field.getAnnotation(Column.class);
-                if (column != null && StringUtils.equalsIgnoreCase(column.name(), fieldName)) {
-                    field.setAccessible(true);
-                    r = field.get(t);
-                }
-            }
-        } catch (IllegalAccessException e) {
-            logger.error("获取对象实例中的字段值", e);
-        }
-        return r;
-    }
 }

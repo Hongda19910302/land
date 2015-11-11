@@ -1,4 +1,4 @@
-package net.deniro.land.api.entity;
+package net.deniro.land.module.icase.entity;
 
 import lombok.Data;
 
@@ -24,7 +24,7 @@ public class CaseVariableField {
     /**
      * 字段实际值
      */
-    private String fieldValue;
+    private Object fieldValue;
 
     /**
      * 字段显示出来的值；主要用于下拉显示的值，若为非下拉，值为“”
