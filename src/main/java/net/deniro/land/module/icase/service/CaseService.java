@@ -56,8 +56,6 @@ public class CaseService {
         for (VariableDataValueSelectName v : vsd) {
             data.put(v.getVariableFieldId(), v.getDataTypeValue(), v.getSelectTypeName());
         }
-        System.out.println("data:" + data);
-
 
         /**
          * 设置字段值、下拉框显示名称
