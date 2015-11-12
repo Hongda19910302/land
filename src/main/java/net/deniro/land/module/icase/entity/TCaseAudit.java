@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 案件审查信息
+ * 案件审查记录
  *
  * @author deniro（AnnotationHibernateCodeMarker）
  *         2015-11-12

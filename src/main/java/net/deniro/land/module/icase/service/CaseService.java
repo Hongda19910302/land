@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.Column;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,14 +38,24 @@ public class CaseService {
     @Autowired
     private InspectDao inspectDao;
 
-    public TInspect findInspectByCaseId(Integer caseId){
-//        inspectDao.get()
-        return null;
+    /**
+     * 获取巡查记录列表
+     *
+     * @param caseId 案件ID
+     * @return
+     */
+    public List<TInspect> findInspectByCaseId(Integer caseId) {
+        try {
+            return inspectDao.findByCaseId(caseId);
+        } catch (Exception e) {
+            logger.error("获取巡查记录列表", e);
+            return new ArrayList<TInspect>();
+        }
     }
 
     /**
      * 依据案件ID，查询案件可变字段列表
-     *
+     * <p>
      * 设置字段值、下拉框显示名称
      *
      * @param caseId
