@@ -58,6 +58,31 @@ public class MobileController {
     public static final String URL_PREFIX = "mobile/";
 
     /**
+     * 案件详情-案件流转记录
+     *
+     * @param caseId
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "get-case-flow-record")
+    public String findFlowRecordByCaseId(Integer caseId, ModelMap mm) {
+        ResponseResult r = null;
+
+        try {
+            mm.addAttribute("caseFlowRecordList", caseService.findFlowRecordByCaseId
+                    (caseId));
+
+            r = new SuccessResult();
+        } catch (Exception e) {
+            logger.error("案件详情-案件流转记录");
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX + "findFlowRecordByCaseIdResult";
+        }
+    }
+
+    /**
      * 案件详情-巡查记录+核查记录
      *
      * @param caseId
@@ -69,10 +94,10 @@ public class MobileController {
         ResponseResult r = null;
 
         try {
-            List<CaseVariableField> fields=caseService.findVariablesById(caseId);
-            TCase tCase = caseService.findById(caseId,fields);
+            List<CaseVariableField> fields = caseService.findVariablesById(caseId);
+            TCase tCase = caseService.findById(caseId, fields);
             mm.addAttribute("tCase", tCase);
-            mm.addAttribute("inspectList", caseService.findInspectById(caseId,fields));
+            mm.addAttribute("inspectList", caseService.findInspectById(caseId, fields));
             mm.addAttribute("caseAuditList", caseService.findAuditById(caseId));
 
             r = new SuccessResult();

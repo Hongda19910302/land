@@ -3,6 +3,7 @@ package net.deniro.land.module.icase.service;
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.module.icase.dao.AuditDao;
 import net.deniro.land.module.icase.dao.CaseDao;
+import net.deniro.land.module.icase.dao.FlowRecordDao;
 import net.deniro.land.module.icase.dao.InspectDao;
 import net.deniro.land.module.icase.entity.*;
 import net.deniro.land.module.system.dao.UserDao;
@@ -41,6 +42,24 @@ public class CaseService {
 
     @Autowired
     private AuditDao auditDao;
+
+    @Autowired
+    private FlowRecordDao flowRecordDao;
+
+    /**
+     * 通过案件ID，查询流转记录
+     *
+     * @param caseId
+     * @return
+     */
+    public List<TCaseFlowRecord> findFlowRecordByCaseId(Integer caseId) {
+        try {
+            return flowRecordDao.findByCaseId(caseId);
+        } catch (Exception e) {
+            logger.error(" 通过案件ID，查询流转记录", e);
+            return new ArrayList<TCaseFlowRecord>();
+        }
+    }
 
     /**
      * 查询审查记录列表（已结案）
@@ -174,7 +193,7 @@ public class CaseService {
     /**
      * 获取可变字段的实际值
      *
-     * @param fields     案件可变字段列表
+     * @param fields         案件可变字段列表
      * @param ClassFieldName 类字段名称
      * @return
      */

@@ -1,6 +1,6 @@
 {
-"result":"${result?default('')}",
-"describe":"${describe?default('')}",
+"result":"${r.result?default('')}",
+"describe":"${r.describe?default('')}",
 "caseState":"<#if tCase.status??><#if tCase.status==1>预立案<#elseif tCase.status==2>巡查制止<#elseif tCase.status==3>申请结案<#elseif tCase.status==4>结案审核通过<#elseif tCase.status==5>二次结案审核通过<#elseif tCase.status==6>删除案件<#elseif tCase.status==7>撤销案件<#else>全部案件</#if></#if>",
 "inspectList":[
 <#if tCase??>
