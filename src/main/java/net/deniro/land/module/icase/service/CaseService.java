@@ -67,7 +67,7 @@ public class CaseService {
         try {
             List<TInspect> inspects = inspectDao.findByCaseId(caseId);
             for (TInspect inspect : inspects) {
-                inspect.setInspectResult(getActualValue(fields, "inspect_result"));
+                inspect.setInspectResult(getActualValue(fields, "inspectResult"));
             }
             return inspects;
         } catch (Exception e) {
@@ -162,7 +162,7 @@ public class CaseService {
     public TCase findById(Integer caseId, List<CaseVariableField> fields) {
         try {
             TCase tCase = caseDao.findById(caseId);
-            tCase.setSurveyResult(getActualValue(fields, "survey_result"));
+            tCase.setSurveyResult(getActualValue(fields, "surveyResult"));
             return tCase;
         } catch (Exception e) {
             logger.error(" 依据ID，获取案件；并设置巡查结果", e);
@@ -175,13 +175,13 @@ public class CaseService {
      * 获取可变字段的实际值
      *
      * @param fields     案件可变字段列表
-     * @param tableField 表字段名称
+     * @param ClassFieldName 类字段名称
      * @return
      */
     private static Integer getActualValue(List<CaseVariableField> fields, String
-            tableField) {
+            ClassFieldName) {
         for (CaseVariableField field : fields) {
-            if (StringUtils.equals(field.getTableField(), tableField)) {
+            if (StringUtils.equals(field.getFieldKey(), ClassFieldName)) {
                 return NumberUtils.toInt(field.getFieldShow());
             }
         }
