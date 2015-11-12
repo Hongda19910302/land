@@ -33,7 +33,9 @@ public class AnnotationHibernateCodeMarkerTest {
     public void testMark() throws Exception {
 
         List<String> tableNames = new ArrayList<String>();
-        tableNames.add("t_case");
+        tableNames.add("t_case_audit");
+        tableNames.add("t_attachment");
+        tableNames.add("t_attachment_relation");
 
         String packagePath = "net.deniro.land.module.icase.entity";
 
