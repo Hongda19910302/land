@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * 行政区域
@@ -22,7 +23,7 @@ public class TRegion implements Serializable {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "region_id", nullable = true, length = 10)
+    @Column(name = "region_id", nullable = true, length = 11)
     private Integer regionId;
 
     /**
@@ -34,13 +35,13 @@ public class TRegion implements Serializable {
     /**
      * 上级行政地区ID
      */
-    @Column(name = "parent_id", nullable = true, length = 10)
+    @Column(name = "parent_id", nullable = true, length = 11)
     private Integer parentId;
 
     /**
      * 行政地区级别
      */
-    @Column(name = "region_level", nullable = true, length = 10)
+    @Column(name = "region_level", nullable = true, length = 11)
     private Integer regionLevel;
 
     /**
@@ -62,7 +63,7 @@ public class TRegion implements Serializable {
     private String regionCode;
 
     /**
-     * 状态0:正常 1:停用
+     * 状态 0:正常 1:停用
      */
     @Column(name = "status", nullable = true, length = 10)
     private Integer status;
@@ -71,13 +72,13 @@ public class TRegion implements Serializable {
      * 精度
      */
     @Column(name = "lng", nullable = true, length = 0)
-    private String lng;
+    private BigDecimal lng;
 
     /**
      * 纬度
      */
     @Column(name = "lat", nullable = true, length = 0)
-    private String lat;
+    private BigDecimal lat;
 
     /**
      * 上级区域

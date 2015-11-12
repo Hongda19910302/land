@@ -30,7 +30,7 @@ public class TCase implements Serializable {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "case_id", nullable = true, length = 10)
+    @Column(name = "case_id", nullable = true, length = 11)
     private Integer caseId;
 
     /**
@@ -48,7 +48,7 @@ public class TCase implements Serializable {
     /**
      * 创建人id
      */
-    @Column(name = "creater_id", nullable = true, length = 10)
+    @Column(name = "creater_id", nullable = true, length = 11)
     private Integer createrId;
 
     /**
@@ -66,7 +66,7 @@ public class TCase implements Serializable {
     /**
      * 所在地区ID
      */
-    @Column(name = "region_id", nullable = true, length = 10)
+    @Column(name = "region_id", nullable = true, length = 11)
     private Integer regionId;
 
     /**
@@ -120,38 +120,38 @@ public class TCase implements Serializable {
     /**
      * 违建类型；1.违法用地 2.违法建设
      */
-    @Column(name = "illegal_type", nullable = true, length = 10)
+    @Column(name = "illegal_type", nullable = true, length = 2)
     private Integer illegalType;
 
     /**
      * 用地性质；1:非耕地 2:农田
      */
-    @Column(name = "land_usage", nullable = true, length = 10)
+    @Column(name = "land_usage", nullable = true, length = 2)
     private Integer landUsage;
 
     /**
      * 违法现状
      */
-    @Column(name = "current_status", nullable = true, length = 10)
+    @Column(name = "current_status", nullable = true, length = 2)
     private Integer currentStatus;
 
     /**
      * 巡查结果；1：制止不住 2：制止到位 3：未拆除
      * 4：已拆除 5：已审批 6：已批复 7：复耕 8：查处移送 9：房屋维修 10：违规搭建
      */
-    @Column(name = "survey_result", nullable = true, length = 10)
+    @Column(name = "survey_result", nullable = true, length = 2)
     private Integer surveyResult;
 
     /**
      * 案件来源
      */
-    @Column(name = "case_source", nullable = true, length = 10)
+    @Column(name = "case_source", nullable = true, length = 2)
     private Integer caseSource;
 
     /**
      * 巡查员ID
      */
-    @Column(name = "inspector_id", nullable = true, length = 10)
+    @Column(name = "inspector_id", nullable = true, length = 11)
     private Integer inspectorId;
 
     /**
@@ -175,19 +175,19 @@ public class TCase implements Serializable {
     /**
      * 定位类型
      */
-    @Column(name = "locate_type", nullable = true, length = 10)
+    @Column(name = "locate_type", nullable = true, length = 2)
     private Integer locateType;
 
     /**
      * 回收状态；0：不处于；1：已处于
      */
-    @Column(name = "recycle_status", nullable = true, length = 10)
+    @Column(name = "recycle_status", nullable = true, length = 2)
     private Integer recycleStatus;
 
     /**
      * 案件状态 0：全部案件 1:预立案 2:巡查制止 3:申请结案 4:结案审核通过 5:二次结案审核通过 6:删除 7：撤销案件
      */
-    @Column(name = "status", nullable = true, length = 10)
+    @Column(name = "status", nullable = true, length = 2)
     private Integer status;
 
     /**
@@ -205,25 +205,25 @@ public class TCase implements Serializable {
     /**
      * 单位id
      */
-    @Column(name = "company_id", nullable = true, length = 10)
+    @Column(name = "company_id", nullable = true, length = 11)
     private Integer companyId;
 
     /**
      * 部门id
      */
-    @Column(name = "department_id", nullable = true, length = 10)
+    @Column(name = "department_id", nullable = true, length = 11)
     private Integer departmentId;
 
     /**
      * 是否上报  1：未上报  2：已上报
      */
-    @Column(name = "is_upload", nullable = true, length = 10)
+    @Column(name = "is_upload", nullable = true, length = 2)
     private Integer isUpload;
 
     /**
      *
      */
-    @Column(name = "illegal_use", nullable = true, length = 10)
+    @Column(name = "illegal_use", nullable = true, length = 2)
     private Integer illegalUse;
 
     @Setter
