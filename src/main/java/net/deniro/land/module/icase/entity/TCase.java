@@ -2,12 +2,18 @@ package net.deniro.land.module.icase.entity;
 
 import lombok.Data;
 import lombok.Setter;
+import net.deniro.land.common.utils.SpringContextUtils;
+import net.deniro.land.module.icase.dao.AttachmentDao;
 import net.deniro.land.module.system.entity.TRegion;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+
+import static net.deniro.land.module.icase.entity.TAttachmentRelation.RelationType.AUDIT;
+import static net.deniro.land.module.icase.entity.TAttachmentRelation.RelationType.CASE;
 
 /**
  * 案件
@@ -230,6 +236,30 @@ public class TCase implements Serializable {
     @JoinColumn(name = "REGION_ID", referencedColumnName = "REGION_ID", insertable = false, updatable = false)
     private TRegion findRegion;
 
+    /**
+     * 附件
+     */
+    @Transient
+    @Setter
+    private List<TAttachment> attachmentList;
+
+    /**
+     * 获取附件
+     *
+     * @return
+     */
+    public List<TAttachment> getAttachmentList() {
+
+        if (attachmentList == null) {
+            if (caseId != null) {
+                attachmentList = ((AttachmentDao) SpringContextUtils.
+                        getBean("attachmentDao")).findByAuditIdAndType(caseId,
+                        CASE);
+            }
+        }
+        return attachmentList;
+
+    }
 
     /**
      * 案件状态

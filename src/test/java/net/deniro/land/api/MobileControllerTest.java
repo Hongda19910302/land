@@ -45,6 +45,18 @@ public class MobileControllerTest {
     public void tearDown() throws Exception {
 
     }
+    @Test
+    public void findInspectAndAuditById() {
+        String queryString = "caseId=129";
+
+        String action = "get-inspect-record";
+        String url = URL_PREFIX + action;
+        String newUrl = NEW_URL_PREFIX + action;
+
+        Assert.assertEquals(HttpUtils.doGet(url, queryString, false), HttpUtils.doGet(newUrl,
+                queryString, false));
+    }
+
 
     @Test
     public void findCaseById() {

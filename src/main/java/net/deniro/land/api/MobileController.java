@@ -70,9 +70,9 @@ public class MobileController {
 
         try {
             List<CaseVariableField> fields=caseService.findVariablesById(caseId);
-            TCase tCase = caseService.findById(caseId);
+            TCase tCase = caseService.findById(caseId,fields);
             mm.addAttribute("tCase", tCase);
-//            mm.addAttribute("inspectList", caseService.findInspectById(caseId));
+            mm.addAttribute("inspectList", caseService.findInspectById(caseId,fields));
             mm.addAttribute("caseAuditList", caseService.findAuditById(caseId));
 
             r = new SuccessResult();

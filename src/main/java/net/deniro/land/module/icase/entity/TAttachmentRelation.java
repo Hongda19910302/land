@@ -32,7 +32,7 @@ public class TAttachmentRelation implements Serializable {
     private Integer relationType;
 
     /**
-     * 案件巡查记录ID
+     * 关系表的ID
      */
     @Column(name = "relation_id", nullable = true, length = 11)
     private Integer relationId;

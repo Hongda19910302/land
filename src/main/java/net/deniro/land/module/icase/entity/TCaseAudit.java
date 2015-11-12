@@ -1,11 +1,17 @@
 package net.deniro.land.module.icase.entity;
 
 import lombok.Data;
+import lombok.Setter;
+import net.deniro.land.common.utils.SpringContextUtils;
+import net.deniro.land.module.icase.dao.AttachmentDao;
 import net.deniro.land.module.system.entity.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
+import static net.deniro.land.module.icase.entity.TAttachmentRelation.RelationType.AUDIT;
 
 /**
  * 案件审查记录
@@ -82,6 +88,31 @@ public class TCaseAudit implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "AUDITER_ID", referencedColumnName = "USER_ID", insertable = false, updatable = false)
     private User findAuditer;
+
+    /**
+     * 附件
+     */
+    @Transient
+    @Setter
+    private List<TAttachment> attachmentList;
+
+    /**
+     * 获取附件
+     *
+     * @return
+     */
+    public List<TAttachment> getAttachmentList() {
+
+        if (attachmentList == null) {
+            if (this.getCaseAuditId() != null) {
+                attachmentList = ((AttachmentDao) SpringContextUtils.
+                        getBean("attachmentDao")).findByAuditIdAndType(caseAuditId,
+                        AUDIT);
+            }
+        }
+        return attachmentList;
+
+    }
 
     /**
      * 审核类型
