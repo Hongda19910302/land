@@ -2,10 +2,8 @@ package net.deniro.land.module.icase.service;
 
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.module.icase.dao.CaseDao;
-import net.deniro.land.module.icase.entity.CaseQueryParam;
-import net.deniro.land.module.icase.entity.CaseVariableField;
-import net.deniro.land.module.icase.entity.TCase;
-import net.deniro.land.module.icase.entity.VariableDataValueSelectName;
+import net.deniro.land.module.icase.dao.InspectDao;
+import net.deniro.land.module.icase.entity.*;
 import net.deniro.land.module.system.dao.UserDao;
 import net.deniro.land.module.system.entity.User;
 import org.apache.commons.collections.map.MultiKeyMap;
@@ -35,6 +33,14 @@ public class CaseService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private InspectDao inspectDao;
+
+    public TInspect findInspectByCaseId(Integer caseId){
+//        inspectDao.get()
+        return null;
+    }
 
     /**
      * 依据案件ID，查询案件可变字段列表
