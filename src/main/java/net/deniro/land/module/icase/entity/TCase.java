@@ -136,8 +136,7 @@ public class TCase implements Serializable {
     private Integer currentStatus;
 
     /**
-     * 巡查结果；1：制止不住 2：制止到位 3：未拆除
-     * 4：已拆除 5：已审批 6：已批复 7：复耕 8：查处移送 9：房屋维修 10：违规搭建
+     * 巡查结果；来自可变字段
      */
     @Column(name = "survey_result", nullable = true, length = 2)
     private Integer surveyResult;
@@ -228,7 +227,7 @@ public class TCase implements Serializable {
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "REGION_ID", referencedColumnName = "REGION_ID" ,insertable = false, updatable = false)
+    @JoinColumn(name = "REGION_ID", referencedColumnName = "REGION_ID", insertable = false, updatable = false)
     private TRegion findRegion;
 
 
@@ -243,19 +242,19 @@ public class TCase implements Serializable {
         /**
          * 预立案
          */
-        PREPARE(1,2),
+        PREPARE(1, 2),
         /**
          * 巡查制止
          */
-        INSPECT(2,3),
+        INSPECT(2, 3),
         /**
          * 申请结案
          */
-        APPLY(3,4),
+        APPLY(3, 4),
         /**
          * 结案审核通过
          */
-        FIRST_OVER(4,5),
+        FIRST_OVER(4, 5),
         /**
          * 二次结案审核通过
          */
@@ -282,7 +281,7 @@ public class TCase implements Serializable {
             this.code = code;
         }
 
-        CaseStatus(int code,int moblieCode) {
+        CaseStatus(int code, int moblieCode) {
 
             this.moblieCode = moblieCode;
             this.code = code;

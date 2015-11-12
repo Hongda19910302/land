@@ -26,13 +26,13 @@ public class TAttachmentRelation implements Serializable {
     private Integer attachmentRelationId;
 
     /**
-     * 关联类型 0：案件 1：巡查记录 2:案件审核 4:受理单
+     * 关联类型 0：案件 1：巡查记录 2:案件审核 3：草稿 4:受理单 5：反馈意见
      */
     @Column(name = "relation_type", nullable = true, length = 2)
     private Integer relationType;
 
     /**
-     * 案件ID
+     * 案件巡查记录ID
      */
     @Column(name = "relation_id", nullable = true, length = 11)
     private Integer relationId;
@@ -42,4 +42,60 @@ public class TAttachmentRelation implements Serializable {
      */
     @Column(name = "attachment_id", nullable = true, length = 11)
     private Integer attachmentId;
+
+    /**
+     * 关联类型
+     */
+    public enum RelationType {
+        /**
+         * 案件
+         */
+        CASE(0),
+        /**
+         * 巡查记录
+         */
+        INSPECT(1),
+        /**
+         * 案件审核
+         */
+        AUDIT(2),
+        /**
+         * 草稿
+         */
+        DRAFT(3),
+        /**
+         * 受理单
+         */
+        ACCEPTANCE(4),
+        /**
+         * 反馈意见
+         */
+        FEEDBACK(5);
+
+        private int code;
+
+        RelationType(int code) {
+            this.code = code;
+        }
+
+        /**
+         * 获取枚举对象
+         *
+         * @param code 来源码
+         * @return
+         */
+        public static RelationType get(int code) {
+            RelationType[] sources = RelationType.values();
+            for (RelationType source : sources) {
+                if (source.code() == code) {
+                    return source;
+                }
+            }
+            return null;
+        }
+
+        public int code() {
+            return code;
+        }
+    }
 }

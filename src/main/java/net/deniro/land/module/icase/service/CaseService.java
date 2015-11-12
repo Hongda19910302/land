@@ -1,6 +1,7 @@
 package net.deniro.land.module.icase.service;
 
 import net.deniro.land.common.dao.Page;
+import net.deniro.land.module.icase.dao.AuditDao;
 import net.deniro.land.module.icase.dao.CaseDao;
 import net.deniro.land.module.icase.dao.InspectDao;
 import net.deniro.land.module.icase.entity.*;
@@ -38,15 +39,37 @@ public class CaseService {
     @Autowired
     private InspectDao inspectDao;
 
+    @Autowired
+    private AuditDao auditDao;
+
+    /**
+     * 查询审查记录列表（已结案）
+     *
+     * @param caseId 案件ID
+     * @return
+     */
+    public List<TCaseAudit> findAuditById(Integer caseId) {
+        try {
+            return auditDao.findByCaseId(caseId);
+        } catch (Exception e) {
+            logger.error(" 查询审查记录列表（已结案）", e);
+            return new ArrayList<TCaseAudit>();
+        }
+    }
+
     /**
      * 获取巡查记录列表
      *
      * @param caseId 案件ID
      * @return
      */
-    public List<TInspect> findInspectByCaseId(Integer caseId) {
+    public List<TInspect> findInspectById(Integer caseId, List<CaseVariableField> fields) {
         try {
-            return inspectDao.findByCaseId(caseId);
+            List<TInspect> inspects = inspectDao.findByCaseId(caseId);
+            for (TInspect inspect : inspects) {
+                inspect.setInspectResult(getActualValue(fields, "inspect_result"));
+            }
+            return inspects;
         } catch (Exception e) {
             logger.error("获取巡查记录列表", e);
             return new ArrayList<TInspect>();
@@ -127,6 +150,42 @@ public class CaseService {
             logger.error(" 依据ID，获取案件", e);
             return new TCase();
         }
+    }
+
+    /**
+     * 依据ID，获取案件；并设置巡查结果
+     *
+     * @param caseId
+     * @param fields 可变字段
+     * @return
+     */
+    public TCase findById(Integer caseId, List<CaseVariableField> fields) {
+        try {
+            TCase tCase = caseDao.findById(caseId);
+            tCase.setSurveyResult(getActualValue(fields, "survey_result"));
+            return tCase;
+        } catch (Exception e) {
+            logger.error(" 依据ID，获取案件；并设置巡查结果", e);
+            return new TCase();
+        }
+    }
+
+
+    /**
+     * 获取可变字段的实际值
+     *
+     * @param fields     案件可变字段列表
+     * @param tableField 表字段名称
+     * @return
+     */
+    private static Integer getActualValue(List<CaseVariableField> fields, String
+            tableField) {
+        for (CaseVariableField field : fields) {
+            if (StringUtils.equals(field.getTableField(), tableField)) {
+                return NumberUtils.toInt(field.getFieldShow());
+            }
+        }
+        return -1;
     }
 
     /**

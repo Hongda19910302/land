@@ -4,6 +4,7 @@ import net.deniro.land.api.entity.*;
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.common.service.dwz.Result;
 import net.deniro.land.module.icase.entity.CaseQueryParam;
+import net.deniro.land.module.icase.entity.CaseVariableField;
 import net.deniro.land.module.icase.entity.TCase;
 import net.deniro.land.module.icase.entity.TVariableField;
 import net.deniro.land.module.icase.service.CaseService;
@@ -14,7 +15,6 @@ import net.deniro.land.module.system.entity.User;
 import net.deniro.land.module.system.service.DepartmentService;
 import net.deniro.land.module.system.service.RegionService;
 import net.deniro.land.module.system.service.UserService;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
@@ -23,8 +23,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.persistence.Column;
-import java.lang.reflect.Field;
 import java.util.List;
 
 /**
@@ -60,6 +58,35 @@ public class MobileController {
     public static final String URL_PREFIX = "mobile/";
 
     /**
+     * 案件详情-巡查记录+核查记录
+     *
+     * @param caseId
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "get-inspect-record")
+    public String findInspectAndAuditById(Integer caseId, ModelMap mm) {
+        ResponseResult r = null;
+
+        try {
+            List<CaseVariableField> fields=caseService.findVariablesById(caseId);
+            TCase tCase = caseService.findById(caseId);
+            mm.addAttribute("tCase", tCase);
+//            mm.addAttribute("inspectList", caseService.findInspectById(caseId));
+            mm.addAttribute("caseAuditList", caseService.findAuditById(caseId));
+
+            r = new SuccessResult();
+        } catch (Exception e) {
+            logger.error("案件详情-巡查记录+核查记录");
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX + "findInspectAndAuditByIdResult";
+        }
+    }
+
+
+    /**
      * 案件详情
      *
      * @param caseId
@@ -77,7 +104,7 @@ public class MobileController {
 
             r = new SuccessResult();
         } catch (Exception e) {
-            logger.error("分页查询案件");
+            logger.error("案件详情");
             r = new FailureResult();
         } finally {
             mm.addAttribute("r", r);
