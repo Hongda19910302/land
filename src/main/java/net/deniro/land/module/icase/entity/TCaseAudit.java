@@ -82,4 +82,44 @@ public class TCaseAudit implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "AUDITER_ID", referencedColumnName = "USER_ID", insertable = false, updatable = false)
     private User findAuditer;
+
+    /**
+     * 审核类型
+     */
+    public enum Type {
+        /**
+         * 立案
+         */
+        START(0),
+        /**
+         * 结案
+         */
+        OVER(1);
+
+        private int code;
+
+        Type(int code) {
+            this.code = code;
+        }
+
+        /**
+         * 获取枚举对象
+         *
+         * @param code 来源码
+         * @return
+         */
+        public static Type get(int code) {
+            Type[] sources = Type.values();
+            for (Type source : sources) {
+                if (source.code() == code) {
+                    return source;
+                }
+            }
+            return null;
+        }
+
+        public int code() {
+            return code;
+        }
+    }
 }

@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static net.deniro.land.module.icase.entity.TCaseAudit.Type.OVER;
+
 /**
  * 案件审查记录
  *
@@ -16,13 +18,14 @@ import java.util.List;
 public class AuditDao extends BaseDao<TCaseAudit> {
 
     /**
-     * 查询审查记录列表
+     * 查询审查记录列表（已结案）
      *
      * @param caseId 案件ID
      * @return
      */
     public List<TCaseAudit> findByCaseId(Integer caseId) {
-        String hql = " from TCaseAudit where 1=1 and caseId = ?";
+        String hql = " from TCaseAudit where 1=1 and auditType= " + OVER.code() +
+                " and caseId = ?";
         return this.find(hql, caseId);
     }
 }
