@@ -41,7 +41,6 @@ public class TableDefinitionDao {
         TableDefinition tableDefinition = namedParameterJdbcTemplate.queryForObject(sql
                 .toString(), mps, new
                 RowMapper<TableDefinition>() {
-                    @Override
                     public TableDefinition mapRow(ResultSet resultSet, int i) throws SQLException {
                         TableDefinition entity = new TableDefinition();
                         entity.setName(resultSet.getString("TABLE_NAME"));
@@ -63,13 +62,12 @@ public class TableDefinitionDao {
     public List<FieldDefinition> findFields(String tableName) {
         StringBuilder sql = new StringBuilder("SELECT");
         sql.append(" COLUMN_NAME,COLUMN_COMMENT,DATA_TYPE,CHARACTER_MAXIMUM_LENGTH," +
-                "NUMERIC_PRECISION,COLUMN_KEY");
+                "NUMERIC_PRECISION,COLUMN_KEY,COLUMN_TYPE");
         sql.append(" FROM information_schema.`COLUMNS` WHERE TABLE_NAME =:tableName");
 
         MapSqlParameterSource mps = new MapSqlParameterSource().addValue("tableName", tableName);
 
         return namedParameterJdbcTemplate.query(sql.toString(), mps, new RowMapper<FieldDefinition>() {
-            @Override
             public FieldDefinition mapRow(ResultSet resultSet, int i) throws SQLException {
                 FieldDefinition entity = new FieldDefinition();
 
@@ -85,6 +83,7 @@ public class TableDefinitionDao {
                 entity.setCharacterMaximumLength(resultSet.getInt("CHARACTER_MAXIMUM_LENGTH"));
                 entity.setNumbericPrecision(resultSet.getInt("NUMERIC_PRECISION"));
                 entity.setColumnKey(resultSet.getString("COLUMN_KEY"));
+                entity.setColumnType(resultSet.getString("COLUMN_TYPE"));
                 return entity;
             }
         });

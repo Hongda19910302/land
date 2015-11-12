@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
 * ${tableDefinition.comment}
@@ -33,11 +35,22 @@ public class ${className} implements Serializable {
     <#--如果是数值类型，特殊处理-->
         <#switch field.dataType>
             <#case "int">
-                <#assign fieldLength=field.numbericPrecision>
+                <#assign columnType=field.columnType>
+                <#assign fieldLength=columnType?remove_beginning("int(")?remove_ending(")")>
                 <#assign fieldType="Integer">
                 <#break >
+            <#case "datetime">
+                 <#assign fieldType="Date">
+                <#break>
+            <#case "float">
+                <#assign fieldType="Float">
+                <#break>
+            <#case "decimal">
+                <#assign fieldType="BigDecimal">
+                <#break>
+
         </#switch>
-    @Column(name = "${field.name}", nullable = true, length = ${fieldLength})
+    @Column(name = "${field.name}", nullable = true<#if field.dataType!="datetime">,length = ${fieldLength}</#if>)
     private ${fieldType} ${field.className};
     </#list>
 }

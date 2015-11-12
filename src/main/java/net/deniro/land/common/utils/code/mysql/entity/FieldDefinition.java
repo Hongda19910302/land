@@ -46,5 +46,10 @@ public class FieldDefinition {
      */
     private String columnKey;
 
+    /**
+     * 字段类型
+     */
+    private String columnType;
+
 
 }
