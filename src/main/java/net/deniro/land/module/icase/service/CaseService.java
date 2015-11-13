@@ -6,6 +6,7 @@ import net.deniro.land.module.icase.dao.CaseDao;
 import net.deniro.land.module.icase.dao.FlowRecordDao;
 import net.deniro.land.module.icase.dao.InspectDao;
 import net.deniro.land.module.icase.entity.*;
+import net.deniro.land.module.icase.entity.TCaseAudit.AuditResult;
 import net.deniro.land.module.system.dao.UserDao;
 import net.deniro.land.module.system.entity.User;
 import org.apache.commons.collections.map.MultiKeyMap;
@@ -18,7 +19,14 @@ import org.springframework.stereotype.Service;
 import javax.persistence.Column;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import static net.deniro.land.module.icase.entity.TCase.CaseStatus.CANCEL;
+import static net.deniro.land.module.icase.entity.TCase.CaseStatus.INSPECT;
+import static net.deniro.land.module.icase.entity.TCaseAudit.Type.START;
+import static net.deniro.land.module.icase.entity.TCaseFlowRecord.OperationType.ASSIGN;
+import static net.deniro.land.module.icase.entity.TCaseFlowRecord.OperationType.REGISTER_AUDIT;
 
 /**
  * 案件
@@ -45,6 +53,84 @@ public class CaseService {
 
     @Autowired
     private FlowRecordDao flowRecordDao;
+
+
+    /**
+     * 新建立案审核记录
+     *
+     * @param userId      用户ID
+     * @param caseId      案件ID
+     * @param auditResult 审核结果
+     * @param remark      备注
+     * @return 是否成功
+     */
+    public boolean addAudit(Integer userId, Integer caseId, AuditResult auditResult, String
+            remark) {
+
+        Date currentDate=new Date();
+
+        try {
+            /**
+             * 新建审核记录
+             */
+            TCaseAudit audit = new TCaseAudit();
+            audit.setCaseId(caseId);
+            audit.setAuditTime(currentDate);
+            audit.setRemark(remark);
+            audit.setAuditerId(userId);
+            audit.setAuditType(START.code());
+
+            /**
+             * 新建流转日志
+             */
+            TCaseFlowRecord flowRecord = new TCaseFlowRecord();
+            flowRecord.setCaseId(caseId);
+            flowRecord.setOperaterId(userId);
+            flowRecord.setFromUserId(userId);
+            flowRecord.setCreateTime(currentDate);
+
+            /**
+             * 设置案件状态
+             */
+            TCase tCase = caseDao.findById(caseId);
+            String operationDescription = "";//操作描述
+            switch (auditResult) {
+                case PASS:
+                    User user = userDao.get(userId);
+                    tCase.setDepartmentId(user.getDepartmentId());//设置下一节点操作部门
+                    tCase.setStatus(INSPECT.code());
+                    operationDescription = "通过立案审核！";
+                    flowRecord.setOperationType(REGISTER_AUDIT.code());
+                    break;
+                case NO_PASS:
+                    tCase.setStatus(CANCEL.code());
+                    operationDescription = "撤销案件！";
+                    flowRecord.setOperationType(ASSIGN.code());
+                    break;
+            }
+
+            //更新案件
+            caseDao.update(tCase);
+
+            //保存审核记录
+            audit.setAuditResult(auditResult.code());//设置审核结果
+            auditDao.save(audit);
+
+            //保存流转日志
+            if (StringUtils.isNotBlank(remark)) {//加入审核意见
+                operationDescription = " 审核意见：" + remark;
+            }
+            flowRecord.setOperation(operationDescription);
+            flowRecordDao.save(flowRecord);
+
+            //todo sms
+
+            return true;
+        } catch (Exception e) {
+            logger.error("新建立案审核记录", e);
+            return false;
+        }
+    }
 
     /**
      * 通过案件ID，查询流转记录

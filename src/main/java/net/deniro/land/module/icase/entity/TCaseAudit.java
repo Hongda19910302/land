@@ -115,6 +115,46 @@ public class TCaseAudit implements Serializable {
     }
 
     /**
+     * 审核结果
+     */
+    public enum AuditResult {
+        /**
+         * 通过
+         */
+        PASS(0),
+        /**
+         * 不通过
+         */
+        NO_PASS(1);
+
+        private int code;
+
+        AuditResult(int code) {
+            this.code = code;
+        }
+
+        /**
+         * 获取枚举对象
+         *
+         * @param code 来源码
+         * @return
+         */
+        public static AuditResult get(int code) {
+            AuditResult[] sources = AuditResult.values();
+            for (AuditResult source : sources) {
+                if (source.code() == code) {
+                    return source;
+                }
+            }
+            return null;
+        }
+
+        public int code() {
+            return code;
+        }
+    }
+
+    /**
      * 审核类型
      */
     public enum Type {

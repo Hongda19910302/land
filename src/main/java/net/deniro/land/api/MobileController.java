@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
+import static net.deniro.land.module.icase.entity.TCaseAudit.AuditResult.get;
+
 /**
  * 移动客户端接口
  *
@@ -56,6 +58,45 @@ public class MobileController {
      * 渲染文件的路径前缀
      */
     public static final String URL_PREFIX = "mobile/";
+
+    /**
+     * 通用响应结果模板文件名称
+     */
+    public static final String COMMON_RESULT_TEMPLATE_NAME = "commonResult";
+
+    /**
+     * 新建立案审核记录
+     *
+     * @param userId      用户ID
+     * @param caseId      案件ID
+     * @param auditResult 审核结果
+     * @param remark      备注
+     */
+    @RequestMapping(value = "case-register-audit")
+    public String addAudit(Integer userId, Integer caseId, Integer auditResult, String
+            remark, ModelMap mm) {
+        ResponseResult r = null;
+
+        if(auditResult==null){
+            mm.addAttribute("r", new FailureResult());
+            return URL_PREFIX + COMMON_RESULT_TEMPLATE_NAME;
+        }
+
+        try {
+            boolean isOk = caseService.addAudit(userId, caseId, get(auditResult), remark);
+            if (isOk) {
+                r = new SuccessResult();
+            } else {
+                r = new FailureResult();
+            }
+        } catch (Exception e) {
+            logger.error("新建立案审核记录",e);
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX + COMMON_RESULT_TEMPLATE_NAME;
+        }
+    }
 
     /**
      * 案件详情-案件流转记录

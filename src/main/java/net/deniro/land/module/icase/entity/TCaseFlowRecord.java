@@ -97,5 +97,63 @@ public class TCaseFlowRecord implements Serializable {
     @JoinColumn(name = "CASE_ID", referencedColumnName = "CASE_ID", nullable = true, insertable = false, updatable = false)
     private TCase findCase;
 
+    /**
+     * 操作类型
+     */
+    public enum OperationType {
+        /**
+         * 立案
+         */
+        REGISTER(1),
+        /**
+         * 立案审核
+         */
+        REGISTER_AUDIT(2),
+        /**
+         * 申请结案
+         */
+        APPLY_CLOSE(3),
+        /**
+         * 一次结案审核
+         */
+        FIRST_CLOSE_APPLY(4),
+        /**
+         * 二次结案审核
+         */
+        SECOND_CLOSE_APPLY(5),
+        /**
+         * 删除
+         */
+        DEL(6),
+        /**
+         * 案件指派
+         */
+        ASSIGN(7);
 
+        private int code;
+
+        OperationType(int code) {
+            this.code = code;
+        }
+
+        /**
+         * 获取枚举对象
+         *
+         * @param code 来源码
+         * @return
+         */
+        public static OperationType get(int code) {
+            OperationType[] sources = OperationType.values();
+            for (OperationType source : sources) {
+                if (source.code() == code) {
+                    return source;
+                }
+            }
+            return null;
+        }
+
+        public int code() {
+            return code;
+        }
+    }
 }
