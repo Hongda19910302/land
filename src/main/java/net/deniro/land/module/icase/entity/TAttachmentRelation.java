@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * 附件与案件映射关系
+ * 附件与案件相关（巡查记录、审查记录等等）的映射关系
  *
  * @author deniro（AnnotationHibernateCodeMarker）
  *         2015-11-12

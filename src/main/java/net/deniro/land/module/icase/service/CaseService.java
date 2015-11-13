@@ -1,11 +1,13 @@
 package net.deniro.land.module.icase.service;
 
+import net.deniro.land.api.entity.Images;
+import net.deniro.land.api.entity.InspectParam;
 import net.deniro.land.common.dao.Page;
-import net.deniro.land.module.icase.dao.AuditDao;
-import net.deniro.land.module.icase.dao.CaseDao;
-import net.deniro.land.module.icase.dao.FlowRecordDao;
-import net.deniro.land.module.icase.dao.InspectDao;
+import net.deniro.land.common.utils.JsonUtils;
+import net.deniro.land.common.utils.PropertiesReader;
+import net.deniro.land.module.icase.dao.*;
 import net.deniro.land.module.icase.entity.*;
+import net.deniro.land.module.icase.entity.TAttachmentRelation.RelationType;
 import net.deniro.land.module.icase.entity.TCaseAudit.AuditResult;
 import net.deniro.land.module.system.dao.UserDao;
 import net.deniro.land.module.system.entity.User;
@@ -22,8 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static net.deniro.land.module.icase.entity.TCase.CaseStatus.CANCEL;
-import static net.deniro.land.module.icase.entity.TCase.CaseStatus.INSPECT;
+import static net.deniro.land.module.icase.entity.TCase.CaseStatus.*;
 import static net.deniro.land.module.icase.entity.TCaseAudit.Type.START;
 import static net.deniro.land.module.icase.entity.TCaseFlowRecord.OperationType.ASSIGN;
 import static net.deniro.land.module.icase.entity.TCaseFlowRecord.OperationType.REGISTER_AUDIT;
@@ -54,9 +55,77 @@ public class CaseService {
     @Autowired
     private FlowRecordDao flowRecordDao;
 
+    @Autowired
+    private AttachmentDao attachmentDao;
+
+    @Autowired
+    private AttachmentRelationDao attachmentRelationDao;
+
 
     /**
-     * 新建立案审核记录
+     * 巡查案件
+     *
+     * @param inspectParam
+     * @return 是否成功
+     */
+    public boolean inspect(InspectParam inspectParam) {
+
+        Date currentDate = new Date();
+
+        /**
+         * 更新案件
+         */
+        TCase tCase = caseDao.findById(inspectParam.getCaseId());
+        if (inspectParam.getCaseStatus() == InspectParam.CaseStatus.NO_CLOSE
+                .code()) {//未结案
+            tCase.setStatus(INSPECT.code());
+        } else {//申请结案
+            tCase.setStatus(APPLY.code());
+        }
+        caseDao.update(tCase);
+
+        /**
+         * 创建巡查记录
+         */
+        TInspect inspect = new TInspect();
+        inspect.setCaseId(inspectParam.getCaseId());
+        inspect.setInspectorId(inspectParam.getUserId());
+        inspect.setRemark(inspectParam.getRemark());
+        inspect.setCreateTime(currentDate);
+        inspect.setInspectResult(inspectParam.getInspectResult());
+        //巡查序号【这种方式在并发状态下，会造成序号重复】
+        Integer inspectNo = inspectDao.countByCaseId(inspectParam.getCaseId()) + 1;
+        inspect.setInspectNo(inspectNo);
+        inspectDao.save(inspect);
+
+
+        /**
+         * 创建附件记录
+         */
+        List<Images> images = JsonUtils.readJson(inspectParam.getImages(), List
+                .class, Images.class);
+        for (Images image : images) {
+            //创建附件
+            TAttachment attachment = new TAttachment();
+            attachment.setAddr(PropertiesReader.value("httpPrefix") + image.getImageAddr());
+            attachment.setAttachmentType(image.getImageType());
+            attachment.setCreateTime(currentDate);
+            attachmentDao.save(attachment);
+
+            //创建附件关系
+            TAttachmentRelation tAttachmentRelation = new TAttachmentRelation();
+            tAttachmentRelation.setAttachmentId(attachment.getAttachmentId());
+            tAttachmentRelation.setRelationId(inspect.getInspectId());
+            tAttachmentRelation.setRelationType(RelationType.INSPECT.code());
+            attachmentRelationDao.save(tAttachmentRelation);
+        }
+
+        return true;
+
+    }
+
+    /**
+     * 新建 立案审核记录
      *
      * @param userId      用户ID
      * @param caseId      案件ID
@@ -64,10 +133,10 @@ public class CaseService {
      * @param remark      备注
      * @return 是否成功
      */
-    public boolean addAudit(Integer userId, Integer caseId, AuditResult auditResult, String
+    public boolean audit(Integer userId, Integer caseId, AuditResult auditResult, String
             remark) {
 
-        Date currentDate=new Date();
+        Date currentDate = new Date();
 
         try {
             /**

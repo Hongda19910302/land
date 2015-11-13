@@ -65,6 +65,33 @@ public class MobileController {
     public static final String COMMON_RESULT_TEMPLATE_NAME = "commonResult";
 
     /**
+     * 巡查案件
+     *
+     * @param inspectParam 案件巡查参数
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "inspect-case")
+    public String inspectCase(InspectParam inspectParam, ModelMap mm) {
+        ResponseResult r = null;
+
+        try {
+            boolean isOk = caseService.inspect(inspectParam);
+            if (isOk) {
+                r = new SuccessResult();
+            } else {
+                r = new FailureResult();
+            }
+        } catch (Exception e) {
+            logger.error("巡查案件", e);
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX + COMMON_RESULT_TEMPLATE_NAME;
+        }
+    }
+
+    /**
      * 新建立案审核记录
      *
      * @param userId      用户ID
@@ -73,24 +100,24 @@ public class MobileController {
      * @param remark      备注
      */
     @RequestMapping(value = "case-register-audit")
-    public String addAudit(Integer userId, Integer caseId, Integer auditResult, String
+    public String auditCase(Integer userId, Integer caseId, Integer auditResult, String
             remark, ModelMap mm) {
         ResponseResult r = null;
 
-        if(auditResult==null){
+        if (auditResult == null) {
             mm.addAttribute("r", new FailureResult());
             return URL_PREFIX + COMMON_RESULT_TEMPLATE_NAME;
         }
 
         try {
-            boolean isOk = caseService.addAudit(userId, caseId, get(auditResult), remark);
+            boolean isOk = caseService.audit(userId, caseId, get(auditResult), remark);
             if (isOk) {
                 r = new SuccessResult();
             } else {
                 r = new FailureResult();
             }
         } catch (Exception e) {
-            logger.error("新建立案审核记录",e);
+            logger.error("新建立案审核记录", e);
             r = new FailureResult();
         } finally {
             mm.addAttribute("r", r);

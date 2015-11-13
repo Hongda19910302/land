@@ -52,8 +52,8 @@ public class TInspect implements Serializable {
     private Date createTime;
 
     /**
-     * 巡查结果；0：违规搭建1：制止不住2：制止到位3：未拆除
-     * 4：已拆除5：已审批6：已批复7：复耕8：查处移送9：房屋维修
+     * 巡查结果；0：违规搭建 1：制止不住 2：制止到位 3：未拆除
+     * 4：已拆除 5 ：已审批 6：已批复 7：复耕 8：查处移送 9：房屋维修
      */
     @Column(name = "inspect_result", nullable = true, length = 2)
     private Integer inspectResult;
