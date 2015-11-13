@@ -44,7 +44,7 @@
     <aop:config>
         <!-- 使用aop定义事务增强切面-->
         <aop:pointcut id="serviceMethod"
-                      expression="execution(* net.deniro.*.service.*(..))"/>
+                      expression="execution(* net.deniro..*.service.*(..))"/>
         <!-- 引用事务增强-->
         <aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice"/>
     </aop:config>
