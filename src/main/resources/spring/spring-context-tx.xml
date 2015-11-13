@@ -35,7 +35,7 @@
             <tx:method name="get*" read-only="true"/>
             <tx:method name="find*" read-only="true"/>
             <tx:method name="add*" rollback-for="Exception"/>
-            <tx:method name="update*"/>
+            <tx:method name="*"/>
         </tx:attributes>
     </tx:advice>
 
