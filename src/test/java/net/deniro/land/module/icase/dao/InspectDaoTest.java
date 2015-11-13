@@ -24,6 +24,11 @@ public class InspectDaoTest {
         private InspectDao inspectDao;
 
         @Test
+        public void countByCaseId(){
+                System.out.println("$$$$$$$$$$$$"+inspectDao.countByCaseId(129));
+        }
+
+        @Test
         public void testFindByCaseId() throws Exception {
                 System.out.println("$$$$$$$$$$$$$$$$$$"+inspectDao.findByCaseId(129));
         }
