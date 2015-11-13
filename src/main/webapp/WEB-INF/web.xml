@@ -129,7 +129,7 @@
     <!-- 将Hibernate Session绑定到请求线程中，解决延迟加载数据的访问异常问题-->
     <filter>
         <filter-name>hibernateFilter</filter-name>
-        <filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter
+        <filter-class>net.deniro.land.common.spring.hibernate.OpenSessionInViewFilter
         </filter-class>
     </filter>
     <filter-mapping>
