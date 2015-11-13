@@ -27,8 +27,6 @@ public class HttpUtils {
 
     /**
      * 模拟Post请求
-     * <p>
-     * 未测试
      *
      * @param url      请求地址
      * @param params   请求参数
@@ -43,13 +41,11 @@ public class HttpUtils {
         /**
          * 添加参数
          */
-        HttpMethod httpMethod = new PostMethod(url);
+        PostMethod httpMethod = new PostMethod(url);
         if (params != null && !params.isEmpty()) {
-            HttpMethodParams methodParams = new HttpMethodParams();
             for (Map.Entry<String, String> entry : params.entrySet()) {
-                methodParams.setParameter(entry.getKey(), entry.getValue());
+                httpMethod.addParameter(entry.getKey(),entry.getValue());
             }
-            httpMethod.setParams(methodParams);
         }
 
         StringBuilder response = new StringBuilder();

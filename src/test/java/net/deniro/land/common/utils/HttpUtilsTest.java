@@ -18,6 +18,20 @@ import java.util.Map;
 public class HttpUtilsTest {
 
     @Test
+    public void doPost(){
+//        String url = "http://192.168.4.121:9080/gtweb/android/case-register-audit";
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("userId", "1");
+        params.put("caseId", "129");
+        params.put("auditResult", "1");
+        params.put("remark", "哈哈");
+
+        String url2="http://192.168.1.102:8080/gtweb/android/case-register-audit";
+
+        System.out.println(HttpUtils.doPost(url2, params, false));
+    }
+
+    @Test
     public void testDoGet() throws Exception {
         String url = "http://192.168.4.121:9080/gtweb/android/user-login";
         Map<String, String> params = new HashMap<String, String>();
