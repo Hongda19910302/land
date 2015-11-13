@@ -1,7 +1,10 @@
 package net.deniro.land.common.utils;
 
 import net.deniro.land.common.service.Constants;
-import org.apache.commons.httpclient.*;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpMethod;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
@@ -38,21 +41,27 @@ public class HttpUtils {
             return "";
         }
 
-        /**
-         * 添加参数
-         */
-        PostMethod httpMethod = new PostMethod(url);
-        if (params != null && !params.isEmpty()) {
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                httpMethod.addParameter(entry.getKey(),entry.getValue());
+        try {
+            /**
+             * 添加参数
+             */
+            PostMethod httpMethod = new PostMethod(url);
+            if (params != null && !params.isEmpty()) {
+                for (Map.Entry<String, String> entry : params.entrySet()) {
+                    httpMethod.addParameter(entry.getKey(), entry.getValue
+                            ());
+                }
             }
+
+            StringBuilder response = new StringBuilder();
+            HttpClient httpClient = new HttpClient();
+            executeMethod(isPretty, response, httpClient, httpMethod);
+
+            return response.toString();
+        } catch (Exception e) {
+            logger.error("模拟Post请求", e);
+            return "";
         }
-
-        StringBuilder response = new StringBuilder();
-        HttpClient httpClient = new HttpClient();
-        executeMethod(isPretty, response, httpClient, httpMethod);
-
-        return response.toString();
     }
 
     /**
@@ -128,6 +137,9 @@ public class HttpUtils {
      */
     private static void executeMethod(boolean isPretty, StringBuilder response, HttpClient httpClient, HttpMethod httpMethod) {
         try {
+            httpClient.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET,
+                    Constants.CHARSET);//解决中文乱码问题
+
             httpClient.executeMethod(httpMethod);
             logger.info("getStatusCode：" + httpMethod.getStatusCode());
             if (httpMethod.getStatusCode() == HttpStatus.SC_OK) {
