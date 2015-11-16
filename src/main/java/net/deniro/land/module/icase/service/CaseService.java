@@ -66,6 +66,50 @@ public class CaseService {
     private AttachmentRelationDao attachmentRelationDao;
 
     /**
+     * 分页查询 案件批示
+     *
+     * @param queryParam 查询参数
+     * @return
+     */
+    public Page findPageInstruction(CaseQueryParam queryParam) {
+        try {
+
+            //设置部门ID
+            queryParam.setDepartmentId(findDepartmentByUserId(queryParam.getUserId()));
+
+            /**
+             * 新增状态
+             */
+            List<TCase.CaseStatus> includeStatus = new ArrayList<TCase.CaseStatus>();
+            includeStatus.add(TCase.CaseStatus.PREPARE);
+            includeStatus.add(TCase.CaseStatus.INSPECT);
+            includeStatus.add(TCase.CaseStatus.APPLY);
+            includeStatus.add(TCase.CaseStatus.FIRST_OVER);
+            queryParam.setIncludeStatus(includeStatus);
+
+            return caseDao.findPage(queryParam);
+        } catch (Exception e) {
+            logger.error(" 分页查询 案件批示", e);
+            return new Page();
+
+        }
+    }
+
+    /**
+     * 通过用户ID，获取部门ID
+     *
+     * @param userId 用户ID
+     */
+    private String findDepartmentByUserId(String userId) {
+        User user = userDao.get(NumberUtils.toInt(userId));
+        if (user != null) {
+            return String.valueOf(user.getDepartmentId());
+        } else {
+            return "";
+        }
+    }
+
+    /**
      * 指派案件
      *
      * @param assignParam 流转参数
@@ -97,7 +141,7 @@ public class CaseService {
 
             return true;
         } catch (Exception e) {
-            logger.error(" 流转案件（指派案件）",e);
+            logger.error(" 流转案件（指派案件）", e);
             return false;
         }
 
@@ -486,10 +530,8 @@ public class CaseService {
     public Page findPage(CaseQueryParam queryParam) {
         try {
 
-            User user = userDao.get(NumberUtils.toInt(queryParam.getUserId()));
-            if (user != null) {
-                queryParam.setDepartmentId(String.valueOf(user.getDepartmentId()));
-            }
+            //设置部门ID
+            queryParam.setDepartmentId(findDepartmentByUserId(queryParam.getUserId()));
 
             return caseDao.findPage(queryParam);
         } catch (Exception e) {

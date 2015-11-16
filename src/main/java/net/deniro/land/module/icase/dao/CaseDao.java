@@ -6,7 +6,6 @@ import net.deniro.land.module.icase.entity.CaseQueryParam;
 import net.deniro.land.module.icase.entity.CaseVariableField;
 import net.deniro.land.module.icase.entity.TCase;
 import net.deniro.land.module.icase.entity.VariableDataValueSelectName;
-import org.apache.commons.collections.map.MultiKeyMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
@@ -140,6 +139,18 @@ public class CaseDao extends BaseDao<TCase> {
          */
         sql.append(" and t.recycle_status=").append(NO.code());//正常状态
 
+        /**
+         * 新增需要包含的状态
+         */
+        if (!queryParam.getIncludeStatus().isEmpty()) {
+            sql.append(" and t.status in(");
+            for (TCase.CaseStatus caseStatus : queryParam.getIncludeStatus()) {
+                sql.append(caseStatus.code()).append(",");
+            }
+            sql.deleteCharAt(sql.length() - 1);
+            sql.append(")");
+        }
+
         if (StringUtils.isNotBlank(queryParam.getUserId())) {
             sql.append(" and t.creater_id=:creatorId");
             params.put("creatorId", queryParam.getUserId());
@@ -216,6 +227,8 @@ public class CaseDao extends BaseDao<TCase> {
                     "(:departmentId))");
             params.put("departmentId", queryParam.getDepartmentId());
         }
+
+
 
 
         sql.append(" order by t.create_time desc");

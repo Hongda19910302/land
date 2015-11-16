@@ -65,6 +65,40 @@ public class MobileController {
     public static final String COMMON_RESULT_TEMPLATE_NAME = "commonResult";
 
     /**
+     *  分页查询 案件批示
+     *
+     * @param caseMobileQueryParam 案件 移动端查询参数
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "get-instruction-case")
+    public String findPageCaseInstruction(CaseMobileQueryParam caseMobileQueryParam,
+                                         ModelMap mm) {
+        ResponseResult r = null;
+
+        try {
+            CaseQueryParam caseQueryParam = new CaseQueryParam();
+            caseQueryParam.setNumPerPage(caseMobileQueryParam.getLimit());
+            caseQueryParam.setPageNum(caseMobileQueryParam.getPageNo());
+            caseQueryParam.setUserId(caseMobileQueryParam.getUserId());
+
+            BeanUtils.copyProperties(caseMobileQueryParam, caseQueryParam);
+
+            Page page = caseService.findPageInstruction(caseQueryParam);
+            mm.addAttribute("nativePage", page);
+            mm.addAttribute("pageNo", caseMobileQueryParam.getPageNo());
+
+            r = new SuccessResult();
+        } catch (Exception e) {
+            logger.error("  分页查询 案件批示");
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX + "findPageCaseInstructionResult";
+        }
+    }
+
+    /**
      * 案件指派
      *
      * @param param 流转参数

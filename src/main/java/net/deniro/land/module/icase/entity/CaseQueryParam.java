@@ -71,8 +71,8 @@ public class CaseQueryParam extends QueryParam {
     private Integer regionId;
 
     /**
-     * 排除的状态
+     * 包含的状态
      */
-    private List<TCase.CaseStatus> excludeStatus=new ArrayList<TCase.CaseStatus>();
+    private List<TCase.CaseStatus> includeStatus=new ArrayList<TCase.CaseStatus>();
 
 }

@@ -1,6 +1,7 @@
 package net.deniro.land.module.icase.dao;
 
 import net.deniro.land.module.icase.entity.CaseQueryParam;
+import net.deniro.land.module.icase.entity.TCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static net.deniro.land.module.icase.entity.TCase.CaseStatus.PREPARE;
 
@@ -27,18 +31,35 @@ public class CaseDaoTest {
     private CaseDao caseDao;
 
     @Test
-    public void findVSDAll(){
-        System.out.println("CaseDaoTest2:"+caseDao.findAllVSD());
+    public void findPageInstruction() {
+        CaseQueryParam param = new CaseQueryParam();
+        param.setUserId("1");
+        param.setPageNum(1);
+        param.setNumPerPage(10);
+
+        List<TCase.CaseStatus> includeStatus = new ArrayList<TCase.CaseStatus>();
+        includeStatus.add(TCase.CaseStatus.PREPARE);
+        includeStatus.add(TCase.CaseStatus.INSPECT);
+        includeStatus.add(TCase.CaseStatus.APPLY);
+        includeStatus.add(TCase.CaseStatus.FIRST_OVER);
+        param.setIncludeStatus(includeStatus);
+
+        System.out.println("$$$$$$$$$$$$$$" + caseDao.findPage(param));
     }
 
     @Test
-    public void findVariablesById(){
-        System.out.println("CaseDaoTest1:"+caseDao.findVariablesById(129));
+    public void findVSDAll() {
+        System.out.println("CaseDaoTest2:" + caseDao.findAllVSD());
+    }
+
+    @Test
+    public void findVariablesById() {
+        System.out.println("CaseDaoTest1:" + caseDao.findVariablesById(129));
     }
 
     @Test
     public void findById() {
-        System.out.println("findById:"+caseDao.findById(129));
+        System.out.println("findById:" + caseDao.findById(129));
     }
 
     @Test

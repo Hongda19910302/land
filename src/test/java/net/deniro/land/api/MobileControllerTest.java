@@ -50,6 +50,18 @@ public class MobileControllerTest {
     }
 
     @Test
+    public void findPageCaseInstruction() {
+        String queryString = "userId=37&pageNo=1&limit=10";
+
+        String action = "get-instruction-case";
+        String url = URL_PREFIX + action;
+        String newUrl = NEW_URL_PREFIX + action;
+
+        Assert.assertEquals(HttpUtils.doGet(url, queryString, false), HttpUtils.doGet(newUrl,
+                queryString, false));
+    }
+
+    @Test
     public void caseAssign() {
         Map<String, String> params = new HashMap<String, String>();
         params.put("userId", "1");
