@@ -1,5 +1,6 @@
 package net.deniro.land.module.icase.service;
 
+import net.deniro.land.api.entity.AssignParam;
 import net.deniro.land.api.entity.Images;
 import net.deniro.land.api.entity.InspectParam;
 import net.deniro.land.api.entity.OverAuditParam;
@@ -65,6 +66,45 @@ public class CaseService {
     private AttachmentRelationDao attachmentRelationDao;
 
     /**
+     * 指派案件
+     *
+     * @param assignParam 流转参数
+     * @return
+     */
+    public boolean assign(AssignParam assignParam) {
+        try {
+            Date currentDate = new Date();
+
+            /**
+             * 更新案件
+             */
+            TCase tCase = caseDao.findById(assignParam.getCaseId());
+            tCase.setInspectorId(assignParam.getXcyId());
+            tCase.setModifyTime(currentDate);
+            if (assignParam.getType() == AssignParam.AssignType.INSPECTOR.code()) {//设定巡查员的部门ID
+                tCase.setDepartmentId(userDao.get(assignParam.getXcyId()).getDepartmentId());
+            }
+            caseDao.update(tCase);
+
+            /**
+             * 新增流程日志
+             */
+            addFlowLog(assignParam.getCaseId(), assignParam.getUserId(), assignParam.getXcyId(),
+                    assignParam.getXcyId(),
+                    OperationType
+                            .ASSIGN,
+                    "案件指派", "");
+
+            return true;
+        } catch (Exception e) {
+            logger.error(" 流转案件（指派案件）",e);
+            return false;
+        }
+
+
+    }
+
+    /**
      * 结案审核
      *
      * @param overAuditParam
@@ -72,84 +112,89 @@ public class CaseService {
      */
     public boolean overAudit(OverAuditParam overAuditParam) {
 
-        Date currentDate = new Date();
+        try {
+            Date currentDate = new Date();
 
-        /**
-         * 新增案件审核
-         */
-        TCaseAudit caseAudit = new TCaseAudit();
-        caseAudit.setAuditerId(overAuditParam.getUserId());
-        caseAudit.setAuditResult(overAuditParam.getCaseStatus());
-        caseAudit.setCaseId(overAuditParam.getCaseId());
-        caseAudit.setRemark(overAuditParam.getRemark());
-        caseAudit.setAuditType(OVER.code());
-        caseAudit.setAuditNo(overAuditParam.getCheckType());
-        caseAudit.setAuditTime(currentDate);
-        auditDao.save(caseAudit);
+            /**
+             * 新增案件审核
+             */
+            TCaseAudit caseAudit = new TCaseAudit();
+            caseAudit.setAuditerId(overAuditParam.getUserId());
+            caseAudit.setAuditResult(overAuditParam.getCaseStatus());
+            caseAudit.setCaseId(overAuditParam.getCaseId());
+            caseAudit.setRemark(overAuditParam.getRemark());
+            caseAudit.setAuditType(OVER.code());
+            caseAudit.setAuditNo(overAuditParam.getCheckType());
+            caseAudit.setAuditTime(currentDate);
+            auditDao.save(caseAudit);
 
-        /**
-         * 判断审核类型
-         */
-        CheckType checkType = null;
-        if (overAuditParam.getCheckType() == CheckType.FIRST.code()) {
-            checkType = CheckType.FIRST;
-        } else if (overAuditParam.getCheckType() == CheckType.SECOND.code
-                ()) {
-            checkType = CheckType.SECOND;
-        } else {
-            logger.error("审核类型未知：" + overAuditParam.getCheckType());
+            /**
+             * 判断审核类型
+             */
+            CheckType checkType = null;
+            if (overAuditParam.getCheckType() == CheckType.FIRST.code()) {
+                checkType = CheckType.FIRST;
+            } else if (overAuditParam.getCheckType() == CheckType.SECOND.code
+                    ()) {
+                checkType = CheckType.SECOND;
+            } else {
+                logger.error("审核类型未知：" + overAuditParam.getCheckType());
+                return false;
+            }
+
+            /**
+             * 更新案件状态
+             */
+            TCase tCase = caseDao.findById(overAuditParam.getCaseId());
+            if (caseAudit.getAuditResult() == AuditResult.PASS.code()) {//审核通过
+                switch (checkType) {
+                    case FIRST://一级审核
+                        tCase.setStatus(FIRST_OVER.code());
+                        break;
+                    case SECOND://二级审核
+                        tCase.setStatus(SECOND_OVER.code());
+                        break;
+                }
+                caseDao.update(tCase);
+            }
+
+
+            /**
+             * 设置操作类型、流程描述
+             */
+            OperationType operationType = null;
+            String description = "";//流程描述
+            switch (checkType) {
+                case FIRST://一级审核
+                    operationType =
+                            FIRST_CLOSE_APPLY;
+                    description = "通过一次结案审核！";
+                    break;
+                case SECOND://二级审核
+                    operationType = SECOND_CLOSE_APPLY;
+                    description = "通过二次结案审核！";
+                    break;
+            }
+
+            /**
+             * 新增流程日志
+             */
+            addFlowLog(overAuditParam.getCaseId(), overAuditParam.getUserId(), operationType,
+                    description, overAuditParam.getRemark());
+
+            /**
+             * 新增附件
+             */
+            addAttachments(overAuditParam.getImages(), caseAudit.getCaseAuditId(), RelationType.AUDIT);
+
+            //todo 如果是二次结案，则删除短信池中的案件
+
+            return true;
+        } catch (Exception e) {
+            logger.error("结案审核", e);
             return false;
         }
 
-        /**
-         * 更新案件状态
-         */
-        TCase tCase = caseDao.findById(overAuditParam.getCaseId());
-        if (caseAudit.getAuditResult() == AuditResult.PASS.code()) {//审核通过
-            switch (checkType) {
-                case FIRST://一级审核
-                    tCase.setStatus(FIRST_OVER.code());
-                    break;
-                case SECOND://二级审核
-                    tCase.setStatus(SECOND_OVER.code());
-                    break;
-            }
-            caseDao.update(tCase);
-        }
-
-
-        /**
-         * 设置操作类型、流程描述
-         */
-        OperationType operationType = null;
-        String description = "";//流程描述
-        switch (checkType) {
-            case FIRST://一级审核
-                operationType =
-                        FIRST_CLOSE_APPLY;
-                description = "通过一次结案审核！";
-                break;
-            case SECOND://二级审核
-                operationType = SECOND_CLOSE_APPLY;
-                description = "通过二次结案审核！";
-                break;
-        }
-
-        /**
-         * 新增流程日志
-         */
-        addFlowLog(overAuditParam.getCaseId(), overAuditParam.getUserId(), operationType,
-                description, overAuditParam.getRemark());
-
-        /**
-         * 新增附件
-         */
-        addAttachments(overAuditParam.getImages(), caseAudit.getCaseAuditId(), RelationType.AUDIT);
-
-        return true;
-
-
-        //todo 如果是二次结案，则删除短信池中的案件
     }
 
 
@@ -161,41 +206,46 @@ public class CaseService {
      */
     public boolean inspect(InspectParam inspectParam) {
 
-        Date currentDate = new Date();
+        try {
+            Date currentDate = new Date();
 
-        /**
-         * 更新案件
-         */
-        TCase tCase = caseDao.findById(inspectParam.getCaseId());
-        if (inspectParam.getCaseStatus() == InspectParam.CaseStatus.NO_CLOSE
-                .code()) {//未结案
-            tCase.setStatus(INSPECT.code());
-        } else {//申请结案
-            tCase.setStatus(APPLY.code());
+            /**
+             * 更新案件
+             */
+            TCase tCase = caseDao.findById(inspectParam.getCaseId());
+            if (inspectParam.getCaseStatus() == InspectParam.CaseStatus.NO_CLOSE
+                    .code()) {//未结案
+                tCase.setStatus(INSPECT.code());
+            } else {//申请结案
+                tCase.setStatus(APPLY.code());
+            }
+            caseDao.update(tCase);
+
+            /**
+             * 创建巡查记录
+             */
+            TInspect inspect = new TInspect();
+            inspect.setCaseId(inspectParam.getCaseId());
+            inspect.setInspectorId(inspectParam.getUserId());
+            inspect.setRemark(inspectParam.getRemark());
+            inspect.setCreateTime(currentDate);
+            inspect.setInspectResult(inspectParam.getInspectResult());
+            //巡查序号【这种方式在并发状态下，会造成序号重复】
+            Integer inspectNo = inspectDao.countByCaseId(inspectParam.getCaseId()) + 1;
+            inspect.setInspectNo(inspectNo);
+            inspectDao.save(inspect);
+
+
+            /**
+             * 新增附件
+             */
+            addAttachments(inspectParam.getImages(), inspect.getInspectId(), RelationType.INSPECT);
+
+            return true;
+        } catch (Exception e) {
+            logger.error("巡查案件", e);
+            return false;
         }
-        caseDao.update(tCase);
-
-        /**
-         * 创建巡查记录
-         */
-        TInspect inspect = new TInspect();
-        inspect.setCaseId(inspectParam.getCaseId());
-        inspect.setInspectorId(inspectParam.getUserId());
-        inspect.setRemark(inspectParam.getRemark());
-        inspect.setCreateTime(currentDate);
-        inspect.setInspectResult(inspectParam.getInspectResult());
-        //巡查序号【这种方式在并发状态下，会造成序号重复】
-        Integer inspectNo = inspectDao.countByCaseId(inspectParam.getCaseId()) + 1;
-        inspect.setInspectNo(inspectNo);
-        inspectDao.save(inspect);
-
-
-        /**
-         * 新增附件
-         */
-        addAttachments(inspectParam.getImages(), inspect.getInspectId(), RelationType.INSPECT);
-
-        return true;
 
     }
 
@@ -454,18 +504,24 @@ public class CaseService {
      *
      * @param caseId        案件ID
      * @param operatorId    操作者ID
+     * @param fromUserId    案件最初巡查员ID
+     * @param toUserId      案件指派的巡查员ID
      * @param operationType 操作类型
      * @param description   描述
      * @param remark        备注
      */
-    private void addFlowLog(Integer caseId, Integer operatorId,
+    private void addFlowLog(Integer caseId, Integer operatorId, Integer fromUserId, Integer
+            toUserId,
                             OperationType
                                     operationType, String description, String remark) {
         TCaseFlowRecord flowRecord = new TCaseFlowRecord();
         flowRecord.setCaseId(caseId);
         flowRecord.setOperaterId(operatorId);
         flowRecord.setOperationType(operationType.code());
-        flowRecord.setFromUserId(operatorId);
+        flowRecord.setFromUserId(fromUserId);
+        if (toUserId != null) {
+            flowRecord.setToUserId(toUserId);
+        }
         flowRecord.setCreateTime(new Date());
 
         //设置流程描述
@@ -474,6 +530,21 @@ public class CaseService {
         }
         flowRecord.setOperation(description);
         flowRecordDao.save(flowRecord);
+    }
+
+    /**
+     * 新增流程日志
+     *
+     * @param caseId        案件ID
+     * @param operatorId    操作者ID
+     * @param operationType 操作类型
+     * @param description   描述
+     * @param remark        备注
+     */
+    private void addFlowLog(Integer caseId, Integer operatorId,
+                            OperationType
+                                    operationType, String description, String remark) {
+        addFlowLog(caseId, operatorId, operatorId, null, operationType, description, remark);
     }
 
     /**

@@ -65,6 +65,34 @@ public class MobileController {
     public static final String COMMON_RESULT_TEMPLATE_NAME = "commonResult";
 
     /**
+     * 案件指派
+     *
+     * @param param 流转参数
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "change-xcy")
+    public String caseAssign(AssignParam param, ModelMap mm) {
+        ResponseResult r = null;
+
+        try {
+            boolean isOk = caseService.assign(param);
+            if (isOk) {
+                r = new SuccessResult();
+            } else {
+                r = new FailureResult();
+            }
+        } catch (Exception e) {
+            logger.error("案件流转", e);
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX + COMMON_RESULT_TEMPLATE_NAME;
+        }
+    }
+
+
+    /**
      * 结案审核
      *
      * @param overAuditParam 结案审核参数
