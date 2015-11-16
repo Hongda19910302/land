@@ -65,13 +65,34 @@ public class CaseService {
     @Autowired
     private AttachmentRelationDao attachmentRelationDao;
 
+    @Autowired
+    private InstructionDao instructionDao;
+
+    /**
+     * 分页查询案件批示
+     * @param queryParam 案件批示查询参数
+     * @return
+     */
+    public Page findPageInstructions(InstructionQueryParam queryParam) {
+        try {
+            if(queryParam!=null){
+                queryParam.setStatus(String.valueOf(TInstruction.InstructionStatus.NORMAL.code()));
+            }
+
+            return instructionDao.findPage(queryParam);
+        } catch (Exception e) {
+            logger.error("分页查询案件批示",e);
+            return new Page();
+        }
+    }
+
     /**
      * 分页查询 案件批示
      *
      * @param queryParam 查询参数
      * @return
      */
-    public Page findPageInstruction(CaseQueryParam queryParam) {
+    public Page findPageForInstruction(CaseQueryParam queryParam) {
         try {
 
             //设置部门ID

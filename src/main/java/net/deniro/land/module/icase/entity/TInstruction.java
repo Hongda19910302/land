@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -62,4 +61,44 @@ public class TInstruction implements Serializable {
     */
     @Column(name = "status", nullable = true,length = 1)
     private Integer status;
+
+    /**
+     * 案件批示状态
+     */
+    public enum InstructionStatus {
+        /**
+         * 正常（未删除）
+         */
+        NORMAL(0),
+        /**
+         * 已删除
+         */
+        DEL(1);
+
+        private int code;
+
+        InstructionStatus(int code) {
+            this.code = code;
+        }
+
+        /**
+         * 获取枚举对象
+         *
+         * @param code 来源码
+         * @return
+         */
+        public static InstructionStatus get(int code) {
+            InstructionStatus[] sources = InstructionStatus.values();
+            for (InstructionStatus source : sources) {
+                if (source.code() == code) {
+                    return source;
+                }
+            }
+            return null;
+        }
+
+        public int code() {
+            return code;
+        }
+    }
 }

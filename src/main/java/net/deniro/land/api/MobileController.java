@@ -3,10 +3,7 @@ package net.deniro.land.api;
 import net.deniro.land.api.entity.*;
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.common.service.dwz.Result;
-import net.deniro.land.module.icase.entity.CaseQueryParam;
-import net.deniro.land.module.icase.entity.CaseVariableField;
-import net.deniro.land.module.icase.entity.TCase;
-import net.deniro.land.module.icase.entity.TVariableField;
+import net.deniro.land.module.icase.entity.*;
 import net.deniro.land.module.icase.service.CaseService;
 import net.deniro.land.module.icase.service.VariableFieldService;
 import net.deniro.land.module.system.entity.Department;
@@ -65,15 +62,51 @@ public class MobileController {
     public static final String COMMON_RESULT_TEMPLATE_NAME = "commonResult";
 
     /**
-     *  分页查询 案件批示
+     * 分页查询 案件批示列表
+     *
+     * @param param 案件 移动端查询参数
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "get-instruction-details")
+    public String findPageCaseInstructions(InstructionMobileQueryParam param,
+                                           ModelMap mm) {
+        ResponseResult r = null;
+
+        try {
+            InstructionQueryParam instructionQueryParam = new InstructionQueryParam();
+            instructionQueryParam.setNumPerPage(param.getLimit());
+            instructionQueryParam.setPageNum(param.getPageNo());
+            instructionQueryParam.setCaseId(String.valueOf(param.getCaseId()));
+
+            BeanUtils.copyProperties(param, instructionQueryParam);
+
+            Page page = caseService.findPageInstructions(instructionQueryParam);
+            mm.addAttribute("nativePage", page);
+            mm.addAttribute("pageNo", param.getPageNo());
+
+            mm.addAttribute("tCase", caseService.findById(param.getCaseId()));
+
+            r = new SuccessResult();
+        } catch (Exception e) {
+            logger.error("  分页查询 案件批示");
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX + "findPageCaseInstructionsResult";
+        }
+    }
+
+    /**
+     * 分页查询案件（符合批示条件）
      *
      * @param caseMobileQueryParam 案件 移动端查询参数
      * @param mm
      * @return
      */
     @RequestMapping(value = "get-instruction-case")
-    public String findPageCaseInstruction(CaseMobileQueryParam caseMobileQueryParam,
-                                         ModelMap mm) {
+    public String findPageCaseForInstruction(CaseMobileQueryParam caseMobileQueryParam,
+                                             ModelMap mm) {
         ResponseResult r = null;
 
         try {
@@ -84,7 +117,7 @@ public class MobileController {
 
             BeanUtils.copyProperties(caseMobileQueryParam, caseQueryParam);
 
-            Page page = caseService.findPageInstruction(caseQueryParam);
+            Page page = caseService.findPageForInstruction(caseQueryParam);
             mm.addAttribute("nativePage", page);
             mm.addAttribute("pageNo", caseMobileQueryParam.getPageNo());
 
@@ -94,7 +127,7 @@ public class MobileController {
             r = new FailureResult();
         } finally {
             mm.addAttribute("r", r);
-            return URL_PREFIX + "findPageCaseInstructionResult";
+            return URL_PREFIX + "findPageCaseForInstructionResult";
         }
     }
 

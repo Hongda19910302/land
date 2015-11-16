@@ -11,7 +11,7 @@
         {
         "caseId":"${(data.caseId)?default('')}",
         "instructionState":"${(data.instructionState)?default('0')}",
-        "place":"<#if data.findTRegion??><#if data.findTRegion.parentRegion??><#if data.findTRegion.parentRegion.parentRegion??><#if data.findTRegion.parentRegion.parentRegion.parentRegion??>${data.findTRegion.parentRegion.parentRegion.parentRegion.name}</#if>${data.findTRegion.parentRegion.parentRegion.name}</#if>${data.findTRegion.parentRegion.name}</#if>${data.findTRegion.name}</#if>",
+        "place":"<#if data.findRegion??><#if data.findRegion.parentRegion??><#if data.findRegion.parentRegion.parentRegion??><#if data.findRegion.parentRegion.parentRegion.parentRegion??>${data.findRegion.parentRegion.parentRegion.parentRegion.name}</#if>${data.findRegion.parentRegion.parentRegion.name}</#if>${data.findRegion.parentRegion.name}</#if>${data.findRegion.name}</#if>",
         "date":"<#if data.createTime??>${(data.createTime)?string('yyyy-MM-dd')}</#if>",
         "punisher":"${(data.parties)?default('')}"
         }

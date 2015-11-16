@@ -237,6 +237,12 @@ public class TCase implements Serializable {
     private TRegion findRegion;
 
     /**
+     * 批示状态；0：未批示；1：我已批示；2：他人批示
+     */
+    @Transient
+    private String instructionState;
+
+    /**
      * 附件
      */
     @Transient

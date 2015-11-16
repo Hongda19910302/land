@@ -34,7 +34,7 @@ public class InstructionDao extends BaseDao<TInstruction> {
                     .append("'");
         }
         if (StringUtils.isNotBlank(queryParam.getCaseId())) {
-            hql.append(" and t.caseId = ").append(queryParam.getCaseId());
+            hql.append(" and t.caseId = '").append(queryParam.getCaseId()).append("'");
         }
 
         hql.append(" order by instructionDate desc");
