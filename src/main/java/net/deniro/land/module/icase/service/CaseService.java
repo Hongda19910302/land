@@ -90,7 +90,7 @@ public class CaseService {
         /**
          * 判断审核类型
          */
-        CheckType checkType = CheckType.UNKNOWN;
+        CheckType checkType = null;
         if (overAuditParam.getCheckType() == CheckType.FIRST.code()) {
             checkType = CheckType.FIRST;
         } else if (overAuditParam.getCheckType() == CheckType.SECOND.code
@@ -188,27 +188,12 @@ public class CaseService {
         /**
          * 创建附件记录
          */
-        List<Images> images = JsonUtils.readJson(inspectParam.getImages(), List
-                .class, Images.class);
-        for (Images image : images) {
-            //创建附件
-            TAttachment attachment = new TAttachment();
-            attachment.setAddr(PropertiesReader.value("httpPrefix") + image.getImageAddr());
-            attachment.setAttachmentType(image.getImageType());
-            attachment.setCreateTime(currentDate);
-            attachmentDao.save(attachment);
-
-            //创建附件关系
-            TAttachmentRelation tAttachmentRelation = new TAttachmentRelation();
-            tAttachmentRelation.setAttachmentId(attachment.getAttachmentId());
-            tAttachmentRelation.setRelationId(inspect.getInspectId());
-            tAttachmentRelation.setRelationType(RelationType.INSPECT.code());
-            attachmentRelationDao.save(tAttachmentRelation);
-        }
+        addAttachments(inspectParam.getImages(), inspect.getInspectId(), RelationType.INSPECT);
 
         return true;
 
     }
+
 
     /**
      * 新建 立案审核记录
@@ -249,12 +234,12 @@ public class CaseService {
                     tCase.setDepartmentId(user.getDepartmentId());//设置下一节点操作部门
                     tCase.setStatus(INSPECT.code());
                     description = "通过立案审核！";
-                    operationType=REGISTER_AUDIT;
+                    operationType = REGISTER_AUDIT;
                     break;
                 case NO_PASS:
                     tCase.setStatus(CANCEL.code());
                     description = "撤销案件！";
-                    operationType=ASSIGN;
+                    operationType = ASSIGN;
                     break;
             }
 
@@ -486,6 +471,31 @@ public class CaseService {
         flowRecordDao.save(flowRecord);
     }
 
+    /**
+     * 新增附件
+     *
+     * @param imagesInJson 附件信息（json格式）
+     * @param relationId   关联的资源ID
+     * @param relationType 资源类型
+     */
+    private void addAttachments(String imagesInJson, Integer relationId, RelationType relationType) {
+        List<Images> images = JsonUtils.readJson(imagesInJson, List
+                .class, Images.class);
+        for (Images image : images) {
+            //创建附件
+            TAttachment attachment = new TAttachment();
+            attachment.setAddr(PropertiesReader.value("httpPrefix") + image.getImageAddr());
+            attachment.setAttachmentType(image.getImageType());
+            attachment.setCreateTime(new Date());
+            attachmentDao.save(attachment);
 
+            //创建附件关系
+            TAttachmentRelation tAttachmentRelation = new TAttachmentRelation();
+            tAttachmentRelation.setAttachmentId(attachment.getAttachmentId());
+            tAttachmentRelation.setRelationId(relationId);
+            tAttachmentRelation.setRelationType(relationType.code());
+            attachmentRelationDao.save(tAttachmentRelation);
+        }
+    }
 
 }
