@@ -2,6 +2,7 @@ package net.deniro.land.api;
 
 import junit.framework.Assert;
 import net.deniro.land.api.entity.InspectParam;
+import net.deniro.land.api.entity.OverAuditParam;
 import net.deniro.land.common.utils.HttpUtils;
 import net.deniro.land.module.system.entity.User;
 import org.junit.After;
@@ -45,6 +46,34 @@ public class MobileControllerTest {
     @After
     public void tearDown() throws Exception {
 
+    }
+
+    @Test
+    public void overCaseAudit(){
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("userId", "1");
+        params.put("caseId", "129");
+        params.put("checkType", "1");
+        params.put("remark", "overCaseAudit哈哈");
+        params.put("caseStatus", String.valueOf(OverAuditParam.AuditResult.PASS.code
+                ()));
+        params.put("images", "[" +
+                "{" +
+                "\"imageAddr\":\"overCaseAudit://weoruo/fwdw\",\n" +
+                "\"imageType\":\"1\"\n" +
+                "}" +",{" +
+                "\"imageAddr\":\"://233/overCaseAudit\",\n" +
+                "\"imageType\":\"0\"\n" +
+                "}" +
+                "]");
+
+
+        String action = "case-over-audit";
+        String url = URL_PREFIX + action;
+        String newUrl = NEW_URL_PREFIX + action;
+
+        Assert.assertEquals(HttpUtils.doPost(url, params, false), HttpUtils.doPost(newUrl,
+                params, false));
     }
 
     @Test

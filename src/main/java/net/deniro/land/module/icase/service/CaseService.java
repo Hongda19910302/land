@@ -141,6 +141,11 @@ public class CaseService {
         addFlowLog(overAuditParam.getCaseId(), overAuditParam.getUserId(), operationType,
                 description, overAuditParam.getRemark());
 
+        /**
+         * 新增附件
+         */
+        addAttachments(overAuditParam.getImages(), caseAudit.getCaseAuditId(), RelationType.AUDIT);
+
         return true;
 
 
@@ -186,7 +191,7 @@ public class CaseService {
 
 
         /**
-         * 创建附件记录
+         * 新增附件
          */
         addAttachments(inspectParam.getImages(), inspect.getInspectId(), RelationType.INSPECT);
 

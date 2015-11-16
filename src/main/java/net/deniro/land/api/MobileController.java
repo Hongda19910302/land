@@ -65,6 +65,33 @@ public class MobileController {
     public static final String COMMON_RESULT_TEMPLATE_NAME = "commonResult";
 
     /**
+     * 结案审核
+     *
+     * @param overAuditParam 结案审核参数
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "case-over-audit")
+    public String overCaseAudit(OverAuditParam overAuditParam, ModelMap mm) {
+        ResponseResult r = null;
+
+        try {
+            boolean isOk = caseService.overAudit(overAuditParam);
+            if (isOk) {
+                r = new SuccessResult();
+            } else {
+                r = new FailureResult();
+            }
+        } catch (Exception e) {
+            logger.error("结案审核", e);
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX + COMMON_RESULT_TEMPLATE_NAME;
+        }
+    }
+
+    /**
      * 巡查案件
      *
      * @param inspectParam 案件巡查参数
