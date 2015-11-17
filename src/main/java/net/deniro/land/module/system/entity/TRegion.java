@@ -19,6 +19,12 @@ public class TRegion implements Serializable {
 
 
     /**
+     * 默认行政区域Code
+     */
+    public static final String DEFAULT_REGION_CODE = "000000";
+
+
+    /**
      * 行政地区ID
      */
     @Id

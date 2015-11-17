@@ -61,6 +61,33 @@ public class MobileController {
      */
     public static final String COMMON_RESULT_TEMPLATE_NAME = "commonResult";
 
+    /**
+     * 新增案件
+     *
+     * @param caseParam 案件参数
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "create-case")
+    public String addCase(CaseParam caseParam, ModelMap
+            mm) {
+        ResponseResult r = null;
+
+        try {
+            boolean isOk = caseService.addCase(caseParam);
+            if (isOk) {
+                r = new SuccessResult();
+            } else {
+                r = new FailureResult();
+            }
+        } catch (Exception e) {
+            logger.error("新增案件", e);
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX + COMMON_RESULT_TEMPLATE_NAME;
+        }
+    }
 
     /**
      * 分页查询 案件批示列表
@@ -185,14 +212,14 @@ public class MobileController {
         ResponseResult r = null;
 
         try {
-            CaseQueryParam caseQueryParam = new CaseQueryParam();
-            caseQueryParam.setNumPerPage(caseMobileQueryParam.getLimit());
-            caseQueryParam.setPageNum(caseMobileQueryParam.getPageNo());
-            caseQueryParam.setUserId(caseMobileQueryParam.getUserId());
+            CaseParam caseParam = new CaseParam();
+            caseParam.setNumPerPage(caseMobileQueryParam.getLimit());
+            caseParam.setPageNum(caseMobileQueryParam.getPageNo());
+            caseParam.setUserId(caseMobileQueryParam.getUserId());
 
-            BeanUtils.copyProperties(caseMobileQueryParam, caseQueryParam);
+            BeanUtils.copyProperties(caseMobileQueryParam, caseParam);
 
-            Page page = caseService.findPageForInstruction(caseQueryParam);
+            Page page = caseService.findPageForInstruction(caseParam);
             mm.addAttribute("nativePage", page);
             mm.addAttribute("pageNo", caseMobileQueryParam.getPageNo());
 
@@ -426,16 +453,16 @@ public class MobileController {
         ResponseResult r = null;
 
         try {
-            CaseQueryParam caseQueryParam = new CaseQueryParam();
-            caseQueryParam.setNumPerPage(caseMobileQueryParam.getLimit());
-            caseQueryParam.setPageNum(caseMobileQueryParam.getPageNo());
-            caseQueryParam.setMoblieStatus(caseMobileQueryParam.getSearchType());
+            CaseParam caseParam = new CaseParam();
+            caseParam.setNumPerPage(caseMobileQueryParam.getLimit());
+            caseParam.setPageNum(caseMobileQueryParam.getPageNo());
+            caseParam.setMoblieStatus(caseMobileQueryParam.getSearchType());
 
-            BeanUtils.copyProperties(caseMobileQueryParam, caseQueryParam);
+            BeanUtils.copyProperties(caseMobileQueryParam, caseParam);
 
-            System.out.println(caseQueryParam);
+            System.out.println(caseParam);
 
-            Page page = caseService.findPage(caseQueryParam);
+            Page page = caseService.findPage(caseParam);
             mm.addAttribute("nativePage", page);
             mm.addAttribute("pageNo", caseMobileQueryParam.getPageNo());
 

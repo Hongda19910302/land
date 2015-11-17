@@ -7,12 +7,15 @@ import net.deniro.land.api.entity.OverAuditParam;
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.common.utils.JsonUtils;
 import net.deniro.land.common.utils.PropertiesReader;
+import net.deniro.land.common.utils.TimeUtils;
 import net.deniro.land.module.icase.dao.*;
 import net.deniro.land.module.icase.entity.*;
 import net.deniro.land.module.icase.entity.TAttachmentRelation.RelationType;
 import net.deniro.land.module.icase.entity.TCase.InstructionState;
 import net.deniro.land.module.icase.entity.TCaseAudit.AuditResult;
+import net.deniro.land.module.system.dao.RegionDao;
 import net.deniro.land.module.system.dao.UserDao;
+import net.deniro.land.module.system.entity.TRegion;
 import net.deniro.land.module.system.entity.User;
 import org.apache.commons.collections.map.MultiKeyMap;
 import org.apache.commons.lang3.StringUtils;
@@ -23,12 +26,14 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.Column;
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import static net.deniro.land.api.entity.OverAuditParam.CheckType;
 import static net.deniro.land.module.icase.entity.TCase.CaseStatus.*;
+import static net.deniro.land.module.icase.entity.TCase.RecycleStatus.NO;
 import static net.deniro.land.module.icase.entity.TCaseAudit.Type.OVER;
 import static net.deniro.land.module.icase.entity.TCaseAudit.Type.START;
 import static net.deniro.land.module.icase.entity.TCaseFlowRecord.OperationType;
@@ -69,6 +74,96 @@ public class CaseService {
 
     @Autowired
     private InstructionDao instructionDao;
+
+    @Autowired
+    private RegionDao regionDao;
+
+    /**
+     * 新增案件
+     *
+     * @param caseParam 案件参数
+     * @return
+     */
+    public boolean addCase(CaseParam caseParam) {
+
+        try {
+            TCase tCase = new TCase();
+            tCase.setIdCardNum(caseParam.getIdCardNum());
+            tCase.setCurrentStatus(caseParam.getCurrentStatus());
+            tCase.setCreaterId(NumberUtils.toInt(caseParam.getUserId()));
+            tCase.setParties(caseParam.getParties());
+            tCase.setRegionId(caseParam.getRegionId());
+            tCase.setEastTo(caseParam.getEastTo());
+            tCase.setWestTo(caseParam.getWestTo());
+            tCase.setNorthTo(caseParam.getNorthTo());
+            tCase.setSouthTo(caseParam.getSouthTo());
+            tCase.setIllegalArea(caseParam.getIllegalAddr());
+            tCase.setIllegalType(caseParam.getIllegalType());
+            tCase.setIllegalUse(caseParam.getIllegalUse());
+            tCase.setLandUsage(caseParam.getLandUsage());
+            tCase.setCaseSource(caseParam.getCaseSource());
+            tCase.setIllegalAreaSpace(caseParam.getIllegalAreaSpace());
+            tCase.setBuildingSpace(caseParam.getBuildingSpace());
+            tCase.setFloorSpace(caseParam.getFloorSpace());
+            tCase.setRemark(caseParam.getRemark());
+            tCase.setSurveyResult(caseParam.getInspectResult());
+            tCase.setLocateType(caseParam.getGpsFlag());
+            tCase.setLng(caseParam.getLng());
+            tCase.setLat(caseParam.getLat());
+            tCase.setStatus(PREPARE.code());
+            tCase.setRecycleStatus(NO.code());
+            tCase.setCreateTime(new Date());
+
+            /**
+             * 设置用户相关信息，并获取案件数
+             */
+            int caseCount = 0;
+            if (StringUtils.isNotBlank(caseParam.getUserId())) {
+                //设置用户相关信息
+                User user = userDao.get(NumberUtils.toInt(caseParam.getUserId()));
+                tCase.setCompanyId(user.getCompanyId());
+                tCase.setDepartmentId(user.getDepartmentId());
+
+                //获取案件数
+                CaseParam countParam = new CaseParam();
+                countParam.setCreateBeginDate(TimeUtils.getCurrentDate());
+                countParam.setDepartmentId(String.valueOf(user.getDepartmentId()));
+                countParam.setRecycleStatus(String.valueOf(TCase.RecycleStatus.NO.code()));
+                caseCount = caseDao.count(countParam);
+            }
+
+
+            /**
+             * 生成并设置案件号
+             */
+            StringBuilder caseNum = new StringBuilder("");
+            //添加地区码
+            TRegion region = regionDao.get(caseParam.getRegionId());
+            caseNum.append(region.getRegionCode() != null ? region.getRegionCode() : TRegion.DEFAULT_REGION_CODE);
+            //添加日期
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyMMdd");
+            Date date = new Date();
+            caseNum.append(simpleDateFormat.format(date));
+            //根据当日的案件数，生成编号
+            String code = String.valueOf(caseCount);
+            if (code.length() > 3) {//只取前三
+                code = code.substring(0, 3);
+            }
+            caseNum.append(code);
+            tCase.setCaseNum(caseNum.toString());
+
+            caseDao.save(tCase);
+
+            //todo 生成案件短信规则
+
+            return true;
+        } catch (Exception e) {
+            logger.error("新增案件", e);
+            return false;
+        }
+
+
+    }
 
     /**
      * 新增案件批示
@@ -189,7 +284,7 @@ public class CaseService {
      * @param queryParam 查询参数
      * @return
      */
-    public Page findPageForInstruction(CaseQueryParam queryParam) {
+    public Page findPageForInstruction(CaseParam queryParam) {
         try {
 
             //设置部门ID
@@ -199,7 +294,7 @@ public class CaseService {
              * 新增状态
              */
             List<TCase.CaseStatus> includeStatus = new ArrayList<TCase.CaseStatus>();
-            includeStatus.add(TCase.CaseStatus.PREPARE);
+            includeStatus.add(PREPARE);
             includeStatus.add(TCase.CaseStatus.INSPECT);
             includeStatus.add(TCase.CaseStatus.APPLY);
             includeStatus.add(TCase.CaseStatus.FIRST_OVER);
@@ -645,7 +740,7 @@ public class CaseService {
      * @param queryParam 查询参数
      * @return
      */
-    public Page findPage(CaseQueryParam queryParam) {
+    public Page findPage(CaseParam queryParam) {
         try {
 
             //设置部门ID

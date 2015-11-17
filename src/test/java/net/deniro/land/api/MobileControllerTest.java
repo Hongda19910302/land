@@ -50,6 +50,46 @@ public class MobileControllerTest {
     }
 
     @Test
+    public void addCase() {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("userId", "1");
+        params.put("parties", "林波");
+        params.put("regionId", "26");
+        params.put("eastTo", "26");
+        params.put("southTo", "26");
+        params.put("westTo", "26");
+        params.put("northTo", "26");
+        params.put("illegalAddr", "26.971");
+        params.put("illegalAreaSpace", "26.297");
+        params.put("remark", "背书");
+        params.put("gpsFlag", "1");
+        params.put("lng", "26.23977");
+        params.put("lat", "26.23972");
+        params.put("idCardNum", "2329792");
+        params.put("floorSpace", "2629.2");
+        params.put("buildingSpace", "26.23");
+        params.put("illegalType", "1");
+        params.put("illegalUse", "1");
+        params.put("landUsage", "1");
+        params.put("currentStatus", "2");
+        params.put("inspectResult", "2");
+        params.put("caseSource", "26");
+        params.put("status", "2");
+        params.put("companyId", "1");
+        params.put("departmentId", "26");
+
+
+
+        String action = "create-case";
+        String url = URL_PREFIX + action;
+        String newUrl = NEW_URL_PREFIX + action;
+
+        Assert.assertEquals(HttpUtils.doPost(url, params, false), HttpUtils.doPost(newUrl,
+                params, false));
+    }
+
+
+    @Test
     public void findPageCaseInstructionList() {
         String queryString = "caseId=336&pageNo=1&limit=10";
 
