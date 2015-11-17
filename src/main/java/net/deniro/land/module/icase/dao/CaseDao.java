@@ -2,7 +2,7 @@ package net.deniro.land.module.icase.dao;
 
 import net.deniro.land.common.dao.BaseDao;
 import net.deniro.land.common.dao.Page;
-import net.deniro.land.module.icase.entity.CaseQueryParam;
+import net.deniro.land.module.icase.entity.CaseParam;
 import net.deniro.land.module.icase.entity.CaseVariableField;
 import net.deniro.land.module.icase.entity.TCase;
 import net.deniro.land.module.icase.entity.VariableDataValueSelectName;
@@ -32,6 +32,38 @@ public class CaseDao extends BaseDao<TCase> {
 
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    /**
+     * 统计案件数
+     * <p>
+     * 查询参数中，只做了部分条件【创建开始时间、部门ID、回收状态】
+     *
+     * @param param
+     * @return
+     */
+    public int count(CaseParam param) {
+        StringBuilder sql = new StringBuilder("select count(1) from t_case t where 1=1 ");
+
+        Map<String, Object> params = new HashMap<String, Object>();
+
+        if (param.getCreateBeginDate() != null) {
+            sql.append(" and date_format(t.create_time,'%Y-%m-%d')>=:beginDate");
+            params.put("beginDate", param.getCreateBeginDate());
+        }
+
+        if (StringUtils.isNotBlank(param.getDepartmentId())) {
+            sql.append(" and department_id=:departmentId");
+            params.put("departmentId", param.getDepartmentId());
+        }
+
+        if (StringUtils.isNotBlank(param.getRecycleStatus())) {
+            sql.append(" and recycle_status=:recycleStatus");
+            params.put("recycleStatus", param.getRecycleStatus());
+        }
+
+        return namedParameterJdbcTemplate.queryForInt(sql.toString(), params);
+
+    }
 
     /**
      * 查询所有 可变字段+数据值，确定选择类型名称 映射列表
@@ -117,7 +149,7 @@ public class CaseDao extends BaseDao<TCase> {
      * @param queryParam 查询参数
      * @return
      */
-    public Page findPage(CaseQueryParam queryParam) {
+    public Page findPage(CaseParam queryParam) {
         StringBuilder sql = new StringBuilder(" select distinct t.* from t_case t ");
 
         if (StringUtils.isNotBlank(queryParam.getXcyName()) || StringUtils.isNotBlank
@@ -227,8 +259,6 @@ public class CaseDao extends BaseDao<TCase> {
                     "(:departmentId))");
             params.put("departmentId", queryParam.getDepartmentId());
         }
-
-
 
 
         sql.append(" order by t.create_time desc");

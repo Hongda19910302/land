@@ -34,9 +34,9 @@ public class CaseDaoTest {
     @Test
     public void count() {
         CaseParam param = new CaseParam();
-//        param.setCreateBeginDate(new Date(2014,9,30));
+        param.setCreateBeginDate("2014-09-30");
         param.setDepartmentId("26");
-        param.setRecycleStatus("1");
+        param.setRecycleStatus("0");
         System.out.println("$$$$$$$$$$$$$$$" + caseDao.count(param));
     }
 
