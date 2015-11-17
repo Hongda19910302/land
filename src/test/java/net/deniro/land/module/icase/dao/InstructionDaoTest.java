@@ -25,6 +25,15 @@ public class InstructionDaoTest {
     private InstructionDao instructionDao;
 
     @Test
+    public void count(){
+        InstructionQueryParam param = new InstructionQueryParam();
+        param.setCaseId("336");
+        param.setStatus("0");
+
+        System.out.println("$$$$$$$$$$$$$$$" + instructionDao.count(param));
+    }
+
+    @Test
     public void testFindPage() throws Exception {
         InstructionQueryParam param = new InstructionQueryParam();
         param.setCaseId("336");
