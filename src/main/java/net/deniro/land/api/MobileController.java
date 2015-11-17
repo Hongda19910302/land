@@ -62,6 +62,33 @@ public class MobileController {
     public static final String COMMON_RESULT_TEMPLATE_NAME = "commonResult";
 
     /**
+     * 删除案件批示
+     *
+     * @param instructionId 案件批示ID
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "del-instruction")
+    public String delInstruction(Integer instructionId, ModelMap mm) {
+        ResponseResult r = null;
+
+        try {
+            boolean isOk = caseService.delInstruction(instructionId);
+            if (isOk) {
+                r = new SuccessResult();
+            } else {
+                r = new FailureResult();
+            }
+        } catch (Exception e) {
+            logger.error("删除案件批示", e);
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX + COMMON_RESULT_TEMPLATE_NAME;
+        }
+    }
+
+    /**
      * 分页查询 案件批示列表
      *
      * @param param 案件 移动端查询参数
@@ -86,7 +113,7 @@ public class MobileController {
             mm.addAttribute("pageNo", param.getPageNo());
 
             TCase tCase = caseService.findById(param.getCaseId());
-            tCase.setInstructionState(String.valueOf(caseService.getInstuctionState(param
+            tCase.setInstructionState(String.valueOf(caseService.getInstructionState(param
                             .getCaseId(),
                     param
                             .getUserId()).code()));//设置案件批示状态

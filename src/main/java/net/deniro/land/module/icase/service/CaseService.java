@@ -71,12 +71,32 @@ public class CaseService {
     private InstructionDao instructionDao;
 
     /**
+     * 删除案件批示
+     *
+     * @param instructionId 案件批示ID
+     * @return
+     */
+    public boolean delInstruction(Integer instructionId) {
+        try {
+            int count = instructionDao.del(instructionId);
+            if (count > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            logger.error("删除案件批示", e);
+            return false;
+        }
+    }
+
+    /**
      * 获取案件批示状态
      *
      * @param caseId 案件ID
      * @param userId 用户ID
      */
-    public InstructionState getInstuctionState(Integer caseId, Integer userId) {
+    public InstructionState getInstructionState(Integer caseId, Integer userId) {
         //默认为【未批示】状态
         InstructionState instructionState = InstructionState.NO_INSTRUCTION;
 
