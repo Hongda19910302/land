@@ -50,6 +50,22 @@ public class MobileControllerTest {
     }
 
     @Test
+    public void addInstruction() {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("userId", "1");
+        params.put("caseId", "129");
+        params.put("content", "37杀我诶UFO额");
+
+
+        String action = "add-instruction";
+        String url = URL_PREFIX + action;
+        String newUrl = NEW_URL_PREFIX + action;
+
+        Assert.assertEquals(HttpUtils.doPost(url, params, false), HttpUtils.doPost(newUrl,
+                params, false));
+    }
+
+    @Test
     public void delInstruction() {
         String queryString = "instructionId=1";
 

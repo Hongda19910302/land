@@ -71,6 +71,45 @@ public class CaseService {
     private InstructionDao instructionDao;
 
     /**
+     * 新增案件批示
+     *
+     * @param userId  用户ID
+     * @param caseId  案件ID
+     * @param content 批示内容
+     * @return
+     */
+    public boolean addInstruction(Integer userId, Integer caseId, String content) {
+
+        try {
+            /**
+             * 保存案件批示
+             */
+            TInstruction instruction = new TInstruction();
+            instruction.setUserId(userId);
+            instruction.setCaseId(caseId);
+            instruction.setContent(content);
+            instruction.setInstructionDate(new Date());
+            instruction.setStatus(NORMAL.code());
+
+            //设置用户名称
+            User user = userDao.get(userId);
+            if (user != null) {
+                instruction.setUserName(user.getName());
+            }
+            instructionDao.save(instruction);
+
+            //todo 新增批示通知短信
+
+            return true;
+        } catch (Exception e) {
+            logger.error("新增案件批示", e);
+            return false;
+        }
+
+
+    }
+
+    /**
      * 删除案件批示
      *
      * @param instructionId 案件批示ID

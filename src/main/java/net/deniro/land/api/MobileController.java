@@ -61,6 +61,37 @@ public class MobileController {
      */
     public static final String COMMON_RESULT_TEMPLATE_NAME = "commonResult";
 
+
+    /**
+     * 新增案件批示
+     *
+     * @param userId  用户ID
+     * @param caseId  案件ID
+     * @param content 批示内容
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "add-instruction")
+    public String addInstruction(Integer userId, Integer caseId, String content, ModelMap
+            mm) {
+        ResponseResult r = null;
+
+        try {
+            boolean isOk = caseService.addInstruction(userId, caseId, content);
+            if (isOk) {
+                r = new SuccessResult();
+            } else {
+                r = new FailureResult();
+            }
+        } catch (Exception e) {
+            logger.error("新增案件批示", e);
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX + COMMON_RESULT_TEMPLATE_NAME;
+        }
+    }
+
     /**
      * 删除案件批示
      *
