@@ -1,6 +1,6 @@
 package net.deniro.land.module.icase.dao;
 
-import net.deniro.land.module.icase.entity.CaseQueryParam;
+import net.deniro.land.module.icase.entity.CaseParam;
 import net.deniro.land.module.icase.entity.TCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +11,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static net.deniro.land.module.icase.entity.TCase.CaseStatus.PREPARE;
@@ -31,8 +32,17 @@ public class CaseDaoTest {
     private CaseDao caseDao;
 
     @Test
+    public void count() {
+        CaseParam param = new CaseParam();
+//        param.setCreateBeginDate(new Date(2014,9,30));
+        param.setDepartmentId("26");
+        param.setRecycleStatus("1");
+        System.out.println("$$$$$$$$$$$$$$$" + caseDao.count(param));
+    }
+
+    @Test
     public void findPageInstruction() {
-        CaseQueryParam param = new CaseQueryParam();
+        CaseParam param = new CaseParam();
         param.setUserId("1");
         param.setPageNum(1);
         param.setNumPerPage(10);
@@ -64,28 +74,28 @@ public class CaseDaoTest {
 
     @Test
     public void testComplexFindPage() throws Exception {
-        CaseQueryParam caseQueryParam = new CaseQueryParam();
-        caseQueryParam.setUserId("37");
-        caseQueryParam.setNumPerPage(10);
-        caseQueryParam.setPageNum(1);
-        caseQueryParam.setMoblieStatus(String.valueOf(PREPARE.mobileCode()));
-        caseQueryParam.setDepartmentId("26");
-        caseQueryParam.setRegionId(102);
-        caseQueryParam.setBeginDate("2014-10-23");
-        caseQueryParam.setCreatorName("18905910011");
+        CaseParam caseParam = new CaseParam();
+        caseParam.setUserId("37");
+        caseParam.setNumPerPage(10);
+        caseParam.setPageNum(1);
+        caseParam.setMoblieStatus(String.valueOf(PREPARE.mobileCode()));
+        caseParam.setDepartmentId("26");
+        caseParam.setRegionId(102);
+        caseParam.setBeginDate("2014-10-23");
+        caseParam.setCreatorName("18905910011");
 
-        System.out.println(caseDao.findPage(caseQueryParam));
+        System.out.println(caseDao.findPage(caseParam));
     }
 
     @Test
     public void testFindPage() throws Exception {
-        CaseQueryParam caseQueryParam = new CaseQueryParam();
-        caseQueryParam.setUserId("37");
-        caseQueryParam.setNumPerPage(10);
-        caseQueryParam.setPageNum(1);
-        caseQueryParam.setMoblieStatus(String.valueOf(PREPARE.mobileCode()));
-        caseQueryParam.setDepartmentId("26");
+        CaseParam caseParam = new CaseParam();
+        caseParam.setUserId("37");
+        caseParam.setNumPerPage(10);
+        caseParam.setPageNum(1);
+        caseParam.setMoblieStatus(String.valueOf(PREPARE.mobileCode()));
+        caseParam.setDepartmentId("26");
 
-        System.out.println(caseDao.findPage(caseQueryParam));
+        System.out.println(caseDao.findPage(caseParam));
     }
 }
