@@ -25,6 +25,11 @@ public class InstructionDaoTest {
     private InstructionDao instructionDao;
 
     @Test
+    public void del(){
+        System.out.println("$$$$$$$$$$$$$$$" + instructionDao.del(1));
+    }
+
+    @Test
     public void count(){
         InstructionQueryParam param = new InstructionQueryParam();
         param.setCaseId("336");

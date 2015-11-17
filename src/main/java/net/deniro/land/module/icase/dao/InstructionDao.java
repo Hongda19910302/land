@@ -25,6 +25,21 @@ public class InstructionDao extends BaseDao<TInstruction> {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
+     * 删除案件批示
+     *
+     * @param instructionId 案件批示ID
+     * @return
+     */
+    public int del(Integer instructionId) {
+        StringBuilder sql = new StringBuilder(" delete from t_instruction where " +
+                "instruction_id=:instructionId");
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("instructionId", instructionId);
+
+        return namedParameterJdbcTemplate.update(sql.toString(), params);
+    }
+
+    /**
      * 统计案件批示条数
      *
      * @param queryParam 案件批示查询参数
