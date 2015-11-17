@@ -29,6 +29,7 @@ public class InstructionDaoTest {
         InstructionQueryParam param = new InstructionQueryParam();
         param.setCaseId("336");
         param.setStatus("0");
+        param.setUserId("1");
 
         System.out.println("$$$$$$$$$$$$$$$" + instructionDao.count(param));
     }

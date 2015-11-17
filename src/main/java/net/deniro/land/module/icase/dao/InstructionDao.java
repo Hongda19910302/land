@@ -42,12 +42,16 @@ public class InstructionDao extends BaseDao<TInstruction> {
          * 新增查询条件
          */
         if (StringUtils.isNotBlank(queryParam.getStatus())) {
-            sql.append(" and t.status =:status '");
+            sql.append(" and t.status =:status ");
             params.put("status", queryParam.getStatus());
         }
         if (StringUtils.isNotBlank(queryParam.getCaseId())) {
-            sql.append(" and t.case_id =:caseId '");
+            sql.append(" and t.case_id =:caseId ");
             params.put("caseId", queryParam.getCaseId());
+        }
+        if (StringUtils.isNotBlank(queryParam.getUserId())) {
+            sql.append(" and t.user_id =:userId ");
+            params.put("userId", queryParam.getUserId());
         }
 
         return namedParameterJdbcTemplate.queryForInt(sql.toString(), params);
