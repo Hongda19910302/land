@@ -22,4 +22,9 @@ public class InstructionQueryParam extends QueryParam {
      */
     private String caseId;
 
+    /**
+     * 用户ID
+     */
+    private String userId;
+
 }

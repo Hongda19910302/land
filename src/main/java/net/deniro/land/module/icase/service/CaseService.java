@@ -10,6 +10,7 @@ import net.deniro.land.common.utils.PropertiesReader;
 import net.deniro.land.module.icase.dao.*;
 import net.deniro.land.module.icase.entity.*;
 import net.deniro.land.module.icase.entity.TAttachmentRelation.RelationType;
+import net.deniro.land.module.icase.entity.TCase.InstructionState;
 import net.deniro.land.module.icase.entity.TCaseAudit.AuditResult;
 import net.deniro.land.module.system.dao.UserDao;
 import net.deniro.land.module.system.entity.User;
@@ -32,6 +33,7 @@ import static net.deniro.land.module.icase.entity.TCaseAudit.Type.OVER;
 import static net.deniro.land.module.icase.entity.TCaseAudit.Type.START;
 import static net.deniro.land.module.icase.entity.TCaseFlowRecord.OperationType;
 import static net.deniro.land.module.icase.entity.TCaseFlowRecord.OperationType.*;
+import static net.deniro.land.module.icase.entity.TInstruction.InstructionStatus.NORMAL;
 
 /**
  * 案件
@@ -69,19 +71,55 @@ public class CaseService {
     private InstructionDao instructionDao;
 
     /**
+     * 获取案件批示状态
+     *
+     * @param caseId 案件ID
+     * @param userId 用户ID
+     */
+    public InstructionState getInstuctionState(Integer caseId, Integer userId) {
+        //默认为【未批示】状态
+        InstructionState instructionState = InstructionState.NO_INSTRUCTION;
+
+        /**
+         * 查询我批示的记录数
+         */
+        InstructionQueryParam param = new InstructionQueryParam();
+        param.setCaseId(String.valueOf(caseId));
+        param.setUserId(String.valueOf(userId));
+        int meCount = instructionDao.count(param);
+
+        /**
+         * 查询其他人批示的记录数
+         */
+        InstructionQueryParam param2 = new InstructionQueryParam();
+        param2.setCaseId(String.valueOf(caseId));
+        param2.setStatus(String.valueOf(NORMAL.code()));
+        int otherCount = instructionDao.count(param2);
+
+        if (meCount > 0) {
+            instructionState = InstructionState.ME_HAS_INSTRUCTION;
+        } else if (otherCount > 0) {
+            instructionState = InstructionState.OTHER_HAS_INSTRUCTION;
+        }
+
+        return instructionState;
+    }
+
+    /**
      * 分页查询案件批示
+     *
      * @param queryParam 案件批示查询参数
      * @return
      */
     public Page findPageInstructions(InstructionQueryParam queryParam) {
         try {
-            if(queryParam!=null){
-                queryParam.setStatus(String.valueOf(TInstruction.InstructionStatus.NORMAL.code()));
+            if (queryParam != null) {
+                queryParam.setStatus(String.valueOf(NORMAL.code()));
             }
 
             return instructionDao.findPage(queryParam);
         } catch (Exception e) {
-            logger.error("分页查询案件批示",e);
+            logger.error("分页查询案件批示", e);
             return new Page();
         }
     }

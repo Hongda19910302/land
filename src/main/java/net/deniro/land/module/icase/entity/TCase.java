@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import static net.deniro.land.module.icase.entity.TAttachmentRelation.RelationType.AUDIT;
 import static net.deniro.land.module.icase.entity.TAttachmentRelation.RelationType.CASE;
 
 /**
@@ -380,6 +379,50 @@ public class TCase implements Serializable {
         private int code;
 
         RecycleStatus(int code) {
+            this.code = code;
+        }
+
+        /**
+         * 获取枚举对象
+         *
+         * @param code 码
+         * @return
+         */
+        public static RecycleStatus get(int code) {
+            RecycleStatus[] sources = RecycleStatus.values();
+            for (RecycleStatus source : sources) {
+                if (source.code() == code) {
+                    return source;
+                }
+            }
+            return null;
+        }
+
+        public int code() {
+            return code;
+        }
+    }
+
+    /**
+     * 批示状态
+     */
+    public enum InstructionState {
+        /**
+         * 未批示
+         */
+        NO_INSTRUCTION(0),
+        /**
+         * 我已批示
+         */
+        ME_HAS_INSTRUCTION(1),
+        /**
+         * 他人批示
+         */
+        OTHER_HAS_INSTRUCTION(2);
+
+        private int code;
+
+        InstructionState(int code) {
             this.code = code;
         }
 
