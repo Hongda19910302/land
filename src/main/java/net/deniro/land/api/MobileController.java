@@ -63,6 +63,19 @@ public class MobileController {
 
 
     /**
+     * 分页查询 案件批示列表
+     *
+     * @param param 案件 移动端查询参数
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "get-instruction-list")
+    public String findPageCaseInstructionList(InstructionMobileQueryParam param,
+                                              ModelMap mm) {
+        return findPageCaseInstructions(param, mm);
+    }
+
+    /**
      * 新增案件批示
      *
      * @param userId  用户ID
