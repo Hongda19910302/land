@@ -85,8 +85,12 @@ public class MobileController {
             mm.addAttribute("nativePage", page);
             mm.addAttribute("pageNo", param.getPageNo());
 
-            mm.addAttribute("tCase", caseService.findById(param.getCaseId()));
-
+            TCase tCase = caseService.findById(param.getCaseId());
+            tCase.setInstructionState(String.valueOf(caseService.getInstuctionState(param
+                            .getCaseId(),
+                    param
+                            .getUserId()).code()));//设置案件批示状态
+            mm.addAttribute("tCase", tCase);
             r = new SuccessResult();
         } catch (Exception e) {
             logger.error("  分页查询 案件批示");
