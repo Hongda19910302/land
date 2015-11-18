@@ -60,6 +60,13 @@
 
     <dependencies>
 
+        <!-- ftp操作-->
+        <dependency>
+            <groupId>it.sauronsoftware</groupId>
+            <artifactId>ftp4j</artifactId>
+            <version>1.7.2</version>
+        </dependency>
+
         <!-- http模拟-->
         <dependency>
             <groupId>commons-httpclient</groupId>
