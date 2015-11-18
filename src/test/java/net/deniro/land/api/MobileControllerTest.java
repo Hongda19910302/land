@@ -25,7 +25,8 @@ import java.util.Map;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/spring-context-base.xml",
         "classpath:spring/spring-context-db.xml", "classpath:spring/spring-context-tx" +
-        ".xml", "classpath:spring/spring-context-dataset-type.xml"})
+        ".xml", "classpath:spring/spring-context-dataset-type.xml",
+        "classpath:spring/spring-context-ftp.xml"})
 @TransactionConfiguration
 @Transactional
 public class MobileControllerTest {
@@ -50,9 +51,21 @@ public class MobileControllerTest {
     }
 
     @Test
+    public void getFtpInfo() {
+        String queryString = "userId=1&imgCount=3";
+
+        String action = "get-ftp-info";
+        String url = URL_PREFIX + action;
+        String newUrl = NEW_URL_PREFIX + action;
+
+        Assert.assertEquals(HttpUtils.doGet(url, queryString, false), HttpUtils.doGet(newUrl,
+                queryString, false));
+    }
+
+    @Test
     public void modifyCase() {
         Map<String, String> params = new HashMap<String, String>();
-        params.put("caseId","130");
+        params.put("caseId", "130");
         params.put("punisher", "林波3");
         params.put("placeId", "263");
         params.put("east", "263");
@@ -74,7 +87,6 @@ public class MobileControllerTest {
         params.put("currentStatus", "3");
         params.put("inspectResult", "2");
         params.put("caseSource", "24");
-
 
 
         String action = "update-case";
@@ -113,7 +125,6 @@ public class MobileControllerTest {
         params.put("status", "2");
         params.put("companyId", "1");
         params.put("departmentId", "26");
-
 
 
         String action = "create-case";

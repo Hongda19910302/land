@@ -3,6 +3,7 @@ package net.deniro.land.api;
 import net.deniro.land.api.entity.*;
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.common.service.dwz.Result;
+import net.deniro.land.common.utils.FtpUtils;
 import net.deniro.land.module.icase.entity.*;
 import net.deniro.land.module.icase.service.CaseService;
 import net.deniro.land.module.icase.service.VariableFieldService;
@@ -20,6 +21,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static net.deniro.land.module.icase.entity.TCaseAudit.AuditResult.get;
@@ -51,6 +55,9 @@ public class MobileController {
     @Autowired
     private CaseService caseService;
 
+    @Autowired
+    private FtpUtils ftpUtils;
+
     /**
      * 渲染文件的路径前缀
      */
@@ -60,6 +67,61 @@ public class MobileController {
      * 通用响应结果模板文件名称
      */
     public static final String COMMON_RESULT_TEMPLATE_NAME = "commonResult";
+
+    /**
+     * 获取ftp服务器信息
+     *
+     * @param userId   用户ID
+     * @param imgCount 上传图片总张数
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "get-ftp-info")
+    public String getFtpInfo(Integer userId, Integer imgCount, ModelMap
+            mm) {
+        ResponseResult r = null;
+
+        try {
+            mm.addAttribute("ftpUtils", ftpUtils);
+
+            /**
+             * 生成图片文件名
+             */
+            DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+            String s = df.format(new Date());
+            StringBuilder picNames = new StringBuilder("");
+            for (int i = 1; i <= imgCount; i++) {
+                picNames.append(s + "-" + i + ",");
+            }
+            picNames.deleteCharAt(picNames.length() - 1);
+            mm.addAttribute("picNames", picNames);
+
+            /**
+             * 生成临时路径字符串
+             */
+            String tempPath = ftpUtils.getBaseDir() + "/" + ftpUtils.getTempDir() +
+                    "/" + userId + "/" + ftpUtils.getImgDir();
+            mm.addAttribute("tempPath", tempPath);
+
+            /**
+             * 生成实际路径字符串
+             */
+            String realPath = ftpUtils.getBaseDir() + "/" + ftpUtils.getRealDir() +
+                    "/" + userId + "/" + ftpUtils.getImgDir();
+            mm.addAttribute("realPath", realPath);
+
+            //todo 在ftp上创建文件夹
+
+
+            r = new SuccessResult();
+        } catch (Exception e) {
+            logger.error("获取ftp服务器信息", e);
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX + "getFtpInfoResult";
+        }
+    }
 
     /**
      * 修改案件

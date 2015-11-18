@@ -7,22 +7,52 @@
     <!-- FTP客户端工具-->
     <bean id="ftpUtils" class="net.deniro.land.common.utils.FtpUtils" init-method="init"
           destroy-method="close">
-        <!-- 地址-->
-        <property name="url">
-            <value>${ftp.url}</value>
+
+        <!-- 地址前缀-->
+        <property name="prefix">
+            <value>${ftp.prefix}</value>
         </property>
+
+        <!-- IP-->
+        <property name="ip">
+            <value>${ftp.ip}</value>
+        </property>
+
         <!-- 端口-->
         <property name="port">
             <value>${ftp.port}</value>
         </property>
+
         <!-- 账号-->
         <property name="account">
             <value>${ftp.account}</value>
         </property>
+
         <!-- 密码-->
         <property name="password">
             <value>${ftp.password}</value>
         </property>
+
+        <!-- 基本路径-->
+        <property name="baseDir">
+            <value>${ftp.base.dir}</value>
+        </property>
+
+        <!-- 临时文件夹-->
+        <property name="tempDir">
+            <value>${ftp.temp.dir}</value>
+        </property>
+
+        <!-- 实际文件夹-->
+        <property name="realDir">
+            <value>${ftp.real.dir}</value>
+        </property>
+
+        <!-- 图片文件夹-->
+        <property name="imgDir">
+            <value>${ftp.img.dir}</value>
+        </property>
+
 
     </bean>
 </beans>

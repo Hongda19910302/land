@@ -8,6 +8,7 @@ import net.deniro.land.common.service.Constants;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.net.URL;
 
 /**
  * Ftp 工具
@@ -21,9 +22,14 @@ public class FtpUtils {
     static Logger logger = Logger.getLogger(FtpUtils.class);
 
     /**
-     * 地址
+     * 地址前缀
      */
-    private String url;
+    private String prefix;
+
+    /**
+     * IP地址
+     */
+    private String ip;
     /**
      * 端口
      */
@@ -36,6 +42,26 @@ public class FtpUtils {
      * 密码
      */
     private String password;
+
+    /**
+     * 基本路径
+     */
+    private String baseDir;
+
+    /**
+     * 临时文件夹
+     */
+    private String tempDir;
+    /**
+     * 实际文件夹
+     */
+    private String realDir;
+
+    /**
+     * 图片文件夹
+     */
+    private String imgDir;
+
 
     /**
      * ftp客户端
@@ -51,8 +77,10 @@ public class FtpUtils {
             client = new FTPClient();
             client.setCharset(Constants.CHARSET);
             client.setType(FTPClient.TYPE_BINARY);
-            client.connect(url, port);
+            client.connect(new URL(prefix + ip).getHost(), port);
+            client.getConnector().setConnectionTimeout(15000);
             client.login(account, password);
+            logger.info("已连接FTP服务器");
 
         } catch (IOException e) {
             logger.error("FTP客户端初始化", e);
