@@ -79,6 +79,96 @@ public class CaseService {
     private RegionDao regionDao;
 
     /**
+     * 修改案件
+     *
+     * @param caseParam 案件参数
+     * @return
+     */
+    public boolean modifyCase(CaseParam caseParam) {
+
+        try {
+            TCase tCase = caseDao.get(caseParam.getCaseId());
+            if(tCase==null){
+                return false;
+            }
+
+            if (caseParam.getFloorSpace() != null) {
+                tCase.setFloorSpace(caseParam.getFloorSpace());
+            }
+            if (caseParam.getBuildingSpace() != null) {
+                tCase.setBuildingSpace(caseParam.getBuildingSpace());
+            }
+            if (caseParam.getIdCardNum() != null) {
+                tCase.setIdCardNum(caseParam.getIdCardNum());
+            }
+            if (caseParam.getPunisher() != null) {
+                tCase.setParties(caseParam.getPunisher());
+            }
+            if (caseParam.getPlaceId() != null) {
+                tCase.setRegionId(caseParam.getPlaceId());
+            }
+            if (caseParam.getEast() != null) {
+                tCase.setEastTo(caseParam.getEast());
+            }
+            if (caseParam.getWest() != null) {
+                tCase.setWestTo(caseParam.getWest());
+            }
+            if (caseParam.getNorth() != null) {
+                tCase.setNorthTo(caseParam.getNorth());
+            }
+            if (caseParam.getSouth() != null) {
+                tCase.setSouthTo(caseParam.getSouth());
+            }
+            if (caseParam.getIllegalAddr() != null) {
+                tCase.setIllegalArea(caseParam.getIllegalAddr());
+            }
+            if (caseParam.getIllegalType() != null) {
+                tCase.setIllegalType(caseParam.getIllegalType());
+            }
+            if (caseParam.getLandUsage() != null) {
+                tCase.setLandUsage(caseParam.getLandUsage());
+            }
+            if (caseParam.getCurrentStatus() != null) {
+                tCase.setCurrentStatus(caseParam.getCurrentStatus());
+            }
+            if (caseParam.getCaseSource() != null) {
+                tCase.setCaseSource(caseParam.getCaseSource());
+            }
+            if (caseParam.getSpace() != null) {
+                tCase.setIllegalAreaSpace(caseParam.getSpace());
+            }
+            if (caseParam.getCaseComment() != null) {
+                tCase.setRemark(caseParam.getCaseComment());
+            }
+            if (caseParam.getInspectResult() != null) {
+                tCase.setSurveyResult(caseParam.getInspectResult());
+            }
+            if (caseParam.getGpsFlag() != null) {
+                tCase.setLocateType(caseParam.getGpsFlag());
+            }
+            if (caseParam.getGpsX() != null) {
+                tCase.setLng(caseParam.getGpsX());
+            }
+            if (caseParam.getGpsY() != null) {
+                tCase.setLat(caseParam.getGpsY());
+            }
+            if (caseParam.getXcyId() != null) {
+                tCase.setInspectorId(caseParam.getXcyId());
+            }
+            tCase.setModifyTime(new Date());
+
+            caseDao.update(tCase);
+
+            return true;
+        } catch (Exception e) {
+            logger.error("修改案件", e);
+            return false;
+        }
+
+
+    }
+
+    /**
      * 新增案件
      *
      * @param caseParam 案件参数

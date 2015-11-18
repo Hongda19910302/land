@@ -50,6 +50,42 @@ public class MobileControllerTest {
     }
 
     @Test
+    public void modifyCase() {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("caseId","130");
+        params.put("punisher", "林波3");
+        params.put("placeId", "263");
+        params.put("east", "263");
+        params.put("south", "263");
+        params.put("west", "263");
+        params.put("north", "263");
+        params.put("illegalAddr", "26.9713");
+        params.put("space", "26.2973");
+        params.put("caseComment", "背书3");
+        params.put("gpsFlag", "2");
+        params.put("gpsX", "26.239773");
+        params.put("gpsY", "26.239723");
+//        params.put("xcyId", "3");
+        params.put("idCardNum", "23297923");
+        params.put("floorSpace", "2629.23");
+        params.put("buildingSpace", "26.233");
+        params.put("illegalType", "2");
+        params.put("landUsage", "2");
+        params.put("currentStatus", "3");
+        params.put("inspectResult", "2");
+        params.put("caseSource", "24");
+
+
+
+        String action = "update-case";
+        String url = URL_PREFIX + action;
+        String newUrl = NEW_URL_PREFIX + action;
+
+        Assert.assertEquals(HttpUtils.doPost(url, params, false), HttpUtils.doPost(newUrl,
+                params, false));
+    }
+
+    @Test
     public void addCase() {
         Map<String, String> params = new HashMap<String, String>();
         params.put("userId", "1");

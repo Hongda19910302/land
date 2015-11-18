@@ -207,5 +207,72 @@ public class CaseParam extends QueryParam {
      */
     private String createBeginDate;
 
+    /**
+     * 违法当事人
+     */
+    @Deprecated
+    private String punisher;
+
+    /**
+     * 当前位置的末级行政机构id
+     */
+    @Deprecated
+    private Integer placeId;
+
+    /**
+     * 东至
+     */
+    @Deprecated
+    private String east;
+
+    /**
+     * 南至
+     */
+    @Deprecated
+    private String south;
+
+    /**
+     * 西至
+     */
+    @Deprecated
+    private String west;
+
+    /**
+     * 北至
+     */
+    @Deprecated
+    private String north;
+
+    /**
+     * 违法面积
+     */
+    @Deprecated
+    private Float space;
+
+    /**
+     * 备注
+     */
+    @Deprecated
+    private String caseComment;
+
+    /**
+     * Gps经度
+     */
+    @Deprecated
+    private BigDecimal gpsX;
+
+    /**
+     * Gps纬度
+     */
+    @Deprecated
+    private BigDecimal gpsY;
+
+    /**
+     * 巡查员ID
+     */
+    private Integer xcyId;
+
+
+
 
 }

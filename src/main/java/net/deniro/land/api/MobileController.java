@@ -62,6 +62,34 @@ public class MobileController {
     public static final String COMMON_RESULT_TEMPLATE_NAME = "commonResult";
 
     /**
+     * 修改案件
+     *
+     * @param caseParam 案件参数
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "update-case")
+    public String modifyCase(CaseParam caseParam, ModelMap
+            mm) {
+        ResponseResult r = null;
+
+        try {
+            boolean isOk = caseService.modifyCase(caseParam);
+            if (isOk) {
+                r = new SuccessResult();
+            } else {
+                r = new FailureResult();
+            }
+        } catch (Exception e) {
+            logger.error("修改案件", e);
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX + COMMON_RESULT_TEMPLATE_NAME;
+        }
+    }
+
+    /**
      * 新增案件
      *
      * @param caseParam 案件参数
