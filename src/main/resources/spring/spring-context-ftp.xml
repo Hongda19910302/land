@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- FTP客户端工具-->
+    <bean id="ftpUtils" class="net.deniro.land.common.utils.FtpUtils" init-method="init"
+          destroy-method="close">
+        <!-- 地址-->
+        <property name="url">
+            <value>${ftp.url}</value>
+        </property>
+        <!-- 端口-->
+        <property name="port">
+            <value>${ftp.port}</value>
+        </property>
+        <!-- 账号-->
+        <property name="account">
+            <value>${ftp.account}</value>
+        </property>
+        <!-- 密码-->
+        <property name="password">
+            <value>${ftp.password}</value>
+        </property>
+
+    </bean>
+</beans>
