@@ -5,6 +5,7 @@
   <!-- set global properties for this build -->
   <property name="webapps" location="C:\Program Files\apache-tomcat-7.0.59\webapps"/>
   <property name="root" location="${webapps}\ROOT"/>
+  <property name="warName" location="land-1.0-SNAPSHOT.war"/>
   <property name="war" location="\\tsclient\W\ideaProjects\deniro\deniro-land\target\land-1.0-SNAPSHOT.war"/>
 
   
@@ -27,6 +28,7 @@
 		
 		
 	
-	<target name="install" description="安装war">
+	<target name="clear" description="清空部署环境">
+		<delete file="${war}"/>
 	</target>
 </project>
