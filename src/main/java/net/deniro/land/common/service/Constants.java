@@ -24,4 +24,9 @@ public class Constants {
      * 字符集
      */
     public static final String CHARSET = "UTF-8";
+
+    /**
+     * ftp路径分隔符
+     */
+    public static final String FTP_PATH_SPLIT="/";
 }

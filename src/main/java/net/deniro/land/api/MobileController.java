@@ -2,6 +2,7 @@ package net.deniro.land.api;
 
 import net.deniro.land.api.entity.*;
 import net.deniro.land.common.dao.Page;
+import net.deniro.land.common.service.Constants;
 import net.deniro.land.common.service.dwz.Result;
 import net.deniro.land.common.utils.FtpUtils;
 import net.deniro.land.module.icase.entity.*;
@@ -99,18 +100,22 @@ public class MobileController {
             /**
              * 生成临时路径字符串
              */
-            String tempPath = ftpUtils.getBaseDir() + "/" + ftpUtils.getTempDir() +
-                    "/" + userId + "/" + ftpUtils.getImgDir();
+            String tempPath = ftpUtils.getBaseDir() + Constants.FTP_PATH_SPLIT + ftpUtils.getTempDir() +
+                    Constants.FTP_PATH_SPLIT + userId + Constants.FTP_PATH_SPLIT + ftpUtils.getImgDir();
             mm.addAttribute("tempPath", tempPath);
 
             /**
              * 生成实际路径字符串
              */
-            String realPath = ftpUtils.getBaseDir() + "/" + ftpUtils.getRealDir() +
-                    "/" + userId + "/" + ftpUtils.getImgDir();
+            String realPath = ftpUtils.getBaseDir() + Constants.FTP_PATH_SPLIT + ftpUtils.getRealDir() +
+                    Constants.FTP_PATH_SPLIT + userId + Constants.FTP_PATH_SPLIT + ftpUtils.getImgDir();
             mm.addAttribute("realPath", realPath);
 
-            //todo 在ftp上创建文件夹
+            /**
+             * 在ftp上创建文件夹
+             */
+            ftpUtils.createDirs(tempPath);
+            ftpUtils.createDirs(realPath);
 
 
             r = new SuccessResult();
