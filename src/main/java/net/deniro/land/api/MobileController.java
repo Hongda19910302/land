@@ -70,6 +70,29 @@ public class MobileController {
     public static final String COMMON_RESULT_TEMPLATE_NAME = "commonResult";
 
     /**
+     * 我的最新一条消息（预留）
+     *
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "get_new_message")
+    public String findMyNewMessage(ModelMap
+            mm) {
+        ResponseResult r = null;
+
+        try {
+            r=new SuccessResult();
+        } catch (Exception e) {
+            logger.error("我的最新一条消息", e);
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX + "findMyNewMessageResult";
+        }
+    }
+
+
+    /**
      * 获取ftp服务器信息
      *
      * @param userId   用户ID
