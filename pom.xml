@@ -361,4 +361,55 @@
 
     </dependencies>
 
+
+    <build>
+        <resources>
+
+            <!-- 指定资源文件路径-->
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+
+            <!-- 对系统配置文件进行处理，把文件中的${key}替换为真正的值-->
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>system.properties</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+    <profiles>
+
+        <!-- 开发环境-->
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <filters>
+                    <filter>profile-development.properties</filter>
+                </filters>
+            </build>
+        </profile>
+
+        <!-- 仿真测试环境-->
+        <profile>
+            <id>test</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <filters>
+                    <filter>profile-test.properties</filter>
+                </filters>
+            </build>
+        </profile>
+    </profiles>
 </project>
