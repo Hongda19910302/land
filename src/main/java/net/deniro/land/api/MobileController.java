@@ -70,6 +70,69 @@ public class MobileController {
     public static final String COMMON_RESULT_TEMPLATE_NAME = "commonResult";
 
     /**
+     * 消息设为已读（预留）
+     *
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "set-readed-message")
+    public String setMessageRead(ModelMap mm) {
+        ResponseResult r = null;
+
+        try {
+            r = new SuccessResult();
+        } catch (Exception e) {
+            logger.error("消息设为已读", e);
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX +COMMON_RESULT_TEMPLATE_NAME;
+        }
+    }
+
+    /**
+     * 删除我的消息（预留）
+     *
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "del-user-message")
+    public String delMyMessages(ModelMap mm) {
+        ResponseResult r = null;
+
+        try {
+            r = new SuccessResult();
+        } catch (Exception e) {
+            logger.error("删除我的消息", e);
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX +COMMON_RESULT_TEMPLATE_NAME;
+        }
+    }
+
+    /**
+     * 我的消息（预留）
+     *
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "get-user-message")
+    public String findMyMessages(ModelMap mm) {
+        ResponseResult r = null;
+
+        try {
+            r = new SuccessResult();
+        } catch (Exception e) {
+            logger.error("我的消息", e);
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX + "findMyMessagesResult";
+        }
+    }
+
+    /**
      * 我的最新一条消息（预留）
      *
      * @param mm
@@ -77,11 +140,11 @@ public class MobileController {
      */
     @RequestMapping(value = "get_new_message")
     public String findMyNewMessage(ModelMap
-            mm) {
+                                           mm) {
         ResponseResult r = null;
 
         try {
-            r=new SuccessResult();
+            r = new SuccessResult();
         } catch (Exception e) {
             logger.error("我的最新一条消息", e);
             r = new FailureResult();
