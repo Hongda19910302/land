@@ -154,6 +154,11 @@ public class FtpUtils {
         }
 
         try {
+            //如果ftp断开，则进行重连
+            if(client==null||!client.isConnected()){
+                init();
+            }
+
             String currentPath = client.currentDirectory();//当前路径
             client.changeDirectory(Constants.FTP_PATH_SPLIT);//切换到根目录
             StringTokenizer dirs = new StringTokenizer(path, Constants.FTP_PATH_SPLIT);
