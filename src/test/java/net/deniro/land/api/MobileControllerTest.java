@@ -102,7 +102,7 @@ public class MobileControllerTest {
         Map<String, String> params = new HashMap<String, String>();
         params.put("userId", "1");
         params.put("parties", "林波");
-        params.put("regionId", "26");
+        params.put("placeId", "26");
         params.put("eastTo", "26");
         params.put("southTo", "26");
         params.put("westTo", "26");
@@ -128,11 +128,14 @@ public class MobileControllerTest {
 
 
         String action = "create-case";
+//        String url = "http://192.168.1.102:8080/gtweb/android/" + action;
+//        String str=HttpUtils.doPost(url, params, false);
+//        System.out.println(str);
         String url = URL_PREFIX + action;
         String newUrl = NEW_URL_PREFIX + action;
 
-//        Assert.assertEquals(HttpUtils.doPost(url, params, false), HttpUtils.doPost(newUrl,
-//                params, false));
+        Assert.assertEquals(HttpUtils.doPost(url, params, false), HttpUtils.doPost(newUrl,
+                params, false));
     }
 
 

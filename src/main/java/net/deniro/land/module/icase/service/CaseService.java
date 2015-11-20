@@ -182,7 +182,7 @@ public class CaseService {
             tCase.setCurrentStatus(caseParam.getCurrentStatus());
             tCase.setCreaterId(NumberUtils.toInt(caseParam.getUserId()));
             tCase.setParties(caseParam.getParties());
-            tCase.setRegionId(caseParam.getRegionId());
+            tCase.setRegionId(caseParam.getPlaceId());
             tCase.setEastTo(caseParam.getEastTo());
             tCase.setWestTo(caseParam.getWestTo());
             tCase.setNorthTo(caseParam.getNorthTo());
@@ -228,7 +228,7 @@ public class CaseService {
              */
             StringBuilder caseNum = new StringBuilder("");
             //添加地区码
-            TRegion region = regionDao.get(caseParam.getRegionId());
+            TRegion region = regionDao.get(caseParam.getPlaceId());
             caseNum.append(region.getRegionCode() != null ? region.getRegionCode() : TRegion.DEFAULT_REGION_CODE);
             //添加日期
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyMMdd");
