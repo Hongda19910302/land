@@ -179,7 +179,7 @@
 <#assign tableKey="">
 
 <#--表格容器-->
-    <table class="table" width="100%" layoutH="138">
+    <table class="table" width="100%">
         <thead>
         <tr>
 
