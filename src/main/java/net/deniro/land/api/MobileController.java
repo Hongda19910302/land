@@ -86,7 +86,7 @@ public class MobileController {
             r = new FailureResult();
         } finally {
             mm.addAttribute("r", r);
-            return URL_PREFIX +COMMON_RESULT_TEMPLATE_NAME;
+            return URL_PREFIX + COMMON_RESULT_TEMPLATE_NAME;
         }
     }
 
@@ -107,7 +107,7 @@ public class MobileController {
             r = new FailureResult();
         } finally {
             mm.addAttribute("r", r);
-            return URL_PREFIX +COMMON_RESULT_TEMPLATE_NAME;
+            return URL_PREFIX + COMMON_RESULT_TEMPLATE_NAME;
         }
     }
 
@@ -174,14 +174,16 @@ public class MobileController {
             /**
              * 生成图片文件名
              */
-            DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-            String s = df.format(new Date());
-            StringBuilder picNames = new StringBuilder("");
-            for (int i = 1; i <= imgCount; i++) {
-                picNames.append(s + "-" + i + ",");
+            if (imgCount != null) {
+                DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+                String s = df.format(new Date());
+                StringBuilder picNames = new StringBuilder("");
+                for (int i = 1; i <= imgCount; i++) {
+                    picNames.append(s + "-" + i + ",");
+                }
+                picNames.deleteCharAt(picNames.length() - 1);
+                mm.addAttribute("picNames", picNames);
             }
-            picNames.deleteCharAt(picNames.length() - 1);
-            mm.addAttribute("picNames", picNames);
 
             /**
              * 生成临时路径字符串
