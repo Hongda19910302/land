@@ -120,4 +120,37 @@
     <mvc:resources mapping="#{rpe.resourceRoot}/**" location="/static/"
                    cache-period="31536000"/>
 
+    <!-- 拦截器设置-->
+    <mvc:interceptors>
+
+        <!-- session超时处理-->
+        <mvc:interceptor>
+            <mvc:mapping path="/*"/>
+            <bean class="net.deniro.land.common.spring.mvc.SessionTimeoutInterceptor">
+                <!-- 如果请求的URL中包含以下路径，则不进行拦截-->
+                <property name="allowUrls">
+                    <list>
+                        <value>/static</value>
+                        <value>/login.jsp</value>
+                        <value>/favicon.ico</value>
+                        <value>/gtweb/android</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <!-- 异常处理【出现异常，跳转到相应页面】-->
+    <bean id="exceptionResolver"
+          class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop
+                        key="net.deniro.land.common.spring.mvc.SessionTimeoutException">
+                    redirect:/login.jsp
+                </prop>
+            </props>
+        </property>
+    </bean>
+
 </beans>
