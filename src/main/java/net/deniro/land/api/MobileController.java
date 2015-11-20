@@ -202,8 +202,8 @@ public class MobileController {
             /**
              * 在ftp上创建文件夹
              */
-            ftpUtils.createDirs(tempPath);
-            ftpUtils.createDirs(realPath);
+            ftpUtils.mkDirs(tempPath);
+            ftpUtils.mkDirs(realPath);
 
 
             r = new SuccessResult();

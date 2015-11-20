@@ -6,8 +6,10 @@ import net.deniro.land.common.service.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.StringTokenizer;
 
 /**
  * Ftp 工具
@@ -91,6 +93,7 @@ public class FtpUtils {
      *
      * @param path
      */
+    @Deprecated
     public void createDirs(String path) {
         if (StringUtils.isBlank(path)) {
             return;
@@ -104,8 +107,10 @@ public class FtpUtils {
                     continue;
                 }
                 if (isExist(dir)) {//如果存在，则进入文件夹
+                    logger.info("路径【" + dir + "】存在");
                     client.changeDirectory(dir);
                 } else {//如果不存在，则创建文件夹，并作为当前文件夹
+                    logger.info("路径【" + dir + "】不存在");
                     client.createDirectory(dir);
                     client.changeDirectory(dir);
                 }
@@ -123,11 +128,61 @@ public class FtpUtils {
     }
 
     /**
+     * 判断目录是否存在
+     *
+     * @param dir 目录
+     * @return
+     */
+    public boolean isDirExist(String dir) {
+        try {
+            client.changeDirectory(dir);
+        } catch (Exception e) {
+            logger.info("目录【" + dir + "】不存在");
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 创建层级目录
+     *
+     * @param path
+     */
+    public void mkDirs(String path) {
+        if (StringUtils.isBlank(path)) {
+            return;
+        }
+
+        try {
+            String currentPath = client.currentDirectory();//当前路径
+            client.changeDirectory(Constants.FTP_PATH_SPLIT);//切换到根目录
+            StringTokenizer dirs = new StringTokenizer(path, Constants.FTP_PATH_SPLIT);
+            String temp;
+            while (dirs.hasMoreElements()) {
+                temp = dirs.nextElement().toString();
+                if (!isDirExist(temp)) {//创建并进入目录
+                    client.createDirectory(temp);
+                    client.changeDirectory(temp);
+                }
+            }
+
+            client.changeDirectory(currentPath);
+        } catch (IOException e) {
+            logger.error("创建层级目录", e);
+        } catch (FTPIllegalReplyException e) {
+            logger.error("创建层级目录", e);
+        } catch (FTPException e) {
+            logger.error("创建层级目录", e);
+        }
+    }
+
+    /**
      * 判断路径是否存在
      *
      * @param path 路径
      * @return
      */
+    @Deprecated
     public boolean isExist(String path) {
         PathType pathType = getPathType(path);
         if (pathType == PathType.NO_EXIST) {
@@ -143,6 +198,7 @@ public class FtpUtils {
      * @param path 路径
      * @return
      */
+    @Deprecated
     public PathType getPathType(String path) {
 
         PathType pathType = PathType.NO_EXIST;
@@ -165,6 +221,7 @@ public class FtpUtils {
                             return PathType.FILE;
                         }
                     } catch (Exception e) {
+                        logger.error("【根据大小，判断是否是文件夹，文件夹长度为1】异常");
                         return PathType.NO_EXIST;
                     }
                 }
@@ -174,6 +231,7 @@ public class FtpUtils {
                     client.changeDirectoryUp();
                     return PathType.DIRECTORY;
                 } catch (Exception e) {
+                    logger.error("【尝试返回当前路径的上一级】异常");
                     return pathType;
                 }
             }
