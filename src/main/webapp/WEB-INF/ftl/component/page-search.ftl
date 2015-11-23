@@ -229,7 +229,7 @@
                     <#--处理数据字典中key为多值的情况-->
                         <#list field.transformDataSet?keys as key>
                             <#assign currentfieldValue="">
-                            <#list key?split(",") as childKey>
+                            <#list key?split("-") as childKey>
                                 <#if childKey=="${fieldValue}">
                                     <#assign currentfieldValue="${field.transformDataSet[key]}">
                                 </#if>
