@@ -150,19 +150,20 @@ public class CaseDao extends BaseDao<TCase> {
      * @return
      */
     public Page findPage(CaseParam queryParam) {
-        StringBuilder sql = new StringBuilder(" from t_case t ");
+        StringBuilder sql = new StringBuilder(" from t_case t left join t_user u on t" +
+                ".creater_id=u.user_id left join t_user v on t.inspector_id=v.user_id");
 
-        if (StringUtils.isNotBlank(queryParam.getXcyName()) || StringUtils.isNotBlank
-                (queryParam.getCreatorName())) {//关联用户表
-            sql.append(" ,t_user u ");
-        }
+//        if (StringUtils.isNotBlank(queryParam.getXcyName()) || StringUtils.isNotBlank
+//                (queryParam.getCreatorName())) {//关联用户表
+//            sql.append(" ,t_user u ");
+//        }
 
         sql.append(" where 1=1 ");
 
-        if (StringUtils.isNotBlank(queryParam.getXcyName()) || StringUtils.isNotBlank
-                (queryParam.getCreatorName())) {//添加关联用户表条件
-            sql.append(" and t.creater_id = u.user_id ");
-        }
+//        if (StringUtils.isNotBlank(queryParam.getXcyName()) || StringUtils.isNotBlank
+//                (queryParam.getCreatorName())) {//添加关联用户表条件
+//            sql.append(" and t.creater_id = u.user_id ");
+//        }
 
         Map<String, Object> params = new HashMap<String, Object>();
 
@@ -263,7 +264,7 @@ public class CaseDao extends BaseDao<TCase> {
 
         //查询总数SQL
         String countSql="select count(1) "+sql.toString();
-        int count=namedParameterJdbcTemplate.queryForInt(countSql,params);
+        int count=namedParameterJdbcTemplate.queryForInt(countSql, params);
 
         sql.append(" order by t.create_time desc");
 
@@ -272,7 +273,7 @@ public class CaseDao extends BaseDao<TCase> {
                 .getPageNum() - 1);//起始位置
         sql.append(" limit ").append(start).append(",").append
                 (queryParam.getNumPerPage());
-        String selectSql=" select t.* "+sql.toString();
+        String selectSql=" select t.*,v.name inspectorName "+sql.toString();
 
         //查询
         List<TCase> datas = namedParameterJdbcTemplate.query(selectSql, params, new
@@ -312,6 +313,7 @@ public class CaseDao extends BaseDao<TCase> {
                         entity.setDepartmentId(resultSet.getInt("DEPARTMENT_ID"));
                         entity.setIsUpload(resultSet.getInt("IS_UPLOAD"));
                         entity.setIllegalUse(resultSet.getInt("ILLEGAL_USE"));
+                        entity.setInspectorName(resultSet.getString("inspectorName"));
                         return entity;
                     }
                 });

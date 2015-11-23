@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.deniro.land.common.utils.SpringContextUtils;
 import net.deniro.land.module.icase.dao.AttachmentDao;
 import net.deniro.land.module.system.entity.TRegion;
+import net.deniro.land.module.system.entity.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -159,6 +160,12 @@ public class TCase implements Serializable {
     private Integer inspectorId;
 
     /**
+     * 巡查员姓名
+     */
+    @Transient
+    private String inspectorName;
+
+    /**
      * 备注
      */
     @Column(name = "remark", nullable = true, length = 200)
@@ -234,6 +241,14 @@ public class TCase implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "REGION_ID", referencedColumnName = "REGION_ID", insertable = false, updatable = false)
     private TRegion findRegion;
+
+    /**
+     * 巡查员
+     */
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "inspector_id", referencedColumnName = "USER_ID", insertable = false, updatable = false)
+    private User inspector;
 
     /**
      * 批示状态；0：未批示；1：我已批示；2：他人批示
