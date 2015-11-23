@@ -57,3 +57,11 @@
     left: 1%
 }
 
+/*时间选择框*/
+.inputDateButton{
+    float:right;
+}
+/*时间选择中的结束时间标识*/
+.inputDateEndLabel{
+    padding-right:5px !important;
+}

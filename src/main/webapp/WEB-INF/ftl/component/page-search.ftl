@@ -72,36 +72,61 @@
                 <tr>
 
 
-
-
                 <#list formFields as field>
-                    <td>${field.displayName}：</td>
-                    <td>
-
                     <#--依照输入框的类型，进行渲染-->
                         <#switch field.inputType>
                             <#case "TEXT">
-                                <input type="text" name="${field.fieldName}" id="${field
-                                .fieldName}_${componentId}"
-                                       value="${queryParam
-                                       .fieldName!""}"
+                                <td>${field.displayName}：</td>
+                                <td>
+                                    <input type="text" name="${field.fieldName}" id="${field
+                                    .fieldName}_${componentId}"
+                                           value="${queryParam
+                                           .fieldName!""}"
+                                </td>
                                 <#break>
                             <#case "SELECT">
-                                <select class="combox" name="${field.fieldName}" id="${field
-                                .fieldName}_${componentId}">
-                                    <option value="" selected="selected">所有</option>
-                                    <#assign selectListDataSet=field.selectListDataSet>
-                                    <#if selectListDataSet?exists>
-                                        <#list selectListDataSet?keys as key>
-                                            <option
-                                                    value="${key}">${selectListDataSet[key]}</option>
-                                        </#list>
-                                    </#if>
-                                </select>
+                                <td>${field.displayName}：</td>
+                                <td>
+                                    <select class="combox" name="${field.fieldName}" id="${field
+                                    .fieldName}_${componentId}">
+                                        <option value="" selected="selected">所有</option>
+                                        <#assign selectListDataSet=field.selectListDataSet>
+                                        <#if selectListDataSet?exists>
+                                            <#list selectListDataSet?keys as key>
+                                                <option
+                                                        value="${key}">${selectListDataSet[key]}</option>
+                                            </#list>
+                                        </#if>
+                                    </select>
+                                </td>
+                                <#break>
+
+                        <#--起止日期选择-->
+                            <#case "BEGIN_END_DATE">
+                                <td>
+                                    <label>${field.displayName}：</label>
+                                    <input type="text" name="${field.fieldName}Begin"
+                                           class="date"
+                                           readonly="true"/>
+                                    <a class="inputDateButton" href="javascript:;
+                                    ">选择${field.displayName}开始时间</a>
+                                </td>
+                                <td class="inputDateEndLabel">
+                                    <span>-</span>
+                                </td>
+                                <td>
+                                    <input type="text" name="${field.fieldName}End"
+                                           class="date"
+                                           readonly="true"/>
+                                    <a class="inputDateButton" href="javascript:;
+                                    ">选择${field.displayName}结束时间</a>
+                                </td>
                                 <#break>
                         </#switch>
-                    </td>
+
                 </#list>
+
+
 
                 <#--渲染单位或部门选择组件-->
                 <#if compPageSearch.isLookupCompanyDepartment=="true">
