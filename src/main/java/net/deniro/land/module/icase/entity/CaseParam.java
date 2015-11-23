@@ -17,6 +17,7 @@ import java.util.List;
 @Data
 public class CaseParam extends QueryParam {
 
+
     /**
      * 用户ID
      */
@@ -206,6 +207,11 @@ public class CaseParam extends QueryParam {
      * 创建开始日期 格式yyyy-MM-dd
      */
     private String createBeginDate;
+
+    /**
+     * 是否上报  1：未上报  2：已上报
+     */
+    private String isUpload;
 
     /**
      * 违法当事人
