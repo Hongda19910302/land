@@ -7,6 +7,23 @@
 	http://www.springframework.org/schema/util/spring-util-3.0.xsd
        ">
 
+    <!-- 案件状态-->
+    <util:map id="caseStatus" map-class="java.util.LinkedHashMap">
+        <entry key="1" value="预立案"/>
+        <entry key="2" value="巡查制止"/>
+        <entry key="3" value="申请结案"/>
+        <entry key="4" value="结案审核通过"/>
+        <entry key="5" value="二次结案审核通过"/>
+        <entry key="6" value="删除"/>
+        <entry key="7" value="撤销案件"/>
+    </util:map>
+
+    <!-- 案件是否上报-->
+    <util:map id="caseIsUpload" map-class="java.util.LinkedHashMap">
+        <entry key="1" value="未上报"/>
+        <entry key="2" value="已上报"/>
+    </util:map>
+
     <!-- 案件字段类型-->
     <util:map id="variableFieldType" map-class="java.util.LinkedHashMap">
         <entry key="0" value="整数"/>

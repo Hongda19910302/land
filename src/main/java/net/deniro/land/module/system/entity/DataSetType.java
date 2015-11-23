@@ -41,5 +41,16 @@ public enum DataSetType {
     /**
      * 是否类型
      */
-    IS_YES
+    IS_YES,
+
+    /**
+     * 案件是否上报
+     */
+    CASE_IS_UPLOAD,
+
+    /**
+     * 案件状态
+     */
+    CASE_STATUS
+    ;
 }

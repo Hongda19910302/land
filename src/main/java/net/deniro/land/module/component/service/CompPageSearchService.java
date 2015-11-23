@@ -6,7 +6,6 @@ import net.deniro.land.module.component.entity.CompPageSearchForm;
 import net.deniro.land.module.component.entity.CompPageSearchTable;
 import net.deniro.land.module.component.entity.InputType;
 import net.deniro.land.module.system.entity.DataSetType;
-import net.deniro.land.module.system.entity.ModuleSearchCfg;
 import net.deniro.land.module.system.service.CompanyService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -55,6 +54,11 @@ public class CompPageSearchService {
     @Resource(name = "isYes")
     private Map<String, String> isYes;
 
+    @Resource(name = "caseIsUpload")
+    private Map<String, String> caseIsUpload;
+
+    @Resource(name = "caseStatus")
+    private Map<String, String> caseStatus;
 
     /**
      * 查询 分页查询组件配置信息
@@ -99,7 +103,12 @@ public class CompPageSearchService {
                     case IS_YES:
                         field.setTransformDataSet(isYes);
                         break;
-
+                    case CASE_IS_UPLOAD:
+                        field.setTransformDataSet(caseIsUpload);
+                        break;
+                    case CASE_STATUS:
+                        field.setTransformDataSet(caseStatus);
+                        break;
                 }
             }
             pageSearch.setCompPageSearchTableFields(tableFields);
@@ -139,6 +148,12 @@ public class CompPageSearchService {
                                 break;
                             case IS_YES:
                                 field.setSelectListDataSet(isYes);
+                                break;
+                            case CASE_IS_UPLOAD:
+                                field.setSelectListDataSet(caseIsUpload);
+                                break;
+                            case CASE_STATUS:
+                                field.setSelectListDataSet(caseStatus);
                                 break;
                         }
                         break;
