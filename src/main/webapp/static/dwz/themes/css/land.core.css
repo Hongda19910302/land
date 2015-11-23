@@ -8,6 +8,23 @@
     padding-right:20px;
 }
 
+/*查询找回组件*/
+.lookupBtn {
+    position: relative;
+    left: 150px;
+}
+.lookupInput{
+    position: relative;
+    left:-25px;
+}
+.lookupDateInput{
+    position: relative;
+    left:-16px;
+}
+/*.lookupBtn >td:first-child{*/
+    /*padding-right:10px;*/
+/*}*/
+
 
 
 /*单位与部门选择组件*/
@@ -57,10 +74,6 @@
     left: 1%
 }
 
-/*时间选择框*/
-.inputDateButton{
-    float:right;
-}
 /*时间选择中的结束时间标识*/
 .inputDateEndLabel{
     padding-right:5px !important;

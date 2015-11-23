@@ -113,16 +113,16 @@
                                 </td>
                                 <#break>
 
-                        <#--起止日期选择框-->
+                             <#--起止日期选择框-->
                             <#case "BEGIN_END_DATE">
                                 <td>
                                     ${field.displayName}：
                                 </td>
                                 <td>
                                     <input type="text" name="${field.fieldName}Begin"
-                                           class="date"
+                                           class="date lookupDateInput"
                                            readonly="true"/>
-                                    <a class="inputDateButton" href="javascript:;
+                                    <a class="inputDateButton lookupBtn" href="javascript:;
                                     ">选择开始${field.displayName}</a>
                                 </td>
                                 <td class="inputDateEndLabel">
@@ -130,11 +130,47 @@
                                 </td>
                                 <td>
                                     <input type="text" name="${field.fieldName}End"
-                                           class="date"
+                                           class="date lookupDateInput"
                                            readonly="true"/>
-                                    <a class="inputDateButton" href="javascript:;
+                                    <a class="inputDateButton lookupBtn" href="javascript:;
                                     ">选择结束${field.displayName}</a>
                                 </td>
+                                <#break>
+
+                        <#--区域选择框-->
+                            <#case "REGION">
+                                <div>
+                                    <td>所在区域：</td>
+                                    <td>
+                                        <input name="regionId"
+                                               id="regionId_${componentId}" value=""
+                                               type="hidden"/>
+                                        <span><input class="lookupInput"
+                                                     name="regionName" id="regionName_${componentId}"
+                                             type="text" readonly></span>
+                                        </span>
+
+                                        <a class="btnLook lookupBtn"
+                                           href="/comp/lookupRegion?pageSearchComponentId=${componentId}"
+                                           target="dialog"
+                                        <#--rel:标识此弹出层ID-->
+                                           rel="lookupRegion"
+                                        <#--resizable：是否可变大小-->
+                                           resizable="false"
+                                        <#--minable：是否可最小化-->
+                                           minable="false"
+                                        <#--maxable：是否可最大化-->
+                                           maxable="false"
+                                        <#--是否将背景遮盖-->
+                                           mask="true"
+                                        <#--弹出框宽度-->
+                                           width="600"
+                                        <#--弹出框高度-->
+                                           height="480"
+                                        <#--标题-->
+                                           title="选择区域"></a>
+                                        </td>
+                                </div>
                                 <#break>
 
                         </#switch>
@@ -144,6 +180,7 @@
                     </#if>
 
                 </#list>
+
 
 
 

@@ -20,5 +20,10 @@ public enum InputType {
     /**
      *起止日期选择框
      */
-    BEGIN_END_DATE
+    BEGIN_END_DATE,
+
+    /**
+     * 区域选择框
+     */
+    REGION
 }
