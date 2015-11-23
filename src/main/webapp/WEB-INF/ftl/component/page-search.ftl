@@ -69,13 +69,22 @@
           method="post">
         <div class="searchBar">
             <table class="searchContent">
-                <tr>
 
+                <#--查询表单每行最大列数-->
+                <#assign formMaxColumnCount=6>
 
+                <#--依照输入框的类型，进行渲染-->
                 <#list formFields as field>
-                    <#--依照输入框的类型，进行渲染-->
+
+                    <#--如果超过每行最大列数，则进行换行处理-->
+                    <#assign isExceedMaxColumnCount=((field?counter)%formMaxColumnCount==0)>
+                    <#if isExceedMaxColumnCount>
+                    <tr>
+                    </#if>
+
                         <#switch field.inputType>
-                            <#case "TEXT">
+
+                            <#case "TEXT"> <#--文本框-->
                                 <td>${field.displayName}：</td>
                                 <td>
                                     <input type="text" name="${field.fieldName}" id="${field
@@ -84,6 +93,8 @@
                                            .fieldName!""}"
                                 </td>
                                 <#break>
+
+                            <#--下拉选择框-->
                             <#case "SELECT">
                                 <td>${field.displayName}：</td>
                                 <td>
@@ -101,15 +112,17 @@
                                 </td>
                                 <#break>
 
-                        <#--起止日期选择-->
+                        <#--起止日期选择框-->
                             <#case "BEGIN_END_DATE">
                                 <td>
                                     <label>${field.displayName}：</label>
+                                </td>
+                                <td>
                                     <input type="text" name="${field.fieldName}Begin"
                                            class="date"
                                            readonly="true"/>
                                     <a class="inputDateButton" href="javascript:;
-                                    ">选择${field.displayName}开始时间</a>
+                                    ">选择开始${field.displayName}</a>
                                 </td>
                                 <td class="inputDateEndLabel">
                                     <span>-</span>
@@ -119,10 +132,15 @@
                                            class="date"
                                            readonly="true"/>
                                     <a class="inputDateButton" href="javascript:;
-                                    ">选择${field.displayName}结束时间</a>
+                                    ">选择结束${field.displayName}</a>
                                 </td>
                                 <#break>
+
                         </#switch>
+
+                    <#if isExceedMaxColumnCount>
+                    </tr>
+                    </#if>
 
                 </#list>
 
