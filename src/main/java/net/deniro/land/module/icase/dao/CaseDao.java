@@ -150,7 +150,7 @@ public class CaseDao extends BaseDao<TCase> {
      * @return
      */
     public Page findPage(CaseParam queryParam) {
-        StringBuilder sql = new StringBuilder(" select distinct t.* from t_case t ");
+        StringBuilder sql = new StringBuilder(" from t_case t ");
 
         if (StringUtils.isNotBlank(queryParam.getXcyName()) || StringUtils.isNotBlank
                 (queryParam.getCreatorName())) {//关联用户表
@@ -261,16 +261,21 @@ public class CaseDao extends BaseDao<TCase> {
         }
 
 
+        //查询总数SQL
+        String countSql="select count(1) "+sql.toString();
+        int count=namedParameterJdbcTemplate.queryForInt(countSql,params);
+
         sql.append(" order by t.create_time desc");
 
         //分页
         int start = queryParam.getNumPerPage() * (queryParam
                 .getPageNum() - 1);//起始位置
         sql.append(" limit ").append(start).append(",").append
-                (queryParam.getPageNum());
+                (queryParam.getNumPerPage());
+        String selectSql=" select t.* "+sql.toString();
 
         //查询
-        List<TCase> datas = namedParameterJdbcTemplate.query(sql.toString(), params, new
+        List<TCase> datas = namedParameterJdbcTemplate.query(selectSql, params, new
                 RowMapper<TCase>() {
                     public TCase mapRow(ResultSet resultSet, int i) throws SQLException {
                         TCase entity = new TCase();
@@ -312,6 +317,6 @@ public class CaseDao extends BaseDao<TCase> {
                 });
 
         return new Page(queryParam
-                .getNumPerPage(), start, datas, datas.size());
+                .getNumPerPage(), start, datas, count);
     }
 }
