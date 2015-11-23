@@ -226,10 +226,15 @@
                             >
                     <#--数据转换后展示-->
                 <#if field.transformDataSetType??>
+                    <#--处理数据字典中key为多值的情况-->
                         <#list field.transformDataSet?keys as key>
-                            <#if key=="${fieldValue}">
-                            ${field.transformDataSet[key]}
-                            </#if>
+                            <#assign currentfieldValue="">
+                            <#list key?split(",") as childKey>
+                                <#if childKey=="${fieldValue}">
+                                    <#assign currentfieldValue="${field.transformDataSet[key]}">
+                                </#if>
+                            </#list>
+                        ${currentfieldValue}
                         </#list>
 
                     <#--普通展示-->

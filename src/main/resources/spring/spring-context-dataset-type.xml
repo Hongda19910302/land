@@ -20,7 +20,7 @@
 
     <!-- 案件是否上报-->
     <util:map id="caseIsUpload" map-class="java.util.LinkedHashMap">
-        <entry key="1" value="未上报"/>
+        <entry key="0,1" value="未上报"/>
         <entry key="2" value="已上报"/>
     </util:map>
 
