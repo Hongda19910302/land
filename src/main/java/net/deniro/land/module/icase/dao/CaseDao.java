@@ -283,7 +283,7 @@ public class CaseDao extends BaseDao<TCase> {
                         TCase entity = new TCase();
                         entity.setCaseId(resultSet.getInt("CASE_ID"));
                         entity.setCaseNum(resultSet.getString("CASE_NUM"));
-                        entity.setCreateTime(resultSet.getDate("CREATE_TIME"));
+                        entity.setCreateTime(resultSet.getTimestamp("CREATE_TIME"));
                         entity.setCreaterId(resultSet.getInt("CREATER_ID"));
                         entity.setParties(resultSet.getString("PARTIES"));
                         entity.setIdCardNum(resultSet.getString("ID_CARD_NUM"));
