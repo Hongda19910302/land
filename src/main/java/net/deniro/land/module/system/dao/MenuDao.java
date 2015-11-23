@@ -39,7 +39,7 @@ public class MenuDao extends BaseDao<MenuItem> {
      */
     public List<MenuItem> findChildrenByRoleId(Integer roleId) {
         String sql = "SELECT b.* FROM t_back_privilege AS a,t_back_privilege AS b WHERE a" +
-                ".BACK_PRIVILEGE_ID= b.PARENT_ID AND b.is_display='TRUE' AND a" +
+                ".BACK_PRIVILEGE_ID= b.PARENT_ID AND b.is_display='true' AND a" +
                 ".BACK_PRIVILEGE_ID in("
                 + MENU_ITEMS_BY_ROLE_ID_SQL + ") ORDER " +
                 "BY b.PARENT_ID,b.SORT_NO";
@@ -55,7 +55,7 @@ public class MenuDao extends BaseDao<MenuItem> {
      */
     public List<MenuItem> findTopByRoleId(Integer roleId) {
         String sql = "SELECT * from t_back_privilege x WHERE x.PARENT_ID is null  AND x" +
-                ".is_display='TRUE'" +
+                ".is_display='true'" +
                 "  AND x.BACK_PRIVILEGE_ID in(" +
                 MENU_ITEMS_BY_ROLE_ID_SQL +
                 ")ORDER BY x.SORT_NO";
