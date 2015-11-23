@@ -71,6 +71,38 @@
             <table class="searchContent">
                 <tr>
 
+
+
+
+                <#list formFields as field>
+                    <td>${field.displayName}：</td>
+                    <td>
+
+                    <#--依照输入框的类型，进行渲染-->
+                        <#switch field.inputType>
+                            <#case "TEXT">
+                                <input type="text" name="${field.fieldName}" id="${field
+                                .fieldName}_${componentId}"
+                                       value="${queryParam
+                                       .fieldName!""}"
+                                <#break>
+                            <#case "SELECT">
+                                <select class="combox" name="${field.fieldName}" id="${field
+                                .fieldName}_${componentId}">
+                                    <option value="" selected="selected">所有</option>
+                                    <#assign selectListDataSet=field.selectListDataSet>
+                                    <#if selectListDataSet?exists>
+                                        <#list selectListDataSet?keys as key>
+                                            <option
+                                                    value="${key}">${selectListDataSet[key]}</option>
+                                        </#list>
+                                    </#if>
+                                </select>
+                                <#break>
+                        </#switch>
+                    </td>
+                </#list>
+
                 <#--渲染单位或部门选择组件-->
                 <#if compPageSearch.isLookupCompanyDepartment=="true">
                     <td class="lookupCompanyDepartmentBtn">
@@ -111,36 +143,6 @@
                     </td>
 
                 </#if>
-
-
-                <#list formFields as field>
-                    <td>${field.displayName}：</td>
-                    <td>
-
-                    <#--依照输入框的类型，进行渲染-->
-                        <#switch field.inputType>
-                            <#case "TEXT">
-                                <input type="text" name="${field.fieldName}" id="${field
-                                .fieldName}_${componentId}"
-                                       value="${queryParam
-                                       .fieldName!""}"
-                                <#break>
-                            <#case "SELECT">
-                                <select class="combox" name="${field.fieldName}" id="${field
-                                .fieldName}_${componentId}">
-                                    <option value="" selected="selected">所有</option>
-                                    <#assign selectListDataSet=field.selectListDataSet>
-                                    <#if selectListDataSet?exists>
-                                        <#list selectListDataSet?keys as key>
-                                            <option
-                                                    value="${key}">${selectListDataSet[key]}</option>
-                                        </#list>
-                                    </#if>
-                                </select>
-                                <#break>
-                        </#switch>
-                    </td>
-                </#list>
 
 
                 </tr>
