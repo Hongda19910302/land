@@ -166,6 +166,12 @@ public class TCase implements Serializable {
     private String inspectorName;
 
     /**
+     * 所属地区名称
+     */
+    @Transient
+    private String regionName;
+
+    /**
      * 备注
      */
     @Column(name = "remark", nullable = true, length = 200)

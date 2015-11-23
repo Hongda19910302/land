@@ -151,7 +151,8 @@ public class CaseDao extends BaseDao<TCase> {
      */
     public Page findPage(CaseParam queryParam) {
         StringBuilder sql = new StringBuilder(" from t_case t left join t_user u on t" +
-                ".creater_id=u.user_id left join t_user v on t.inspector_id=v.user_id");
+                ".creater_id=u.user_id left join t_user v on t.inspector_id=v.user_id"+
+        " left join t_region w on t.region_id=w.region_id ");
 
 //        if (StringUtils.isNotBlank(queryParam.getXcyName()) || StringUtils.isNotBlank
 //                (queryParam.getCreatorName())) {//关联用户表
@@ -273,7 +274,7 @@ public class CaseDao extends BaseDao<TCase> {
                 .getPageNum() - 1);//起始位置
         sql.append(" limit ").append(start).append(",").append
                 (queryParam.getNumPerPage());
-        String selectSql=" select t.*,v.name inspectorName "+sql.toString();
+        String selectSql=" select t.*,v.name inspectorName,w.name regionName "+sql.toString();
 
         //查询
         List<TCase> datas = namedParameterJdbcTemplate.query(selectSql, params, new
@@ -314,6 +315,7 @@ public class CaseDao extends BaseDao<TCase> {
                         entity.setIsUpload(resultSet.getInt("IS_UPLOAD"));
                         entity.setIllegalUse(resultSet.getInt("ILLEGAL_USE"));
                         entity.setInspectorName(resultSet.getString("inspectorName"));
+                        entity.setRegionName(resultSet.getString("regionName"));
                         return entity;
                     }
                 });
