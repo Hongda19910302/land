@@ -65,3 +65,7 @@
 .inputDateEndLabel{
     padding-right:5px !important;
 }
+/*时间选择框中的年份、月份*/
+#calendar .head select{
+    width:65px;
+}
