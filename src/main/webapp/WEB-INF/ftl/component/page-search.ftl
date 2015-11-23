@@ -71,13 +71,14 @@
             <table class="searchContent">
 
                 <#--查询表单每行最大列数-->
-                <#assign formMaxColumnCount=6>
+                <#assign formMaxColumnCount=5>
 
                 <#--依照输入框的类型，进行渲染-->
                 <#list formFields as field>
 
                     <#--如果超过每行最大列数，则进行换行处理-->
-                    <#assign isExceedMaxColumnCount=((field?counter)%formMaxColumnCount==0)>
+                    <#assign isExceedMaxColumnCount=((field?counter)
+                    %(formMaxColumnCount+1)==0)>
                     <#if isExceedMaxColumnCount>
                     <tr>
                     </#if>
@@ -115,7 +116,7 @@
                         <#--起止日期选择框-->
                             <#case "BEGIN_END_DATE">
                                 <td>
-                                    <label>${field.displayName}：</label>
+                                    ${field.displayName}：
                                 </td>
                                 <td>
                                     <input type="text" name="${field.fieldName}Begin"
