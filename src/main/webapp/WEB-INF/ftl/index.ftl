@@ -46,7 +46,7 @@
     <script src="${resourceRoot}/dwz/uploadify/scripts/jquery.uploadify.js"
             type="text/javascript"></script>
 
-    <script src="${resourceRoot}/dwz/zTree/js/jquery.ztree.all-3.5.min.js"
+    <script src="${resourceRoot}/dwz/zTree/js/jquery.ztree.core-3.5.js"
             type="text/javascript"></script>
 
     <script src="${resourceRoot}/dwz/opentip/opentip-jquery.min.js"
