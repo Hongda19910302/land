@@ -54,7 +54,7 @@
 
 
 
-    <script src="${resourceRoot}/dwz/js/dwz.core.js" type="text/javascript"></script>
+    <script src="${resourceRoot}/dwz/js/dwz.core.land.js" type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/js/dwz.util.date.js" type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/js/dwz.validate.method.js"
             type="text/javascript"></script>

@@ -39,6 +39,12 @@ public class CompPageSearch implements Serializable {
     private String remarks;
 
     /**
+     * 非表格高度（用于查询表单、表格标题、分页条）（单位为px）
+     */
+    @Column(name = "no_table_height", nullable = true, length = 100)
+    private String noTableHeight;
+
+    /**
      * 查询表单是否包含单位或部门选择组件
      */
     @Column(name = "is_lookup_company_department", nullable = true, length = 5)

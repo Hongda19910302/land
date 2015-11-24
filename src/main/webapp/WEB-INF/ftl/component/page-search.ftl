@@ -269,7 +269,7 @@
 <#assign tableKey="">
 
 <#--表格容器-->
-    <table class="table" width="100%" layoutH="110">
+    <table class="table" width="100%" layoutH="${compPageSearch.noTableHeight}">
         <thead>
         <tr>
 
