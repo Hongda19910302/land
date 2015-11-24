@@ -22,6 +22,16 @@
         //初始化 查询条件
     <#list formFields as field>
         $("#${field.fieldName}_${componentId}").val("${queryParam[field.fieldName]!""}");
+
+        <#switch field.inputType>
+            <#case "BEGIN_END_DATE"><#--起止日期选择框初始化-->
+                $("#${field.fieldName}Begin_${componentId}").val
+                ("${queryParam[field.fieldName+"Begin"]!""}");
+                $("#${field.fieldName}End_${componentId}").val
+                ("${queryParam[field.fieldName+"End"]!""}");
+                <#break>
+        </#switch>
+
     </#list>
 
         //初始化 单位或部门选择组件参数
@@ -48,6 +58,15 @@
     <input type="hidden" name="orderField" value="${param.orderField}"/>
 <#list formFields as field>
     <input type="hidden" name="${field.fieldName}" value="${queryParam[field.fieldName]}"/>
+
+    <#switch field.inputType>
+        <#case "BEGIN_END_DATE"><#--保存起止日期选择框参数-->
+            <input type="hidden" name="${field.fieldName}Begin"
+                   value="${queryParam[field.fieldName+"Begin"]!""}"/>
+            <input type="hidden" name="${field.fieldName}End"
+                   value="${queryParam[field.fieldName+"End"]!""}"/>
+            <#break>
+    </#switch>
 </#list>
 
 <#--保存单位或部门选择组件参数-->
@@ -120,7 +139,9 @@
                         ${field.displayName}：
                         </td>
                         <td>
-                            <input type="text" name="${field.fieldName}Begin"
+                            <input type="text" id="${field.fieldName}Begin_${componentId}"
+                                   name="${field
+                                   .fieldName}Begin"
                                    class="date lookupDateInput"
                                    readonly="true"/>
                             <a class="inputDateButton lookupBtn" href="javascript:;
@@ -130,7 +151,8 @@
                             <span>-</span>
                         </td>
                         <td>
-                            <input type="text" name="${field.fieldName}End"
+                            <input type="text" id="${field.fieldName}End_${componentId}"
+                                   name="${field.fieldName}End"
                                    class="date lookupDateInput"
                                    readonly="true"/>
                             <a class="inputDateButton lookupBtn" href="javascript:;
@@ -177,12 +199,12 @@
 
                 </#switch>
 
-                <#--当到限定最大的一列时，重置当前列数-->
+            <#--当到限定最大的一列时，重置当前列数-->
                 <#if ((currentColumnCount+1)==formMaxColumnCount)>
                     <#assign currentColumnCount=0>
                 </tr>
                 </#if>
-                <#--当前列数递增-->
+            <#--当前列数递增-->
                 <#if (currentColumnCount<formMaxColumnCount)>
                     <#assign currentColumnCount=currentColumnCount+1>
                 </#if>

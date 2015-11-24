@@ -88,7 +88,7 @@ public class CaseService {
 
         try {
             TCase tCase = caseDao.get(caseParam.getCaseId());
-            if(tCase==null){
+            if (tCase == null) {
                 return false;
             }
 
@@ -834,7 +834,9 @@ public class CaseService {
         try {
 
             //设置部门ID
-            queryParam.setDepartmentId(findDepartmentByUserId(queryParam.getUserId()));
+            if (StringUtils.isNotBlank(queryParam.getUserId())) {
+                queryParam.setDepartmentId(findDepartmentByUserId(queryParam.getUserId()));
+            }
 
             return caseDao.findPage(queryParam);
         } catch (Exception e) {

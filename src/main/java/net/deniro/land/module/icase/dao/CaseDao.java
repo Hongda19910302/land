@@ -2,6 +2,7 @@ package net.deniro.land.module.icase.dao;
 
 import net.deniro.land.common.dao.BaseDao;
 import net.deniro.land.common.dao.Page;
+import net.deniro.land.common.service.Constants;
 import net.deniro.land.module.icase.entity.CaseParam;
 import net.deniro.land.module.icase.entity.CaseVariableField;
 import net.deniro.land.module.icase.entity.TCase;
@@ -151,8 +152,8 @@ public class CaseDao extends BaseDao<TCase> {
      */
     public Page findPage(CaseParam queryParam) {
         StringBuilder sql = new StringBuilder(" from t_case t left join t_user u on t" +
-                ".creater_id=u.user_id left join t_user v on t.inspector_id=v.user_id"+
-        " left join t_region w on t.region_id=w.region_id ");
+                ".creater_id=u.user_id left join t_user v on t.inspector_id=v.user_id" +
+                " left join t_region w on t.region_id=w.region_id ");
 
 //        if (StringUtils.isNotBlank(queryParam.getXcyName()) || StringUtils.isNotBlank
 //                (queryParam.getCreatorName())) {//关联用户表
@@ -242,14 +243,18 @@ public class CaseDao extends BaseDao<TCase> {
             params.put("parties", "%" + queryParam.getParties() + "%");
         }
 
-        if (StringUtils.isNotBlank(queryParam.getXcyName()) || StringUtils.isNotBlank
-                (queryParam.getCreatorName())) {
-            sql.append(" and u.name like :userName");
 
-            //以“创建者名称”的条件为主
-            String userName = (StringUtils.isBlank(queryParam.getCreatorName())
-                    ? queryParam.getXcyName() : queryParam.getCreatorName());
-            params.put("userName", "%" + userName + "%");
+        //创建者名称
+        if (StringUtils.isNotBlank
+                (queryParam.getCreatorName())) {
+            sql.append(" and u.name like :creatorName");
+            params.put("creatorName", "%" + (queryParam.getCreatorName()) + "%");
+        }
+
+        //巡查者名称
+        if (StringUtils.isNotBlank(queryParam.getXcyName())) {
+            sql.append(" and v.name like :xcyName");
+            params.put("xcyName", "%" + queryParam.getXcyName() + "%");
         }
 
         if (queryParam.getRegionId() != null && queryParam.getRegionId() != 0) {
@@ -262,10 +267,47 @@ public class CaseDao extends BaseDao<TCase> {
             params.put("departmentId", queryParam.getDepartmentId());
         }
 
+        /**
+         * 是否上报
+         */
+        String isUpload = queryParam.getIsUpload();
+        if (StringUtils.isNotBlank(isUpload)) {
+            String[] keys = (StringUtils.split(isUpload, Constants.DATA_TYPE_MULTI_KEY_SPLIT));
+            sql.append(" and (");
+            for (int i = 0; i < keys.length; i++) {
+                String key = keys[i];
+                if (StringUtils.equals(key, "0")) {
+                    sql.append(" t.is_upload is null ");
+                } else {
+                    sql.append(" t.is_upload = :isUpload" + i);
+                    params.put("isUpload" + i, key);
+                }
+                if (i != keys.length - 1) {
+                    sql.append(" or");
+                }
+            }
+            sql.append(")");
+
+        }
+
+        /**
+         * 创建时间开始、结束
+         */
+        if (StringUtils.isNotBlank(queryParam.getCreateTimeBegin())) {
+            sql.append(" and date_format(t.create_time,'" + Constants.MYSQL_DATE_FORMAT + "')" +
+                    ">=").append(":getCreateTimeBegin");
+            params.put("getCreateTimeBegin", queryParam.getCreateTimeBegin());
+        }
+        if (StringUtils.isNotBlank(queryParam.getCreateTimeEnd())) {
+            sql.append(" and date_format(t.create_time,'" + Constants.MYSQL_DATE_FORMAT + "')" +
+                    "<=").append(":getCreateTimeEnd");
+            params.put("getCreateTimeEnd", queryParam.getCreateTimeEnd());
+        }
+
 
         //查询总数SQL
-        String countSql="select count(1) "+sql.toString();
-        int count=namedParameterJdbcTemplate.queryForInt(countSql, params);
+        String countSql = "select count(1) " + sql.toString();
+        int count = namedParameterJdbcTemplate.queryForInt(countSql, params);
 
         sql.append(" order by t.create_time desc");
 
@@ -274,7 +316,7 @@ public class CaseDao extends BaseDao<TCase> {
                 .getPageNum() - 1);//起始位置
         sql.append(" limit ").append(start).append(",").append
                 (queryParam.getNumPerPage());
-        String selectSql=" select t.*,v.name inspectorName,w.name regionName "+sql.toString();
+        String selectSql = " select t.*,v.name inspectorName,w.name regionName " + sql.toString();
 
         //查询
         List<TCase> datas = namedParameterJdbcTemplate.query(selectSql, params, new

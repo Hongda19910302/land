@@ -28,10 +28,20 @@ public class Constants {
     /**
      * ftp路径分隔符
      */
-    public static final String FTP_PATH_SPLIT="/";
+    public static final String FTP_PATH_SPLIT = "/";
 
     /**
      * 树型图标路径前缀
      */
-    public static final String TREE_ICON_PATH_PREFIX="/dwz/themes/default/images/dialog/";
+    public static final String TREE_ICON_PATH_PREFIX = "/dwz/themes/default/images/dialog/";
+
+    /**
+     * 数据字典多键分隔符
+     */
+    public static final String DATA_TYPE_MULTI_KEY_SPLIT = "-";
+
+    /**
+     * mysql日期格式
+     */
+    public static final String MYSQL_DATE_FORMAT = "%Y-%m-%d";
 }

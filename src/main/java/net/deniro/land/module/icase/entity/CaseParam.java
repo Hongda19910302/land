@@ -5,7 +5,6 @@ import net.deniro.land.common.entity.QueryParam;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -214,6 +213,21 @@ public class CaseParam extends QueryParam {
     private String isUpload;
 
     /**
+     * 创建开始日期
+     */
+    private String createTimeBegin;
+
+    /**
+     * 创建结束日期
+     */
+    private String createTimeEnd;
+
+    /**
+     * 区域名称
+     */
+    private String regionName;
+
+    /**
      * 违法当事人
      */
     @Deprecated
@@ -277,8 +291,6 @@ public class CaseParam extends QueryParam {
      * 巡查员ID
      */
     private Integer xcyId;
-
-
 
 
 }
