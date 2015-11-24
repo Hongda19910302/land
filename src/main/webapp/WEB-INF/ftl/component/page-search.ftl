@@ -70,131 +70,139 @@
         <div class="searchBar">
             <table class="searchContent">
 
-                <#--查询表单每行最大列数-->
-                <#assign formMaxColumnCount=5>
+            <#--查询表单每行最大列数-->
+            <#assign formMaxColumnCount=5>
+            <#--当前已处理的列数-->
+            <#assign currentColumnCount=0>
 
-                <#--依照输入框的类型，进行渲染-->
-                <#list formFields as field>
+            <#--依照输入框的类型，进行渲染-->
+            <#list formFields as field>
+            <#--如果超过每行最大列数，则进行换行处理-->
+                <#if ((field?counter)-1)%(formMaxColumnCount)==0>
+                <tr>
+                </#if>
 
-                    <#--如果超过每行最大列数，则进行换行处理-->
-                    <#assign isExceedMaxColumnCount=((field?counter)
-                    %(formMaxColumnCount+1)==0)>
-                    <#if isExceedMaxColumnCount>
-                    <tr>
-                    </#if>
+            <#--<td>[${field?counter}][${currentColumnCount}]</td>-->
 
-                        <#switch field.inputType>
+                <#switch field.inputType>
 
-                            <#case "TEXT"> <#--文本框-->
-                                <td>${field.displayName}：</td>
-                                <td>
-                                    <input type="text" name="${field.fieldName}" id="${field
-                                    .fieldName}_${componentId}"
-                                           value="${queryParam
-                                           .fieldName!""}"
-                                </td>
-                                <#break>
+                    <#case "TEXT"> <#--文本框-->
+                        <td>${field.displayName}：</td>
+                        <td>
+                            <input type="text" name="${field.fieldName}" id="${field
+                            .fieldName}_${componentId}"
+                                   value="${queryParam
+                                   .fieldName!""}"
+                        </td>
+                        <#break>
 
-                            <#--下拉选择框-->
-                            <#case "SELECT">
-                                <td>${field.displayName}：</td>
-                                <td>
-                                    <select class="combox" name="${field.fieldName}" id="${field
-                                    .fieldName}_${componentId}">
-                                        <option value="" selected="selected">所有</option>
-                                        <#assign selectListDataSet=field.selectListDataSet>
-                                        <#if selectListDataSet?exists>
-                                            <#list selectListDataSet?keys as key>
-                                                <option
-                                                        value="${key}">${selectListDataSet[key]}</option>
-                                            </#list>
-                                        </#if>
-                                    </select>
-                                </td>
-                                <#break>
+                    <#--下拉选择框-->
+                    <#case "SELECT">
+                        <td>${field.displayName}：</td>
+                        <td>
+                            <select class="combox" name="${field.fieldName}" id="${field
+                            .fieldName}_${componentId}">
+                                <option value="" selected="selected">所有</option>
+                                <#assign selectListDataSet=field.selectListDataSet>
+                                <#if selectListDataSet?exists>
+                                    <#list selectListDataSet?keys as key>
+                                        <option
+                                                value="${key}">${selectListDataSet[key]}</option>
+                                    </#list>
+                                </#if>
+                            </select>
+                        </td>
+                        <#break>
 
-                             <#--起止日期选择框-->
-                            <#case "BEGIN_END_DATE">
-                                <td>
-                                    ${field.displayName}：
-                                </td>
-                                <td>
-                                    <input type="text" name="${field.fieldName}Begin"
-                                           class="date lookupDateInput"
-                                           readonly="true"/>
-                                    <a class="inputDateButton lookupBtn" href="javascript:;
-                                    ">选择开始${field.displayName}</a>
-                                </td>
-                                <td class="inputDateEndLabel">
-                                    <span>-</span>
-                                </td>
-                                <td>
-                                    <input type="text" name="${field.fieldName}End"
-                                           class="date lookupDateInput"
-                                           readonly="true"/>
-                                    <a class="inputDateButton lookupBtn" href="javascript:;
-                                    ">选择结束${field.displayName}</a>
-                                </td>
-                                <#break>
-
-                        <#--区域选择框-->
-                            <#case "REGION">
-                                <div>
-                                    <td>所在区域：</td>
-                                    <td>
-                                        <input name="regionId"
-                                               id="regionId_${componentId}" value=""
-                                               type="hidden"/>
-                                        <span><input class="lookupInput"
-                                                     name="regionName" id="regionName_${componentId}"
-                                             type="text" readonly></span>
-                                        </span>
-
-                                        <a class="btnLook lookupBtn"
-                                           href="/comp/lookupRegion?pageSearchComponentId=${componentId}"
-                                           target="dialog"
-                                        <#--rel:标识此弹出层ID-->
-                                           rel="lookupRegion"
-                                        <#--resizable：是否可变大小-->
-                                           resizable="false"
-                                        <#--minable：是否可最小化-->
-                                           minable="false"
-                                        <#--maxable：是否可最大化-->
-                                           maxable="false"
-                                        <#--是否将背景遮盖-->
-                                           mask="true"
-                                        <#--弹出框宽度-->
-                                           width="600"
-                                        <#--弹出框高度-->
-                                           height="480"
-                                        <#--标题-->
-                                           title="选择区域"></a>
-                                        </td>
-                                </div>
-                                <#break>
-
-                        </#switch>
-
-                    <#if isExceedMaxColumnCount>
-                    </tr>
-                    </#if>
-
-                </#list>
+                    <#--起止日期选择框-->
+                    <#case "BEGIN_END_DATE">
+                        <td>
+                        ${field.displayName}：
+                        </td>
+                        <td>
+                            <input type="text" name="${field.fieldName}Begin"
+                                   class="date lookupDateInput"
+                                   readonly="true"/>
+                            <a class="inputDateButton lookupBtn" href="javascript:;
+            ">选择开始${field.displayName}</a>
+                        </td>
+                        <td class="inputDateEndLabel">
+                            <span>-</span>
+                        </td>
+                        <td>
+                            <input type="text" name="${field.fieldName}End"
+                                   class="date lookupDateInput"
+                                   readonly="true"/>
+                            <a class="inputDateButton lookupBtn" href="javascript:;
+            ">选择结束${field.displayName}</a>
+                        </td>
+                        <#break>
 
 
 
+                    <#--区域选择框-->
+                    <#case "REGION">
+                        <td>所在区域：</td>
+                        <td class="lookupRegionBtn">
+                            <input name="regionId"
+                                   id="regionId_${componentId}" value=""
+                                   type="hidden"/>
+            <span><input class="lookupInput"
+                         name="regionName"
+                         id="regionName_${componentId}"
+                         type="text" readonly></span>
+                            </span>
 
-                <#--渲染单位或部门选择组件-->
-                <#if compPageSearch.isLookupCompanyDepartment=="true">
-                    <td class="lookupCompanyDepartmentBtn">
-                        <span>归属单位：</span>
-                        <input name="companyId" id="companyId_${componentId}" value=""
-                               type="hidden"/>
+                            <a class="btnLook lookupBtn"
+                               href="/comp/lookupRegion?pageSearchComponentId=${componentId}"
+                               target="dialog"
+                            <#--rel:标识此弹出层ID-->
+                               rel="lookupRegion"
+                            <#--resizable：是否可变大小-->
+                               resizable="false"
+                            <#--minable：是否可最小化-->
+                               minable="false"
+                            <#--maxable：是否可最大化-->
+                               maxable="false"
+                            <#--是否将背景遮盖-->
+                               mask="true"
+                            <#--弹出框宽度-->
+                               width="600"
+                            <#--弹出框高度-->
+                               height="480"
+                            <#--标题-->
+                               title="选择区域"></a>
+                        </td>
+                        <#break>
+
+                </#switch>
+
+                <#--当到限定最大的一列时，重置当前列数-->
+                <#if ((currentColumnCount+1)==formMaxColumnCount)>
+                    <#assign currentColumnCount=0>
+                </tr>
+                </#if>
+                <#--当前列数递增-->
+                <#if (currentColumnCount<formMaxColumnCount)>
+                    <#assign currentColumnCount=currentColumnCount+1>
+                </#if>
+
+            </#list>
+
+
+
+
+            <#--渲染单位或部门选择组件-->
+            <#if compPageSearch.isLookupCompanyDepartment=="true">
+                <td class="lookupCompanyDepartmentBtn">
+                    <span>归属单位：</span>
+                    <input name="companyId" id="companyId_${componentId}" value=""
+                           type="hidden"/>
                         <span><input name="companyName" id="companyName_${componentId}"
                                      type="text" readonly></span>
-                        <span>部门：</span>
-                        <input name="departmentId" id="departmentId_${componentId}" value=""
-                               type="hidden"/>
+                    <span>部门：</span>
+                    <input name="departmentId" id="departmentId_${componentId}" value=""
+                           type="hidden"/>
                         <span>
                             <input name="departmentName" id="departmentName_${componentId}"
                                    type="text"
@@ -202,31 +210,30 @@
                                    readonly>
                         </span>
 
-                        <a class="btnLook"
-                           href="/comp/lookupCompanyDepartment?pageSearchComponentId=${componentId}"
-                           target="dialog"
-                        <#--rel:标识此弹出层ID-->
-                           rel="lookupCompanyDepartment"
-                        <#--resizable：是否可变大小-->
-                           resizable="false"
-                        <#--minable：是否可最小化-->
-                           minable="false"
-                        <#--maxable：是否可最大化-->
-                           maxable="false"
-                        <#--是否将背景遮盖-->
-                           mask="true"
-                        <#--弹出框宽度-->
-                           width="600"
-                        <#--弹出框高度-->
-                           height="480"
-                        <#--标题-->
-                           title="选择单位或部门"></a>
-                    </td>
+                    <a class="btnLook"
+                       href="/comp/lookupCompanyDepartment?pageSearchComponentId=${componentId}"
+                       target="dialog"
+                    <#--rel:标识此弹出层ID-->
+                       rel="lookupCompanyDepartment"
+                    <#--resizable：是否可变大小-->
+                       resizable="false"
+                    <#--minable：是否可最小化-->
+                       minable="false"
+                    <#--maxable：是否可最大化-->
+                       maxable="false"
+                    <#--是否将背景遮盖-->
+                       mask="true"
+                    <#--弹出框宽度-->
+                       width="600"
+                    <#--弹出框高度-->
+                       height="480"
+                    <#--标题-->
+                       title="选择单位或部门"></a>
+                </td>
 
-                </#if>
+            </#if>
 
 
-                </tr>
             </table>
 
         <#--渲染按钮组-->

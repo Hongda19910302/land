@@ -27,6 +27,41 @@
 
 
 
+/*树形选择组件*/
+.lookupTree {
+    position: relative;
+}
+
+.lookupTree > div {
+    border: 1px solid #B8D0D6;
+    position: absolute;
+    margin:1px 1px;
+
+}
+
+.lookupTree > div:first-child {
+    left: 7px;
+}
+
+.lookupTree > div:last-child {
+    right: 7px;
+}
+
+.lookupTree div > span:first-child {
+    overflow: hidden;
+    height: 14px;
+    padding: 2px 5px 2px 20px;
+    line-height: 14px;
+    background: url("../default/images/dialog/chart_organisation.png") no-repeat;
+    font-weight: bold;
+}
+
+.lookupTree div > ul {
+    height: 100%;
+    overflow: auto;
+    margin: 2px;
+}
+
 /*单位与部门选择组件*/
 .lookupCompanyDepartmentTree {
     position: relative;
@@ -71,7 +106,9 @@
 /*弹出框说明提示*/
 .dialogBtnRow span {
     position: absolute;
-    left: 1%
+    left: 1%;
+    color:#183152;
+    font-weight:bold;
 }
 
 /*时间选择中的结束时间标识*/
