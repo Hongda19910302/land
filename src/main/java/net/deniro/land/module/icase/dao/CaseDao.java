@@ -257,10 +257,15 @@ public class CaseDao extends BaseDao<TCase> {
             params.put("xcyName", "%" + queryParam.getXcyName() + "%");
         }
 
+        /**
+         * 区域
+         */
         if (queryParam.getRegionId() != null && queryParam.getRegionId() != 0) {
             sql.append(" and FIND_IN_SET(t.REGION_ID, getChildRegion(:regionId))");
             params.put("regionId", queryParam.getRegionId());
         }
+
+
         if (StringUtils.isNotBlank(queryParam.getDepartmentId())) {
             sql.append(" and FIND_IN_SET(t.DEPARTMENT_ID, getChildDepartment" +
                     "(:departmentId))");

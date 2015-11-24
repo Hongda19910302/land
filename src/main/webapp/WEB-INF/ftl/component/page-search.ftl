@@ -24,11 +24,17 @@
         $("#${field.fieldName}_${componentId}").val("${queryParam[field.fieldName]!""}");
 
         <#switch field.inputType>
-            <#case "BEGIN_END_DATE"><#--起止日期选择框初始化-->
+            <#case "BEGIN_END_DATE"><#--起止日期选择框参数初始化-->
                 $("#${field.fieldName}Begin_${componentId}").val
                 ("${queryParam[field.fieldName+"Begin"]!""}");
                 $("#${field.fieldName}End_${componentId}").val
                 ("${queryParam[field.fieldName+"End"]!""}");
+                <#break>
+            <#case "REGION"><#--区域选择框参数初始化-->
+                $("#${field.fieldName}Id_${componentId}").val
+                ("${queryParam[field.fieldName+"Id"]!""}");
+                $("#${field.fieldName}Name_${componentId}").val
+                ("${queryParam[field.fieldName+"Name"]!""}");
                 <#break>
         </#switch>
 
@@ -65,6 +71,12 @@
                    value="${queryParam[field.fieldName+"Begin"]!""}"/>
             <input type="hidden" name="${field.fieldName}End"
                    value="${queryParam[field.fieldName+"End"]!""}"/>
+            <#break>
+        <#case "REGION">
+            <input type="hidden" name="${field.fieldName}Id"
+                   value="${queryParam[field.fieldName+"Id"]!""}"/>
+            <input type="hidden" name="${field.fieldName}Name"
+                   value="${queryParam[field.fieldName+"Name"]!""}"/>
             <#break>
     </#switch>
 </#list>
@@ -166,12 +178,12 @@
                     <#case "REGION">
                         <td>所在区域：</td>
                         <td class="lookupRegionBtn">
-                            <input name="regionId"
-                                   id="regionId_${componentId}" value=""
+                            <input name="${field.fieldName}Id"
+                                   id="${field.fieldName}Id_${componentId}" value=""
                                    type="hidden"/>
             <span><input class="lookupInput"
-                         name="regionName"
-                         id="regionName_${componentId}"
+                         name="${field.fieldName}Name"
+                         id="${field.fieldName}Name_${componentId}"
                          type="text" readonly></span>
                             </span>
 
