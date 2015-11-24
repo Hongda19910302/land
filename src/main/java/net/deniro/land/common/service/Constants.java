@@ -29,4 +29,9 @@ public class Constants {
      * ftp路径分隔符
      */
     public static final String FTP_PATH_SPLIT="/";
+
+    /**
+     * 树型图标路径前缀
+     */
+    public static final String TREE_ICON_PATH_PREFIX="/dwz/themes/default/images/dialog/";
 }
