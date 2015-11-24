@@ -17,6 +17,37 @@
 	};
 	
 	$.extend({
+
+		/**
+		 * 带回选择的区域信息
+		 * @param args
+		 */
+		bringBackRegion: function (args) {
+			//console.log(args);
+
+			//获取选择的字段区域
+			var $Region= $("#searchForm_"+args.pageSearchComponentId+" .lookupRegionBtn");
+			//console.log($Region.find(":input").length);
+
+			//寻找具体字段并赋值
+			$Region.find(":input").each(function(){
+				console.log("1");
+				var $input = $(this);
+				var inputName = $input.attr("name");
+
+				for (var key in args) {
+					if (key == inputName) {
+						$input.val(args[key]);
+						break;
+					}
+				}
+
+			});
+
+
+			$.pdialog.closeCurrent();
+		},
+
 		/**
 		 * 带回选择的单位与部门信息
 		 * @param args
