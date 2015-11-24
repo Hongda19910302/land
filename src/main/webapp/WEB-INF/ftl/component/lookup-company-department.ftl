@@ -94,7 +94,7 @@
 <div class="formBar dialogBtnRow">
     <ul>
         <li>
-            <span>说明：如果需要选择部门，请点击左边单位列表的某个具体单位</span>
+            <span>【说明】如果需要选择部门，请点击左边单位列表的某个具体单位；也可只选择单位</span>
         </li>
         <li>
             <div class="button">
