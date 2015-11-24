@@ -76,7 +76,7 @@ public class RegionService {
                 entity.setIconClose(ICON_URL_PREFIX + "house_go.png");
             } else {
                 entity.setIsParent("false");
-                entity.setIcon(ICON_URL_PREFIX + "group.png");
+                entity.setIcon(ICON_URL_PREFIX + "flag_blue.png");
             }
             entity.setParentRegion(null);
         }
