@@ -3,8 +3,13 @@ package net.deniro.land.module.system.dao;
 import net.deniro.land.common.dao.BaseDao;
 import net.deniro.land.module.system.entity.TRegion;
 import net.deniro.land.module.system.entity.TRegionRelation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import static net.deniro.land.module.system.entity.TRegionRelation.RelationType.COMPANY;
@@ -17,6 +22,26 @@ import static net.deniro.land.module.system.entity.TRegionRelation.RelationType.
  */
 @Repository
 public class RegionDao extends BaseDao<TRegion> {
+
+    @Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    /**
+     * 查询所有父区域ID（去重、正常状态）
+     *
+     * @return
+     */
+    public List<Integer> findParentIds() {
+        StringBuilder sql = new StringBuilder("SELECT DISTINCT(w.parent_id) PARENT_ID FROM" +
+                " " +
+                "t_region w");
+        sql.append(" WHERE w.`STATUS`=0 AND w.PARENT_ID IS NOT NULL");
+        return namedParameterJdbcTemplate.query(sql.toString(), new RowMapper<Integer>() {
+            public Integer mapRow(ResultSet resultSet, int i) throws SQLException {
+                return resultSet.getInt("PARENT_ID");
+            }
+        });
+    }
 
     /**
      * 依据区域ID，获取子区域列表
