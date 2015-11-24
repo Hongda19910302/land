@@ -102,7 +102,7 @@
             <table class="searchContent">
 
             <#--查询表单每行最大列数-->
-            <#assign formMaxColumnCount=5>
+            <#assign formMaxColumnCount=4>
             <#--当前已处理的列数-->
             <#assign currentColumnCount=0>
 
