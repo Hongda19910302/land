@@ -17,7 +17,7 @@ public class ResourcePathExposer implements ServletContextAware {
 
     public void init() {
 //        实际应用中，可以在外部属性文件或数据库保存应用的发布版本号，在此获取。
-        String version = "1.0.0";
+        String version = "3.1.0";
 //        资源逻辑路径带上应用的发布版本号
         resourceRoot = "/static-" + version;
 //        将资源逻辑路径暴露到ServletContext的属性列表中
@@ -31,7 +31,6 @@ public class ResourcePathExposer implements ServletContextAware {
         return servletContext;
     }
 
-    @Override
     public void setServletContext(ServletContext servletContext) {
         this.servletContext = servletContext;
     }
