@@ -50,6 +50,12 @@ public class CompPageSearch implements Serializable {
     @Column(name = "is_lookup_company_department", nullable = true, length = 5)
     private String isLookupCompanyDepartment;
 
+    /**
+     * 是否有工具栏
+     */
+    @Column(name = "is_tool_bar", nullable = true, length = 5)
+    private String isToolBar;
+
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "compPageSearch", fetch = FetchType.EAGER)
     @OrderBy("orderNo ASC ")
@@ -58,5 +64,9 @@ public class CompPageSearch implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "compPageSearch", fetch = FetchType.EAGER)
     @OrderBy("orderNo ASC ")
     private Set<CompPageSearchTable> compPageSearchTableFields;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "compPageSearch", fetch = FetchType.EAGER)
+    @OrderBy("orderNo ASC ")
+    private Set<CompPageSearchToolBar> compPageSearchToolBar;
 
 }

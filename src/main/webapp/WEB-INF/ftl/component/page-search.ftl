@@ -296,49 +296,88 @@
 <div class="pageContent">
 
 <#-----------------------------工具栏 开始----------------------------------->
+<#--工具栏配置信息-->
+<#assign toolBtns=compPageSearch.compPageSearchToolBar>
+
+<#if toolBtns?size!=0>
     <div class="panelBar">
         <ul class="toolBar">
-            <li><a id="edit_${componentId}" class="edit"><span>详情</span></a>
-            </li>
+            <#list toolBtns as toolBtn>
+                <#assign toolBtnClassName=toolBtn.btnClassName>
+                <li><a id="${toolBtnClassName}_${componentId}"
+                       class="${toolBtnClassName}"><span>详情</span></a>
+                </li>
+            </#list>
         </ul>
     </div>
 
     <script type="text/javascript">
         $(function () {
-            /**
-             *
-             * 工具按钮脚本
-             */
-            var $toolBarBtn = $("#edit_${componentId}");
-            $toolBarBtn.live("click", function (event) {
-                console.log($("#table_tbody_${componentId}").length);
-                var $tbody = $("#table_tbody_${componentId}");
-                if ($tbody.length == 0) {//没有数据，提示
-                    alertMsg.warn("没有数据，无需处理！");
-                    event.preventDefault();
-                    return;
-                }
+            <#list toolBtns as toolBtn>
+                var $toolBarBtn = $("#${toolBtn.btnClassName}_${componentId}");
+                $toolBarBtn.live("click", function (event) {
+                    //console.log($("#table_tbody_${componentId}").length);
+                    var $tbody = $("#table_tbody_${componentId}");
+                    if ($tbody.length == 0) {//没有数据，提示
+                        alertMsg.warn("没有数据，无需处理！");
+                        event.preventDefault();
+                        return;
+                    }
 
-                var $select = $tbody.find(".selected");
-                if ($select.length == 0) {//未选择某条记录，提示
-                    alertMsg.warn("请选择某条记录！")
-                    event.preventDefault();
-                    return;
-                }
+                    var $select = $tbody.find(".selected");
+                    if ($select.length == 0) {//未选择某条记录，提示
+                        alertMsg.warn("请选择某条记录！")
+                        event.preventDefault();
+                        return;
+                    }
 
-                //console.log($select.attr("rel"));
-                var selectedId = $select.attr("rel");//已选择的记录ID
-                var url="version/items?componentType=PAGE_SEARCH&componentId" +
-                        "=9&versionId=" + selectedId;
-                navTab.openTab(${componentId}+selectedId,url,{title:"版本项" +
-                "("+selectedId+")",fresh:false,
-                    data:{}});
-            });
+                    //console.log($select.attr("rel"));
+                    var selectedId = $select.attr("rel");//已选择的记录ID
+                    var url = "${toolBtn.url}" +selectedId;
+                    var containId = "${componentId}"+selectedId;//容器ID
+                    var containTitle = "${toolBtn.tabName}(" + selectedId + ")";//容器标题
+
+                    <#switch toolBtn.openType>
+                        <#case "TAB">
+                            //打开新页签
+                            navTab.openTab(containId, url, {
+                                title: containTitle, fresh: ${toolBtn.isFresh}
+                            });
+                            <#break>
+                        <#--todo 对话框有问题，检索时后端的页面也会同时刷新-->
+                        <#case "DIALOG">
+                            //打开新对话框
+                            $.pdialog.open(url, containId, containTitle, {
+                                //高度
+                                height:  ${toolBtn.dialogHeight},
+                                //宽度
+                                width:  ${toolBtn.dialogWidth},
+                                //最小高度
+                                minH:  ${toolBtn.dialogMinHeight},
+                                //最小宽度
+                                minW:  ${toolBtn.dialogMinWidth},
+                                //是否最大化打开
+                                max:  ${toolBtn.dialogInitIsMax},
+                                //是否使用遮罩
+                                mask:  ${toolBtn.dialogIsMask},
+                                //是否可缩放
+                                resizable:  ${toolBtn.dialogIsResizable},
+                                //是否可拖拉
+                                drawable:  ${toolBtn.dialogIsDrawable},
+                                //是否有【最大化】功能
+                                maxable:  ${toolBtn.dialogIsMaxable},
+                                //是否有【最小化】功能
+                                minable:  ${toolBtn.dialogIsMinable},
+                                //再次点击时是否刷新数据
+                                fresh:  ${toolBtn.isFresh}
+                            });
+                            <#break>
+                    </#switch>
+                });
+            </#list>
         });
     </script>
-
-
-
+</#if>
 <#-----------------------------工具栏 结束----------------------------------->
 
 <#------------------------------渲染表格 开始-------------------------------------->
