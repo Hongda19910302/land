@@ -1,5 +1,6 @@
 package net.deniro.land.module.system.action;
 
+import net.deniro.land.module.system.entity.VersionItemQueryParam;
 import net.deniro.land.module.system.entity.VersionQueryParam;
 import net.deniro.land.module.system.service.VersionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,19 @@ public class VersionController extends BaseController {
     private VersionService versionService;
 
     /**
-     * 跳转至管理主界面
+     * 跳转至 版本项管理
+     *
+     * @return
+     */
+    @RequestMapping(value = "/items")
+    public String items(VersionItemQueryParam queryParam, ModelMap mm) {
+        super.pageSearch(mm, versionService.findItemsPage(queryParam), queryParam,
+                "version/items");
+        return COMPONENT_PAGE_SEARCH_URL;
+    }
+
+    /**
+     * 跳转至 管理主界面
      *
      * @return
      */

@@ -2,6 +2,8 @@ package net.deniro.land.module.system.service;
 
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.module.system.dao.VersionDao;
+import net.deniro.land.module.system.dao.VersionItemDao;
+import net.deniro.land.module.system.entity.VersionItemQueryParam;
 import net.deniro.land.module.system.entity.VersionQueryParam;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,24 @@ public class VersionService {
 
     @Autowired
     private VersionDao versionDao;
+
+    @Autowired
+    private VersionItemDao versionItemDao;
+
+    /**
+     * 分页查询 版本项
+     *
+     * @param queryParam 查询参数
+     * @return
+     */
+    public Page findItemsPage(VersionItemQueryParam queryParam) {
+        try {
+            return versionItemDao.findPage(queryParam);
+        } catch (Exception e) {
+            logger.error("分页查询 版本项", e);
+            return new Page();
+        }
+    }
 
     /**
      * 分页查询
