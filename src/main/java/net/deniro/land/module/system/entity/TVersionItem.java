@@ -19,7 +19,7 @@ public class TVersionItem implements Serializable {
 
 
     /**
-    * 
+    * 主键
     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,7 +45,7 @@ public class TVersionItem implements Serializable {
     private String type;
 
     /**
-    * 当前时间
+    * 创建时间
     */
     @Column(name = "create_time", nullable = true,length = 0)
     private Date createTime;
