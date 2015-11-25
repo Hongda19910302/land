@@ -8,6 +8,13 @@
        ">
     <!-- 数据字典；如果key为多值，以-作为分隔符-->
 
+    <!-- 版本项类型-->
+    <util:map id="versionType" map-class="java.util.LinkedHashMap">
+        <entry key="BUG" value="BUG修复"/>
+        <entry key="NEW" value="新功能"/>
+        <entry key="OPTIMIZE" value="功能优化"/>
+    </util:map>
+
     <!-- 案件状态-->
     <util:map id="caseStatus" map-class="java.util.LinkedHashMap">
         <entry key="1" value="预立案"/>

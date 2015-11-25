@@ -51,6 +51,11 @@ public enum DataSetType {
     /**
      * 案件状态
      */
-    CASE_STATUS
-    ;
+    CASE_STATUS,
+
+    /**
+     * 版本项类型
+     */
+    VERSION_TYPE
+
 }

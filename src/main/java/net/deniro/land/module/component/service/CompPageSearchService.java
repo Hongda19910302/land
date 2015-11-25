@@ -60,6 +60,9 @@ public class CompPageSearchService {
     @Resource(name = "caseStatus")
     private Map<String, String> caseStatus;
 
+    @Resource(name = "versionType")
+    private Map<String, String> versionType;
+
     /**
      * 查询 分页查询组件配置信息
      *
@@ -109,6 +112,11 @@ public class CompPageSearchService {
                     case CASE_STATUS:
                         field.setTransformDataSet(caseStatus);
                         break;
+                    case VERSION_TYPE:
+                        field.setTransformDataSet(versionType);
+                        break;
+
+
                 }
             }
             pageSearch.setCompPageSearchTableFields(tableFields);
@@ -154,6 +162,9 @@ public class CompPageSearchService {
                                 break;
                             case CASE_STATUS:
                                 field.setSelectListDataSet(caseStatus);
+                                break;
+                            case VERSION_TYPE:
+                                field.setSelectListDataSet(versionType);
                                 break;
                         }
                         break;
