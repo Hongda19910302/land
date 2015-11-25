@@ -11,7 +11,6 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
 import org.springframework.util.Assert;
 
-
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -186,7 +185,7 @@ public class BaseDao<T> {
      *     dao.createQuery(hql,arg0,arg1);
      *     dao.createQuery(hql,new Object[arg0,arg1,arg2])
      * </pre>
-     *
+     * <p>
      * 不再使用，因为会造成连接泄漏
      *
      * @param hql
@@ -201,6 +200,56 @@ public class BaseDao<T> {
             query.setParameter(i, values[i]);
         }
         return query;
+    }
+
+    /**
+     * 分页查询
+     *
+     * @param hql
+     * @param pageNo   页号，从1开始
+     * @param pageSize 每页记录条数
+     * @param params   查询参数（使用名称占位符）
+     * @return 分页对象
+     */
+    public Page pagedQuery(final String hql, int pageNo, final int pageSize, final LinkedHashMap<String, Object>
+            params) {
+        Assert.hasText(hql);
+        Assert.isTrue(pageNo >= 1, "页号必须从1开始");
+
+        //map转换为数组
+        int size = params.size();
+        final String[] paramNames = new String[size];
+        final Object[] values = new Object[size];
+        int i = 0;
+        for (String key : params.keySet()) {
+            paramNames[i] = key;
+            values[i] = params.get(key);
+            i++;
+        }
+
+        String countQueryString = "select count (*) " + removeSelect(removeOrders(hql));
+        List countList = getHibernateTemplate().findByNamedParam(countQueryString,
+                paramNames, values);
+        long totalCount = (Long) countList.get(0);
+
+        if (totalCount < 1) {
+            return new Page();
+        }
+
+        final int startIndex = Page.getStartOfPage(pageNo, pageSize);
+
+        //使用回调方式，实现分页
+        List list = getHibernateTemplate().execute(new HibernateCallback<List>() {
+            public List doInHibernate(Session session) throws HibernateException, SQLException {
+                Query query = session.createQuery(hql);
+                for (int i = 0; i < values.length; i++) {
+                    query.setParameter(paramNames[i], values[i]);
+                }
+                return query.setFirstResult(startIndex).setMaxResults(pageSize).list();
+            }
+        });
+
+        return new Page(pageSize, startIndex, list, totalCount);
     }
 
     /**
