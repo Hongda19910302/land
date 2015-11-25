@@ -27,7 +27,7 @@ public class TVersionItem implements Serializable {
     private Integer id;
 
     /**
-    * 版本说明主键
+    * 版本说明ID
     */
     @Column(name = "version_id", nullable = true,length = 11)
     private Integer versionId;
