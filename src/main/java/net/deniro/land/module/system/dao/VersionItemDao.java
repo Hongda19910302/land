@@ -2,11 +2,10 @@ package net.deniro.land.module.system.dao;
 
 import net.deniro.land.common.dao.BaseDao;
 import net.deniro.land.common.dao.Page;
-import net.deniro.land.common.service.Constants;
 import net.deniro.land.module.system.entity.TVersionItem;
 import net.deniro.land.module.system.entity.VersionItemQueryParam;
-import net.deniro.land.module.system.entity.VersionQueryParam;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.LinkedHashMap;
@@ -38,6 +37,10 @@ public class VersionItemDao extends BaseDao<TVersionItem> {
         if (StringUtils.isNotBlank(queryParam.getType())) {
             hql.append(" and t.type = :getType");
             params.put("getType", queryParam.getType());
+        }
+        if (StringUtils.isNotBlank(queryParam.getVersionId())) {
+            hql.append(" and t.versionId = :getVersionId");
+            params.put("getVersionId", NumberUtils.toInt(queryParam.getVersionId()));
         }
 
         hql.append(" order by t.id desc");

@@ -295,7 +295,48 @@
 
 <div class="pageContent">
 
-<#--todo 此处添加工具栏-->
+<#-----------------------------工具栏 开始----------------------------------->
+    <div class="panelBar">
+        <ul class="toolBar">
+            <li><a id="edit_${componentId}" class="edit"><span>详情</span></a>
+            </li>
+        </ul>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+
+            var $toolBarBtn = $("#edit_${componentId}");
+            $toolBarBtn.live("click", function (event) {
+                console.log($("#table_tbody_${componentId}").length);
+                var $tbody = $("#table_tbody_${componentId}");
+                if ($tbody.length == 0) {//没有数据，提示
+                    alertMsg.warn("没有数据，无需处理！");
+                    event.preventDefault();
+                    return;
+                }
+
+                var $select = $tbody.find(".selected");
+                if ($select.length == 0) {//未选择某条记录，提示
+                    alertMsg.warn("请选择某条记录！")
+                    event.preventDefault();
+                    return;
+                }
+
+                //console.log($select.attr("rel"));
+                var selectedId = $select.attr("rel");//已选择的记录ID
+                var url="version/items?componentType=PAGE_SEARCH&componentId" +
+                        "=9&versionId=" + selectedId;
+                navTab.openTab(${componentId}+selectedId,url,{title:"版本项详情" +
+                "("+selectedId+")",fresh:false,
+                    data:{}});
+            });
+        });
+    </script>
+
+
+
+<#-----------------------------工具栏 结束----------------------------------->
 
 <#------------------------------渲染表格 开始-------------------------------------->
 
@@ -320,7 +361,7 @@
 
         </tr>
         </thead>
-        <tbody>
+        <tbody id="table_tbody_${componentId}">
 
 
         <#--渲染表格内容-->
