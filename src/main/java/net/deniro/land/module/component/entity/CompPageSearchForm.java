@@ -50,6 +50,12 @@ public class CompPageSearchForm implements Serializable {
     @Column(name = "input_type", nullable = true, length = 50)
     private String inputType;
 
+    /**
+     * 是否是隐藏参数
+     */
+    @Column(name = "is_hidden", nullable = true, length = 5)
+    private String isHidden;
+
 
     /**
      * 排序号

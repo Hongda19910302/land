@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -55,6 +56,18 @@ public class CompPageSearch implements Serializable {
      */
     @Column(name = "is_tool_bar", nullable = true, length = 5)
     private String isToolBar;
+
+    /**
+     * 正常的查询表单字段
+     */
+    @Transient
+    private List<CompPageSearchForm> normalFormFields;
+
+    /**
+     * 隐藏的查询表单字段
+     */
+    @Transient
+    private List<CompPageSearchForm> hiddenFormFields;
 
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "compPageSearch", fetch = FetchType.EAGER)

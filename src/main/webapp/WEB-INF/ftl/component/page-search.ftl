@@ -7,8 +7,11 @@
 <#assign url="${actionUrl}?componentType=${queryParam.componentType}&componentId=${queryParam
 .componentId}">
 
-<#--查询表单字段配置信息-->
-<#assign formFields=compPageSearch.compPageSearchFormFields>
+<#--查询表单字段配置信息（正常）-->
+<#assign formFields=compPageSearch.normalFormFields>
+
+<#--查询表单字段配置信息（隐藏）-->
+<#assign hiddenFormFields=compPageSearch.hiddenFormFields>
 
 <#--表格字段配置信息-->
 <#assign tableFields=compPageSearch.compPageSearchTableFields>
@@ -18,6 +21,12 @@
 <#-------------------------脚本 开始-------------------------------------------->
 <script type="text/javascript">
     $(function () {
+
+    <#--处理隐藏的表单字段-->
+    <#list hiddenFormFields as field>
+        $("#${field.fieldName}_${componentId}").val("${queryParam[field.fieldName]!""}");
+    </#list>
+
 
         //初始化 查询条件
     <#list formFields as field>
@@ -62,6 +71,12 @@
     <input type="hidden" name="pageNum" value="1"/>
     <input type="hidden" name="numPerPage" value="${page.pageSize}"/>
     <input type="hidden" name="orderField" value="${param.orderField}"/>
+
+<#--处理隐藏的表单字段-->
+<#list hiddenFormFields as field>
+    <input type="hidden" name="${field.fieldName}" value="${queryParam[field.fieldName]}"/>
+</#list>
+
 <#list formFields as field>
     <input type="hidden" name="${field.fieldName}" value="${queryParam[field.fieldName]}"/>
 
@@ -98,6 +113,13 @@
     <form id="searchForm_${componentId}" onsubmit="return navTabSearch(this);"
           action="${url}"
           method="post">
+
+    <#--处理隐藏的表单字段-->
+    <#list hiddenFormFields as field>
+        <input type="hidden" id="${field.fieldName}_${componentId}" name="${field.fieldName}" value="${queryParam[field
+        .fieldName]}"/>
+    </#list>
+
         <div class="searchBar">
             <table class="searchContent">
 
@@ -333,8 +355,8 @@
 
                     //console.log($select.attr("rel"));
                     var selectedId = $select.attr("rel");//已选择的记录ID
-                    var url = "${toolBtn.url}" +selectedId;
-                    var containId = "${componentId}"+selectedId;//容器ID
+                    var url = "${toolBtn.url}" + selectedId;
+                    var containId = "${componentId}" + selectedId;//容器ID
                     var containTitle = "${toolBtn.tabName}(" + selectedId + ")";//容器标题
 
                     <#switch toolBtn.openType>
