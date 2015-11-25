@@ -21,7 +21,8 @@ import java.util.Map;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/spring-context-base.xml",
         "classpath:spring/spring-context-db.xml", "classpath:spring/spring-context-tx" +
-        ".xml", "classpath:spring/spring-context-dataset-type.xml"})
+        ".xml", "classpath:spring/spring-context-dataset-type.xml",
+        "classpath:spring/spring-context-ftp.xml"})
 @TransactionConfiguration
 @Transactional
 public class AnnotationHibernateCodeMarkerTest {
@@ -33,9 +34,10 @@ public class AnnotationHibernateCodeMarkerTest {
     public void testMark() throws Exception {
 
         List<String> tableNames = new ArrayList<String>();
-        tableNames.add("t_instruction");
+        tableNames.add("t_version");
+        tableNames.add("t_version_item");
 
-        String packagePath = "net.deniro.land.module.icase.entity";
+        String packagePath = "net.deniro.land.module.system.entity";
 
         Map<String, String> names = new HashMap<String, String>();
         for (String tableName : tableNames) {
