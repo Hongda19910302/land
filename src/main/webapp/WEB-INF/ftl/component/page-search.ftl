@@ -357,7 +357,7 @@
                     var selectedId = $select.attr("rel");//已选择的记录ID
                     var url = "${toolBtn.url}" + selectedId;
                     var containId = "${componentId}" + selectedId;//容器ID
-                    var containTitle = "${toolBtn.tabName}(" + selectedId + ")";//容器标题
+                    var containTitle = "${toolBtn.tabName} (" + selectedId + ")";//容器标题
 
                     <#switch toolBtn.openType>
                         <#case "TAB">

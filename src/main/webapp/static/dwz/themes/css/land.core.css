@@ -1,3 +1,8 @@
+/*表格工具栏按钮样式*/
+.panelBar .toolBar a.detail span {
+    background-position: 0 -896px;
+}
+
 /*分页查询表单中的选择单位或部门组件按钮*/
 .lookupCompanyDepartmentBtn > a {
     position: relative;
@@ -5,7 +10,7 @@
 }
 
 .lookupCompanyDepartmentBtn > span {
-    padding-right:20px;
+    padding-right: 20px;
 }
 
 /*查询找回组件*/
@@ -13,19 +18,20 @@
     position: relative;
     left: 150px;
 }
-.lookupInput{
+
+.lookupInput {
     position: relative;
-    left:-25px;
+    left: -25px;
 }
-.lookupDateInput{
+
+.lookupDateInput {
     position: relative;
-    left:-16px;
+    left: -16px;
 }
+
 /*.lookupBtn >td:first-child{*/
-    /*padding-right:10px;*/
+/*padding-right:10px;*/
 /*}*/
-
-
 
 /*树形选择组件*/
 .lookupTree {
@@ -35,7 +41,7 @@
 .lookupTree > div {
     border: 1px solid #B8D0D6;
     position: absolute;
-    margin:1px 1px;
+    margin: 1px 1px;
 
 }
 
@@ -107,15 +113,16 @@
 .dialogBtnRow span {
     position: absolute;
     left: 1%;
-    color:#183152;
-    font-weight:bold;
+    color: #183152;
+    font-weight: bold;
 }
 
 /*时间选择中的结束时间标识*/
-.inputDateEndLabel{
-    padding-right:5px !important;
+.inputDateEndLabel {
+    padding-right: 5px !important;
 }
+
 /*时间选择框中的年份、月份*/
-#calendar .head select{
-    width:65px;
+#calendar .head select {
+    width: 65px;
 }

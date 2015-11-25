@@ -3,7 +3,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>移动巡查执法平台3.x</title>
 
-    <link href="${resourceRoot}/dwz/themes/default/style.css" rel="stylesheet"
+    <link href="${resourceRoot}/dwz/themes/default/style.land.css" rel="stylesheet"
           type="text/css" media="screen"/>
     <link href="${resourceRoot}/dwz/themes/css/core.css" rel="stylesheet" type="text/css"
           media="screen"/>
