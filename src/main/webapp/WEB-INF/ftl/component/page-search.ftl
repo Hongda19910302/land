@@ -305,7 +305,10 @@
 
     <script type="text/javascript">
         $(function () {
-
+            /**
+             *
+             * 工具按钮脚本
+             */
             var $toolBarBtn = $("#edit_${componentId}");
             $toolBarBtn.live("click", function (event) {
                 console.log($("#table_tbody_${componentId}").length);
@@ -327,7 +330,7 @@
                 var selectedId = $select.attr("rel");//已选择的记录ID
                 var url="version/items?componentType=PAGE_SEARCH&componentId" +
                         "=9&versionId=" + selectedId;
-                navTab.openTab(${componentId}+selectedId,url,{title:"版本项详情" +
+                navTab.openTab(${componentId}+selectedId,url,{title:"版本项" +
                 "("+selectedId+")",fresh:false,
                     data:{}});
             });
