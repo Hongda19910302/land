@@ -6,7 +6,6 @@ import net.deniro.land.common.service.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.StringTokenizer;
@@ -154,10 +153,8 @@ public class FtpUtils {
         }
 
         try {
-            //如果ftp断开，则进行重连
-            if(client==null||!client.isConnected()){
-                init();
-            }
+            //ftp连接不稳定，因此每次使用时直接重连
+            init();
 
             String currentPath = client.currentDirectory();//当前路径
             client.changeDirectory(Constants.FTP_PATH_SPLIT);//切换到根目录
@@ -174,13 +171,16 @@ public class FtpUtils {
             client.changeDirectory(currentPath);
         } catch (IOException e) {
             logger.error("创建层级目录", e);
-            client=null;
+            client = null;
         } catch (FTPIllegalReplyException e) {
             logger.error("创建层级目录", e);
-            client=null;
+            client = null;
         } catch (FTPException e) {
             logger.error("创建层级目录", e);
-            client=null;
+            client = null;
+        } catch (Exception e) {
+            logger.error("创建层级目录", e);
+            client = null;
         }
     }
 
