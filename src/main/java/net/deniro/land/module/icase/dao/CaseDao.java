@@ -6,6 +6,7 @@ import net.deniro.land.common.service.Constants;
 import net.deniro.land.module.icase.entity.CaseParam;
 import net.deniro.land.module.icase.entity.CaseVariableField;
 import net.deniro.land.module.icase.entity.TCase;
+import net.deniro.land.module.icase.entity.TCase.CaseStatus;
 import net.deniro.land.module.icase.entity.VariableDataValueSelectName;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -179,7 +180,7 @@ public class CaseDao extends BaseDao<TCase> {
          */
         if (!queryParam.getIncludeStatus().isEmpty()) {
             sql.append(" and t.status in(");
-            for (TCase.CaseStatus caseStatus : queryParam.getIncludeStatus()) {
+            for (CaseStatus caseStatus : queryParam.getIncludeStatus()) {
                 sql.append(caseStatus.code()).append(",");
             }
             sql.deleteCharAt(sql.length() - 1);
@@ -198,26 +199,31 @@ public class CaseDao extends BaseDao<TCase> {
         String mobileStatus = queryParam.getMoblieStatus();//移动端状态码
         if (StringUtils.isNotBlank(mobileStatus)) {
 
-            int status = getStatusMobileCode(Integer.valueOf(mobileStatus)
-            ).code();//状态真实码
+            CaseStatus caseStatus = getStatusMobileCode(Integer.valueOf(mobileStatus)
+            );
 
-            //添加状态
-            if (status != ALL.code()) {
-                sql.append(" and t.status=:status");
-                params.put("status", status);
-            }
+            if (caseStatus != null) {
+                int status = caseStatus.code();//状态真实码
 
-            String departmentId = queryParam.getDepartmentId();
-            if (status == INSPECT.code()) {//巡查员条件
-                sql.append(" and t.department_id=:departmentId");
-                params.put("departmentId", departmentId);
-                sql.append(" and t.inspector_id=:inspectorId");
-                params.put("inspectorId", queryParam.getUserId());
-            } else {
-                if (StringUtils.isNotBlank(departmentId)) {
-                    sql.append(" and find_in_set(t.department_id,getChildDepartment" +
-                            "(:departmentId))");
+
+                //添加状态
+                if (status != ALL.code()) {
+                    sql.append(" and t.status=:status");
+                    params.put("status", status);
+                }
+
+                String departmentId = queryParam.getDepartmentId();
+                if (status == INSPECT.code()) {//巡查员条件
+                    sql.append(" and t.department_id=:departmentId");
                     params.put("departmentId", departmentId);
+                    sql.append(" and t.inspector_id=:inspectorId");
+                    params.put("inspectorId", queryParam.getUserId());
+                } else {
+                    if (StringUtils.isNotBlank(departmentId)) {
+                        sql.append(" and find_in_set(t.department_id,getChildDepartment" +
+                                "(:departmentId))");
+                        params.put("departmentId", departmentId);
+                    }
                 }
             }
         }
