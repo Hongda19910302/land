@@ -181,7 +181,15 @@ public class CaseService {
             tCase.setIdCardNum(caseParam.getIdCardNum());
             tCase.setCurrentStatus(caseParam.getCurrentStatus());
             tCase.setCreaterId(NumberUtils.toInt(caseParam.getUserId()));
-            tCase.setParties(caseParam.getParties());
+
+            //处理当事人
+            if (StringUtils.isNotBlank(caseParam.getPunisher())) {
+                tCase.setParties(caseParam.getPunisher());
+            } else {
+                tCase.setParties(caseParam.getParties());
+            }
+
+
             tCase.setRegionId(caseParam.getPlaceId());
             tCase.setEastTo(caseParam.getEastTo());
             tCase.setWestTo(caseParam.getWestTo());
@@ -202,7 +210,15 @@ public class CaseService {
             tCase.setCaseSource(caseParam.getCaseSource());
             tCase.setBuildingSpace(caseParam.getBuildingSpace());
             tCase.setFloorSpace(caseParam.getFloorSpace());
-            tCase.setRemark(caseParam.getRemark());
+
+            //处理备注
+            if (StringUtils.isNotBlank(caseParam.getCaseComment())) {
+                tCase.setRemark(caseParam.getCaseComment());
+            } else {
+                tCase.setRemark(caseParam.getRemark());
+            }
+
+
             tCase.setSurveyResult(caseParam.getInspectResult());
             tCase.setLocateType(caseParam.getGpsFlag());
             tCase.setLng(caseParam.getLng());
