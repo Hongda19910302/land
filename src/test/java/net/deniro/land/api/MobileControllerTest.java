@@ -152,8 +152,8 @@ public class MobileControllerTest {
         String url = URL_PREFIX + action;
         String newUrl = NEW_URL_PREFIX + action;
 
-//        Assert.assertEquals(HttpUtils.doGet(url, queryString, false), HttpUtils.doGet(newUrl,
-//                queryString, false));
+        Assert.assertEquals(HttpUtils.doGet(url, queryString, false), HttpUtils.doGet(newUrl,
+                queryString, false));
     }
 
     @Test
@@ -186,14 +186,14 @@ public class MobileControllerTest {
 
     @Test
     public void findPageCaseInstructions() {
-        String queryString = "caseId=336&pageNo=1&limit=10";
+        String queryString = "caseId=461&pageNo=1&limit=10";
 
         String action = "get-instruction-details";
         String url = URL_PREFIX + action;
         String newUrl = NEW_URL_PREFIX + action;
 
-//        Assert.assertEquals(HttpUtils.doGet(url, queryString, false), HttpUtils.doGet(newUrl,
-//                queryString, false));
+        Assert.assertEquals(HttpUtils.doGet(url, queryString, false), HttpUtils.doGet(newUrl,
+                queryString, false));
     }
 
     @Test

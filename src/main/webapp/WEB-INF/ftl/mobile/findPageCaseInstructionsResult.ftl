@@ -8,8 +8,8 @@
 "place":"<#if tCase.findRegion??><#if tCase.findRegion.parentRegion??><#if tCase.findRegion.parentRegion.parentRegion??><#if tCase.findRegion.parentRegion.parentRegion.parentRegion??>${tCase.findTRegion.parentRegion.parentRegion.parentRegion.name}</#if>${tCase.findRegion.parentRegion.parentRegion.name}</#if>${tCase.findRegion.parentRegion.name}</#if>${tCase.findRegion.name}</#if>",
 "date":"<#if tCase.createTime??>${(tCase.createTime)?string('yyyy-MM-dd')}</#if>",
 "punisher":"${(tCase.parties)?default('')}",
-"totalpagenum":"<#if page??>${page.getTotalPageSize()?default('')}<#else>0</#if>",
-"totalnum":<#if page??>${page.getTotalSize()?default('')}<#else>0</#if>,
+"totalpagenum":"<#if nativePage??>${nativePage.getTotalPageCount()?default('')}<#else>0</#if>",
+"totalnum":<#if nativePage??>${nativePage.getTotalCount()?default('')}<#else>0</#if>,
 "pageNo":${pageNo},
 "instructionList":[
     <#if nativePage??>

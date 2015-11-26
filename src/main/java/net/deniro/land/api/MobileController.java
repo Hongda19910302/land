@@ -282,7 +282,28 @@ public class MobileController {
     @RequestMapping(value = "get-instruction-list")
     public String findPageCaseInstructionList(InstructionMobileQueryParam param,
                                               ModelMap mm) {
-        return findPageCaseInstructions(param, mm);
+        ResponseResult r = null;
+
+        try {
+            InstructionQueryParam instructionQueryParam = new InstructionQueryParam();
+            instructionQueryParam.setNumPerPage(param.getLimit());
+            instructionQueryParam.setPageNum(param.getPageNo());
+            instructionQueryParam.setCaseId(String.valueOf(param.getCaseId()));
+
+            BeanUtils.copyProperties(param, instructionQueryParam);
+
+            Page page = caseService.findPageInstructions(instructionQueryParam);
+            mm.addAttribute("page", page);
+            mm.addAttribute("pageNo", param.getPageNo());
+
+            r = new SuccessResult();
+        } catch (Exception e) {
+            logger.error("  分页查询 案件批示");
+            r = new FailureResult();
+        } finally {
+            mm.addAttribute("r", r);
+            return URL_PREFIX + "findPageCaseInstructionListResult";
+        }
     }
 
     /**
