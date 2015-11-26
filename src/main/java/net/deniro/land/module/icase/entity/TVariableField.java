@@ -122,8 +122,9 @@ public class TVariableField implements Serializable {
      *
      * @return
      */
+    @Transient
     public List<TSelectType> getSelectTypeList() {
-        if (isPullDown == 0) {//设置下拉框数据
+        if (isPullDown != null && isPullDown == 0) {//设置下拉框数据
             if (this.getVariableFieldId() != null) {
                 selectTypeList = ((SelectTypeDao) SpringContextUtils.
                         getBean("selectTypeDao")).findByVariableFieldId

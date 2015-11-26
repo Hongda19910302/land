@@ -309,17 +309,28 @@ public class MobileControllerTest {
 //                queryString, false));
     }
 
+    @Test
+    public void findInspectAndAuditByIdInDev() {
+        String queryString = "caseId=197";
+
+        String action = "get-inspect-record";
+        String devUrl = DEV_URL_PREFIX + action;
+        String newUrl = NEW_URL_PREFIX + action;
+        String url=URL_PREFIX+action;
+
+        System.out.println("$$$$$$$$$$$$$$$$" + HttpUtils.doGet(newUrl, queryString, false));
+    }
 
     @Test
     public void findInspectAndAuditById() {
-        String queryString = "caseId=129";
+        String queryString = "caseId=197";
 
         String action = "get-inspect-record";
         String url = URL_PREFIX + action;
         String newUrl = NEW_URL_PREFIX + action;
 
-//        Assert.assertEquals(HttpUtils.doGet(url, queryString, false), HttpUtils.doGet(newUrl,
-//                queryString, false));
+        Assert.assertEquals(HttpUtils.doGet(url, queryString, false), HttpUtils.doGet(newUrl,
+                queryString, false));
     }
 
 

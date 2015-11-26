@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static net.deniro.land.module.icase.entity.TVariableField.BelongToTable.T_CASE;
-import static net.deniro.land.module.icase.entity.TVariableField.Status.*;
+import static net.deniro.land.module.icase.entity.TVariableField.Status.AVAILABLE;
 
 /**
  * 字段（主要是案件字段）
@@ -20,6 +20,25 @@ import static net.deniro.land.module.icase.entity.TVariableField.Status.*;
  */
 @Repository
 public class VariableFieldDao extends BaseDao<TVariableField> {
+
+    /**
+     * 依据单位ID和客户端对应字段key，获取字段信息
+     *
+     * @param companyId 单位ID
+     * @param fieldKey  客户端对应字段key
+     * @return
+     */
+    public TVariableField find(Integer companyId, String fieldKey) {
+        StringBuilder hql = new StringBuilder(" from TVariableField t where 1=1 ");
+        hql.append(" and company.companyId = ?");
+        hql.append(" and fieldKey = ? ");
+        List<TVariableField> data = this.find(hql.toString(), companyId, fieldKey);
+        TVariableField tVariableField = new TVariableField();
+        if (data != null && !data.isEmpty()) {
+            tVariableField = data.get(0);
+        }
+        return tVariableField;
+    }
 
     /**
      * 依据单位ID，获取字段信息

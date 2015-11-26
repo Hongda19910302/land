@@ -1,5 +1,6 @@
 package net.deniro.land.module.icase.dao;
 
+import net.deniro.land.module.icase.entity.TVariableField;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +16,19 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/spring-context-base.xml",
         "classpath:spring/spring-context-db.xml", "classpath:spring/spring-context-tx" +
-        ".xml", "classpath:spring/spring-context-dataset-type.xml"})
+        ".xml", "classpath:spring/spring-context-dataset-type.xml",
+        "classpath:spring/spring-context-ftp.xml"})
 @TransactionConfiguration
 @Transactional
 public class VariableFieldDaoTest {
 
     @Autowired
     private VariableFieldDao variableFieldDao;
+
+    @Test
+    public void find() {
+        System.out.println("$$$$$$$$$$$$$$$"+variableFieldDao.find(1,"surveyResult"));
+    }
 
     @Test
     public void testFindByCompanyId() throws Exception {
