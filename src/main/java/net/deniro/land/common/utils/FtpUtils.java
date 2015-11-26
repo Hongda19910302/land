@@ -174,10 +174,13 @@ public class FtpUtils {
             client.changeDirectory(currentPath);
         } catch (IOException e) {
             logger.error("创建层级目录", e);
+            client=null;
         } catch (FTPIllegalReplyException e) {
             logger.error("创建层级目录", e);
+            client=null;
         } catch (FTPException e) {
             logger.error("创建层级目录", e);
+            client=null;
         }
     }
 

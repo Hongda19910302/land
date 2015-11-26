@@ -37,6 +37,11 @@ public class MobileControllerTest {
     public static final String URL_PREFIX = "http://192.168.4.121:9080/gtweb/android/";
 
     /**
+     * 旧版URL前缀（开发）
+     */
+    public static final String DEV_URL_PREFIX = "http://192.168.1.102:8080/gtweb/android/";
+
+    /**
      * 新版URL前缀
      */
     public static final String NEW_URL_PREFIX = "http://localhost:8080/gtweb/android/";
@@ -131,7 +136,7 @@ public class MobileControllerTest {
 //        String url = "http://192.168.1.102:8080/gtweb/android/" + action;
 //        String str=HttpUtils.doPost(url, params, false);
 //        System.out.println(str);
-        String url = URL_PREFIX + action;
+        String url = DEV_URL_PREFIX + action;
         String newUrl = NEW_URL_PREFIX + action;
 
         Assert.assertEquals(HttpUtils.doPost(url, params, false), HttpUtils.doPost(newUrl,
