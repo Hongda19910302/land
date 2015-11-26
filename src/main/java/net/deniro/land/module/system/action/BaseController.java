@@ -5,6 +5,7 @@ import net.deniro.land.common.entity.QueryParam;
 import net.deniro.land.module.component.entity.CompPageSearch;
 import net.deniro.land.module.component.entity.CompPageSearchForm;
 import net.deniro.land.module.component.entity.ComponentType;
+import net.deniro.land.module.component.entity.InputType;
 import net.deniro.land.module.component.service.CompPageSearchService;
 import net.deniro.land.module.system.service.ModuleService;
 import org.apache.commons.lang3.StringUtils;
@@ -72,7 +73,7 @@ public class BaseController {
                     List<CompPageSearchForm> hiddenFields = new
                             ArrayList<CompPageSearchForm>();
                     for (CompPageSearchForm field : fields) {
-                        if (StringUtils.equals(field.getIsHidden(), "true")) {
+                        if (StringUtils.equals(field.getInputType(), InputType.HIDDEN.toString())) {
                             hiddenFields.add(field);
                         } else {
                             normalFields.add(field);

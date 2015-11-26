@@ -25,5 +25,10 @@ public enum InputType {
     /**
      * 区域选择框
      */
-    REGION
+    REGION,
+
+    /**
+     * 隐藏字段
+     */
+    HIDDEN
 }
