@@ -187,12 +187,19 @@ public class CaseService {
             tCase.setWestTo(caseParam.getWestTo());
             tCase.setNorthTo(caseParam.getNorthTo());
             tCase.setSouthTo(caseParam.getSouthTo());
+
+            //处理违法面积
+            if (caseParam.getSpace() != 0) {
+                tCase.setIllegalAreaSpace(caseParam.getSpace());
+            } else {
+                tCase.setIllegalAreaSpace(caseParam.getIllegalAreaSpace());
+            }
+
             tCase.setIllegalArea(caseParam.getIllegalAddr());
             tCase.setIllegalType(caseParam.getIllegalType());
             tCase.setIllegalUse(caseParam.getIllegalUse());
             tCase.setLandUsage(caseParam.getLandUsage());
             tCase.setCaseSource(caseParam.getCaseSource());
-            tCase.setIllegalAreaSpace(caseParam.getIllegalAreaSpace());
             tCase.setBuildingSpace(caseParam.getBuildingSpace());
             tCase.setFloorSpace(caseParam.getFloorSpace());
             tCase.setRemark(caseParam.getRemark());
