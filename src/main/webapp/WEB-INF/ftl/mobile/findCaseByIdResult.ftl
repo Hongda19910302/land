@@ -4,7 +4,7 @@
 <#if tCase??>
 "punisher":"${(tCase.parties)!''}",
 "placeId":"${(tCase.regionId)!''}",
-"placeName":"<#if tCase.findTRegion??><#if tCase.findTRegion.parentRegion??><#if tCase.findTRegion.parentRegion.parentRegion??><#if tCase.findTRegion.parentRegion.parentRegion.parentRegion??>${tCase.findTRegion.parentRegion.parentRegion.parentRegion.name}</#if>${tCase.findTRegion.parentRegion.parentRegion.name}</#if>${tCase.findTRegion.parentRegion.name}</#if>${tCase.findTRegion.name}</#if>",
+"placeName":"<#if tCase.findRegion??><#if tCase.findRegion.parentRegion??><#if tCase.findRegion.parentRegion.parentRegion??><#if tCase.findRegion.parentRegion.parentRegion.parentRegion??>${tCase.findRegion.parentRegion.parentRegion.parentRegion.name}</#if>${tCase.findRegion.parentRegion.parentRegion.name}</#if>${tCase.findRegion.parentRegion.name}</#if>${tCase.findRegion.name}</#if>",
 "east":"${(tCase.eastTo)!''}",
 "south":"${(tCase.southTo)!''}",
 "west":"${(tCase.westTo)!''}",
