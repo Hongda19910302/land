@@ -29,13 +29,14 @@ public class SelectTypeDao extends BaseDao<TSelectType> {
     }
 
     /**
-     * 获取下拉框类型
+     * 获取下拉框类型列表
      *
      * @param variableFieldId 变量字段ID
      * @param dataTypeValue   数据键值对的值
      * @return
      */
-    public TSelectType findByFieldAndValue(Integer variableFieldId, Integer dataTypeValue) {
+    public List<TSelectType> findListByFieldAndValue(Integer variableFieldId, Integer
+            dataTypeValue) {
 
 
         StringBuilder hql = new StringBuilder("select t from TSelectTypeConf s,TSelectType t where s.selectType.selectTypeId = t.selectTypeId ");
@@ -53,8 +54,21 @@ public class SelectTypeDao extends BaseDao<TSelectType> {
             params.put("dataTypeValue", dataTypeValue);
         }
 
-        List<TSelectType> selectTypeList = this.findByNamedParam(hql.toString(), params);
+        return this.findByNamedParam(hql.toString(), params);
 
+
+    }
+
+    /**
+     * 获取下拉框类型
+     *
+     * @param variableFieldId 变量字段ID
+     * @param dataTypeValue   数据键值对的值
+     * @return
+     */
+    public TSelectType findByFieldAndValue(Integer variableFieldId, Integer dataTypeValue) {
+        List<TSelectType> selectTypeList = findListByFieldAndValue(variableFieldId,
+                dataTypeValue);
         if (selectTypeList == null || selectTypeList.isEmpty()) {
             return new TSelectType();
         } else {

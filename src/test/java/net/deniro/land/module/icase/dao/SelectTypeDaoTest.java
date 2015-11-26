@@ -15,13 +15,19 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/spring-context-base.xml",
         "classpath:spring/spring-context-db.xml", "classpath:spring/spring-context-tx" +
-        ".xml", "classpath:spring/spring-context-dataset-type.xml"})
+        ".xml", "classpath:spring/spring-context-dataset-type.xml", "classpath:spring/spring-context-ftp.xml"})
 @TransactionConfiguration
 @Transactional
 public class SelectTypeDaoTest {
 
     @Autowired
     private SelectTypeDao selectTypeDao;
+
+    @Test
+    public void findListByFieldAndValue(){
+        System.out.println("$$$$$$$$$$$$$$$:"+selectTypeDao.findListByFieldAndValue(16,
+                null));
+    }
 
     @Test
     public void findByFieldAndValue(){
