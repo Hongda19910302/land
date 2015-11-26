@@ -221,8 +221,20 @@ public class CaseService {
 
             tCase.setSurveyResult(caseParam.getInspectResult());
             tCase.setLocateType(caseParam.getGpsFlag());
-            tCase.setLng(caseParam.getLng());
-            tCase.setLat(caseParam.getLat());
+
+            //处理经度和纬度
+            if(caseParam.getGpsX()!=null){
+                tCase.setLng(caseParam.getGpsX());
+            }else {
+                tCase.setLng(caseParam.getLng());
+            }
+            if(caseParam.getGpsY()!=null){
+                tCase.setLat(caseParam.getGpsY());
+            }else{
+                tCase.setLat(caseParam.getLat());
+            }
+
+
             tCase.setStatus(PREPARE.code());
             tCase.setRecycleStatus(NO.code());
             tCase.setCreateTime(new Date());
