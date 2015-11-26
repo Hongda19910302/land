@@ -187,10 +187,7 @@ public class CaseDao extends BaseDao<TCase> {
             sql.append(")");
         }
 
-        if (StringUtils.isNotBlank(queryParam.getUserId())) {
-            sql.append(" and t.creater_id=:creatorId");
-            params.put("creatorId", queryParam.getUserId());
-        }
+
 
 
         /**
@@ -225,6 +222,17 @@ public class CaseDao extends BaseDao<TCase> {
                         params.put("departmentId", departmentId);
                     }
                 }
+            }
+        }else{
+            if (StringUtils.isNotBlank(queryParam.getUserId())) {
+                sql.append(" and t.creater_id=:creatorId");
+                params.put("creatorId", queryParam.getUserId());
+            }
+
+            if (StringUtils.isNotBlank(queryParam.getDepartmentId())) {
+                sql.append(" and FIND_IN_SET(t.DEPARTMENT_ID, getChildDepartment" +
+                        "(:departmentId))");
+                params.put("departmentId", queryParam.getDepartmentId());
             }
         }
 
@@ -271,12 +279,6 @@ public class CaseDao extends BaseDao<TCase> {
             params.put("regionId", queryParam.getRegionId());
         }
 
-
-        if (StringUtils.isNotBlank(queryParam.getDepartmentId())) {
-            sql.append(" and FIND_IN_SET(t.DEPARTMENT_ID, getChildDepartment" +
-                    "(:departmentId))");
-            params.put("departmentId", queryParam.getDepartmentId());
-        }
 
         /**
          * 是否上报

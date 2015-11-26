@@ -667,8 +667,8 @@ public class CaseService {
             OperationType operationType = null;
             switch (auditResult) {
                 case PASS:
-                    User user = userDao.get(userId);
-                    tCase.setDepartmentId(user.getDepartmentId());//设置下一节点操作部门
+                    User inspector = userDao.get(tCase.getInspectorId());
+                    tCase.setDepartmentId(inspector.getDepartmentId());//设置下一节点操作部门
                     tCase.setStatus(INSPECT.code());
                     description = "通过立案审核！";
                     operationType = REGISTER_AUDIT;
