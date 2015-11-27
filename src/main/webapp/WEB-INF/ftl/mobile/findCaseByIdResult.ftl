@@ -11,7 +11,7 @@
 "north":"${(tCase.northTo)!''}",
 "illegaladdr":"${(tCase.illegalArea)!''}",
 "xcyId":"${(tCase.inspectorId)!''}",
-"xcyName":"${(tCase.findInspector.name)!''}",
+"xcyName":"${(tCase.inspector.name)!''}",
 "space":"${(tCase.illegalAreaSpace?string('0.00'))!'0'}",
 "status":"${(tCase.status)!''}",
 "casecomment":"${(tCase.remark)!''}",
