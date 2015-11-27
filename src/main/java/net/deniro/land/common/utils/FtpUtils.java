@@ -282,7 +282,7 @@ public class FtpUtils {
             client.setCharset(Constants.CHARSET);
             client.setType(FTPClient.TYPE_BINARY);
             client.connect(new URL(prefix + ip).getHost(), port);
-            client.getConnector().setConnectionTimeout(15000);
+//            client.getConnector().setConnectionTimeout(15000);
             client.login(account, password);
             client.currentDirectory();
             logger.info("已连接FTP服务器");
