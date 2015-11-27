@@ -286,6 +286,20 @@ public class CaseService {
 
             caseDao.save(tCase);
 
+            /**
+             * 新增附件
+             */
+            addAttachments(caseParam.getImages(), tCase.getCaseId(), RelationType
+                    .CASE);
+
+            /**
+             * 新增流程日志
+             */
+            addFlowLog(tCase.getCaseId(), NumberUtils.toInt(caseParam.getUserId()),
+                    OperationType
+                            .REGISTER,
+                    "建立新案件", caseParam.getRemark());
+
             //todo 生成案件短信规则
 
             return true;
