@@ -148,6 +148,12 @@ public class TCase implements Serializable {
     private Integer surveyResult;
 
     /**
+     * 巡查结果显示名称
+     */
+    @Transient
+    private String surveyResultName;
+
+    /**
      * 案件来源
      */
     @Column(name = "case_source", nullable = true, length = 2)

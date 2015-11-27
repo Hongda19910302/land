@@ -1,5 +1,6 @@
 package net.deniro.land.module.icase.service;
 
+import net.deniro.land.api.MobileController;
 import net.deniro.land.api.entity.AssignParam;
 import net.deniro.land.api.entity.Images;
 import net.deniro.land.api.entity.InspectParam;
@@ -77,6 +78,12 @@ public class CaseService {
 
     @Autowired
     private RegionDao regionDao;
+
+    @Autowired
+    private SelectTypeDao selectTypeDao;
+
+    @Autowired
+    private VariableFieldDao variableFieldDao;
 
     /**
      * 修改案件
@@ -223,14 +230,14 @@ public class CaseService {
             tCase.setLocateType(caseParam.getGpsFlag());
 
             //处理经度和纬度
-            if(caseParam.getGpsX()!=null){
+            if (caseParam.getGpsX() != null) {
                 tCase.setLng(caseParam.getGpsX());
-            }else {
+            } else {
                 tCase.setLng(caseParam.getLng());
             }
-            if(caseParam.getGpsY()!=null){
+            if (caseParam.getGpsY() != null) {
                 tCase.setLat(caseParam.getGpsY());
-            }else{
+            } else {
                 tCase.setLat(caseParam.getLat());
             }
 
@@ -611,7 +618,7 @@ public class CaseService {
             inspect.setInspectorId(inspectParam.getUserId());
             inspect.setRemark(inspectParam.getRemark());
             inspect.setCreateTime(currentDate);
-            inspect.setInspectResult(inspectParam.getInspectResult());
+            inspect.setInspectResult(String.valueOf(inspectParam.getInspectResult()));
             //巡查序号【这种方式在并发状态下，会造成序号重复】
             Integer inspectNo = inspectDao.countByCaseId(inspectParam.getCaseId()) + 1;
             inspect.setInspectNo(inspectNo);
@@ -734,12 +741,22 @@ public class CaseService {
      * @param caseId 案件ID
      * @return
      */
-    public List<TInspect> findInspectById(Integer caseId, List<CaseVariableField> fields) {
+    public List<TInspect> findInspectById(Integer caseId) {
         try {
             List<TInspect> inspects = inspectDao.findByCaseId(caseId);
-            for (TInspect inspect : inspects) {
-                inspect.setInspectResult(getActualValue(fields, "inspectResult"));
+
+            //设置巡查结果显示名称
+            if (!MobileController.SURVEY_RESULT_DATA_TYPES_MAP.isEmpty()) {
+                for (TInspect inspect : inspects) {
+                    String inspectResultName = MobileController.SURVEY_RESULT_DATA_TYPES_MAP
+                            .get(NumberUtils.toInt(inspect
+                                    .getInspectResult()));
+                    inspect.setInspectResultName
+                            (inspectResultName);
+                }
             }
+
+
             return inspects;
         } catch (Exception e) {
             logger.error("获取巡查记录列表", e);
@@ -830,6 +847,7 @@ public class CaseService {
      * @param fields 可变字段
      * @return
      */
+    @Deprecated
     public TCase findById(Integer caseId, List<CaseVariableField> fields) {
         try {
             TCase tCase = caseDao.findById(caseId);

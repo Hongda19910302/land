@@ -311,7 +311,7 @@ public class MobileControllerTest {
 
     @Test
     public void findInspectAndAuditByIdInDev() {
-        String queryString = "caseId=197";
+        String queryString = "caseId=465";
 
         String action = "get-inspect-record";
         String devUrl = DEV_URL_PREFIX + action;

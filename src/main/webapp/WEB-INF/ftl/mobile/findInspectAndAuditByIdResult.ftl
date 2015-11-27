@@ -5,7 +5,7 @@
 "inspectList":[
 <#if tCase??>
 {
-"inspectResult":"${(tCase.surveyResult)!''}",
+"inspectResult":"${(tCase.surveyResultName)!''}",
 "inspectType":"新建案件巡查",
 "createDt":"${(tCase.createTime)?string('yyyy-MM-dd')}",
 "remark":"${(tCase.remark)?default('')}",
@@ -26,7 +26,8 @@
 <#if inspectList??>
     <#list inspectList as data>
     ,{
-    "inspectResult":"${(data.inspectResult)!''}",
+    <#--"inspectResult":"<#if data.inspectResult??><#if data.inspectResult==1>制止不住<#elseif data.inspectResult==2>制止到位<#elseif data.inspectResult==3>未拆除<#else>违规搭建</#if></#if>",-->
+    "inspectResult":"${(data.inspectResultName)!''}",
     "inspectType":"第${data.inspectNo?default(0)}次巡查",
     "createDt":"<#if data.createTime??>${(data.createTime)?string('yyyy-MM-dd')}</#if>",
     "remark":"${(data.remark)?default('')}",
@@ -38,10 +39,12 @@
             "imageAddr": "${data2.addr?default('')}",
             "imageType": "${data2.attachmentType?default('')}"
             }
+            <#if data2_has_next>,</#if>
             </#list>
         </#if>
     ]
     }
+    <#--<#if data_has_next>,</#if>-->
     </#list>
 </#if>
 <#if caseAuditList??>
@@ -64,6 +67,7 @@
         </#if>
     ]
     }
+    <#--<#if data3_has_next>,</#if>-->
     </#list>
 </#if>
 ]

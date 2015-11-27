@@ -26,6 +26,22 @@ public class VariableFieldService {
     private VariableFieldDao variableFieldDao;
 
     /**
+     * 依据单位ID和客户端对应字段key，获取字段信息
+     *
+     * @param companyId 单位ID
+     * @param fieldKey  客户端对应字段key
+     * @return
+     */
+    public TVariableField find(Integer companyId, String fieldKey) {
+        try {
+            return variableFieldDao.find(companyId,fieldKey);
+        } catch (Exception e) {
+            logger.error(" 依据单位ID和客户端对应字段key，获取字段信息", e);
+            return new TVariableField();
+        }
+    }
+
+    /**
      * 依据单位ID，获取字段信息
      *
      * @param companyId

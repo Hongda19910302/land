@@ -7,6 +7,7 @@ import net.deniro.land.common.service.dwz.Result;
 import net.deniro.land.common.utils.FtpUtils;
 import net.deniro.land.module.icase.entity.*;
 import net.deniro.land.module.icase.service.CaseService;
+import net.deniro.land.module.icase.service.DataTypeService;
 import net.deniro.land.module.icase.service.VariableFieldService;
 import net.deniro.land.module.system.entity.Department;
 import net.deniro.land.module.system.entity.TRegion;
@@ -25,7 +26,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static net.deniro.land.module.icase.entity.TCaseAudit.AuditResult.get;
 
@@ -58,6 +61,9 @@ public class MobileController {
 
     @Autowired
     private FtpUtils ftpUtils;
+
+    @Autowired
+    private DataTypeService dataTypeService;
 
     /**
      * 渲染文件的路径前缀
@@ -579,6 +585,15 @@ public class MobileController {
     }
 
     /**
+     * 巡查结果的数据映射关系
+     */
+    public static List<TDataType> SURVEY_RESULT_DATA_TYPES = null;
+    /**
+     * 巡查结果的键值对
+     */
+    public static Map<Integer, String> SURVEY_RESULT_DATA_TYPES_MAP = new HashMap<Integer, String>();
+
+    /**
      * 案件详情-巡查记录+核查记录
      *
      * @param caseId
@@ -590,10 +605,26 @@ public class MobileController {
         ResponseResult r = null;
 
         try {
-            List<CaseVariableField> fields = caseService.findVariablesById(caseId);
-            TCase tCase = caseService.findById(caseId, fields);
+            TCase tCase = caseService.findById(caseId);
+
+            //获取巡查结果的键值对
+            if (SURVEY_RESULT_DATA_TYPES == null) {
+                SURVEY_RESULT_DATA_TYPES = dataTypeService.findByVariableFieldKey
+                        ("surveyResult");
+                for (TDataType dataType : SURVEY_RESULT_DATA_TYPES) {
+                    SURVEY_RESULT_DATA_TYPES_MAP.put(dataType
+                            .getDataTypeValue(), dataType.getDataTypeName());
+                }
+
+            }
+
+            //设置案件的巡查结果名称
+            tCase.setSurveyResultName(SURVEY_RESULT_DATA_TYPES_MAP.get(tCase
+                    .getSurveyResult
+                            ()));
             mm.addAttribute("tCase", tCase);
-            mm.addAttribute("inspectList", caseService.findInspectById(caseId, fields));
+
+            mm.addAttribute("inspectList", caseService.findInspectById(caseId));
             mm.addAttribute("caseAuditList", caseService.findAuditById(caseId));
 
             r = new SuccessResult();

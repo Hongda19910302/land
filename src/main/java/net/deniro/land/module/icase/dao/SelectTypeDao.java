@@ -70,7 +70,7 @@ public class SelectTypeDao extends BaseDao<TSelectType> {
         List<TSelectType> selectTypeList = findListByFieldAndValue(variableFieldId,
                 dataTypeValue);
         if (selectTypeList == null || selectTypeList.isEmpty()) {
-            return new TSelectType();
+            return null;
         } else {
             return selectTypeList.get(0);
         }
