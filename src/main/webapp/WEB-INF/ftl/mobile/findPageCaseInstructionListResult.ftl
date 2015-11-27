@@ -6,8 +6,8 @@
 "pageNo":${pageNo},
 "instructionList":[
 <#if page??>
-    <#if page.currentPageData??>
-        <#list page.currentPageData as data>
+    <#if page.data??>
+        <#list page.data as data>
         {
         "instructionId":"${(data.instructionId)?default('')}",
         "userId":"${(data.userId)?default('')}",

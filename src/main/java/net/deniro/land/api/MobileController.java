@@ -295,6 +295,7 @@ public class MobileController {
             instructionQueryParam.setNumPerPage(param.getLimit());
             instructionQueryParam.setPageNum(param.getPageNo());
             instructionQueryParam.setCaseId(String.valueOf(param.getCaseId()));
+            instructionQueryParam.setUserId(String.valueOf(param.getUserId()));
 
             BeanUtils.copyProperties(param, instructionQueryParam);
 
