@@ -5,8 +5,7 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- FTP客户端工具-->
-    <bean id="ftpUtils" class="net.deniro.land.common.utils.FtpUtils" init-method="init"
-          destroy-method="close">
+    <bean id="ftpUtils" class="net.deniro.land.common.utils.FtpUtils">
 
         <!-- 地址前缀-->
         <property name="prefix">

@@ -38,6 +38,11 @@ public class FtpUtilsTest {
         }
 
         @Test
+        public void mkDirs(){
+                ftpUtils.mkDirs("deniro/1/2/3");
+        }
+
+        @Test
         public void testIsExist() throws Exception {
                 Assert.isTrue(ftpUtils.isExist("land"));
                 Assert.isTrue(!ftpUtils.isExist("land1"));

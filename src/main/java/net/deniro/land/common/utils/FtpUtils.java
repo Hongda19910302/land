@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.net.URL;
 import java.util.StringTokenizer;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Ftp 工具
@@ -163,6 +164,7 @@ public class FtpUtils {
             while (dirs.hasMoreElements()) {
                 temp = dirs.nextElement().toString();
                 if (!isDirExist(temp)) {//创建并进入目录
+                    logger.info("开始创建目录【" + temp+"】");
                     client.createDirectory(temp);
                     client.changeDirectory(temp);
                 }
@@ -181,6 +183,8 @@ public class FtpUtils {
         } catch (Exception e) {
             logger.error("创建层级目录", e);
             client = null;
+        } finally {
+            close();
         }
     }
 
@@ -264,27 +268,35 @@ public class FtpUtils {
         }
     }
 
+    /**
+     * FTP重连次数
+     */
+    private static AtomicInteger tryCount = new AtomicInteger(0);
 
     /**
      * FTP客户端初始化
      */
     public void init() {
         try {
-
             client = new FTPClient();
             client.setCharset(Constants.CHARSET);
             client.setType(FTPClient.TYPE_BINARY);
             client.connect(new URL(prefix + ip).getHost(), port);
             client.getConnector().setConnectionTimeout(15000);
             client.login(account, password);
+            client.currentDirectory();
             logger.info("已连接FTP服务器");
+        } catch (Exception e) {
+            logger.warn("FTP服务器连接失败，尝试第【" + tryCount.incrementAndGet() + "】次重连...");
+            try {
 
-        } catch (IOException e) {
-            logger.error("FTP客户端初始化", e);
-        } catch (FTPIllegalReplyException e) {
-            logger.error("FTP客户端初始化", e);
-        } catch (FTPException e) {
-            logger.error("FTP客户端初始化", e);
+                //休眠2s后，尝试重连
+                Thread.sleep(2000);
+                init();
+                tryCount.incrementAndGet();
+            } catch (InterruptedException e1) {
+                logger.error("FTP客户端初始化", e1);
+            }
         }
     }
 
