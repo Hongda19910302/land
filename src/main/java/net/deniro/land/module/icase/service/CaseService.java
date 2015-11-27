@@ -446,7 +446,15 @@ public class CaseService {
             includeStatus.add(TCase.CaseStatus.FIRST_OVER);
             queryParam.setIncludeStatus(includeStatus);
 
-            return caseDao.findPage(queryParam);
+            Page page = caseDao.findPage(queryParam);
+            List<TCase> cases = page.getData();
+
+            //设置批示状态，这里非常耗性能，待优化
+            for (TCase aCase : cases) {
+                aCase.setInstructionState(String.valueOf(getInstructionState(aCase.getCaseId(),
+                        NumberUtils.toInt(queryParam.getUserId())).code()));
+            }
+            return page;
         } catch (Exception e) {
             logger.error(" 分页查询 案件批示", e);
             return new Page();
