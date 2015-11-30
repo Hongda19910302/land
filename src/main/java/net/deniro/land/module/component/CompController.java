@@ -141,5 +141,19 @@ public class CompController {
         return "/component/lookup-company-department";
     }
 
+    /**
+     * 跳转至单位、区域选择组件
+     *
+     * @param pageSearchComponentId 分页查询组件ID
+     * @return
+     */
+    @RequestMapping(value = "/lookupCompanyRegion")
+    public String lookupCompanyRegion(Integer pageSearchComponentId, ModelMap mm) {
+        mm.addAttribute("pageSearchComponentId", pageSearchComponentId);
+        return "/component/lookup-company-region";
+    }
+
+
+
 
 }
