@@ -22,6 +22,17 @@ public class CaseController extends BaseController {
     private CaseService caseService;
 
     /**
+     * 跳转至【案件查询】
+     *
+     * @return
+     */
+    @RequestMapping(value = "/query")
+    public String query(CaseParam queryParam, ModelMap mm) {
+        super.pageSearch(mm, caseService.findPage(queryParam), queryParam, "case/query");
+        return COMPONENT_PAGE_SEARCH_URL;
+    }
+
+    /**
      * 跳转至【我的案件】
      *
      * @return
