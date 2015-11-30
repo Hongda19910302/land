@@ -116,7 +116,8 @@
 
     <#--处理隐藏的表单字段-->
     <#list hiddenFormFields as field>
-        <input type="hidden" id="${field.fieldName}_${componentId}" name="${field.fieldName}" value="${queryParam[field
+        <input type="hidden" id="${field.fieldName}_${componentId}"
+               name="${field.fieldName}" value="${queryParam[field
         .fieldName]}"/>
     </#list>
 
@@ -245,10 +246,59 @@
 
             </#list>
 
+            <#--渲染单位与区域选择组件-->
+            <#if compPageSearch.isLookupCompanyRegion=="true">
+
+                <#if currentColumnCount gte 2>
+                <tr>
+                </#if>
+
+                <td colspan="4" class="lookupCompanyRegionBtn">
+                    <span class="lookupCompanyRegionBtnCompanyTag">归属单位：</span>
+                    <input name="companyId" id="companyId_${componentId}" value=""
+                           type="hidden"/>
+                        <span><input class="lookupCompanyRegionBtnCompanyName"
+                                name="companyName" id="companyName_${componentId}"
+                                     type="text" readonly></span>
+                    <span class="lookupCompanyRegionBtnRegionTag">所属区域：</span>
+                    <input name="regionId" id="regionId_${componentId}" value=""
+                           type="hidden"/>
+                        <span >
+                            <input class="lookupCompanyRegionBtnRegionName"
+                                   name="regionName" id="regionName_${componentId}"
+                                   type="text"
+
+                                   readonly>
+                        </span>
+
+                    <a class="btnLook"
+                       href="/comp/lookupCompanyRegion?pageSearchComponentId=${componentId}"
+                       target="dialog"
+                    <#--rel:标识此弹出层ID-->
+                       rel="lookupCompanyRegion"
+                    <#--resizable：是否可变大小-->
+                       resizable="false"
+                    <#--minable：是否可最小化-->
+                       minable="false"
+                    <#--maxable：是否可最大化-->
+                       maxable="false"
+                    <#--是否将背景遮盖-->
+                       mask="true"
+                    <#--弹出框宽度-->
+                       width="600"
+                    <#--弹出框高度-->
+                       height="480"
+                    <#--标题-->
+                       title="选择单位与所属区域（可只选单位）"></a>
+                </td>
+
+                <#if currentColumnCount gte 2>
+                </tr>
+                </#if>
+            </#if>
 
 
-
-            <#--渲染单位或部门选择组件-->
+            <#--渲染单位与部门选择组件-->
             <#if compPageSearch.isLookupCompanyDepartment=="true">
                 <td class="lookupCompanyDepartmentBtn">
                     <span>归属单位：</span>
@@ -284,7 +334,7 @@
                     <#--弹出框高度-->
                        height="480"
                     <#--标题-->
-                       title="选择单位或部门"></a>
+                       title="选择单位与部门（可只选单位）"></a>
                 </td>
 
             </#if>
