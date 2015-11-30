@@ -46,10 +46,16 @@ public class CompPageSearch implements Serializable {
     private String noTableHeight;
 
     /**
-     * 查询表单是否包含单位或部门选择组件
+     * 查询表单是否包含单位与区域选择组件
      */
     @Column(name = "is_lookup_company_department", nullable = true, length = 5)
     private String isLookupCompanyDepartment;
+
+    /**
+     * 查询表单是否包含单位与区域选择组件
+     */
+    @Column(name = "is_lookup_company_region", nullable = true, length = 5)
+    private String isLookupCompanyRegion;
 
     /**
      * 是否有工具栏
