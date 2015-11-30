@@ -3,11 +3,15 @@ package net.deniro.land.module.system.service;
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.module.system.dao.VersionDao;
 import net.deniro.land.module.system.dao.VersionItemDao;
+import net.deniro.land.module.system.entity.TVersion;
 import net.deniro.land.module.system.entity.VersionItemQueryParam;
 import net.deniro.land.module.system.entity.VersionQueryParam;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 版本说明
@@ -49,7 +53,16 @@ public class VersionService {
      */
     public Page findPage(VersionQueryParam queryParam) {
         try {
-            return versionDao.findPage(queryParam);
+            Page page = versionDao.findPage(queryParam);
+
+            //添加每个版本的更新项总数
+            Map<Integer, Long> count = versionItemDao.countByVersionIdGroup();
+            List<TVersion> data = page.getData();
+            for (TVersion tVersion : data) {
+                tVersion.setItemSum(count.get(tVersion.getId()));
+            }
+
+            return page;
         } catch (Exception e) {
             logger.error("分页查询", e);
             return new Page();

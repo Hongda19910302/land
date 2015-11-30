@@ -43,4 +43,10 @@ public class TVersion implements Serializable {
     */
     @Column(name = "create_time", nullable = true,length = 0)
     private Date createTime;
+
+    /**
+     * 更新项总数
+     */
+    @Transient
+    private Long itemSum;
 }
