@@ -22,15 +22,20 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class VersionItemDaoTest {
 
-        @Autowired
-        private VersionItemDao versionItemDao;
+    @Autowired
+    private VersionItemDao versionItemDao;
 
-        @Test
-        public void testFindPage() throws Exception {
-                VersionItemQueryParam param=new VersionItemQueryParam();
-                param.setType("NEW");
-                param.setVersionId("1");
+    @Test
+    public void countByVersionIdGroup() {
+        System.out.println("$$$$$$$$$$$" + versionItemDao.countByVersionIdGroup());
+    }
 
-                System.out.println("$$$$$$$$$$$"+versionItemDao.findPage(param));
-        }
+    @Test
+    public void testFindPage() throws Exception {
+        VersionItemQueryParam param = new VersionItemQueryParam();
+        param.setType("NEW");
+        param.setVersionId("1");
+
+        System.out.println("$$$$$$$$$$$" + versionItemDao.findPage(param));
+    }
 }
