@@ -58,6 +58,12 @@ public class TCase implements Serializable {
     private Integer createrId;
 
     /**
+     * 创建者名称
+     */
+    @Transient
+    private String creatorName;
+
+    /**
      * 当事人
      */
     @Column(name = "parties", nullable = true, length = 20)
