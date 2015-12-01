@@ -1,8 +1,10 @@
 package net.deniro.land.module.component;
 
 import net.deniro.land.common.spring.mvc.ResourcePathExposer;
+import net.deniro.land.module.component.entity.CompForm;
 import net.deniro.land.module.component.entity.CompanyTreeNode;
 import net.deniro.land.module.component.entity.TreeQueryParam;
+import net.deniro.land.module.component.service.CompFormService;
 import net.deniro.land.module.system.entity.Department;
 import net.deniro.land.module.system.entity.TRegion;
 import net.deniro.land.module.system.entity.User;
@@ -41,6 +43,24 @@ public class CompController {
 
     @Autowired
     private RegionService regionService;
+
+    @Autowired
+    private CompFormService compFormService;
+
+
+    /**
+     * 跳转至表单组件
+     *
+     * @return
+     */
+    @RequestMapping(value = "/form")
+    public String form(ModelMap mm) {
+        CompForm compForm = compFormService.findById(1);
+        mm.addAttribute("compForm", compForm);
+        mm.addAttribute("componentId",221);
+
+        return "/component/form";
+    }
 
 
     /**
