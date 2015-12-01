@@ -57,6 +57,26 @@
                     </dd>
                 </dl>
             </#list>
+
+            <a class="btnLook"
+               href="/comp/lookupGeographicCoordinates?componentId=${componentId}"
+               target="dialog"
+            <#--rel:标识此弹出层ID-->
+               rel="lookupGeographicCoordinates"
+            <#--resizable：是否可变大小-->
+               resizable="false"
+            <#--minable：是否可最小化-->
+               minable="false"
+            <#--maxable：是否可最大化-->
+               maxable="false"
+            <#--是否将背景遮盖-->
+               mask="true"
+            <#--弹出框宽度-->
+               width="800"
+            <#--弹出框高度-->
+               height="600"
+            <#--标题-->
+               title="查找地理坐标"></a>
         </div>
 
     <#--按钮栏-->

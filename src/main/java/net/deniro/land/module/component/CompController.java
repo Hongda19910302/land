@@ -47,6 +47,15 @@ public class CompController {
     @Autowired
     private CompFormService compFormService;
 
+    /**
+     * 跳转至地理坐标选择组件
+     *
+     * @return
+     */
+    @RequestMapping(value = "/lookupGeographicCoordinates")
+    public String lookupGeographicCoordinates() {
+        return "/component/lookupGeographicCoordinates";
+    }
 
     /**
      * 跳转至表单组件
@@ -57,7 +66,7 @@ public class CompController {
     public String form(ModelMap mm) {
         CompForm compForm = compFormService.findById(1);
         mm.addAttribute("compForm", compForm);
-        mm.addAttribute("componentId",221);
+        mm.addAttribute("componentId", 221);
 
         return "/component/form";
     }

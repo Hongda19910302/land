@@ -52,6 +52,8 @@
     <script src="${resourceRoot}/dwz/opentip/opentip-jquery.min.js"
             type="text/javascript"></script>
 
+    <script src="http://api.tianditu.com/js/maps.js" type="text/javascript"></script>
+
 
 
     <script src="${resourceRoot}/dwz/js/dwz.core.land.js" type="text/javascript"></script>
