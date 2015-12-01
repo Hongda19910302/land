@@ -49,6 +49,33 @@
 		},
 
 		/**
+		 * 带回选择的单位与区域信息
+		 * @param args
+		 */
+		bringBackCompanyAndRegion: function (args) {
+			//console.log(args);
+
+			//获取公司单位选择的字段区域
+			var $CompanyRegion= $("#searchForm_"+args.pageSearchComponentId+" .lookupCompanyRegionBtn");
+
+			//寻找具体字段并赋值
+			$CompanyRegion.find(":input").each(function(){
+				var $input = $(this);
+				var inputName = $input.attr("name");
+				for (var key in args) {
+					if (key == inputName) {
+						$input.val(args[key]);
+						break;
+					}
+				}
+
+			});
+
+
+			$.pdialog.closeCurrent();
+		},
+
+		/**
 		 * 带回选择的单位与部门信息
 		 * @param args
 		 */

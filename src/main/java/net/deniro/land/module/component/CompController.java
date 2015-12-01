@@ -56,14 +56,37 @@ public class CompController {
     }
 
     /**
+     * 递归查询区域树节点
+     *
+     * @param regionId 区域ID
+     * @return
+     */
+    @RequestMapping(value = "/recursiveFindRegionTreeNode")
+    @ResponseBody
+    public List<TRegion> findRegionTreeNode(String
+                                                    regionId, Integer companyId) {
+        List<TRegion> data = new ArrayList<TRegion>();
+        if (StringUtils.isBlank(regionId)) {//第一次加载
+            data.addAll(regionService.findByCompanyIdForTree(companyId));
+        } else {
+            data.addAll(regionService.findChildrenByRegionIdForTree(NumberUtils.toInt
+                    (regionId)));
+        }
+
+        return data;
+    }
+
+
+    /**
      * 查询区域树节点
+     *
      * @param regionId 区域ID
      * @return
      */
     @RequestMapping(value = "/findRegionTreeNode")
     @ResponseBody
     public List<TRegion> findRegionTreeNode(String
-            regionId, HttpSession session) {
+                                                    regionId, HttpSession session) {
 
         List<TRegion> data = new ArrayList<TRegion>();
 
@@ -152,8 +175,6 @@ public class CompController {
         mm.addAttribute("pageSearchComponentId", pageSearchComponentId);
         return "/component/lookup-company-region";
     }
-
-
 
 
 }

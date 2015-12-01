@@ -4,41 +4,41 @@
         //初始化单位树
         initCompanyTree();
 
-        $(".companyDepartmentBtn").click(function () {
-            $.bringBackCompanyAndDepartment(
+        $(".companyRegionBtn").click(function () {
+            $.bringBackCompanyAndRegion(
                     {
                         pageSearchComponentId:${pageSearchComponentId},
-                        companyId: $("#companyId_${pageSearchComponentId}").val(),
-                        companyName: $("#companyName_${pageSearchComponentId}").val(),
-                        departmentId: $("#departmentId_${pageSearchComponentId}").val(),
-                        departmentName: $("#departmentName_${pageSearchComponentId}").val()
+                        companyId: $("#lookup_companyId_${pageSearchComponentId}").val(),
+                        companyName: $("#lookup_companyName_${pageSearchComponentId}").val(),
+                        regionId: $("#lookup_regionId_${pageSearchComponentId}").val(),
+                        regionName: $("#lookup_regionName_${pageSearchComponentId}").val()
                     });
         });
 
     });
 
     /**
-     * 初始化部门树
+     * 初始化区域树
      * @param companyId 单位ID
      */
-    function initDepartmentTree(companyId) {
+    function initRegionTree(companyId) {
         var departmentSetting = {
             async: {
                 enable: true,
-                url: "/comp/findDepartmentTreeNode",
-                autoParam: ["departmentId=departmentId"],
+                url: "/comp/recursiveFindRegionTreeNode",
+                autoParam: ["regionId=regionId"],
                 otherParam: {"companyId": companyId}
             },
             callback: {
-                //点击某个部门，保存选择的部门信息
+                //点击某个区域，保存选择的区域信息
                 onClick: function (event, treeId, treeNode, clickFlag) {
-                    $("#departmentId_${pageSearchComponentId}").val(treeNode.departmentId);
-                    $("#departmentName_${pageSearchComponentId}").val(treeNode.name);
+                    $("#lookup_regionId_${pageSearchComponentId}").val(treeNode.regionId);
+                    $("#lookup_regionName_${pageSearchComponentId}").val(treeNode.name);
                 }
             }
         };
 
-        $.fn.zTree.init($("#departmentTree_${pageSearchComponentId}"), departmentSetting);
+        $.fn.zTree.init($("#regionTree_${pageSearchComponentId}"), departmentSetting);
     }
 
     //初始化单位树
@@ -52,16 +52,16 @@
             },
 
             callback: {
-                //点击某个单位，初始化部门树
+                //点击某个单位，初始化区域树
                 onClick: function (event, treeId, treeNode, clickFlag) {
 //                    console.log(treeNode);
-                    initDepartmentTree(treeNode.companyId);
-                    $("#companyId_${pageSearchComponentId}").val(treeNode.companyId);
-                    $("#companyName_${pageSearchComponentId}").val(treeNode.name);
+                    initRegionTree(treeNode.companyId);
+                    $("#lookup_companyId_${pageSearchComponentId}").val(treeNode.companyId);
+                    $("#lookup_companyName_${pageSearchComponentId}").val(treeNode.name);
 
-                    //初始化部门信息
-                    $("#departmentId_${pageSearchComponentId}").val("");
-                    $("#departmentName_${pageSearchComponentId}").val("");
+                    //初始化区域信息
+                    $("#lookup_regionId_${pageSearchComponentId}").val("");
+                    $("#lookup_regionName_${pageSearchComponentId}").val("");
                 }
             }
         };
@@ -71,10 +71,10 @@
 </script>
 
 <form>
-    <input type="hidden" id="companyId_${pageSearchComponentId}"/>
-    <input type="hidden" id="companyName_${pageSearchComponentId}"/>
-    <input type="hidden" id="departmentId_${pageSearchComponentId}"/>
-    <input type="hidden" id="departmentName_${pageSearchComponentId}"/>
+    <input type="hidden" id="lookup_companyId_${pageSearchComponentId}"/>
+    <input type="hidden" id="lookup_companyName_${pageSearchComponentId}"/>
+    <input type="hidden" id="lookup_regionId_${pageSearchComponentId}"/>
+    <input type="hidden" id="lookup_regionName_${pageSearchComponentId}"/>
 </form>
 
 <div class="pageContent">
@@ -85,8 +85,8 @@
         </div>
 
         <div>
-            <span>选择部门</span>
-            <ul id="departmentTree_${pageSearchComponentId}" class="ztree"></ul>
+            <span>选择区域</span>
+            <ul id="regionTree_${pageSearchComponentId}" class="ztree"></ul>
         </div>
     </div>
 </div>
@@ -94,12 +94,12 @@
 <div class="formBar dialogBtnRow">
     <ul>
         <li>
-            <span>【说明】如果需要选择部门，请点击左边单位列表的某个具体单位</span>
+            <span>【说明】如果需要选择区域，请点击左边单位列表的某个具体单位</span>
         </li>
         <li>
             <div class="button">
-                <div class="buttonContent">
-                    <button class="companyDepartmentBtn" type="button">确定</button>
+                <div class="buttonContent companyRegionBtn">
+                    <button type="button">确定</button>
                 </div>
             </div>
             <div class="button">
