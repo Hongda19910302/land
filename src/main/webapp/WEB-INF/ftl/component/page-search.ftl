@@ -49,13 +49,23 @@
 
     </#list>
 
-        //初始化 单位或部门选择组件参数
+        //初始化 单位与部门选择组件参数
     <#if compPageSearch.isLookupCompanyDepartment=="true">
         $("#companyId_${componentId}").val("${queryParam["companyId"]!""}");
         $("#companyName_${componentId}").val("${queryParam["companyName"]!""}");
         $("#departmentId_${componentId}").val("${queryParam["departmentId"]!""}");
         $("#departmentName_${componentId}").val("${queryParam["departmentName"]!""}");
     </#if>
+
+        //初始化 单位与区域选择组件参数
+    <#if compPageSearch.isLookupCompanyRegion=="true">
+        $("#companyId_${componentId}").val("${queryParam["companyId"]!""}");
+        $("#companyName_${componentId}").val("${queryParam["companyName"]!""}");
+        $("#regionId_${componentId}").val("${queryParam["regionId"]!""}");
+        $("#regionName_${componentId}").val("${queryParam["regionName"]!""}");
+    </#if>
+
+
 
         //绑定重置按钮
         $("#resetBtn_${componentId}").click(function () {
@@ -96,12 +106,21 @@
     </#switch>
 </#list>
 
-<#--保存单位或部门选择组件参数-->
+<#--保存单位与部门选择组件参数-->
 <#if compPageSearch.isLookupCompanyDepartment=="true">
     <input type="hidden" name="companyId" value="${queryParam["companyId"]}"/>
     <input type="hidden" name="companyName" value="${queryParam["companyName"]}"/>
     <input type="hidden" name="departmentId" value="${queryParam["departmentId"]}"/>
     <input type="hidden" name="departmentName" value="${queryParam["departmentName"]}"/>
+</#if>
+
+
+<#--保存单位与区域选择组件参数-->
+<#if compPageSearch.isLookupCompanyRegion=="true">
+    <input type="hidden" name="companyId" value="${queryParam["companyId"]}"/>
+    <input type="hidden" name="companyName" value="${queryParam["companyName"]}"/>
+    <input type="hidden" name="regionId" value="${queryParam["regionId"]}"/>
+    <input type="hidden" name="regionName" value="${queryParam["regionName"]}"/>
 </#if>
 </form>
 <#-------------------------分页器表单 结束---------------------------------------->

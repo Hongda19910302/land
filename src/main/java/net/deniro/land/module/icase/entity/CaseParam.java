@@ -183,6 +183,11 @@ public class CaseParam extends QueryParam {
     private Integer companyId;
 
     /**
+     * 公司名称
+     */
+    private String companyName;
+
+    /**
      * 案件ID
      */
     private Integer caseId;
