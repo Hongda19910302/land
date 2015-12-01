@@ -1,7 +1,11 @@
 <div class="pageContent">
 
 <#if compForm??>
-    <form method="post" action="${compForm.actionUrl}" class="pageForm"
+
+<#--组件ID-->
+    <#assign componentId="form_"+compForm.id>
+
+    <form method="post" action="${compForm.actionUrl}" id="${componentId}" class="pageForm"
           onsubmit="return validateCallback(this)">
 
         <div class="pageFormContent nowrap" layoutH="${compForm.buttonBarHeight}">
@@ -14,7 +18,8 @@
 
                             <#case "TEXT"><#--文本输入框-->
                                 <input type="text" name="${item.inputName}"
-                                       class="${item.inputClass}" style="${item.inputCssStyle}"/>
+                                       class="${item.inputClass}"
+                                       style="${item.inputCssStyle}"/>
                                 <#break>
 
                             <#case "REGION"><#--区域选择框-->
@@ -25,9 +30,10 @@
                                     <span><input class="lookupInput"
                                                  name="${item.inputName}Name"
                                                  id="${item.inputName}Name_${componentId}"
-                                                 type="text" readonly></span>
-                                    <a class="btnLook lookupBtn"
-                                       href="/comp/lookupRegion?pageSearchComponentId=${componentId}"
+                                                 type="text" readonly
+                                                 style="${item.inputCssStyle}"></span>
+                                    <a class="btnLook"
+                                       href="/comp/lookupRegion?componentId=${componentId}"
                                        target="dialog"
                                     <#--rel:标识此弹出层ID-->
                                        rel="lookupRegion"

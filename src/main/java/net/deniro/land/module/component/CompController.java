@@ -66,12 +66,12 @@ public class CompController {
     /**
      * 跳转至区域选择组件
      *
-     * @param pageSearchComponentId 分页查询组件ID
+     * @param componentId 组件ID
      * @return
      */
     @RequestMapping(value = "/lookupRegion")
-    public String lookupRegion(Integer pageSearchComponentId, ModelMap mm) {
-        mm.addAttribute("pageSearchComponentId", pageSearchComponentId);
+    public String lookupRegion(String componentId, ModelMap mm) {
+        mm.addAttribute("componentId", componentId);
         return "/component/lookup-region";
     }
 

@@ -7,9 +7,12 @@
         $(".regionBtn").click(function () {
             $.bringBackRegion(
                     {
-                        pageSearchComponentId:${pageSearchComponentId},
-                        regionId: $("#tree_regionId_${pageSearchComponentId}").val(),
-                        regionName: $("#tree_regionName_${pageSearchComponentId}").val()
+                        componentId:"${componentId}",
+                        regionId: $("#tree_regionId_${componentId}").val(),
+                        regionName: $("#tree_regionName_${componentId}").val(),
+                        regionId_${componentId}: $("#tree_regionId_${componentId}").val(),
+                        regionName_${componentId}: $("#tree_regionName_${componentId}")
+            .val()
                     });
         });
 
@@ -27,25 +30,25 @@
             callback: {
                 //点击某个区域，保存选择的区域信息
                 onClick: function (event, treeId, treeNode, clickFlag) {
-                    $("#tree_regionId_${pageSearchComponentId}").val(treeNode.regionId);
-                    $("#tree_regionName_${pageSearchComponentId}").val(treeNode.name);
+                    $("#tree_regionId_${componentId}").val(treeNode.regionId);
+                    $("#tree_regionName_${componentId}").val(treeNode.name);
                 }
             }
         };
 
-        $.fn.zTree.init($("#regionTree_${pageSearchComponentId}"), setting);
+        $.fn.zTree.init($("#regionTree_${componentId}"), setting);
     }
 </script>
 
 <form>
-    <input type="hidden" id="tree_regionId_${pageSearchComponentId}"/>
-    <input type="hidden" id="tree_regionName_${pageSearchComponentId}"/>
+    <input type="hidden" id="tree_regionId_${componentId}"/>
+    <input type="hidden" id="tree_regionName_${componentId}"/>
 </form>
 
 <div class="pageContent">
     <div class="pageFormContent lookupTree" layoutH="58">
         <div>
-            <ul id="regionTree_${pageSearchComponentId}" class="ztree"></ul>
+            <ul id="regionTree_${componentId}" class="ztree"></ul>
         </div>
 
     </div>

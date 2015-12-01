@@ -230,7 +230,7 @@
                             </span>
 
                             <a class="btnLook lookupBtn"
-                               href="/comp/lookupRegion?pageSearchComponentId=${componentId}"
+                               href="/comp/lookupRegion?componentId=${componentId}"
                                target="dialog"
                             <#--rel:标识此弹出层ID-->
                                rel="lookupRegion"

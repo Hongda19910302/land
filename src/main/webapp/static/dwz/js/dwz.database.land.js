@@ -26,12 +26,17 @@
 			//console.log(args);
 
 			//获取选择的字段区域
-			var $Region= $("#searchForm_"+args.pageSearchComponentId+" .lookupRegionBtn");
+			var $Region= $("#searchForm_"+args.componentId+" .lookupRegionBtn");
+			//console.log($Region.length);
+			if($Region.length==0){//支持表单组件
+				$Region=$("#"+args.componentId+" .lookupRegionBtn");
+			}
+			console.log($Region.length);
+
 			//console.log($Region.find(":input").length);
 
 			//寻找具体字段并赋值
 			$Region.find(":input").each(function(){
-				console.log("1");
 				var $input = $(this);
 				var inputName = $input.attr("name");
 
