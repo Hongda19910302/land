@@ -18,7 +18,7 @@ public enum InputType {
     SELECT,
 
     /**
-     *起止日期选择框
+     * 起止日期选择框
      */
     BEGIN_END_DATE,
 
@@ -30,5 +30,10 @@ public enum InputType {
     /**
      * 隐藏字段
      */
-    HIDDEN
+    HIDDEN,
+
+    /**
+     * 多行文本框
+     */
+    TEXTAREA
 }
