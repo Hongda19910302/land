@@ -10,6 +10,7 @@ import javax.servlet.ServletContext;
  * @author deniro
  *         15-4-9上午9:56
  */
+@Deprecated
 public class ResourcePathExposer implements ServletContextAware {
 
     private ServletContext servletContext;
