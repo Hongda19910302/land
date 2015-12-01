@@ -188,8 +188,6 @@ public class CaseDao extends BaseDao<TCase> {
         }
 
 
-
-
         /**
          * 移动端状态条件
          */
@@ -223,7 +221,7 @@ public class CaseDao extends BaseDao<TCase> {
                     }
                 }
             }
-        }else{
+        } else {
             if (StringUtils.isNotBlank(queryParam.getUserId())) {
                 sql.append(" and t.creater_id=:creatorId");
                 params.put("creatorId", queryParam.getUserId());
@@ -234,6 +232,11 @@ public class CaseDao extends BaseDao<TCase> {
                         "(:departmentId))");
                 params.put("departmentId", queryParam.getDepartmentId());
             }
+        }
+
+        if (queryParam.getCompanyId() != null && queryParam.getCompanyId() != 0) {
+            sql.append(" and t.company_id=:getCompanyId");
+            params.put("getCompanyId", queryParam.getCompanyId());
         }
 
         if (StringUtils.isNotBlank(queryParam.getBeginDate())) {
