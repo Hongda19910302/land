@@ -86,6 +86,6 @@ public class CompPageSearch implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "compPageSearch", fetch = FetchType.EAGER)
     @OrderBy("orderNo ASC ")
-    private Set<CompPageSearchToolBar> compPageSearchToolBar;
+    private Set<CompPageSearchToolBar> compPageSearchToolBars;
 
 }

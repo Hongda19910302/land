@@ -388,7 +388,7 @@
 
 <#-----------------------------工具栏 开始----------------------------------->
 <#--工具栏配置信息-->
-<#assign toolBtns=compPageSearch.compPageSearchToolBar>
+<#assign toolBtns=compPageSearch.compPageSearchToolBars>
 
 <#if toolBtns?size!=0>
     <div class="panelBar">
