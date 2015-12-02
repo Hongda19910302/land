@@ -6,10 +6,149 @@
     <title>查找地理坐标</title>
     <script type="text/javascript">
 
+        var map;
+        var mapLocalSearch;
+
         $(function () {
             initMap();
             initMapSearchInput();
+
+            //绑定搜索功能
+            $("#mapSearchBtn").click(function () {
+                mapLocalSearch.search($("#mapKeyWord").val());
+            });
         });
+
+        //本地搜索
+        function mapLocalSearchResult(result) {
+            console.log(result);
+            mapClearAll();
+            mapPrompt(result);
+
+            //根据返回类型解析搜索结果
+            switch (parseInt(result.getResultType())) {
+                case 1://解析点数据结果
+                    mapPois(result.getPois());
+                    break;
+                case 2://解析推荐城市
+                    break;
+                case 3://解析行政区划边界
+                    break;
+                case 4://解析建议词信息
+                    break;
+                case 5://解析公交信息
+                    break;
+            }
+        }
+
+        //解析点数据结果
+        function mapPois(obj) {
+            if (obj) {//显示搜索列表
+                var $divMarker = $("<div></div>");
+                var zoomArr = [];//坐标数组，设置最佳比例尺时会用到
+
+                console.log("obj.length:"+obj.length);
+
+                for (var i = 0; i < obj.length; i++) {
+                    var name = obj[i].name;//名称
+                    var address = obj[i].address;//地址
+                    var lnglatArr = obj[i].lonlat.split(" ");//坐标
+                    var lnglat = new TLngLat(lnglatArr[0], lnglatArr[1]);
+
+                    var winHtml = "地址：" + address;
+
+                    var marker = new TMarker(lnglat);//创建标注对象
+                    map.addOverLay(marker);//在地图上添加标注点
+                    TEvent.bind(marker, "click", marker, function () {//注册标注点的点击事件
+                        var info = this.openInfoWinHtml(winHtml);
+                        info.setTitle(name);
+                    });
+                    zoomArr.push(lnglat);
+
+                    //在页面上显示搜索的列表
+                    var $a = $("<a></a>");
+                    $a.attr("href", "javascript://");
+                    $a.html(name);
+                    $a.click(function () {
+                        mapShowPosition(marker, name, winHtml);
+                    });
+                    $divMarker.append((i + 1) + ".").append($a).append("<br>");
+                }
+
+                map.setViewport(zoomArr);//显示地图的最佳级别
+                $divMarker.append("共<span class='mapPromptStrong'>" + mapLocalSearch.getCountNumber()
+                + "</span>条记录，分<span class='mapPromptStrong'>" + mapLocalSearch
+                        .getCountPage() + "</span>页，当前第<span class='mapPromptStrong'>" + mapLocalSearch
+                        .getPageIndex() + "</span>页");
+                console.log("$divMarker:" + $divMarker.html());
+                $("#mapPaginationInfo").append($divMarker);
+
+
+                $("#mapSearchDiv").show();
+                $("#mapResultDiv").show();
+            }
+        }
+
+        //显示信息框
+        function mapShowPosition(marker, name, winHtml) {
+            var info = marker.openInfoWinHtml(winHtml);
+            info.setTitle(name);
+        }
+
+        //解析提示词
+        function mapPrompt(obj) {
+            var prompts = obj.getPrompt();
+            if (prompts) {
+                var promptHtml = "";
+                for (var i = 0; i < prompts.length; i++) {
+                    var prompt = prompts[i];
+                    var promptType = prompt.type;
+                    var promptAdmins = prompt.admins;
+                    var meanprompt = prompt.DidYouMean;
+                    if (promptType == 1) {
+                        promptHtml += "<p class='mapPrompt'>您是否要在<span class='mapPromptStrong'>" +
+                        promptAdmins[0]
+                                .name + "</span>搜索更多包含<span class='mapPromptStrong'>" + obj
+                                .getKeyword() + "</span>的相关内容？<p>";
+                    } else if (promptType == 2) {
+                        promptHtml += "<p class='mapPrompt'>在<span " +
+                        "class='mapPromptStrong'>" +
+                        promptAdmins[0]
+                                .name + "</span>没有搜索到与<span class='mapPromptStrong'>" + obj
+                                .getKeyword() + "</span>的相关的结果。<p>";
+                        if (meanprompt) {
+                            promptHtml += "<p class='mapPrompt'>您是否要找：<span class='mapPromptStrong'>" + meanprompt + "</span><p>";
+                        }
+                    } else if (promptType == 3) {
+                        promptHtml += "<p  class='mapPrompt' style='margin-bottom:3px;" +
+                        "'>有以下相关结果，您是否要找：</p>";
+                        for (i = 0; i < promptAdmins.length; i++) {
+                            promptHtml += "<p>" + promptAdmins[i].name + "</p>";
+                        }
+                    }
+
+                    if (promptHtml != "") {
+                        $("#mapPromptDiv").show();
+                        $("#mapPromptDiv").html(promptHtml);
+                    }
+                }
+            }
+        }
+
+        //清空地图及搜索列表
+        function mapClearAll() {
+            map.clearOverLays();
+            $("#mapKeyWord").val("");
+            $("#mapPaginationInfo").html("");
+
+            var $mapSearchDiv = $("#mapSearchDiv");
+            $mapSearchDiv.html("");
+            $mapSearchDiv.hide();
+
+            var $mapPromptDiv = $("#mapPromptDiv");
+            $mapPromptDiv.html("");
+            $mapPromptDiv.hide();
+        }
 
         //光标定位在搜索框上时，将提示文字去掉；当光标移开时，若为填写任何内容，则提示文字恢复
         function initMapSearchInput() {
@@ -25,7 +164,7 @@
                 }
             }).keyup(function (e) {//回车提交
                 if (e.which == 13) {
-                    alert("回车提交");
+                    $("#mapSearchBtn").click();
                 }
             });
         }
@@ -33,7 +172,7 @@
         //初始化地图
         function initMap() {
             var zoom = 12;
-            var map = new TMap("mapDiv");//初始化地图对象
+            map = new TMap("mapDiv");//初始化地图对象
             map.centerAndZoom(new TLngLat(116.40969, 39.89945), zoom);//设置显示地图的中心点和级别
             map.enableHandleMouseScroll();//允许鼠标滚轮缩放地图
 
@@ -78,6 +217,12 @@
             mapTypeControl.setLeft(10);
             mapTypeControl.setTop(20);
             map.addControl(mapTypeControl);
+
+            //创建搜索对象
+            mapLocalSearch = new TLocalSearch(map, {
+                pageCapacity: 10,//每页显示的记录数
+                onSearchComplete: mapLocalSearchResult//接收数据的回调函数
+            });
         }
 
     </script>
@@ -90,22 +235,52 @@
 <#--搜索面板-->
 <div class="mapSearch">
     <ul class="mapSearchKey">
-        <li>搜索内容：</li>
-        <li><input type="text" id="mapKeyWord" value="天安门"/></li>
-        <li><a class="button" href="javascript:;"><span>搜索</span></a></li>
+        <li class="mapPromptStrong">搜索内容：</li>
+        <li><input type="text" id="mapKeyWord" value="五一广场"/></li>
+        <li><a id="mapSearchBtn" class="button" href="javascript:;"><span>搜索</span></a></li>
     </ul>
+<#--提示词面板-->
+    <div id="mapPromptDiv" class="prompt"></div>
 
     <div id="mapResultDiv" class="mapResult">
         <div id="mapSearchDiv"></div>
-        <div id="pageDiv">
-            <input type="button" value="第一页" onClick="localsearch.firstPage()"/>
-            <input type="button" value="上一页" onClick="localsearch.previousPage()"/>
-            <input type="button" value="第一页" onClick="localsearch.nextPage()"/>
-            <input type="button" value="第一页" onClick="localsearch.lastPage()"/>
-            <br/>
-            转到第<input type="text" value="1" id="mapPageId" size="3"/>页
-            <input type="button" onClick="localsearch.gotoPage(parseInt($('#mapPageId').val()
-        );" value="转到"/>
+        <div class="mapPageDiv">
+            <div id="mapPaginationInfo" class="mapPaginationInfo"></div>
+            <ul class="mapPagination">
+                <li>
+                    <a id="mapFirstBtn" class="button" href="javascript:;
+                    "><span>首页</span></a>
+                </li>
+                <li>
+                    <a id="mapPreviousBtn" class="button" href="javascript:;
+                    "><span>《</span></a>
+                </li>
+                <li>
+                    <a id="mapNextBtn" class="button" href="javascript:;
+                    "><span>》</span></a>
+                </li>
+                <li>
+                    <a id="mapLastBtn" class="button" href="javascript:;
+                    "><span>末页</span></a>
+                </li>
+                <li>
+                    <input class="textInput mapJumpToInput" type="text" size="4" value="2">
+
+                </li>
+                <li>
+                    <a id="mapJumpToBtn" class="button" href="javascript:;
+                    "><span>跳转</span></a>
+                </li>
+            </ul>
+
+        <#--<input type="button" value="第一页" onClick="localsearch.firstPage()"/>-->
+        <#--<input type="button" value="上一页" onClick="localsearch.previousPage()"/>-->
+        <#--<input type="button" value="第一页" onClick="localsearch.nextPage()"/>-->
+        <#--<input type="button" value="第一页" onClick="localsearch.lastPage()"/>-->
+        <#--<br/>-->
+        <#--转到第<input type="text" value="1" id="mapPageId" size="3"/>页-->
+        <#--<input type="button" onClick="localsearch.gotoPage(parseInt($('#mapPageId').val()-->
+        <#--);" value="转到"/>-->
         </div>
     </div>
 </div>

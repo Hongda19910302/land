@@ -52,7 +52,9 @@
     <script src="${resourceRoot}/dwz/opentip/opentip-jquery.min.js"
             type="text/javascript"></script>
 
+
     <script src="http://api.tianditu.com/js/maps.js" type="text/javascript"></script>
+    <script src="http://api.tianditu.com/js/service.js" type="text/javascript"></script>
 
 
 

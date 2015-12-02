@@ -5,24 +5,52 @@
     height: 600px;
 }
 
+.mapPageDiv{
+    margin-bottom: 10px;
+}
+
+.mapPrompt {
+    padding: 5px 5px;
+}
+
+.mapPromptStrong{
+    font-weight: bold;
+    padding: 0 5px;
+}
+
+.mapPagination li{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.mapPaginationInfo{
+    padding: 10px 10px;
+}
+
+.mapJumpToInput{
+    width: 88px;
+}
+
 .mapSearch {
     position: absolute;
     right: 5px;
     top: 70px;
     z-index: 300;
     width: 350px;
+    border: 1px solid #999999;
+    filter: alpha(opacity=40);
+    background-color: rgb(244, 248, 248);
+    background-color: rgba(244, 248, 248, 0.8);
 }
 
 .mapSearchKey {
     font-size: 13px;
-    border: 1px solid #999999;
-    background-color: #f4f8f8;
     padding: 10px 10px;
 
 }
 
 #mapKeyWord {
-    width: 210px;
+    width: 200px;
     color: #999999;
     border: 1px solid #BABEBF;
 }
@@ -39,9 +67,17 @@
 .mapResult {
     display: none;
     font-size: 12px;
-    border: 1px solid #999999;
     line-height: 27px;
     padding-left: 7px;
+}
+
+.mapPagination{
+    padding: 0 10px;
+}
+
+.mapPagination .first span{
+    background-position: 0 -244px;
+    background: url(../default/images/grid/grid_land.png);
 }
 
 /*表格工具栏按钮样式*/
