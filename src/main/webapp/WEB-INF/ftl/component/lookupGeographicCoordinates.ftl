@@ -48,8 +48,10 @@
                 var $divMarker = $("<div></div>");
                 var zoomArr = [];//坐标数组，设置最佳比例尺时会用到
 
-                console.log("obj.length:"+obj.length);
+                console.log("obj.length:" + obj.length);
 
+                var $ul = $("<ul></ul>");
+                $ul.attr("class","mapSearchResultList");
                 for (var i = 0; i < obj.length; i++) {
                     var name = obj[i].name;//名称
                     var address = obj[i].address;//地址
@@ -67,13 +69,15 @@
                     zoomArr.push(lnglat);
 
                     //在页面上显示搜索的列表
+                    var $li = $("<li></li>");
                     var $a = $("<a></a>");
                     $a.attr("href", "javascript://");
                     $a.html(name);
                     $a.click(function () {
                         mapShowPosition(marker, name, winHtml);
                     });
-                    $divMarker.append((i + 1) + ".").append($a).append("<br>");
+                    $li.append($a);
+                    $ul.append($li);
                 }
 
                 map.setViewport(zoomArr);//显示地图的最佳级别
@@ -81,8 +85,7 @@
                 + "</span>条记录，分<span class='mapPromptStrong'>" + mapLocalSearch
                         .getCountPage() + "</span>页，当前第<span class='mapPromptStrong'>" + mapLocalSearch
                         .getPageIndex() + "</span>页");
-                console.log("$divMarker:" + $divMarker.html());
-                $("#mapPaginationInfo").append($divMarker);
+                $("#mapPaginationInfo").append($ul);
 
 
                 $("#mapSearchDiv").show();
@@ -217,7 +220,7 @@
         }
 
         //添加地图版本控件
-        function addMapCopyright(){
+        function addMapCopyright() {
             var copyrightControl = new TCopyrightControl();
             copyrightControl.setLeft(460);//设置版权位置
             copyrightControl.setBottom(20);

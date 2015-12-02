@@ -5,29 +5,52 @@
     height: 600px;
 }
 
-.mapPageDiv{
+.mapPageDiv {
     margin-bottom: 10px;
+}
+
+.mapSearchResultList {
+    list-style-type: none;
+}
+
+.mapSearchResultList li {
+    margin: 10px;
+    background: transparent url(../default/images/bullet.gif) no-repeat 0px 4px;
+    display: block;
+    padding: 5px 0px 5px 25px;
+    margin: 5px 0;
+}
+
+.mapSearchResultList li a {
+    color: #230;
+    display: block;
+    white-space: nowrap;
+}
+
+.mapSearchResultList li a:hover {
+    color: #672;
 }
 
 .mapPrompt {
     padding: 5px 5px;
 }
 
-.mapPromptStrong{
+.mapPromptStrong {
     font-weight: bold;
     padding: 0 5px;
 }
 
-.mapPagination li{
+.mapPagination li {
     display: inline-block;
     vertical-align: middle;
 }
 
-.mapPaginationInfo{
-    padding: 10px 10px;
+.mapPaginationInfo {
+    padding: 0 10px;
+    margin-left: 10px;
 }
 
-.mapJumpToInput{
+.mapJumpToInput {
     width: 88px;
 }
 
@@ -71,11 +94,11 @@
     padding-left: 7px;
 }
 
-.mapPagination{
+.mapPagination {
     padding: 0 10px;
 }
 
-.mapPagination .first span{
+.mapPagination .first span {
     background-position: 0 -244px;
     background: url(../default/images/grid/grid_land.png);
 }
