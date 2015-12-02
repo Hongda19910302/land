@@ -27,6 +27,15 @@
             var scale = new TScaleControl();//创建比例尺控件对象
             map.addControl(scale);
 
+            //添加鹰眼控件
+            var overviewMap=new TOverviewMapControl({
+                anchor:"TMAP_ANCHOR_BOTTOM_RIGHT",//设置鹰眼位置
+                size:new TSize(180,120),//鹰眼显示的大小
+                isOpen:true//是否打开
+            });
+            map.addControl(overviewMap);
+
+
         });
 
     </script>
