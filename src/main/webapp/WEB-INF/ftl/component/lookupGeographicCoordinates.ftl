@@ -28,12 +28,31 @@
             map.addControl(scale);
 
             //添加鹰眼控件
-            var overviewMap=new TOverviewMapControl({
-                anchor:"TMAP_ANCHOR_BOTTOM_RIGHT",//设置鹰眼位置
-                size:new TSize(180,120),//鹰眼显示的大小
-                isOpen:true//是否打开
+            var overviewMap = new TOverviewMapControl({
+                anchor: "TMAP_ANCHOR_BOTTOM_RIGHT",//设置鹰眼位置
+                size: new TSize(180, 120),//鹰眼显示的大小
+                isOpen: true//是否打开
             });
             map.addControl(overviewMap);
+
+            //添加地图版本控件
+//            var copyrightControl = new TCopyrightControl();
+//            copyrightControl.setLeft(10);//设置版权位置
+//            copyrightControl.setTop(10);
+//            var bs = map.getBounds();//返回地图可视区域
+//            copyrightControl.addCopyright({
+//                id: 1, content: "<div style='font-size:14;background: black;color:white;" +
+//                "padding:2px 2px;" +
+//                "'>移动巡查执法</div>", bounds: bs
+//            });//添加版本内容，也可在此添加事件
+//            map.addControl(copyrightControl);
+
+            //添加地图类型控件
+            var mapTypeControl=new TMapTypeControl();//创建地图类型控件对象
+            mapTypeControl.setLeft(10);
+            mapTypeControl.setTop(20);
+            map.addControl(mapTypeControl);
+
 
 
         });
