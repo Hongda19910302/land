@@ -21,7 +21,17 @@
 
 }
 
-.mapSearchKey li{
+#mapKeyWord {
+    width: 210px;
+    color: #999999;
+    border: 1px solid #BABEBF;
+}
+
+#mapKeyWord.focus {
+    border: 1px solid #00A5FF;
+}
+
+.mapSearchKey li {
     display: inline-block;
     vertical-align: middle;
 }

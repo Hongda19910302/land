@@ -7,6 +7,31 @@
     <script type="text/javascript">
 
         $(function () {
+            initMap();
+            initMapSearchInput();
+        });
+
+        //光标定位在搜索框上时，将提示文字去掉；当光标移开时，若为填写任何内容，则提示文字恢复
+        function initMapSearchInput() {
+            $("#mapKeyWord").focus(function () {
+                $(this).addClass("focus");
+                if ($(this).val() == this.defaultValue) {
+                    $(this).val("");
+                }
+            }).blur(function () {
+                $(this).removeClass("focus");
+                if ($(this).val() == '') {
+                    $(this).val(this.defaultValue);
+                }
+            }).keyup(function (e) {//回车提交
+                if (e.which == 13) {
+                    alert("回车提交");
+                }
+            });
+        }
+
+        //初始化地图
+        function initMap() {
             var zoom = 12;
             var map = new TMap("mapDiv");//初始化地图对象
             map.centerAndZoom(new TLngLat(116.40969, 39.89945), zoom);//设置显示地图的中心点和级别
@@ -53,9 +78,7 @@
             mapTypeControl.setLeft(10);
             mapTypeControl.setTop(20);
             map.addControl(mapTypeControl);
-
-
-        });
+        }
 
     </script>
 </head>
