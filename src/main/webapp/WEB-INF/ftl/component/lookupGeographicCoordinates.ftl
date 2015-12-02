@@ -21,7 +21,6 @@
 
         //本地搜索
         function mapLocalSearchResult(result) {
-            console.log(result);
             mapClearAll();
             mapPrompt(result);
 
@@ -39,6 +38,8 @@
                 case 5://解析公交信息
                     break;
             }
+
+            addMapCopyright();
         }
 
         //解析点数据结果
@@ -200,17 +201,7 @@
             map.addControl(overviewMap);
 
             //添加地图版本控件
-            var copyrightControl = new TCopyrightControl();
-            copyrightControl.setLeft(460);//设置版权位置
-            copyrightControl.setBottom(20);
-            var bs = map.getBounds();//返回地图可视区域
-            copyrightControl.addCopyright({
-                id: 1, content: "<div style='font-size:14px;" +
-                "background-color:#f4f8f8;" +
-                "padding:2px 2px; font-weight:bold" +
-                "'>移动巡查执法平台</div>", bounds: bs
-            });//添加版本内容，也可在此添加事件
-            map.addControl(copyrightControl);
+            addMapCopyright();
 
             //添加地图类型控件
             var mapTypeControl = new TMapTypeControl();//创建地图类型控件对象
@@ -223,6 +214,21 @@
                 pageCapacity: 10,//每页显示的记录数
                 onSearchComplete: mapLocalSearchResult//接收数据的回调函数
             });
+        }
+
+        //添加地图版本控件
+        function addMapCopyright(){
+            var copyrightControl = new TCopyrightControl();
+            copyrightControl.setLeft(460);//设置版权位置
+            copyrightControl.setBottom(20);
+            var bs = map.getBounds();//返回地图可视区域
+            copyrightControl.addCopyright({
+                id: 1, content: "<div style='font-size:14px;" +
+                "background-color:#f4f8f8;" +
+                "padding:2px 2px; font-weight:bold" +
+                "'>移动巡查执法平台</div>", bounds: bs
+            });//添加版本内容，也可在此添加事件
+            map.addControl(copyrightControl);
         }
 
     </script>
