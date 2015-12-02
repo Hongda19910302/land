@@ -1,3 +1,39 @@
+/*地图*/
+.mapDiv {
+    position: absolute;
+    width: 1024px;
+    height: 600px;
+}
+
+.mapSearch {
+    position: absolute;
+    right: 5px;
+    top: 70px;
+    z-index: 300;
+    width: 350px;
+}
+
+.mapSearchKey {
+    font-size: 13px;
+    border: 1px solid #999999;
+    background-color: #f4f8f8;
+    padding: 10px 10px;
+
+}
+
+.mapSearchKey li{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.mapResult {
+    display: none;
+    font-size: 12px;
+    border: 1px solid #999999;
+    line-height: 27px;
+    padding-left: 7px;
+}
+
 /*表格工具栏按钮样式*/
 .panelBar .toolBar a.detail span {
     background-position: 0 -896px;
@@ -14,12 +50,12 @@
     padding-right: 20px;
 }
 
-.lookupCompanyRegionBtnCompanyTag{
+.lookupCompanyRegionBtnCompanyTag {
     left: -26px;
 }
 
-.lookupCompanyRegionBtnRegionTag{
-    left:-6px;
+.lookupCompanyRegionBtnRegionTag {
+    left: -6px;
 }
 
 .lookupCompanyRegionBtnCompanyName {

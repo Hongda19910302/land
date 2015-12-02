@@ -48,11 +48,10 @@
 //            map.addControl(copyrightControl);
 
             //添加地图类型控件
-            var mapTypeControl=new TMapTypeControl();//创建地图类型控件对象
+            var mapTypeControl = new TMapTypeControl();//创建地图类型控件对象
             mapTypeControl.setLeft(10);
             mapTypeControl.setTop(20);
             map.addControl(mapTypeControl);
-
 
 
         });
@@ -61,6 +60,31 @@
 </head>
 <body>
 
-<div id="mapDiv" style="position: absolute;width: 785px;height: 565px;"></div>
+<#--地图-->
+<div id="mapDiv" class="mapDiv"></div>
+
+<#--搜索面板-->
+<div class="mapSearch">
+    <ul class="mapSearchKey">
+        <li>搜索内容：</li>
+        <li><input type="text" id="mapKeyWord" value="天安门"/></li>
+        <li><a class="button" href="javascript:;"><span>搜索</span></a></li>
+    </ul>
+
+    <div id="mapResultDiv" class="mapResult">
+        <div id="mapSearchDiv"></div>
+        <div id="pageDiv">
+            <input type="button" value="第一页" onClick="localsearch.firstPage()"/>
+            <input type="button" value="上一页" onClick="localsearch.previousPage()"/>
+            <input type="button" value="第一页" onClick="localsearch.nextPage()"/>
+            <input type="button" value="第一页" onClick="localsearch.lastPage()"/>
+            <br/>
+            转到第<input type="text" value="1" id="mapPageId" size="3"/>页
+            <input type="button" onClick="localsearch.gotoPage(parseInt($('#mapPageId').val()
+        );" value="转到"/>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
