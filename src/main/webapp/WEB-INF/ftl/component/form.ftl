@@ -63,7 +63,8 @@
                target="dialog"
             <#--rel:标识此弹出层ID-->
                rel="lookupGeographicCoordinates"
-               mask="true" minable="false" height="620" width="1024"
+               mask="true" minable="false" height="620" width="1024" resizable="false"
+               maxable="false"
             <#--标题-->
                title="查找地理坐标"></a>
         </div>
