@@ -140,6 +140,12 @@
     background-position: 0 -896px;
 }
 
+/*表单中的地理选择组件*/
+.formMap span {
+    float: left;
+    margin:3px 3px;
+}
+
 /*分页查询表单中的选择单位与区域组件按钮*/
 .lookupCompanyRegionBtn > a {
     position: relative;

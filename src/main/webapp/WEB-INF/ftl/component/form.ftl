@@ -55,14 +55,27 @@
                                 <#break>
 
                             <#case "MAP">
-                                <a class="btnLook"
-                                   href="/comp/lookupGeographicCoordinates"
-                                   target="dialog"
-                                   rel="lookupGeographicCoordinates"
-                                   mask="true" minable="false" height="620" width="1024"
-                                   resizable="false"
-                                   maxable="false"
-                                   title="查找地理坐标"></a>
+                                <div class="formMap">
+                                    <span>经度</span>
+                                    <input type="text" name="${item
+                                    .inputName}Longitude"
+                                                              class="${item.inputClass}"
+                                                              style="${item.inputCssStyle}"/>
+                                    <span>纬度</span>
+                                    <input type="text" name="${item
+                                    .inputName}Latitude"
+                                                              class="${item.inputClass}"
+                                                              style="${item.inputCssStyle}"/>
+                                    <a class="btnLook"
+                                           href="/comp/lookupGeographicCoordinates"
+                                           target="dialog"
+                                           rel="lookupGeographicCoordinates"
+                                           mask="true" minable="false" height="620"
+                                           width="1024"
+                                           resizable="false"
+                                           maxable="false"
+                                           title="查找地理坐标"></a>
+                                </div>
                                 <#break>
                         </#switch>
                     </dd>
