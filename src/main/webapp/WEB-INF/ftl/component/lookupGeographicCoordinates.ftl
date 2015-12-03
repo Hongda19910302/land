@@ -42,6 +42,8 @@
 
             //绑定页码输入后回车跳转到相应的页
             $("#mapJumpToInput").keyup(function (e) {//回车提交
+                var text=$(this).val();
+                $(this).val(text.replace(/\D|^0/g,''));//限制只能输入数字
                 if (e.which == 13) {
                     $("#mapJumpToBtn").click();
                 }
