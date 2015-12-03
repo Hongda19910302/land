@@ -10,7 +10,7 @@
         var mapLocalSearch;
         var zoom = 12;//缩放级别
         var mapSearchResults = [];//查询结果集
-        var mapSearchResultIdPrefix="address_";//查询结果对象的ID前缀
+        var mapSearchResultIdPrefix = "address_";//查询结果对象的ID前缀
 
         $(function () {
             initMap();
@@ -93,13 +93,30 @@
 
                 //添加分页数据
                 var $pageLi = $("<li></li>");
+                var currentPageNo = mapLocalSearch.getPageIndex();//当前页号
+                var totalPageCount = mapLocalSearch.getCountPage();//总页数
                 $pageLi.append("共<span class='mapPromptStrong'>" + mapLocalSearch.getCountNumber()
-                + "</span>条记录，分<span class='mapPromptStrong'>" + mapLocalSearch
-                        .getCountPage() + "</span>页，当前第<span class='mapPromptStrong'>" + mapLocalSearch
-                        .getPageIndex() + "</span>页");
+                + "</span>条记录，分<span class='mapPromptStrong'>" + totalPageCount + "</span>页，当前第<span class='mapPromptStrong'>" + currentPageNo + "</span>页");
                 $ul.append($pageLi);
 
                 $("#mapPaginationInfo").append($ul);
+
+                //如果是在第一页，则上一页按钮不可用；如果是在最后一页，则下一页按钮不可用
+                if (currentPageNo == 1) {//上一页按钮不可用
+                    $("#mapPreviousBtn").removeClass("button");
+                    $("#mapPreviousBtn").addClass("buttonDisabled");
+                } else {
+                    $("#mapPreviousBtn").removeClass("buttonDisabled");
+                    $("#mapPreviousBtn").addClass("button");
+                }
+                if(currentPageNo==totalPageCount){//下一页按钮不可用
+                    $("#mapNextBtn").removeClass("button");
+                    $("#mapNextBtn").addClass("buttonDisabled");
+                }else{
+                    $("#mapNextBtn").removeClass("buttonDisabled");
+                    $("#mapNextBtn").addClass("button");
+                }
+
                 $("#mapSearchDiv").show();
                 $("#mapResultDiv").show();
 
@@ -107,9 +124,9 @@
 //                console.log("mapSearchResults:"+mapSearchResults);
                 for (var i = 0; i < mapSearchResults.length; i++) {
                     $("#" + mapSearchResults[i].id).on("click", function () {
-                        var index= $(this).attr("id").replace
-                        (mapSearchResultIdPrefix,"");
-                        var r=mapSearchResults[index];
+                        var index = $(this).attr("id").replace
+                        (mapSearchResultIdPrefix, "");
+                        var r = mapSearchResults[index];
                         mapShowPosition(r.marker, r.name, r.winHtml);
                         map.centerAndZoom(r.lnglat, zoom);//设置显示地图的中心点和级别
                     });
