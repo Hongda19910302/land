@@ -9,6 +9,8 @@
         var map;
         var mapLocalSearch;
         var zoom = 12;//缩放级别
+        var mapSearchResults = [];//查询结果集
+        var mapSearchResultIdPrefix="address_";//查询结果对象的ID前缀
 
         $(function () {
             initMap();
@@ -46,21 +48,18 @@
         //解析点数据结果
         function mapPois(obj) {
             if (obj) {//显示搜索列表
-                var $divMarker = $("<div></div>");
                 var zoomArr = [];//坐标数组，设置最佳比例尺时会用到
-
-                console.log("obj.length:" + obj.length);
 
                 var $ul = $("<ul></ul>");
                 $ul.attr("class", "mapSearchResultList");
                 for (var i = 0; i < obj.length; i++) {
                     var name = obj[i].name;//名称
+
                     var address = obj[i].address;//地址
                     var lnglatArr = obj[i].lonlat.split(" ");//坐标
                     var lnglat = new TLngLat(lnglatArr[0], lnglatArr[1]);
 
                     var winHtml = "地址：" + address;
-
                     var marker = new TMarker(lnglat);//创建标注对象
                     map.addOverLay(marker);//在地图上添加标注点
                     TEvent.bind(marker, "click", marker, function () {//注册标注点的点击事件
@@ -72,26 +71,49 @@
                     //在页面上显示搜索的列表
                     var $li = $("<li></li>");
                     var $a = $("<a></a>");
+                    var id = mapSearchResultIdPrefix + i;
+                    $a.attr("id", id);
                     $a.attr("href", "javascript://");
                     $a.html(name);
-                    $a.click(function () {
-                        mapShowPosition(marker, name, winHtml);
-                        map.centerAndZoom(lnglat, zoom);//设置显示地图的中心点和级别
-                    });
                     $li.append($a);
                     $ul.append($li);
+
+                    //保存结果集
+                    var result = {
+                        id: id,
+                        name: name,
+                        marker: marker,
+                        winHtml: winHtml,
+                        lnglat: lnglat
+                    }
+                    mapSearchResults.push(result);
                 }
 
                 map.setViewport(zoomArr);//显示地图的最佳级别
-                $divMarker.append("共<span class='mapPromptStrong'>" + mapLocalSearch.getCountNumber()
+
+                //添加分页数据
+                var $pageLi = $("<li></li>");
+                $pageLi.append("共<span class='mapPromptStrong'>" + mapLocalSearch.getCountNumber()
                 + "</span>条记录，分<span class='mapPromptStrong'>" + mapLocalSearch
                         .getCountPage() + "</span>页，当前第<span class='mapPromptStrong'>" + mapLocalSearch
                         .getPageIndex() + "</span>页");
+                $ul.append($pageLi);
+
                 $("#mapPaginationInfo").append($ul);
-
-
                 $("#mapSearchDiv").show();
                 $("#mapResultDiv").show();
+
+                //绑定查询结果详情显示事件
+//                console.log("mapSearchResults:"+mapSearchResults);
+                for (var i = 0; i < mapSearchResults.length; i++) {
+                    $("#" + mapSearchResults[i].id).on("click", function () {
+                        var index= $(this).attr("id").replace
+                        (mapSearchResultIdPrefix,"");
+                        var r=mapSearchResults[index];
+                        mapShowPosition(r.marker, r.name, r.winHtml);
+                        map.centerAndZoom(r.lnglat, zoom);//设置显示地图的中心点和级别
+                    });
+                }
             }
         }
 
@@ -154,6 +176,8 @@
             var $mapPromptDiv = $("#mapPromptDiv");
             $mapPromptDiv.html("");
             $mapPromptDiv.hide();
+
+            mapSearchResults = [];
         }
 
         //光标定位在搜索框上时，将提示文字去掉；当光标移开时，若为填写任何内容，则提示文字恢复
