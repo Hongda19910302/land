@@ -171,6 +171,12 @@
                         var r = mapSearchResults[index];
                         mapShowPosition(r.marker, r.name, r.winHtml);
                         map.centerAndZoom(r.lnglat, zoom);//设置显示地图的中心点和级别
+
+                        //点击某个查询结果时，将这个结果的经纬度坐标写入经纬度框
+                        $("#latitudeInput").val(r.lnglat.getLat());
+                        $("#longitudeInput").val(r.lnglat.getLng());
+
+                        addMapCopyright();
                     });
                 }
             }
