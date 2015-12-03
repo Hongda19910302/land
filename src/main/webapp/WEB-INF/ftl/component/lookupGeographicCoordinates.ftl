@@ -37,13 +37,21 @@
             });
             $("#mapJumpToBtn").click(function () {
                 var gotoPageNo = parseInt($('#mapJumpToInput').val());
+
+                //当输入的页号超出正常页号范围时，自动修正为边界值
+                if (gotoPageNo < 1) {
+                    gotoPageNo = 1;
+                } else if (gotoPageNo > mapLocalSearch.getCountPage()) {
+                    gotoPageNo = mapLocalSearch.getCountPage();
+                }
                 mapLocalSearch.gotoPage(gotoPageNo);
+                $('#mapJumpToInput').val(gotoPageNo);
             });
 
             //绑定页码输入后回车跳转到相应的页
             $("#mapJumpToInput").keyup(function (e) {//回车提交
-                var text=$(this).val();
-                $(this).val(text.replace(/\D|^0/g,''));//限制只能输入数字
+                var text = $(this).val();
+                $(this).val(text.replace(/\D|^0/g, ''));//限制只能输入数字
                 if (e.which == 13) {
                     $("#mapJumpToBtn").click();
                 }
