@@ -20,6 +20,25 @@
             $("#mapSearchBtn").click(function () {
                 mapLocalSearch.search($("#mapKeyWord").val());
             });
+
+            //绑定分页条（首页、上一页、下一页、末页、跳转）事件
+            $("#mapFirstBtn").click(function () {
+                mapLocalSearch.firstPage();
+            });
+            $("#mapPreviousBtn").click(function () {
+                console.log("getPageIndex：" + mapLocalSearch.getPageIndex());
+                mapLocalSearch.previousPage();
+            });
+            $("#mapNextBtn").click(function () {
+                mapLocalSearch.nextPage();
+            });
+            $("#mapLastBtn").click(function () {
+                mapLocalSearch.lastPage();
+            });
+            $("#mapJumpToBtn").click(function () {
+                var gotoPageNo = parseInt($('#mapJumpToInput').val());
+                mapLocalSearch.gotoPage(gotoPageNo);
+            });
         });
 
         //本地搜索
@@ -109,10 +128,10 @@
                     $("#mapPreviousBtn").removeClass("buttonDisabled");
                     $("#mapPreviousBtn").addClass("button");
                 }
-                if(currentPageNo==totalPageCount){//下一页按钮不可用
+                if (currentPageNo == totalPageCount) {//下一页按钮不可用
                     $("#mapNextBtn").removeClass("button");
                     $("#mapNextBtn").addClass("buttonDisabled");
-                }else{
+                } else {
                     $("#mapNextBtn").removeClass("buttonDisabled");
                     $("#mapNextBtn").addClass("button");
                 }
@@ -183,7 +202,6 @@
         //清空地图及搜索列表
         function mapClearAll() {
             map.clearOverLays();
-            $("#mapKeyWord").val("");
             $("#mapPaginationInfo").html("");
 
             var $mapSearchDiv = $("#mapSearchDiv");
@@ -303,19 +321,20 @@
                     "><span>首页</span></a>
                 </li>
                 <li>
-                    <a id="mapPreviousBtn" class="button" href="javascript:;
-                    "><span>《</span></a>
+                    <a id="mapPreviousBtn" class="button"><span>《</span></a>
                 </li>
                 <li>
                     <a id="mapNextBtn" class="button" href="javascript:;
                     "><span>》</span></a>
                 </li>
                 <li>
-                    <a id="mapLastBtn" class="button" href="javascript:;
+                    <a id="mapLastBtn" class="button"
                     "><span>末页</span></a>
                 </li>
                 <li>
-                    <input class="textInput mapJumpToInput" type="text" size="4" value="2">
+                    <input id="mapJumpToInput" class="textInput mapJumpToInput" type="text"
+                           size="4"
+                           value="2">
 
                 </li>
                 <li>
@@ -323,15 +342,6 @@
                     "><span>跳转</span></a>
                 </li>
             </ul>
-
-        <#--<input type="button" value="第一页" onClick="localsearch.firstPage()"/>-->
-        <#--<input type="button" value="上一页" onClick="localsearch.previousPage()"/>-->
-        <#--<input type="button" value="第一页" onClick="localsearch.nextPage()"/>-->
-        <#--<input type="button" value="第一页" onClick="localsearch.lastPage()"/>-->
-        <#--<br/>-->
-        <#--转到第<input type="text" value="1" id="mapPageId" size="3"/>页-->
-        <#--<input type="button" onClick="localsearch.gotoPage(parseInt($('#mapPageId').val()-->
-        <#--);" value="转到"/>-->
         </div>
     </div>
 </div>
