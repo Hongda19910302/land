@@ -143,7 +143,7 @@
 /*表单中的地理选择组件*/
 .formMap span {
     float: left;
-    margin:3px 3px;
+    margin:3px 6px;
 }
 
 /*分页查询表单中的选择单位与区域组件按钮*/
