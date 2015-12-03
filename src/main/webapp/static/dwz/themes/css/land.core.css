@@ -20,6 +20,11 @@
     padding: 5px 0px 5px 25px;
     margin: 5px 0;
 }
+/*分页信息，独立设置样式*/
+.mapSearchResultList li:last-child {
+    background: inherit;
+    padding: 5px 0;
+}
 
 .mapSearchResultList li a {
     color: #230;
