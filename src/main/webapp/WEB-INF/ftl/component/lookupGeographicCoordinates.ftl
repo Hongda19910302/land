@@ -11,8 +11,8 @@
         var zoom = 12;//缩放级别
         var mapSearchResults = [];//查询结果集
         var mapSearchResultIdPrefix = "address_";//查询结果对象的ID前缀
-        var defaultLongitude = 116.40969;//默认经度
-        var defalutLatitude = 39.89945;//默认纬度
+        var defaultLongitude = 119.30324;//默认经度（五一广场）
+        var defalutLatitude = 26.07852;//默认纬度
 
         $(function () {
             initMap();
@@ -362,7 +362,7 @@
 <div class="mapSearch">
     <ul class="mapSearchKey">
         <li class="mapPromptStrong">搜索内容：</li>
-        <li><input type="text" id="mapKeyWord" value="五一广场"/></li>
+        <li><input type="text" id="mapKeyWord" value="万宝"/></li>
         <li><a id="mapSearchBtn" class="button" href="javascript:;"><span>搜索</span></a></li>
     </ul>
 <#--提示词面板-->
