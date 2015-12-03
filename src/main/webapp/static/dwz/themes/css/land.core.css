@@ -78,13 +78,13 @@
 
 }
 
-#mapKeyWord {
+.mapKeyWord {
     width: 200px;
     color: #999999;
     border: 1px solid #BABEBF;
 }
 
-#mapKeyWord.focus {
+.mapKeyWord.focus {
     border: 1px solid #00A5FF;
 }
 

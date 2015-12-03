@@ -12,6 +12,7 @@ import net.deniro.land.module.system.service.CompanyService;
 import net.deniro.land.module.system.service.DepartmentService;
 import net.deniro.land.module.system.service.RegionService;
 import net.deniro.land.module.system.service.UserService;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,8 @@ public class CompController {
      * @return
      */
     @RequestMapping(value = "/lookupGeographicCoordinates")
-    public String lookupGeographicCoordinates() {
+    public String lookupGeographicCoordinates(ModelMap mm) {
+        mm.addAttribute("id", RandomUtils.nextInt(1, 100));//加入ID，避免同一组件冲突
         return "/component/lookupGeographicCoordinates";
     }
 

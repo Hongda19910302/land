@@ -1,5 +1,3 @@
-<#assign id=23/>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
         "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -8,62 +6,62 @@
     <title>查找地理坐标</title>
     <script type="text/javascript">
 
-        var map${id};
-        var mapLocalSearch${id};
-        var zoom${id} = 12;//缩放级别
-        var mapSearchResults${id} = [];//查询结果集
-        var mapSearchResultIdPrefix${id} = "address_";//查询结果对象的ID前缀
-        var defaultLongitude${id} = 119.30324;//默认经度（五一广场）
-        var defalutLatitude${id} = 26.07852;//默认纬度
+        var map;
+        var mapLocalSearch;
+        var zoom = 12;//缩放级别
+        var mapSearchResults = [];//查询结果集
+        var mapSearchResultIdPrefix = "address_";//查询结果对象的ID前缀
+        var defaultLongitude = 119.30324;//默认经度（五一广场）
+        var defalutLatitude = 26.07852;//默认纬度
 
         $(function () {
             initMap();
             initMapSearchInput();
 
             //绑定搜索功能
-            $("#mapSearchBtn${id}").click(function () {
-                mapLocalSearch${id}.search($("#mapKeyWord${id}").val());
+            $("#mapSearchBtn").click(function () {
+                mapLocalSearch.search($("#mapKeyWord").val());
             });
 
             //绑定分页条（首页、上一页、下一页、末页、跳转）事件
-            $("#mapFirstBtn${id}").click(function () {
-                mapLocalSearch${id}.firstPage();
+            $("#mapFirstBtn").click(function () {
+                mapLocalSearch.firstPage();
             });
-            $("#mapPreviousBtn${id}").click(function () {
-                console.log("getPageIndex：" + mapLocalSearch${id}.getPageIndex());
-                mapLocalSearch${id}.previousPage();
+            $("#mapPreviousBtn").click(function () {
+                console.log("getPageIndex：" + mapLocalSearch.getPageIndex());
+                mapLocalSearch.previousPage();
             });
-            $("#mapNextBtn${id}").click(function () {
-                mapLocalSearch${id}.nextPage();
+            $("#mapNextBtn").click(function () {
+                mapLocalSearch.nextPage();
             });
-            $("#mapLastBtn${id}").click(function () {
-                mapLocalSearch${id}.lastPage();
+            $("#mapLastBtn").click(function () {
+                mapLocalSearch.lastPage();
             });
-            $("#mapJumpToBtn${id}").click(function () {
-                var gotoPageNo = parseInt($('#mapJumpToInput${id}').val());
+            $("#mapJumpToBtn").click(function () {
+                var gotoPageNo = parseInt($('#mapJumpToInput').val());
 
                 //当输入的页号超出正常页号范围时，自动修正为边界值
                 if (gotoPageNo < 1) {
                     gotoPageNo = 1;
-                } else if (gotoPageNo > mapLocalSearch${id}.getCountPage()) {
-                    gotoPageNo = mapLocalSearch${id}.getCountPage();
+                } else if (gotoPageNo > mapLocalSearch.getCountPage()) {
+                    gotoPageNo = mapLocalSearch.getCountPage();
                 }
-                mapLocalSearch${id}.gotoPage(gotoPageNo);
-                $('#mapJumpToInput${id}').val(gotoPageNo);
+                mapLocalSearch.gotoPage(gotoPageNo);
+                $('#mapJumpToInput').val(gotoPageNo);
             });
 
             //绑定页码输入后回车跳转到相应的页
-            $("#mapJumpToInput${id}").keyup(function (e) {//回车提交
+            $("#mapJumpToInput").keyup(function (e) {//回车提交
                 var text = $(this).val();
                 $(this).val(text.replace(/\D|^0/g, ''));//限制只能输入数字
                 if (e.which == 13) {
-                    $("#mapJumpToBtn${id}").click();
+                    $("#mapJumpToBtn").click();
                 }
             });
 
             //初始化经纬度坐标，使用当前默认值
-            $("#longitudeInput${id}").val(defaultLongitude${id});
-            $("#latitudeInput${id}").val(defalutLatitude${id});
+            $("#longitudeInput").val(defaultLongitude);
+            $("#latitudeInput").val(defalutLatitude);
         });
 
         //本地搜索
@@ -105,7 +103,7 @@
 
                     var winHtml = "地址：" + address;
                     var marker = new TMarker(lnglat);//创建标注对象
-                    map${id}.addOverLay(marker);//在地图上添加标注点
+                    map.addOverLay(marker);//在地图上添加标注点
                     TEvent.bind(marker, "click", marker, function () {//注册标注点的点击事件
                         var info = this.openInfoWinHtml(winHtml);
                         info.setTitle(name);
@@ -115,7 +113,7 @@
                     //在页面上显示搜索的列表
                     var $li = $("<li></li>");
                     var $a = $("<a></a>");
-                    var id = mapSearchResultIdPrefix${id} + i;
+                    var id = mapSearchResultIdPrefix + i;
                     $a.attr("id", id);
                     $a.attr("href", "javascript://");
                     $a.html(name);
@@ -130,53 +128,53 @@
                         winHtml: winHtml,
                         lnglat: lnglat
                     }
-                    mapSearchResults${id}.push(result);
+                    mapSearchResults.push(result);
                 }
 
-                map${id}.setViewport(zoomArr);//显示地图的最佳级别
+                map.setViewport(zoomArr);//显示地图的最佳级别
 
                 //添加分页数据
                 var $pageLi = $("<li></li>");
-                var currentPageNo = mapLocalSearch${id}.getPageIndex();//当前页号
-                var totalPageCount = mapLocalSearch${id}.getCountPage();//总页数
-                $pageLi.append("共<span class='mapPromptStrong'>" + mapLocalSearch${id}.getCountNumber()
+                var currentPageNo = mapLocalSearch.getPageIndex();//当前页号
+                var totalPageCount = mapLocalSearch.getCountPage();//总页数
+                $pageLi.append("共<span class='mapPromptStrong'>" + mapLocalSearch.getCountNumber()
                 + "</span>条记录，分<span class='mapPromptStrong'>" + totalPageCount + "</span>页，当前第<span class='mapPromptStrong'>" + currentPageNo + "</span>页");
                 $ul.append($pageLi);
 
-                $("#mapPaginationInfo${id}").append($ul);
+                $("#mapPaginationInfo").append($ul);
 
                 //如果是在第一页，则上一页按钮不可用；如果是在最后一页，则下一页按钮不可用
                 if (currentPageNo == 1) {//上一页按钮不可用
-                    $("#mapPreviousBtn${id}").removeClass("button");
-                    $("#mapPreviousBtn${id}").addClass("buttonDisabled");
+                    $("#mapPreviousBtn").removeClass("button");
+                    $("#mapPreviousBtn").addClass("buttonDisabled");
                 } else {
-                    $("#mapPreviousBtn${id}").removeClass("buttonDisabled");
-                    $("#mapPreviousBtn${id}").addClass("button");
+                    $("#mapPreviousBtn").removeClass("buttonDisabled");
+                    $("#mapPreviousBtn").addClass("button");
                 }
                 if (currentPageNo == totalPageCount) {//下一页按钮不可用
-                    $("#mapNextBtn${id}").removeClass("button");
-                    $("#mapNextBtn${id}").addClass("buttonDisabled");
+                    $("#mapNextBtn").removeClass("button");
+                    $("#mapNextBtn").addClass("buttonDisabled");
                 } else {
-                    $("#mapNextBtn${id}").removeClass("buttonDisabled");
-                    $("#mapNextBtn${id}").addClass("button");
+                    $("#mapNextBtn").removeClass("buttonDisabled");
+                    $("#mapNextBtn").addClass("button");
                 }
 
-                $("#mapSearchDiv${id}").show();
-                $("#mapResultDiv${id}").show();
+                $("#mapSearchDiv").show();
+                $("#mapResultDiv").show();
 
                 //绑定查询结果详情显示事件
-//                console.log("mapSearchResults${id}:"+mapSearchResults${id});
-                for (var i = 0; i < mapSearchResults${id}.length; i++) {
-                    $("#" + mapSearchResults${id}[i].id).on("click", function () {
+//                console.log("mapSearchResults:"+mapSearchResults);
+                for (var i = 0; i < mapSearchResults.length; i++) {
+                    $("#" + mapSearchResults[i].id).on("click", function () {
                         var index = $(this).attr("id").replace
-                        (mapSearchResultIdPrefix${id}, "");
-                        var r = mapSearchResults${id}[index];
+                        (mapSearchResultIdPrefix, "");
+                        var r = mapSearchResults[index];
                         mapShowPosition(r.marker, r.name, r.winHtml);
-                        map${id}.centerAndZoom(r.lnglat, zoom${id});//设置显示地图的中心点和级别
+                        map.centerAndZoom(r.lnglat, zoom);//设置显示地图的中心点和级别
 
                         //点击某个查询结果时，将这个结果的经纬度坐标写入经纬度框
-                        $("#latitudeInput${id}").val(r.lnglat.getLat());
-                        $("#longitudeInput${id}").val(r.lnglat.getLng());
+                        $("#latitudeInput").val(r.lnglat.getLat());
+                        $("#longitudeInput").val(r.lnglat.getLng());
 
                         addMapCopyright();
                     });
@@ -223,8 +221,8 @@
                     }
 
                     if (promptHtml != "") {
-                        $("#mapPromptDiv${id}").show();
-                        $("#mapPromptDiv${id}").html(promptHtml);
+                        $("#mapPromptDiv").show();
+                        $("#mapPromptDiv").html(promptHtml);
                     }
                 }
             }
@@ -232,23 +230,23 @@
 
         //清空地图及搜索列表
         function mapClearAll() {
-            map${id}.clearOverLays();
-            $("#mapPaginationInfo${id}").html("");
+            map.clearOverLays();
+            $("#mapPaginationInfo").html("");
 
-            var $mapSearchDiv = $("#mapSearchDiv${id}");
+            var $mapSearchDiv = $("#mapSearchDiv");
             $mapSearchDiv.html("");
             $mapSearchDiv.hide();
 
-            var $mapPromptDiv = $("#mapPromptDiv${id}");
+            var $mapPromptDiv = $("#mapPromptDiv");
             $mapPromptDiv.html("");
             $mapPromptDiv.hide();
 
-            mapSearchResults${id} = [];
+            mapSearchResults = [];
         }
 
         //光标定位在搜索框上时，将提示文字去掉；当光标移开时，若为填写任何内容，则提示文字恢复
         function initMapSearchInput() {
-            $("#mapKeyWord${id}").focus(function () {
+            $("#mapKeyWord").focus(function () {
                 $(this).addClass("focus");
                 if ($(this).val() == this.defaultValue) {
                     $(this).val("");
@@ -260,18 +258,17 @@
                 }
             }).keyup(function (e) {//回车提交
                 if (e.which == 13) {
-                    $("#mapSearchBtn${id}").click();
+                    $("#mapSearchBtn").click();
                 }
             });
         }
 
         //初始化地图
         function initMap() {
-            console.log("id:"+${id});
-            map${id} = new TMap("mapDiv${id}");//初始化地图对象
-            map${id}.centerAndZoom(new TLngLat(defaultLongitude${id}, defalutLatitude${id}), zoom${id});
+            map = new TMap("mapDiv");//初始化地图对象
+            map.centerAndZoom(new TLngLat(defaultLongitude, defalutLatitude), zoom);
             //设置显示地图的中心点和级别
-            map${id}.enableHandleMouseScroll();//允许鼠标滚轮缩放地图
+            map.enableHandleMouseScroll();//允许鼠标滚轮缩放地图
 
             /**
              * 添加缩放平移控件
@@ -282,11 +279,11 @@
                 offset: [0, 0],//缩放平移控件的偏移量
                 showZoomInfo: true//是否显示级别提示信息
             });
-            map${id}.addControl(control);
+            map.addControl(control);
 
             //添加比例尺
             var scale = new TScaleControl();//创建比例尺控件对象
-            map${id}.addControl(scale);
+            map.addControl(scale);
 
             //添加鹰眼控件
             var overviewMap = new TOverviewMapControl({
@@ -294,7 +291,7 @@
                 size: new TSize(180, 120),//鹰眼显示的大小
                 isOpen: true//是否打开
             });
-            map${id}.addControl(overviewMap);
+            map.addControl(overviewMap);
 
             //添加地图版本控件
             addMapCopyright();
@@ -303,20 +300,20 @@
             var mapTypeControl = new TMapTypeControl();//创建地图类型控件对象
             mapTypeControl.setLeft(10);
             mapTypeControl.setTop(20);
-            map${id}.addControl(mapTypeControl);
+            map.addControl(mapTypeControl);
 
             //创建搜索对象
-            mapLocalSearch${id} = new TLocalSearch(map${id}, {
+            mapLocalSearch = new TLocalSearch(map, {
                 pageCapacity: 10,//每页显示的记录数
                 onSearchComplete: mapLocalSearchResult//接收数据的回调函数
             });
 
             //创建地图拾取器
-            var pickup = new TCoordinatePickup(map${id}, {
+            var pickup = new TCoordinatePickup(map, {
                 callback: function (lnglat) {//将选择的坐标写入经纬度坐标框
                     //console.log("lnglat:"+lnglat);
-                    $("#latitudeInput${id}").val(lnglat.getLat());
-                    $("#longitudeInput${id}").val(lnglat.getLng());
+                    $("#latitudeInput").val(lnglat.getLat());
+                    $("#longitudeInput").val(lnglat.getLng());
                 }
             });
             pickup.addEvent();
@@ -327,14 +324,14 @@
             var copyrightControl = new TCopyrightControl();
             copyrightControl.setLeft(460);//设置版权位置
             copyrightControl.setBottom(20);
-            var bs = map${id}.getBounds();//返回地图可视区域
+            var bs = map.getBounds();//返回地图可视区域
             copyrightControl.addCopyright({
                 id: 1, content: "<div style='font-size:14px;" +
                 "background-color:#f4f8f8;" +
                 "padding:2px 2px; font-weight:bold" +
                 "'>移动巡查执法平台</div>", bounds: bs
             });//添加版本内容，也可在此添加事件
-            map${id}.addControl(copyrightControl);
+            map.addControl(copyrightControl);
         }
 
     </script>
@@ -342,20 +339,20 @@
 <body>
 
 <#--地图-->
-<div id="mapDiv${id}" class="mapDiv"></div>
+<div id="mapDiv" class="mapDiv"></div>
 
 <#--选定的经纬度坐标-->
 <div class="mapCoordinate">
     <ul>
         <li><span class='mapPromptStrong'>经度：</span><input class="textInput" type="text"
-                                                           id="longitudeInput${id}"
+                                                           id="longitudeInput"
                                                            readonly="true">
         </li>
         <li><span class='mapPromptStrong'>纬度：</span><input class="textInput" type="text"
-                                                           id="latitudeInput${id}"
+                                                           id="latitudeInput"
                                                            readonly="true">
         </li>
-        <li><a id="mapCoordinateBtn${id}" class="button" href="javascript:;"><span>选定</span></a>
+        <li><a id="mapCoordinateBtn" class="button" href="javascript:;"><span>选定</span></a>
         </li>
     </ul>
 
@@ -365,40 +362,40 @@
 <div class="mapSearch">
     <ul class="mapSearchKey">
         <li class="mapPromptStrong">搜索内容：</li>
-        <li><input type="text" id="mapKeyWord${id}" class="mapKeyWord" value="万宝"/></li>
-        <li><a id="mapSearchBtn${id}" class="button" href="javascript:;"><span>搜索</span></a></li>
+        <li><input type="text" id="mapKeyWord" value="万宝"/></li>
+        <li><a id="mapSearchBtn" class="button" href="javascript:;"><span>搜索</span></a></li>
     </ul>
 <#--提示词面板-->
-    <div id="mapPromptDiv${id}" class="prompt"></div>
+    <div id="mapPromptDiv" class="prompt"></div>
 
-    <div id="mapResultDiv${id}" class="mapResult">
-        <div id="mapSearchDiv${id}"></div>
+    <div id="mapResultDiv" class="mapResult">
+        <div id="mapSearchDiv"></div>
         <div class="mapPageDiv">
-            <div id="mapPaginationInfo${id}" class="mapPaginationInfo"></div>
+            <div id="mapPaginationInfo" class="mapPaginationInfo"></div>
             <ul class="mapPagination">
                 <li>
-                    <a id="mapFirstBtn${id}" class="button" href="javascript:;
+                    <a id="mapFirstBtn" class="button" href="javascript:;
                     "><span>首页</span></a>
                 </li>
                 <li>
-                    <a id="mapPreviousBtn${id}" class="button"><span>《</span></a>
+                    <a id="mapPreviousBtn" class="button"><span>《</span></a>
                 </li>
                 <li>
-                    <a id="mapNextBtn${id}" class="button" href="javascript:;
+                    <a id="mapNextBtn" class="button" href="javascript:;
                     "><span>》</span></a>
                 </li>
                 <li>
-                    <a id="mapLastBtn${id}" class="button"
+                    <a id="mapLastBtn" class="button"
                     "><span>末页</span></a>
                 </li>
                 <li>
-                    <input id="mapJumpToInput${id}" class="textInput mapJumpToInput" type="text"
+                    <input id="mapJumpToInput" class="textInput mapJumpToInput" type="text"
                            size="4"
                            value="2">
 
                 </li>
                 <li>
-                    <a id="mapJumpToBtn${id}" class="button" href="javascript:;
+                    <a id="mapJumpToBtn" class="button" href="javascript:;
                     "><span>跳转</span></a>
                 </li>
             </ul>

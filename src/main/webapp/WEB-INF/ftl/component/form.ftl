@@ -53,20 +53,23 @@
                                        title="选择区域"></a>
                                 </div>
                                 <#break>
+
+                            <#case "MAP">
+                                <a class="btnLook"
+                                   href="/comp/lookupGeographicCoordinates"
+                                   target="dialog"
+                                   rel="lookupGeographicCoordinates"
+                                   mask="true" minable="false" height="620" width="1024"
+                                   resizable="false"
+                                   maxable="false"
+                                   title="查找地理坐标"></a>
+                                <#break>
                         </#switch>
                     </dd>
                 </dl>
             </#list>
 
-            <a class="btnLook"
-               href="/comp/lookupGeographicCoordinates?componentId=${componentId}"
-               target="dialog"
-            <#--rel:标识此弹出层ID-->
-               rel="lookupGeographicCoordinates"
-               mask="true" minable="false" height="620" width="1024" resizable="false"
-               maxable="false"
-            <#--标题-->
-               title="查找地理坐标"></a>
+
         </div>
 
     <#--按钮栏-->
