@@ -8,6 +8,7 @@
 
         var map;
         var mapLocalSearch;
+        var zoom = 12;//缩放级别
 
         $(function () {
             initMap();
@@ -51,7 +52,7 @@
                 console.log("obj.length:" + obj.length);
 
                 var $ul = $("<ul></ul>");
-                $ul.attr("class","mapSearchResultList");
+                $ul.attr("class", "mapSearchResultList");
                 for (var i = 0; i < obj.length; i++) {
                     var name = obj[i].name;//名称
                     var address = obj[i].address;//地址
@@ -75,6 +76,7 @@
                     $a.html(name);
                     $a.click(function () {
                         mapShowPosition(marker, name, winHtml);
+                        map.centerAndZoom(lnglat, zoom);//设置显示地图的中心点和级别
                     });
                     $li.append($a);
                     $ul.append($li);
@@ -175,7 +177,6 @@
 
         //初始化地图
         function initMap() {
-            var zoom = 12;
             map = new TMap("mapDiv");//初始化地图对象
             map.centerAndZoom(new TLngLat(116.40969, 39.89945), zoom);//设置显示地图的中心点和级别
             map.enableHandleMouseScroll();//允许鼠标滚轮缩放地图
