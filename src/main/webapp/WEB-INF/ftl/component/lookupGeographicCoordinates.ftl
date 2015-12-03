@@ -1,5 +1,3 @@
-<#assign id=23/>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
         "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -64,6 +62,16 @@
             //初始化经纬度坐标，使用当前默认值
             $("#longitudeInput${id}").val(defaultLongitude${id});
             $("#latitudeInput${id}").val(defalutLatitude${id});
+
+            //绑定【选定】按钮，带回地理坐标
+            $("#mapCoordinateBtn${id}").click(function () {
+                $.bringBackMapCoordinate(
+                        {
+                            formId: "${formId}",
+                            ${fieldName}Longitude: $("#longitudeInput${id}").val(),
+                            ${fieldName}Latitude: $("#latitudeInput${id}").val()
+                        });
+            });
         });
 
         //本地搜索
@@ -267,7 +275,7 @@
 
         //初始化地图
         function initMap() {
-            console.log("id:"+${id});
+            console.log("id:" +${id});
             map${id} = new TMap("mapDiv${id}");//初始化地图对象
             map${id}.centerAndZoom(new TLngLat(defaultLongitude${id}, defalutLatitude${id}), zoom${id});
             //设置显示地图的中心点和级别
@@ -366,7 +374,8 @@
     <ul class="mapSearchKey">
         <li class="mapPromptStrong">搜索内容：</li>
         <li><input type="text" id="mapKeyWord${id}" class="mapKeyWord" value="万宝"/></li>
-        <li><a id="mapSearchBtn${id}" class="button" href="javascript:;"><span>搜索</span></a></li>
+        <li><a id="mapSearchBtn${id}" class="button" href="javascript:;"><span>搜索</span></a>
+        </li>
     </ul>
 <#--提示词面板-->
     <div id="mapPromptDiv${id}" class="prompt"></div>
@@ -392,7 +401,8 @@
                     "><span>末页</span></a>
                 </li>
                 <li>
-                    <input id="mapJumpToInput${id}" class="textInput mapJumpToInput" type="text"
+                    <input id="mapJumpToInput${id}" class="textInput mapJumpToInput"
+                           type="text"
                            size="4"
                            value="2">
 

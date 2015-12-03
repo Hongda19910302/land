@@ -51,11 +51,16 @@ public class CompController {
     /**
      * 跳转至地理坐标选择组件
      *
+     * @param formId    表单ID
+     * @param fieldName 表单字段名称 用于带回选择的字段数据
+     * @param mm
      * @return
      */
     @RequestMapping(value = "/lookupGeographicCoordinates")
-    public String lookupGeographicCoordinates(ModelMap mm) {
+    public String lookupGeographicCoordinates(String formId, String fieldName, ModelMap mm) {
         mm.addAttribute("id", RandomUtils.nextInt(1, 100));//加入ID，避免同一组件冲突
+        mm.addAttribute("formId", formId);
+        mm.addAttribute("fieldName", fieldName);
         return "/component/lookupGeographicCoordinates";
     }
 

@@ -19,6 +19,35 @@
 	$.extend({
 
 		/**
+		 * 带回选择的地理坐标信息
+		 * @param args
+		 */
+		bringBackMapCoordinate: function (args) {
+
+			//获取选择的字段区域
+			var $Region= $("#"+args.formId+" .formMap");
+			//console.log($Region.length);
+			console.log($Region.length);
+
+			//寻找具体字段并赋值
+			$Region.find(":input").each(function(){
+				var $input = $(this);
+				var inputName = $input.attr("name");
+
+				for (var key in args) {
+					if (key == inputName) {
+						$input.val(args[key]);
+						break;
+					}
+				}
+
+			});
+
+
+			$.pdialog.closeCurrent();
+		},
+		
+		/**
 		 * 带回选择的区域信息
 		 * @param args
 		 */

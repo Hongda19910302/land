@@ -67,7 +67,8 @@
                                                               class="${item.inputClass}"
                                                               style="${item.inputCssStyle}"/>
                                     <a class="btnLook"
-                                           href="/comp/lookupGeographicCoordinates"
+                                           href="/comp/lookupGeographicCoordinates?formId=${componentId}&fieldName=${item
+                                           .inputName}"
                                            target="dialog"
                                            rel="lookupGeographicCoordinates"
                                            mask="true" minable="false" height="620"
