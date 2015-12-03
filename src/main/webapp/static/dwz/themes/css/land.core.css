@@ -20,6 +20,7 @@
     padding: 5px 0px 5px 25px;
     margin: 5px 0;
 }
+
 /*分页信息，独立设置样式*/
 .mapSearchResultList li:last-child {
     background: inherit;
@@ -106,6 +107,32 @@
 .mapPagination .first span {
     background-position: 0 -244px;
     background: url(../default/images/grid/grid_land.png);
+}
+
+.mapCoordinate {
+    position: absolute;
+    left: 360px;
+    bottom: 30px;
+    z-index: 300;
+    width: 348px;
+    border: 1px solid #999999;
+    filter: alpha(opacity=40);
+    background-color: rgb(244, 248, 248);
+    background-color: rgba(244, 248, 248, 0.8);
+}
+
+.mapCoordinate ul {
+    text-align: center;
+    margin: 5px 0;
+}
+
+.mapCoordinate ul li {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.mapCoordinate ul li input {
+    width: 80px;
 }
 
 /*表格工具栏按钮样式*/

@@ -11,6 +11,8 @@
         var zoom = 12;//缩放级别
         var mapSearchResults = [];//查询结果集
         var mapSearchResultIdPrefix = "address_";//查询结果对象的ID前缀
+        var defaultLongitude = 116.40969;//默认经度
+        var defalutLatitude = 39.89945;//默认纬度
 
         $(function () {
             initMap();
@@ -56,6 +58,10 @@
                     $("#mapJumpToBtn").click();
                 }
             });
+
+            //初始化经纬度坐标，使用当前默认值
+            $("#longitudeInput").val(defaultLongitude);
+            $("#latitudeInput").val(defalutLatitude);
         });
 
         //本地搜索
@@ -254,7 +260,8 @@
         //初始化地图
         function initMap() {
             map = new TMap("mapDiv");//初始化地图对象
-            map.centerAndZoom(new TLngLat(116.40969, 39.89945), zoom);//设置显示地图的中心点和级别
+            map.centerAndZoom(new TLngLat(defaultLongitude, defalutLatitude), zoom);
+            //设置显示地图的中心点和级别
             map.enableHandleMouseScroll();//允许鼠标滚轮缩放地图
 
             /**
@@ -317,6 +324,23 @@
 
 <#--地图-->
 <div id="mapDiv" class="mapDiv"></div>
+
+<#--选定的经纬度坐标-->
+<div class="mapCoordinate">
+    <ul>
+        <li><span class='mapPromptStrong'>纬度：</span><input class="textInput" type="text"
+                                                           id="latitudeInput"
+                                                           readonly="true">
+        </li>
+        <li><span class='mapPromptStrong'>经度：</span><input class="textInput" type="text"
+                                                           id="longitudeInput"
+                                                           readonly="true">
+        </li>
+        <li><a id="mapCoordinateBtn" class="button" href="javascript:;"><span>选定</span></a>
+        </li>
+    </ul>
+
+</div>
 
 <#--搜索面板-->
 <div class="mapSearch">
