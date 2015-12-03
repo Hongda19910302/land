@@ -39,6 +39,13 @@
                 var gotoPageNo = parseInt($('#mapJumpToInput').val());
                 mapLocalSearch.gotoPage(gotoPageNo);
             });
+
+            //绑定页码输入后回车跳转到相应的页
+            $("#mapJumpToInput").keyup(function (e) {//回车提交
+                if (e.which == 13) {
+                    $("#mapJumpToBtn").click();
+                }
+            });
         });
 
         //本地搜索
