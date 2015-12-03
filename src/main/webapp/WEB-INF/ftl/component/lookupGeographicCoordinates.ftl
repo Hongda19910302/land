@@ -301,6 +301,16 @@
                 pageCapacity: 10,//每页显示的记录数
                 onSearchComplete: mapLocalSearchResult//接收数据的回调函数
             });
+
+            //创建地图拾取器
+            var pickup = new TCoordinatePickup(map, {
+                callback: function (lnglat) {//将选择的坐标写入经纬度坐标框
+                    //console.log("lnglat:"+lnglat);
+                    $("#latitudeInput").val(lnglat.getLat());
+                    $("#longitudeInput").val(lnglat.getLng());
+                }
+            });
+            pickup.addEvent();
         }
 
         //添加地图版本控件
@@ -328,12 +338,12 @@
 <#--选定的经纬度坐标-->
 <div class="mapCoordinate">
     <ul>
-        <li><span class='mapPromptStrong'>纬度：</span><input class="textInput" type="text"
-                                                           id="latitudeInput"
-                                                           readonly="true">
-        </li>
         <li><span class='mapPromptStrong'>经度：</span><input class="textInput" type="text"
                                                            id="longitudeInput"
+                                                           readonly="true">
+        </li>
+        <li><span class='mapPromptStrong'>纬度：</span><input class="textInput" type="text"
+                                                           id="latitudeInput"
                                                            readonly="true">
         </li>
         <li><a id="mapCoordinateBtn" class="button" href="javascript:;"><span>选定</span></a>
