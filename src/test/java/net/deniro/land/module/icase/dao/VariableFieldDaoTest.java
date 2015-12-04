@@ -26,6 +26,11 @@ public class VariableFieldDaoTest {
     private VariableFieldDao variableFieldDao;
 
     @Test
+    public void findVariableSelects(){
+        System.out.println("$$$$$$$$$$$$"+variableFieldDao.findVariableSelects());
+    }
+
+    @Test
     public void find() {
         System.out.println("$$$$$$$$$$$$$$$"+variableFieldDao.find(1,"surveyResult"));
     }
