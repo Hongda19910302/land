@@ -51,6 +51,36 @@
                                 .textareaRows}"></textarea>
                                 <#break>
 
+                            <#case "UPLOAD"><#-- 文件上传-->
+
+                                <input id="${componentId}${item.inputName}FileInput"
+                                       type="file" name="${item
+                                .inputName}FileInput"
+                                       uploaderOption="{
+                    swf:'${resourceRoot}/dwz/uploadify/scripts/uploadify.swf',
+                    uploader:'',
+                    formData:{},
+                    queueID:'${componentId}${item.inputName}FileQueue',
+                    buttonText:'${item.uploadButtonText}',
+                    fileSizeLimit:'${item.uploadFileSizeLimit}',
+                    fileTypeDesc:'${item.uploadFileTypeExts}',
+                    fileTypeExts:'${item.uploadFileTypeExts}',
+                    auto:${item.uploadIsAuto},
+                    multi:${item.uploadIsMulti},
+                    width:${item.uploadButtonWidth}
+                   }"/>
+
+                                <div id="${componentId}${item.inputName}FileQueue" class="fileQueue"></div>
+                                <div class="button">
+                                    <div class="buttonContent">开始上传</div>
+                                </div>
+                                <div class="button">
+                                    <div class="buttonContent">取消上传</div>
+                                </div>
+
+
+                                <#break>
+
                             <#case "REGION"><#--区域选择框-->
                                 <div class="lookupRegionBtn">
                                     <input name="${item.inputName}Id"
@@ -111,6 +141,8 @@
                     </dd>
                 </dl>
             </#list>
+
+            <div class="divider"></div>
 
 
         </div>

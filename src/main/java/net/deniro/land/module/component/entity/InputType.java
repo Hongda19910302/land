@@ -45,5 +45,10 @@ public enum InputType {
     /**
      * 可变字段
      */
-    VARIABLE
+    VARIABLE,
+
+    /**
+     * 文件上传
+     */
+    UPLOAD
 }

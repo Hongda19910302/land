@@ -34,7 +34,7 @@ public class AnnotationHibernateCodeMarkerTest {
     public void testMark() throws Exception {
 
         List<String> tableNames = new ArrayList<String>();
-        tableNames.add("comp_form");
+//        tableNames.add("comp_form");
         tableNames.add("comp_form_item");
 
         String packagePath = "net.deniro.land.module.component.entity";

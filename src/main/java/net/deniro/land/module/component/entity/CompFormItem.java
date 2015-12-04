@@ -149,6 +149,48 @@ public class CompFormItem implements Serializable {
     @Column(name = "order_no", nullable = true, length = 10)
     private Integer orderNo;
 
+    /**
+     * 上传action地址
+     */
+    @Column(name = "upload_action_url", nullable = true,length = 500)
+    private String uploadActionUrl;
+
+    /**
+     * 上传按钮文本内容
+     */
+    @Column(name = "upload_button_text", nullable = true,length = 50)
+    private String uploadButtonText;
+
+    /**
+     * 上传文件的大小上限
+     */
+    @Column(name = "upload_file_size_limit", nullable = true,length = 50)
+    private String uploadFileSizeLimit;
+
+    /**
+     * 支持的上传文件类型（浏览器的文件选择对话框）
+     */
+    @Column(name = "upload_file_type_exts", nullable = true,length = 100)
+    private String uploadFileTypeExts;
+
+    /**
+     * 文件是否自动上传
+     */
+    @Column(name = "upload_is_auto", nullable = true,length = 5)
+    private String uploadIsAuto;
+
+    /**
+     * 是否支持多文件上传
+     */
+    @Column(name = "upload_is_multi", nullable = true,length = 5)
+    private String uploadIsMulti;
+
+    /**
+     * 文件上传按钮宽度
+     */
+    @Column(name = "upload_button_width", nullable = true,length = 5)
+    private Integer uploadButtonWidth;
+
     @ManyToOne
     @JoinColumn(name = "form_id")
     private CompForm compForm;
