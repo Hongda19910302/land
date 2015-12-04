@@ -16,7 +16,6 @@ public class AfterAllBeanInitProcessor implements ApplicationListener<ContextRef
 
     static Logger logger = Logger.getLogger(AfterAllBeanInitProcessor.class);
 
-    @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
 
         //验证是否是root applcationContext，避免在多个容器（root容器和项目容器）中执行多次
