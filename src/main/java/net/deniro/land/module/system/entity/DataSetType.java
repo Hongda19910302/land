@@ -56,11 +56,6 @@ public enum DataSetType {
     /**
      * 版本项类型
      */
-    VERSION_TYPE,
-
-    /**
-     * 案件用地性质
-     */
-    CASE_LAND_USAGE
+    VERSION_TYPE
 
 }

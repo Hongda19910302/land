@@ -22,6 +22,17 @@
                                        style="${item.inputCssStyle}"/>
                                 <#break>
 
+                            <#case "VARIABLE"><#--字段为可变内容的下拉选择框-->
+                                <select class="combox" name="${item.inputName}">
+                                    <#assign selectListDataSet=item.selectListDataSet>
+                                    <#if selectListDataSet?exists>
+                                        <#list selectListDataSet?keys as key>
+                                            <option
+                                                    value="${key}">${selectListDataSet[key]}</option>
+                                        </#list>
+                                    </#if>
+                                </select>
+                                <#break>
                             <#case "SELECT"><#--下拉选择框-->
                                 <select class="combox" name="${item.inputName}">
                                     <#assign selectListDataSet=item.selectListDataSet>

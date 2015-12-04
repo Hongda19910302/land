@@ -35,5 +35,15 @@ public enum InputType {
     /**
      * 多行文本框
      */
-    TEXTAREA
+    TEXTAREA,
+
+    /**
+     * 地理坐标选择框
+     */
+    MAP,
+
+    /**
+     * 可变字段
+     */
+    VARIABLE
 }

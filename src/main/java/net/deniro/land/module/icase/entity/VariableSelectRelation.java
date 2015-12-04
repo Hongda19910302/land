@@ -4,6 +4,7 @@ import net.deniro.land.module.icase.dao.VariableFieldDao;
 import org.apache.commons.collections.map.MultiKeyMap;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,7 +25,11 @@ public class VariableSelectRelation {
     /**
      * key：（单位ID+可变字段key）value：下拉框名值对map
      */
-    public static MultiKeyMap variableSelects = new MultiKeyMap();
+    private MultiKeyMap variableSelects = new MultiKeyMap();
+
+    public MultiKeyMap getVariableSelects() {
+        return variableSelects;
+    }
 
     /**
      * 初始化

@@ -70,8 +70,10 @@ public class CompController {
      * @return
      */
     @RequestMapping(value = "/form")
-    public String form(ModelMap mm) {
-        CompForm compForm = compFormService.findById(1);
+    public String form(ModelMap mm,HttpSession session) {
+        User user = (User) session.getAttribute(UserService.USER_CODE);
+
+        CompForm compForm = compFormService.findById(1,user.getCompanyId());
         mm.addAttribute("compForm", compForm);
         mm.addAttribute("componentId", 221);
 
