@@ -11,6 +11,12 @@
         <div class="pageFormContent nowrap" layoutH="${compForm.buttonBarHeight}">
 
             <#list compForm.compFormItems as item>
+                <#switch item.inputType>
+                    <#case "UPLOAD"><#--添加分隔行-->
+                        <div class="divider"></div>
+                        <#break>
+                </#switch>
+
                 <dl>
                     <dt>${item.title}：</dt>
                     <dd>
@@ -70,7 +76,8 @@
                     width:${item.uploadButtonWidth}
                    }"/>
 
-                                <div id="${componentId}${item.inputName}FileQueue" class="fileQueue"></div>
+                                <div id="${componentId}${item.inputName}FileQueue"
+                                     class="fileQueue"></div>
                                 <div class="button">
                                     <div class="buttonContent">开始上传</div>
                                 </div>
@@ -140,11 +147,14 @@
                         </#switch>
                     </dd>
                 </dl>
+
+                <#switch item.inputType>
+                    <#case "UPLOAD"><#--添加分隔行-->
+                        <div class="divider"></div>
+                        <#break>
+                </#switch>
+
             </#list>
-
-            <div class="divider"></div>
-
-
         </div>
 
     <#--按钮栏-->
