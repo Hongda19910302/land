@@ -22,8 +22,11 @@ public class ResourcePathExposer implements ServletContextAware {
         resourceRoot = "/static-" + version;
 //        将资源逻辑路径暴露到ServletContext的属性列表中
 //        这样JSP文件就可通过${resourceRoot}引用其值
-        if (servletContext != null)
-            getServletContext().setAttribute("resourceRoot", getServletContext().getContextPath() + resourceRoot);
+        if (servletContext != null){
+            servletContext.setAttribute("resourceRoot", getServletContext().getContextPath() + resourceRoot);
+            servletContext.setAttribute("platformInfo","移动巡查执法平台 v"+version);//平台信息
+        }
+
 
     }
 

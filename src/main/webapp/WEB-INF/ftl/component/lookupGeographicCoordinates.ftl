@@ -340,7 +340,7 @@
                 id: 1, content: "<div style='font-size:14px;" +
                 "background-color:#f4f8f8;" +
                 "padding:2px 2px; font-weight:bold" +
-                "'>移动巡查执法平台</div>", bounds: bs
+                "'>${platformInfo}</div>", bounds: bs
             });//添加版本内容，也可在此添加事件
             map${id}.addControl(copyrightControl);
         }

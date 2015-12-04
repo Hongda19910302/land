@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>移动巡查执法平台3.x</title>
+    <title>${platformInfo}</title>
 
     <%--添加应用图标--%>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
@@ -169,7 +169,7 @@
         </div>
     </div>
     <div id="login_footer">
-        Copyright &copy; 2015 deniro All Rights Reserved.
+        ${platformInfo} Copyright &copy; 2015 deniro All Rights Reserved.
     </div>
 </div>
 </body>

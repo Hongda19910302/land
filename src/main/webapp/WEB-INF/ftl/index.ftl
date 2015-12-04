@@ -1,13 +1,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>移动巡查执法平台3.x</title>
+    <title>${platformInfo}</title>
 
     <link href="${resourceRoot}/dwz/themes/default/style.land.css" rel="stylesheet"
           type="text/css" media="screen"/>
     <link href="${resourceRoot}/dwz/themes/css/core.css" rel="stylesheet" type="text/css"
           media="screen"/>
-    <link href="${resourceRoot}/dwz/themes/css/land.core.css" rel="stylesheet" type="text/css"
+    <link href="${resourceRoot}/dwz/themes/css/land.core.css" rel="stylesheet"
+          type="text/css"
           media="screen"/>
     <link href="${resourceRoot}/dwz/themes/css/print.css" rel="stylesheet" type="text/css"
           media="print"/>
@@ -52,11 +53,10 @@
     <script src="${resourceRoot}/dwz/opentip/opentip-jquery.min.js"
             type="text/javascript"></script>
 
-    <#--地图-->
+<#--地图-->
     <script src="http://api.tianditu.com/js/maps.js" type="text/javascript"></script>
     <script src="http://api.tianditu.com/js/service.js" type="text/javascript"></script>
     <script src="http://api.tianditu.com/js/maptools.js" type="text/javascript"></script>
-
 
 
     <script src="${resourceRoot}/dwz/js/dwz.core.land.js" type="text/javascript"></script>
@@ -210,7 +210,7 @@
 
 </div>
 
-<div id="footer">Copyright &copy; 2015 deniro</div>
+<div id="footer">${platformInfo} Copyright &copy; 2015 deniro</div>
 
 </body>
 </html>
