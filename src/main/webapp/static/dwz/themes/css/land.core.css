@@ -3,7 +3,8 @@
     width: 295px;
     height: 150px;
     overflow: auto;
-    border: 1px solid #E5E5E5;
+    border: 1px solid;
+    border-color: #9eabb3 #d5dbdf #d5dbdf #9eabb3;
     margin-bottom: 10px;
 }
 
