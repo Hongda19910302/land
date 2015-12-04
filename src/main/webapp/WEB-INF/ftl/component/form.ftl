@@ -22,6 +22,24 @@
                                        style="${item.inputCssStyle}"/>
                                 <#break>
 
+                            <#case "SELECT"><#--下拉选择框-->
+                                <select class="combox" name="${item.inputName}">
+                                    <#assign selectListDataSet=item.selectListDataSet>
+                                    <#if selectListDataSet?exists>
+                                        <#list selectListDataSet?keys as key>
+                                            <option
+                                                    value="${key}">${selectListDataSet[key]}</option>
+                                        </#list>
+                                    </#if>
+                                </select>
+                                <#break>
+
+                            <#case "TEXTAREA"><#-- 多行文本框-->
+                                <textarea name="${item.inputName}" class="${item
+                                .inputClass}" cols="${item.textareaCols}" rows="${item
+                                .textareaRows}"></textarea>
+                                <#break>
+
                             <#case "REGION"><#--区域选择框-->
                                 <div class="lookupRegionBtn">
                                     <input name="${item.inputName}Id"
@@ -59,36 +77,24 @@
                                     <span>经度</span>
                                     <input type="text" name="${item
                                     .inputName}Longitude"
-                                                              class="${item.inputClass}"
-                                                              style="${item.inputCssStyle}"/>
+                                           class="${item.inputClass}"
+                                           style="${item.inputCssStyle}"/>
                                     <span>纬度</span>
                                     <input type="text" name="${item
                                     .inputName}Latitude"
-                                                              class="${item.inputClass}"
-                                                              style="${item.inputCssStyle}"/>
+                                           class="${item.inputClass}"
+                                           style="${item.inputCssStyle}"/>
                                     <a class="btnLook"
-                                           href="/comp/lookupGeographicCoordinates?formId=${componentId}&fieldName=${item
-                                           .inputName}"
-                                           target="dialog"
-                                           rel="lookupGeographicCoordinates"
-                                           mask="true" minable="false" height="620"
-                                           width="1024"
-                                           resizable="false"
-                                           maxable="false"
-                                           title="查找地理坐标"></a>
+                                       href="/comp/lookupGeographicCoordinates?formId=${componentId}&fieldName=${item
+                                       .inputName}"
+                                       target="dialog"
+                                       rel="lookupGeographicCoordinates"
+                                       mask="true" minable="false" height="620"
+                                       width="1024"
+                                       resizable="false"
+                                       maxable="false"
+                                       title="查找地理坐标"></a>
                                 </div>
-                                <#break>
-
-                            <#case "SELECT"><#--下拉选择框-->
-                                    <select class="combox" name="${item.inputName}" id="${item.inputName}_${componentId}">
-                                        <#assign selectListDataSet=item.selectListDataSet>
-                                        <#if selectListDataSet?exists>
-                                            <#list selectListDataSet?keys as key>
-                                                <option
-                                                        value="${key}">${selectListDataSet[key]}</option>
-                                            </#list>
-                                        </#if>
-                                    </select>
                                 <#break>
                         </#switch>
                     </dd>
