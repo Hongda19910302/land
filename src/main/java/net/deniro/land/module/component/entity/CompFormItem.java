@@ -5,6 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * 表单项
@@ -50,6 +52,12 @@ public class CompFormItem implements Serializable {
      */
     @Column(name = "input_class", nullable = true, length = 30)
     private String inputClass;
+
+    /**
+     * 下拉框数据集类型
+     */
+    @Column(name = "select_list_data_set_type")
+    private String selectListDataSetType;
 
     /**
      * 输入框css样式代码
@@ -144,4 +152,10 @@ public class CompFormItem implements Serializable {
     @ManyToOne
     @JoinColumn(name = "form_id")
     private CompForm compForm;
+
+    /**
+     * 下拉列表数据集，key：值；value：显示值
+     */
+    @Transient
+    private Map<String, String> selectListDataSet = new LinkedHashMap<String, String>();
 }

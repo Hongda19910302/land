@@ -8,6 +8,12 @@
        ">
     <!-- 数据字典；如果key为多值，以-作为分隔符-->
 
+    <!-- 案件用地性质-->
+    <util:map id="caseLandUsage" map-class="java.util.LinkedHashMap">
+        <entry key="1" value="非耕地"/>
+        <entry key="2" value="农田"/>
+    </util:map>
+
     <!-- 版本项类型-->
     <util:map id="versionType" map-class="java.util.LinkedHashMap">
         <entry key="BUG" value="BUG修复"/>

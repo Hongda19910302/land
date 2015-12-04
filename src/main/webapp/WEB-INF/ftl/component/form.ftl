@@ -54,7 +54,7 @@
                                 </div>
                                 <#break>
 
-                            <#case "MAP">
+                            <#case "MAP"><#--地理坐标选择框-->
                                 <div class="formMap">
                                     <span>经度</span>
                                     <input type="text" name="${item
@@ -77,6 +77,18 @@
                                            maxable="false"
                                            title="查找地理坐标"></a>
                                 </div>
+                                <#break>
+
+                            <#case "SELECT"><#--下拉选择框-->
+                                    <select class="combox" name="${item.inputName}" id="${item.inputName}_${componentId}">
+                                        <#assign selectListDataSet=item.selectListDataSet>
+                                        <#if selectListDataSet?exists>
+                                            <#list selectListDataSet?keys as key>
+                                                <option
+                                                        value="${key}">${selectListDataSet[key]}</option>
+                                            </#list>
+                                        </#if>
+                                    </select>
                                 <#break>
                         </#switch>
                     </dd>
