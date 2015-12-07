@@ -14,6 +14,26 @@
                 <#switch item.inputType>
                     <#case "UPLOAD"><#--添加分隔行-->
                         <div class="divider"></div>
+
+                        <script type="text/javascript">
+                            /**
+                             * 处理文件上传失败
+                             * @param file
+                             * @param errorCode
+                             * @param errorMsg
+                             */
+                            function uploadErrorHandler(file, errorCode, errorMsg) {
+                                console.log("文件上传失败【"+errorCode+"】：" + errorMsg);
+                                switch(errorCode){
+                                    case -280:
+                                        break;
+                                    default :
+                                            alertMsg.error("文件上传组件出现错误！");
+                                        break;
+                                }
+                            }
+                            ;
+                        </script>
                         <#break>
                 </#switch>
 
@@ -73,7 +93,8 @@
                     fileTypeExts:'${item.uploadFileTypeExts}',
                     auto:${item.uploadIsAuto},
                     multi:${item.uploadIsMulti},
-                    width:${item.uploadButtonWidth}
+                    width:${item.uploadButtonWidth},
+                    upload_error_handler:uploadErrorHandler
                    }"/>
 
                                 <div id="${componentId}${item.inputName}FileQueue"
