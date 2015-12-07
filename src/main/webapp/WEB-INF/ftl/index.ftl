@@ -44,7 +44,7 @@
     <script src="${resourceRoot}/dwz/xheditor/xheditor_lang/zh-cn.js"
             type="text/javascript"></script>
 
-    <script src="${resourceRoot}/dwz/uploadify/scripts/jquery.uploadify.js"
+    <script src="${resourceRoot}/dwz/uploadify/scripts/jquery.uploadify.land.js"
             type="text/javascript"></script>
 
     <script src="${resourceRoot}/dwz/zTree/js/jquery.ztree.core-3.5.js"
