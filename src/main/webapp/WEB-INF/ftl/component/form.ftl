@@ -41,7 +41,7 @@
                                  */
                                 var $FileInput = $("#${componentId}${item
                                 .inputName}FileInput");
-//                                console.log("$FileInput:"+$FileInput.length);
+                                console.log("$FileInput:"+$FileInput.length);
                                 $("#${componentId}${item.inputName}UploadBtn").click(function () {
                                     $FileInput.uploadify('upload', '*');
                                 });
@@ -101,7 +101,7 @@
                                 .inputName}FileInput"
                                        uploaderOption="{
                     swf:'${resourceRoot}/dwz/uploadify/scripts/uploadify.swf',
-                    uploader:'',
+                    uploader:'${item.uploadActionUrl}',
                     formData:{},
                     queueID:'${componentId}${item.inputName}FileQueue',
                     buttonText:'${item.uploadButtonText}',
