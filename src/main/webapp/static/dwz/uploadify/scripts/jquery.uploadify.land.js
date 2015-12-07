@@ -1504,6 +1504,9 @@ SWFUpload.Console.writeLine = function (d) {
                             $('#' + args[n]).delay(1000 + 100 * n).fadeOut(500, function () {
                                 $(this).remove();
                             });
+
+                            //被取消的文件，从队列中删除
+                            delete swfuploadify.queueData.files[fileID];
                         }
                     }
                 } else {
@@ -2016,9 +2019,9 @@ SWFUpload.Console.writeLine = function (d) {
 
                 // Add the error message to the queue item
                 if (errorCode != SWFUpload.UPLOAD_ERROR.SPECIFIED_FILE_ID_NOT_FOUND && file.status != SWFUpload.FILE_STATUS.COMPLETE) {
-                    console.log("file.id:"+file.id);
-                    console.log("errorString:"+errorString);
-                    console.log("length:"+ $('#' + file.id).length);
+                    console.log("file.id:" + file.id);
+                    console.log("errorString:" + errorString);
+                    console.log("length:" + $('#' + file.id).length);
                     $('#' + file.id).find('.data').html(' - ' + errorString);
                 }
             }
