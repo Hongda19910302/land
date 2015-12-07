@@ -1734,7 +1734,7 @@ SWFUpload.Console.writeLine = function (d) {
             var settings = this.settings;
 
             // Reset some queue info
-            this.queueData.errorMsg = 'Some files were not added to the queue:';
+            this.queueData.errorMsg = '某些文件无法被加入上传队列，原因如下：';
             this.queueData.filesReplaced = 0;
             this.queueData.filesCancelled = 0;
 
@@ -1865,19 +1865,19 @@ SWFUpload.Console.writeLine = function (d) {
                 switch (errorCode) {
                     case SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED:
                         if (settings.queueSizeLimit > errorMsg) {
-                            this.queueData.errorMsg += '\nThe number of files selected exceeds the remaining upload limit (' + errorMsg + ').';
+                            this.queueData.errorMsg += '\n所选择的文件数量超过上传队列所剩余的文件数量 (' + errorMsg + ').';
                         } else {
-                            this.queueData.errorMsg += '\nThe number of files selected exceeds the queue size limit (' + settings.queueSizeLimit + ').';
+                            this.queueData.errorMsg += '\n所选择的文件数量超过上传队列的最大数量 (' + settings.queueSizeLimit + ')。';
                         }
                         break;
                     case SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
-                        this.queueData.errorMsg += '\n文件 "' + file.name + '" exceeds the size limit (' + settings.fileSizeLimit + ').';
+                        this.queueData.errorMsg += '\n文件 "' + file.name + '" 大小超过所规定的最大值 (' + settings.fileSizeLimit + ')。';
                         break;
                     case SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE:
-                        this.queueData.errorMsg += '\nThe file "' + file.name + '" is empty.';
+                        this.queueData.errorMsg += '\n文件 "' + file.name + '" 是个空文件。';
                         break;
                     case SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
-                        this.queueData.errorMsg += '\nThe file "' + file.name + '" is not an accepted file type (' + settings.fileTypeDesc + ').';
+                        this.queueData.errorMsg += '\n文件 "' + file.name + '" 不是一个被允许上传的文件类型 (' + settings.fileTypeDesc + ')。';
                         break;
                 }
             }
