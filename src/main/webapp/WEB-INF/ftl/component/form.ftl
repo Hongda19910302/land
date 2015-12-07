@@ -32,7 +32,7 @@
                                         break;
                                 }
                             }
-                            ;
+
                         </script>
                         <#break>
                 </#switch>

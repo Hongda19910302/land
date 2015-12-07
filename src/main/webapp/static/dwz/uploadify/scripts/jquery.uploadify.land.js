@@ -1777,23 +1777,17 @@ SWFUpload.Console.writeLine = function (d) {
             for (var n in this.queueData.files) {
                 queuedFile = this.queueData.files[n];
                 if (queuedFile.uploaded != true && queuedFile.name == file.name) {
-                    //var replaceQueueItem = confirm('该文件 "' + file.name + '" 在队列中已存在\n需要替换队列中的文件么?');
+                    var replaceQueueItem = confirm('该文件 "' + file.name + '" 在队列中已存在，\n您需要替换队列中的文件么?');
 
-                    var cancelUploadFunc=this.cancelUpload;
-                    var queueData=this.queueData;
-
-                    alertMsg.confirm('该文件【"' + file.name + '"】在队列中已存在，您需要替换队列中的文件么?', {
-                        okCall: function (cancelUploadFunc,queueData) {
-                            $('#' + queuedFile.id).remove();
-                            cancelUploadFunc(queuedFile.id);
-                            queueData.filesReplaced++;
-                        },
-                        cancelCall: function (cancelUploadFunc,queueData) {
-                            cancelUploadFunc(file.id);
-                            queueData.filesCancelled++;
-                        }
-
-                    });
+                    if (!replaceQueueItem) {
+                        this.cancelUpload(file.id);
+                        this.queueData.filesCancelled++;
+                        return false;
+                    } else {
+                        $('#' + queuedFile.id).remove();
+                        this.cancelUpload(queuedFile.id);
+                        this.queueData.filesReplaced++;
+                    }
                 }
             }
 
