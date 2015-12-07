@@ -34,9 +34,14 @@
                             }
 
                             $(function () {
+
+                                /**
+                                 * 绑定【开始上传】、【取消上传】操作
+                                 *
+                                 */
                                 var $FileInput = $("#${componentId}${item
                                 .inputName}FileInput");
-                                console.log("$FileInput:"+$FileInput.length);
+//                                console.log("$FileInput:"+$FileInput.length);
                                 $("#${componentId}${item.inputName}UploadBtn").click(function () {
                                     $FileInput.uploadify('upload', '*');
                                 });
