@@ -8,6 +8,10 @@
     margin-bottom: 10px;
 }
 
+.buttonContent{
+    cursor:pointer;
+}
+
 /*地图*/
 .mapDiv {
     position: absolute;
