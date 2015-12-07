@@ -1496,6 +1496,9 @@ SWFUpload.Console.writeLine = function (d) {
                         swfuploadify.queueData.queueLength = 0;
                         // Trigger the onClearQueue event
                         if (settings.onClearQueue) settings.onClearQueue.call($this, queueItemCount);
+
+                        //所有文件从队列中删除
+                        swfuploadify.queueData.files={};
                     } else {
                         for (var n = 0; n < args.length; n++) {
                             swfuploadify.cancelUpload(args[n]);

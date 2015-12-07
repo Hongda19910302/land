@@ -23,15 +23,27 @@
                              * @param errorMsg
                              */
                             function uploadErrorHandler(file, errorCode, errorMsg) {
-                                console.log("文件上传失败【"+errorCode+"】：" + errorMsg);
-                                switch(errorCode){
+                                console.log("文件上传失败【" + errorCode + "】：" + errorMsg);
+                                switch (errorCode) {
                                     case -280:
                                         break;
                                     default :
-                                            alertMsg.error("文件上传组件出现错误！");
+                                        alertMsg.error("文件上传组件出现错误！");
                                         break;
                                 }
                             }
+
+                            $(function () {
+                                var $FileInput = $("#${componentId}${item
+                                .inputName}FileInput");
+                                console.log("$FileInput:"+$FileInput.length);
+                                $("#${componentId}${item.inputName}UploadBtn").click(function () {
+                                    $FileInput.uploadify('upload', '*');
+                                });
+                                $("#${componentId}${item.inputName}CancelBtn").click(function () {
+                                    $FileInput.uploadify('cancel', '*');
+                                });
+                            });
 
                         </script>
                         <#break>
@@ -100,9 +112,12 @@
                                 <div id="${componentId}${item.inputName}FileQueue"
                                      class="fileQueue"></div>
                                 <div class="button">
-                                    <div class="buttonContent">开始上传</div>
+                                    <div id="${componentId}${item.inputName}UploadBtn"
+                                         class="buttonContent">开始上传
+                                    </div>
                                 </div>
-                                <div class="button">
+                                <div id="${componentId}${item
+                                .inputName}CancelBtn" class="button">
                                     <div class="buttonContent">取消上传</div>
                                 </div>
 
