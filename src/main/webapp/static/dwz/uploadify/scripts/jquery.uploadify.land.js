@@ -1441,7 +1441,7 @@ SWFUpload.Console.writeLine = function (d) {
                         uploadSize: 0, // The size in bytes of the upload queue
                         queueBytesUploaded: 0, // The size in bytes that have been uploaded for the current upload queue
                         uploadQueue: [], // The files currently to be uploaded
-                        errorMsg: 'Some files were not added to the queue:'
+                        errorMsg: '某些文件无法被加入上传队列，原因如下:'
                     };
 
                     // Save references to all the objects
@@ -1756,7 +1756,10 @@ SWFUpload.Console.writeLine = function (d) {
             // Run the default event handler
             if ($.inArray('onDialogClose', settings.overrideEvents) < 0) {
                 if (this.queueData.filesErrored > 0) {
-                    alert(this.queueData.errorMsg);
+                    //alert(this.queueData.errorMsg);
+
+                    //使用dwz的UI弹出提示信息
+                    alertMsg.error(this.queueData.errorMsg);
                 }
             }
 
@@ -1868,7 +1871,7 @@ SWFUpload.Console.writeLine = function (d) {
                         }
                         break;
                     case SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
-                        this.queueData.errorMsg += '\nThe file "' + file.name + '" exceeds the size limit (' + settings.fileSizeLimit + ').';
+                        this.queueData.errorMsg += '\n文件 "' + file.name + '" exceeds the size limit (' + settings.fileSizeLimit + ').';
                         break;
                     case SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE:
                         this.queueData.errorMsg += '\nThe file "' + file.name + '" is empty.';
