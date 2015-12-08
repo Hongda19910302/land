@@ -6,6 +6,7 @@ import net.deniro.land.common.service.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.StringTokenizer;
@@ -89,6 +90,25 @@ public class FtpUtils {
     }
 
     /**
+     * 获取当前目录
+     *
+     * @return
+     */
+    @Deprecated
+    public String currentDirectory() {
+        try {
+            return client.currentDirectory();
+        } catch (IOException e) {
+            logger.error("获取当前目录", e);
+        } catch (FTPIllegalReplyException e) {
+            logger.error("获取当前目录", e);
+        } catch (FTPException e) {
+            logger.error("获取当前目录", e);
+        }
+        return "";
+    }
+
+    /**
      * 创建路径中包含的多个文件夹
      *
      * @param path
@@ -144,6 +164,31 @@ public class FtpUtils {
     }
 
     /**
+     * 上传文件
+     *
+     * @param path 文件路径
+     * @param file 文件
+     * @return
+     */
+    public boolean upload(String path, File file) {
+        if (StringUtils.isBlank(path) || file == null) {
+            return false;
+        }
+
+        try {
+            init();
+
+            client.changeDirectory(path);//切换到指定路径下
+            client.upload(file,new CustomFTPDataTransferListener(file.getName()));//上传
+
+            return true;
+        } catch (Exception e) {
+            logger.error("上传多个文件", e);
+            return false;
+        }
+    }
+
+    /**
      * 创建层级目录
      *
      * @param path
@@ -164,7 +209,7 @@ public class FtpUtils {
             while (dirs.hasMoreElements()) {
                 temp = dirs.nextElement().toString();
                 if (!isDirExist(temp)) {//创建并进入目录
-                    logger.info("开始创建目录【" + temp+"】");
+                    logger.info("开始创建目录【" + temp + "】");
                     client.createDirectory(temp);
                     client.changeDirectory(temp);
                 }
@@ -286,6 +331,7 @@ public class FtpUtils {
             client.login(account, password);
             client.currentDirectory();
             logger.info("已连接FTP服务器");
+            tryCount.set(0);
         } catch (Exception e) {
             logger.warn("FTP服务器连接失败，尝试第【" + tryCount.incrementAndGet() + "】次重连...");
             try {
