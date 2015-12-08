@@ -3,9 +3,11 @@ package net.deniro.land.module.icase.action;
 import net.deniro.land.common.dwz.AjaxResponse;
 import net.deniro.land.common.dwz.AjaxResponseError;
 import net.deniro.land.common.dwz.AjaxResponseSuccess;
+import net.deniro.land.common.utils.FtpUtils;
 import net.deniro.land.module.icase.entity.CaseParam;
 import net.deniro.land.module.icase.service.CaseService;
 import net.deniro.land.module.system.action.BaseController;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 
@@ -27,11 +30,16 @@ import java.io.IOException;
 @RequestMapping("/case")
 public class CaseController extends BaseController {
 
+    static Logger logger = Logger.getLogger(CaseController.class);
+
     @Autowired
     private CaseService caseService;
 
+    @Autowired
+    private FtpUtils ftpUtils;
+
     /**
-     * 上传【单据文书】
+     * 上传【违法照片】
      *
      * @param illegalPhotos
      * @return
@@ -51,7 +59,7 @@ public class CaseController extends BaseController {
     }
 
     /**
-     * 上传【违法照片】
+     * 上传【单据文书】
      *
      * @param caseDocuments
      * @return
@@ -60,11 +68,15 @@ public class CaseController extends BaseController {
     @RequestMapping(value = "/uploadCaseDocuments")
     @ResponseBody
     public AjaxResponse uploadCaseDocuments(@RequestParam("caseDocumentsFileInput")
-                                            MultipartFile caseDocuments)
+                                            MultipartFile caseDocuments, HttpSession session)
             throws IOException {
         if (!caseDocuments.isEmpty()) {
-            caseDocuments.transferTo(new File("F:/temp/" + caseDocuments.getOriginalFilename()));
-            return new AjaxResponseSuccess("上传成功");
+            boolean isOk = uploadToFTPInTempImg(caseDocuments, session);
+            if (isOk) {
+                return new AjaxResponseSuccess("上传成功");
+            } else {
+                return new AjaxResponseError("上传失败");
+            }
         } else {
             return new AjaxResponseError("上传失败");
         }
