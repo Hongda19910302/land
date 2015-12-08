@@ -53,7 +53,24 @@ public class BaseController {
     private FtpUtils ftpUtils;
 
     /**
-     * 上传至FTP服务器
+     * 上传文件至FTP服务器中的临时图片路径
+     *
+     * @param multipartFile
+     * @param session
+     * @return
+     */
+    public boolean uploadToFTPInTempImg(MultipartFile multipartFile, HttpSession session) {
+        Integer userId = getCurrentUserId(session);
+        if (userId == -1) {
+            return false;
+        }
+
+        String path = ftpUtils.generateTempImgPath(userId);
+        return uploadToFTP(multipartFile, path);
+    }
+
+    /**
+     * 上传文件至FTP服务器
      *
      * @param multipartFile 待上传的文件
      * @param path          上传到的文件路径
