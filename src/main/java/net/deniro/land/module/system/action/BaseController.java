@@ -7,12 +7,15 @@ import net.deniro.land.module.component.entity.CompPageSearchForm;
 import net.deniro.land.module.component.entity.ComponentType;
 import net.deniro.land.module.component.entity.InputType;
 import net.deniro.land.module.component.service.CompPageSearchService;
+import net.deniro.land.module.system.entity.User;
 import net.deniro.land.module.system.service.ModuleService;
+import net.deniro.land.module.system.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -38,6 +41,21 @@ public class BaseController {
 
     @Autowired
     private CompPageSearchService compPageSearchService;
+
+    /**
+     * 获取当前登录用户的ID，如果不存在，则返回-1
+     *
+     * @param session
+     * @return
+     */
+    public Integer getCurrentUserId(HttpSession session) {
+        User user = (User) session.getAttribute(UserService.USER_CODE);
+        if (user != null) {
+            return user.getUserId();
+        } else {
+            return -1;
+        }
+    }
 
     /**
      * 调用分页查询组件
