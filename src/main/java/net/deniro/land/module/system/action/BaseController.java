@@ -2,6 +2,9 @@ package net.deniro.land.module.system.action;
 
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.common.entity.QueryParam;
+import net.deniro.land.common.service.Constants;
+import net.deniro.land.common.utils.FtpUtils;
+import net.deniro.land.common.utils.UUIDGenerator;
 import net.deniro.land.module.component.entity.CompPageSearch;
 import net.deniro.land.module.component.entity.CompPageSearchForm;
 import net.deniro.land.module.component.entity.ComponentType;
@@ -10,12 +13,16 @@ import net.deniro.land.module.component.service.CompPageSearchService;
 import net.deniro.land.module.system.entity.User;
 import net.deniro.land.module.system.service.ModuleService;
 import net.deniro.land.module.system.service.UserService;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -41,6 +48,32 @@ public class BaseController {
 
     @Autowired
     private CompPageSearchService compPageSearchService;
+
+    @Autowired
+    private FtpUtils ftpUtils;
+
+    /**
+     * 上传至FTP服务器
+     *
+     * @param multipartFile 待上传的文件
+     * @param path          上传到的文件路径
+     * @return
+     */
+    public boolean uploadToFTP(MultipartFile multipartFile, String path) {
+        ftpUtils.mkDirs(path);//创建路径
+
+        //上传
+        try {
+            String fileName = multipartFile.getOriginalFilename();
+            File file = File.createTempFile(UUIDGenerator.get(),
+                    Constants.FILE_EXTENSION_PREFIX + FilenameUtils.getExtension(fileName));
+            multipartFile.transferTo(file);
+            return ftpUtils.upload(path, file);
+        } catch (IOException e) {
+            logger.error("上传至FTP服务器", e);
+            return false;
+        }
+    }
 
     /**
      * 获取当前登录用户的ID，如果不存在，则返回-1
