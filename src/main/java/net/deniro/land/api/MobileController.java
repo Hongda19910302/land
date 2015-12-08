@@ -4,7 +4,7 @@ import net.deniro.land.api.entity.*;
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.common.service.Constants;
 import net.deniro.land.common.service.dwz.Result;
-import net.deniro.land.common.utils.FtpUtils;
+import net.deniro.land.common.utils.ftp.FtpUtils;
 import net.deniro.land.module.icase.entity.*;
 import net.deniro.land.module.icase.service.CaseService;
 import net.deniro.land.module.icase.service.DataTypeService;

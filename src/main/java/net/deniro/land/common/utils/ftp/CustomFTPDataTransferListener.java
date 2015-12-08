@@ -1,4 +1,4 @@
-package net.deniro.land.common.utils;
+package net.deniro.land.common.utils.ftp;
 
 import it.sauronsoftware.ftp4j.FTPDataTransferListener;
 import org.apache.log4j.Logger;

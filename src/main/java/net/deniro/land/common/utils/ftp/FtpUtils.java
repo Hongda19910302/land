@@ -1,6 +1,8 @@
-package net.deniro.land.common.utils;
+package net.deniro.land.common.utils.ftp;
 
-import it.sauronsoftware.ftp4j.*;
+import it.sauronsoftware.ftp4j.FTPClient;
+import it.sauronsoftware.ftp4j.FTPException;
+import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 import lombok.Data;
 import net.deniro.land.common.service.Constants;
 import org.apache.commons.lang3.StringUtils;
@@ -10,6 +12,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.StringTokenizer;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -70,24 +74,6 @@ public class FtpUtils {
      */
     private FTPClient client;
 
-    /**
-     * 路径类型
-     */
-    public enum PathType {
-        /**
-         * 不存在
-         */
-        NO_EXIST,
-        /**
-         * 文件
-         */
-        FILE,
-        /**
-         * 文件夹
-         */
-        DIRECTORY;
-
-    }
 
     /**
      * 生成FTP临时图片存放路径
@@ -101,64 +87,6 @@ public class FtpUtils {
         }
         return getBaseDir() + Constants.FTP_PATH_SPLIT + getTempDir() +
                 Constants.FTP_PATH_SPLIT + userId + Constants.FTP_PATH_SPLIT + getImgDir();
-    }
-
-    /**
-     * 获取当前目录
-     *
-     * @return
-     */
-    @Deprecated
-    public String currentDirectory() {
-        try {
-            return client.currentDirectory();
-        } catch (IOException e) {
-            logger.error("获取当前目录", e);
-        } catch (FTPIllegalReplyException e) {
-            logger.error("获取当前目录", e);
-        } catch (FTPException e) {
-            logger.error("获取当前目录", e);
-        }
-        return "";
-    }
-
-    /**
-     * 创建路径中包含的多个文件夹
-     *
-     * @param path
-     */
-    @Deprecated
-    public void createDirs(String path) {
-        if (StringUtils.isBlank(path)) {
-            return;
-        }
-
-        try {
-            String[] dirs = path.split(Constants.FTP_PATH_SPLIT);
-            for (int i = 0; i < dirs.length; i++) {
-                String dir = dirs[i];
-                if (StringUtils.isBlank(dir)) {
-                    continue;
-                }
-                if (isExist(dir)) {//如果存在，则进入文件夹
-                    logger.info("路径【" + dir + "】存在");
-                    client.changeDirectory(dir);
-                } else {//如果不存在，则创建文件夹，并作为当前文件夹
-                    logger.info("路径【" + dir + "】不存在");
-                    client.createDirectory(dir);
-                    client.changeDirectory(dir);
-                }
-            }
-
-            //重置当前路径
-            client.changeDirectory(Constants.FTP_PATH_SPLIT);
-        } catch (IOException e) {
-            logger.error("创建路径中包含的多个文件夹", e);
-        } catch (FTPIllegalReplyException e) {
-            logger.error("创建路径中包含的多个文件夹", e);
-        } catch (FTPException e) {
-            logger.error("创建路径中包含的多个文件夹", e);
-        }
     }
 
     /**
@@ -190,8 +118,12 @@ public class FtpUtils {
         }
 
         try {
-            init();
+            mkDirs(path);
 
+            client = heartBeatThread.getClient();
+            if (!client.isConnected()) {
+                return false;
+            }
             client.changeDirectory(path);//切换到指定路径下
             client.upload(file, new CustomFTPDataTransferListener(file.getName()));//上传
 
@@ -211,11 +143,12 @@ public class FtpUtils {
         if (StringUtils.isBlank(path)) {
             return;
         }
+        client = heartBeatThread.getClient();
+        if (!client.isConnected()) {
+            return;
+        }
 
         try {
-            //ftp连接不稳定，因此每次使用时直接重连
-            init();
-
             String currentPath = client.currentDirectory();//当前路径
             client.changeDirectory(Constants.FTP_PATH_SPLIT);//切换到根目录
             StringTokenizer dirs = new StringTokenizer(path, Constants.FTP_PATH_SPLIT);
@@ -247,101 +180,42 @@ public class FtpUtils {
         }
     }
 
-    /**
-     * 判断路径是否存在
-     *
-     * @param path 路径
-     * @return
-     */
-    @Deprecated
-    public boolean isExist(String path) {
-        PathType pathType = getPathType(path);
-        if (pathType == PathType.NO_EXIST) {
-            return false;
-        } else {
-            return true;
-        }
-    }
 
     /**
-     * 返回路径类型
-     *
-     * @param path 路径
-     * @return
+     * 声明一个执行器
      */
-    @Deprecated
-    public PathType getPathType(String path) {
+    private Executor executor;
 
-        PathType pathType = PathType.NO_EXIST;
+    /**
+     * 心跳线程
+     */
+    private FtpHeartBeatThread heartBeatThread;
 
-        try {
-            FTPFile[] files = client.list(path);
-
-            if (files.length > 1) {//文件夹
-                return PathType.DIRECTORY;
-            } else if (files.length == 1) {
-                FTPFile file = files[0];
-                if (file.getType() == FTPFile.TYPE_DIRECTORY) {//文件夹
-                    return PathType.DIRECTORY;
-                } else {//可能是文件，需要进一步判断
-                    try {//根据大小，判断是否是文件夹，文件夹长度为1
-                        int length = client.list(path + "/" + file.getName()).length;
-                        if (length == 1) {//文件夹
-                            return PathType.DIRECTORY;
-                        } else {//文件
-                            return PathType.FILE;
-                        }
-                    } catch (Exception e) {
-                        logger.error("【根据大小，判断是否是文件夹，文件夹长度为1】异常");
-                        return PathType.NO_EXIST;
-                    }
-                }
-            } else {//尝试返回当前路径的上一级，如果正常，则说明是文件夹
-                try {
-                    client.changeDirectory(path);
-                    client.changeDirectoryUp();
-                    return PathType.DIRECTORY;
-                } catch (Exception e) {
-                    logger.error("【尝试返回当前路径的上一级】异常");
-                    return pathType;
-                }
-            }
-        } catch (IOException e) {
-            logger.error("返回路径类型", e);
-            return pathType;
-        } catch (FTPIllegalReplyException e) {
-            logger.error("返回路径类型", e);
-            return pathType;
-        } catch (FTPDataTransferException e) {
-            logger.error("返回路径类型", e);
-            return pathType;
-        } catch (FTPAbortedException e) {
-            logger.error("返回路径类型", e);
-            return pathType;
-        } catch (FTPListParseException e) {
-            logger.error("返回路径类型", e);
-            return pathType;
-        } catch (FTPException e) {
-            logger.error("返回路径类型", e);
-            return pathType;
-        }
+    /**
+     * 启动心跳连接
+     */
+    public void initHeartBeat() {
+        heartBeatThread = new FtpHeartBeatThread(client,this);
+        executor = Executors.newSingleThreadExecutor();
+        executor.execute(heartBeatThread);
     }
 
     /**
      * FTP重连次数
      */
+    @Deprecated
     private static AtomicInteger tryCount = new AtomicInteger(0);
 
     /**
      * FTP客户端初始化
      */
+    @Deprecated
     public void init() {
         try {
             client = new FTPClient();
             client.setCharset(Constants.CHARSET);
             client.setType(FTPClient.TYPE_BINARY);
             client.connect(new URL(prefix + ip).getHost(), port);
-//            client.getConnector().setConnectionTimeout(15000);
             client.login(account, password);
             client.currentDirectory();
             logger.info("已连接FTP服务器");

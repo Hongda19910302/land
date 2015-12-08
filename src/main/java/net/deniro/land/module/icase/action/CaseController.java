@@ -3,7 +3,7 @@ package net.deniro.land.module.icase.action;
 import net.deniro.land.common.dwz.AjaxResponse;
 import net.deniro.land.common.dwz.AjaxResponseError;
 import net.deniro.land.common.dwz.AjaxResponseSuccess;
-import net.deniro.land.common.utils.FtpUtils;
+import net.deniro.land.common.utils.ftp.FtpUtils;
 import net.deniro.land.module.icase.entity.CaseParam;
 import net.deniro.land.module.icase.service.CaseService;
 import net.deniro.land.module.system.action.BaseController;

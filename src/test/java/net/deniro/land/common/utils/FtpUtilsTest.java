@@ -1,14 +1,9 @@
 package net.deniro.land.common.utils;
 
+import net.deniro.land.common.utils.ftp.FtpUtils;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 /**
@@ -42,11 +37,11 @@ public class FtpUtilsTest {
                 ftpUtils.mkDirs("deniro/1/2/3");
         }
 
-        @Test
-        public void testIsExist() throws Exception {
-                Assert.isTrue(ftpUtils.isExist("land"));
-                Assert.isTrue(!ftpUtils.isExist("land1"));
-                Assert.isTrue(ftpUtils.isExist("/land/temp"));
-
-        }
+//        @Test
+//        public void testIsExist() throws Exception {
+//                Assert.isTrue(ftpUtils.isExist("land"));
+//                Assert.isTrue(!ftpUtils.isExist("land1"));
+//                Assert.isTrue(ftpUtils.isExist("/land/temp"));
+//
+//        }
 }

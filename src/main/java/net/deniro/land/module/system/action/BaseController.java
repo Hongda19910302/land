@@ -3,7 +3,7 @@ package net.deniro.land.module.system.action;
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.common.entity.QueryParam;
 import net.deniro.land.common.service.Constants;
-import net.deniro.land.common.utils.FtpUtils;
+import net.deniro.land.common.utils.ftp.FtpUtils;
 import net.deniro.land.common.utils.UUIDGenerator;
 import net.deniro.land.module.component.entity.CompPageSearch;
 import net.deniro.land.module.component.entity.CompPageSearchForm;
