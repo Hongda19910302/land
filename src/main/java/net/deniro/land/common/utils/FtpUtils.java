@@ -90,6 +90,20 @@ public class FtpUtils {
     }
 
     /**
+     * 生成FTP临时图片存放路径
+     *
+     * @param userId 用户ID
+     * @return
+     */
+    public String generateTempImgPath(Integer userId) {
+        if (userId == null) {
+            userId = -1;
+        }
+        return getBaseDir() + Constants.FTP_PATH_SPLIT + getTempDir() +
+                Constants.FTP_PATH_SPLIT + userId + Constants.FTP_PATH_SPLIT + getImgDir();
+    }
+
+    /**
      * 获取当前目录
      *
      * @return
@@ -179,7 +193,7 @@ public class FtpUtils {
             init();
 
             client.changeDirectory(path);//切换到指定路径下
-            client.upload(file,new CustomFTPDataTransferListener(file.getName()));//上传
+            client.upload(file, new CustomFTPDataTransferListener(file.getName()));//上传
 
             return true;
         } catch (Exception e) {
