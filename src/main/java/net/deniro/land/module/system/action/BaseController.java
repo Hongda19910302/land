@@ -3,8 +3,8 @@ package net.deniro.land.module.system.action;
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.common.entity.QueryParam;
 import net.deniro.land.common.service.Constants;
-import net.deniro.land.common.utils.ftp.FtpUtils;
 import net.deniro.land.common.utils.UUIDGenerator;
+import net.deniro.land.common.utils.ftp.FtpUtils;
 import net.deniro.land.module.component.entity.CompPageSearch;
 import net.deniro.land.module.component.entity.CompPageSearchForm;
 import net.deniro.land.module.component.entity.ComponentType;
@@ -24,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -53,12 +54,53 @@ public class BaseController {
     private FtpUtils ftpUtils;
 
     /**
+     * 需要上传的文件名称列表
+     */
+    private List<String> uploadFileNames = Collections.synchronizedList(new
+            ArrayList<String>());
+
+    /**
+     * 获取项目绝对路径
+     *
+     * @param session
+     * @return
+     */
+    public String getAbsolutePath(HttpSession session) {
+        return session.getServletContext().getRealPath("/");
+    }
+
+    /**
+     * 上传至临时文件夹
+     *
+     * @param multipartFile
+     * @param session
+     * @return
+     */
+    public boolean uploadToTemp(MultipartFile multipartFile, HttpSession session) {
+        File file = new File(getAbsolutePath(session)
+                + "/temp/" + UUIDGenerator.get() + Constants.FILE_EXTENSION_PREFIX + FilenameUtils
+                .getExtension
+                        (multipartFile.getOriginalFilename()));
+        logger.info("待上传文件：" + file.getName());
+
+        try {
+            multipartFile.transferTo(file);
+            uploadFileNames.add(UUIDGenerator.get());
+            return true;
+        } catch (IOException e) {
+            logger.error("上传至临时文件夹", e);
+            return false;
+        }
+    }
+
+    /**
      * 上传文件至FTP服务器中的临时图片路径
      *
      * @param multipartFile
      * @param session
      * @return
      */
+    @Deprecated
     public boolean uploadToFTPInTempImg(MultipartFile multipartFile, HttpSession session) {
         Integer userId = getCurrentUserId(session);
         if (userId == -1) {
@@ -76,6 +118,7 @@ public class BaseController {
      * @param path          上传到的文件路径
      * @return
      */
+    @Deprecated
     public boolean uploadToFTP(MultipartFile multipartFile, String path) {
         ftpUtils.mkDirs(path);//创建路径
 

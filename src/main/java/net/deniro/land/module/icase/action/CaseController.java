@@ -58,20 +58,21 @@ public class CaseController extends BaseController {
         }
     }
 
+
     /**
      * 上传【单据文书】
      *
-     * @param caseDocuments
+     * @param multipartFile
      * @return
      * @throws IOException
      */
     @RequestMapping(value = "/uploadCaseDocuments")
     @ResponseBody
     public AjaxResponse uploadCaseDocuments(@RequestParam("caseDocumentsFileInput")
-                                            MultipartFile caseDocuments, HttpSession session)
+                                            MultipartFile multipartFile, HttpSession session)
             throws IOException {
-        if (!caseDocuments.isEmpty()) {
-            boolean isOk = uploadToFTPInTempImg(caseDocuments, session);
+        if (!multipartFile.isEmpty()) {
+            boolean isOk = uploadToTemp(multipartFile, session);
             if (isOk) {
                 return new AjaxResponseSuccess("上传成功");
             } else {
