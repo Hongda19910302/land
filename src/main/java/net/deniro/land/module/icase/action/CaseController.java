@@ -3,6 +3,7 @@ package net.deniro.land.module.icase.action;
 import net.deniro.land.common.dwz.AjaxResponse;
 import net.deniro.land.common.dwz.AjaxResponseError;
 import net.deniro.land.common.dwz.AjaxResponseSuccess;
+import net.deniro.land.common.utils.UUIDGenerator;
 import net.deniro.land.common.utils.ftp.FtpUtils;
 import net.deniro.land.module.icase.entity.CaseParam;
 import net.deniro.land.module.icase.service.CaseService;
@@ -19,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 案件
@@ -72,7 +75,20 @@ public class CaseController extends BaseController {
                                             MultipartFile multipartFile, HttpSession session)
             throws IOException {
         if (!multipartFile.isEmpty()) {
-            boolean isOk = uploadToTemp(multipartFile, session);
+
+            String id = UUIDGenerator.get();
+
+            //将待上传的文件名称列表存入session
+            List<String> ids = null;
+            if (session.getAttribute(UPLOAD_FILE_SESSION) == null) {
+                ids = new ArrayList<String>();
+            } else {
+                ids = (List<String>) session.getAttribute(UPLOAD_FILE_SESSION);
+            }
+            ids.add(id);
+            session.setAttribute(UPLOAD_FILE_SESSION, ids);
+
+            boolean isOk = uploadToTemp(id, multipartFile, session);
             if (isOk) {
                 return new AjaxResponseSuccess("上传成功");
             } else {

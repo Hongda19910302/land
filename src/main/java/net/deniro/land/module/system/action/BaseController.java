@@ -24,7 +24,6 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -37,6 +36,11 @@ import java.util.Set;
 public class BaseController {
 
     static Logger logger = Logger.getLogger(BaseController.class);
+
+    /**
+     * 上传文件的session名称
+     */
+    public static final String UPLOAD_FILE_SESSION = "uploadFile";
 
     /**
      * 分页查询组件URL地址
@@ -54,12 +58,6 @@ public class BaseController {
     private FtpUtils ftpUtils;
 
     /**
-     * 需要上传的文件名称列表
-     */
-    private List<String> uploadFileNames = Collections.synchronizedList(new
-            ArrayList<String>());
-
-    /**
      * 获取项目绝对路径
      *
      * @param session
@@ -72,20 +70,21 @@ public class BaseController {
     /**
      * 上传至临时文件夹
      *
+     * @param id            文件名称
      * @param multipartFile
      * @param session
      * @return
      */
-    public boolean uploadToTemp(MultipartFile multipartFile, HttpSession session) {
+    public boolean uploadToTemp(String id, MultipartFile multipartFile, HttpSession
+            session) {
         File file = new File(getAbsolutePath(session)
-                + "/temp/" + UUIDGenerator.get() + Constants.FILE_EXTENSION_PREFIX + FilenameUtils
+                + "/temp/" + id + Constants.FILE_EXTENSION_PREFIX + FilenameUtils
                 .getExtension
                         (multipartFile.getOriginalFilename()));
         logger.info("待上传文件：" + file.getName());
 
         try {
             multipartFile.transferTo(file);
-            uploadFileNames.add(UUIDGenerator.get());
             return true;
         } catch (IOException e) {
             logger.error("上传至临时文件夹", e);
