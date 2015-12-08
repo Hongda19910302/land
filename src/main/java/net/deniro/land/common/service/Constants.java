@@ -31,6 +31,11 @@ public class Constants {
     public static final String FTP_PATH_SPLIT = "/";
 
     /**
+     * 文件扩展名前缀
+     */
+    public static final String FILE_EXTENSION_PREFIX=".";
+
+    /**
      * 树型图标路径前缀
      */
     public static final String TREE_ICON_PATH_PREFIX = "/dwz/themes/default/images/dialog/";
