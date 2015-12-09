@@ -21,6 +21,9 @@
 
     <link href="${resourceRoot}/dwz/opentip/opentip.css" rel="stylesheet" type="text/css"/>
 
+    <link href="${resourceRoot}/dwz/galleria/themes/classic/galleria.classic.css"
+          rel="stylesheet" type="text/css"/>
+
 
     <!--[if IE]>
     <link href="${resourceRoot}/dwz/themes/css/ieHack.css" rel="stylesheet" type="text/css"
@@ -44,16 +47,27 @@
     <script src="${resourceRoot}/dwz/xheditor/xheditor_lang/zh-cn.js"
             type="text/javascript"></script>
 
-    <script src="${resourceRoot}/dwz/uploadify/scripts/jquery.uploadify.land.js"
-            type="text/javascript"></script>
 
+<#--树型组件-->
     <script src="${resourceRoot}/dwz/zTree/js/jquery.ztree.core-3.5.js"
             type="text/javascript"></script>
 
+<#--提示组件-->
     <script src="${resourceRoot}/dwz/opentip/opentip-jquery.min.js"
             type="text/javascript"></script>
 
-<#--地图-->
+<#--文件上传组件-->
+    <script src="${resourceRoot}/dwz/uploadify/scripts/jquery.uploadify.land.js"
+            type="text/javascript"></script>
+
+<#--图片展示组件-->
+    <script src="${resourceRoot}/dwz/galleria/galleria-1.4.2.js"
+            type="text/javascript"></script>
+    <script src="${resourceRoot}/dwz/galleria/themes/classic/galleria.classic.js"
+            type="text/javascript">
+    </script>
+
+<#--地图组件-->
     <script src="http://api.tianditu.com/js/maps.js" type="text/javascript"></script>
     <script src="http://api.tianditu.com/js/service.js" type="text/javascript"></script>
     <script src="http://api.tianditu.com/js/maptools.js" type="text/javascript"></script>

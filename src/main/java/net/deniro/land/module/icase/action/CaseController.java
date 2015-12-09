@@ -61,6 +61,21 @@ public class CaseController extends BaseController {
         }
     }
 
+    /**
+     * 获取已上传文件的路径列表
+     *
+     * @param key
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/lookupUploadedFiles")
+    public String lookupUploadedFiles(String key, HttpSession session, ModelMap mm) {
+        key = key + getCurrentUserId(session);
+        List<String> paths = uploadFileNames.get(key);
+        mm.addAttribute("paths", paths);
+        return COMPONENT_IMAGES_DISPLAY_URL;
+    }
+
 
     /**
      * 上传【单据文书】
@@ -75,7 +90,7 @@ public class CaseController extends BaseController {
                                             MultipartFile multipartFile, HttpSession session)
             throws IOException {
         if (!multipartFile.isEmpty()) {
-            boolean isOk = uploadToTemp("uploadCaseDocuments", multipartFile, session);
+            boolean isOk = uploadToTemp("caseDocuments", multipartFile, session);
             if (isOk) {
                 return new AjaxResponseSuccess("上传成功");
             } else {

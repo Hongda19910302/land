@@ -38,6 +38,11 @@ public class BaseController {
     /**
      * 分页查询组件URL地址
      */
+    public static final String COMPONENT_IMAGES_DISPLAY_URL = "/component/images-display";
+
+    /**
+     * 分页查询组件URL地址
+     */
     public static final String COMPONENT_PAGE_SEARCH_URL = "/component/page-search";
 
     @Deprecated

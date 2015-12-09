@@ -41,7 +41,7 @@
                                  */
                                 var $FileInput = $("#${componentId}${item
                                 .inputName}FileInput");
-                                console.log("$FileInput:"+$FileInput.length);
+                                console.log("$FileInput:" + $FileInput.length);
                                 $("#${componentId}${item.inputName}UploadBtn").click(function () {
                                     $FileInput.uploadify('upload', '*');
                                 });
@@ -125,8 +125,16 @@
                                 .inputName}CancelBtn" class="button">
                                     <div class="buttonContent">取消上传</div>
                                 </div>
-
-
+                            <a class="btnLook"
+                               href="/case/lookupUploadedFiles?key=${item
+                               .inputName}"
+                               target="dialog"
+                               rel="lookupUploadedFiles"
+                               mask="true" minable="false" height="600"
+                               width="800"
+                               resizable="false"
+                               maxable="false"
+                               title="查看已上传的文件"></a>
                                 <#break>
 
                             <#case "REGION"><#--区域选择框-->
@@ -197,6 +205,8 @@
 
             </#list>
         </div>
+
+
 
     <#--按钮栏-->
         <div class="formBar">

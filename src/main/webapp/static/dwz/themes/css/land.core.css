@@ -1,3 +1,8 @@
+/*图片展示*/
+.imagesDisplay{
+    margin:0 auto;
+}
+
 /*文件上传*/
 .fileQueue {
     width: 295px;
