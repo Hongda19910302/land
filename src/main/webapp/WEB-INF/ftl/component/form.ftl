@@ -134,7 +134,7 @@
                                width="800"
                                resizable="false"
                                maxable="false"
-                               title="查看已上传的文件"></a>
+                               title="已上传的${item.title}"></a>
                                 <#break>
 
                             <#case "REGION"><#--区域选择框-->

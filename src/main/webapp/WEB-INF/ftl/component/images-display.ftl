@@ -8,7 +8,7 @@
 <script type="text/javascript">
     Galleria.run(".galleria",{
         theme:'classic',
-        height:500,
-        width:700
+        height:560,
+        width:790
     });
 </script>
