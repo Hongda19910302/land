@@ -23,9 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 基础
@@ -36,11 +34,6 @@ import java.util.Set;
 public class BaseController {
 
     static Logger logger = Logger.getLogger(BaseController.class);
-
-    /**
-     * 上传文件的session名称
-     */
-    public static final String UPLOAD_FILE_SESSION = "uploadFile";
 
     /**
      * 分页查询组件URL地址
@@ -58,6 +51,13 @@ public class BaseController {
     private FtpUtils ftpUtils;
 
     /**
+     * 待上传的文件；key：关键字；value：待上传的文件名称列表
+     */
+    public static Map<String, List<String>> uploadFileNames = Collections.synchronizedMap(new
+            HashMap<String,
+                    List<String>>());
+
+    /**
      * 获取项目绝对路径
      *
      * @param session
@@ -70,21 +70,35 @@ public class BaseController {
     /**
      * 上传至临时文件夹
      *
-     * @param id            文件名称
+     * @param key           关键字
      * @param multipartFile
      * @param session
      * @return
      */
-    public boolean uploadToTemp(String id, MultipartFile multipartFile, HttpSession
+    public boolean uploadToTemp(String key, MultipartFile multipartFile, HttpSession
             session) {
         File file = new File(getAbsolutePath(session)
-                + "/temp/" + id + Constants.FILE_EXTENSION_PREFIX + FilenameUtils
+                + "/temp/" + UUIDGenerator.get() + Constants.FILE_EXTENSION_PREFIX + FilenameUtils
                 .getExtension
                         (multipartFile.getOriginalFilename()));
         logger.info("待上传文件：" + file.getName());
 
         try {
             multipartFile.transferTo(file);
+
+            //保存待上传的文件名称列表到缓存
+            List<String> list = null;
+            key = key + getCurrentUserId(session);
+            if (uploadFileNames.containsKey(key)) {
+                list = uploadFileNames.get(key);
+            } else {
+                list = new ArrayList<String>();
+            }
+            list.add(file.getName());
+            uploadFileNames.put(key, list);
+
+            logger.info("uploadFileNames:" + uploadFileNames.size());
+
             return true;
         } catch (IOException e) {
             logger.error("上传至临时文件夹", e);

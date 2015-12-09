@@ -75,20 +75,7 @@ public class CaseController extends BaseController {
                                             MultipartFile multipartFile, HttpSession session)
             throws IOException {
         if (!multipartFile.isEmpty()) {
-
-            String id = UUIDGenerator.get();
-
-            //将待上传的文件名称列表存入session
-            List<String> ids = null;
-            if (session.getAttribute(UPLOAD_FILE_SESSION) == null) {
-                ids = new ArrayList<String>();
-            } else {
-                ids = (List<String>) session.getAttribute(UPLOAD_FILE_SESSION);
-            }
-            ids.add(id);
-            session.setAttribute(UPLOAD_FILE_SESSION, ids);
-
-            boolean isOk = uploadToTemp(id, multipartFile, session);
+            boolean isOk = uploadToTemp("uploadCaseDocuments", multipartFile, session);
             if (isOk) {
                 return new AjaxResponseSuccess("上传成功");
             } else {
