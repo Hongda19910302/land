@@ -62,6 +62,19 @@ public class CaseController extends BaseController {
     }
 
     /**
+     * 删除已上传的文件
+     *
+     * @param key
+     * @return
+     */
+    @RequestMapping(value = "/delUploadedFiles")
+    @ResponseBody
+    public AjaxResponse delUploadedFiles(String key,String paths) {
+        uploadFileNames.remove(key);
+        return new AjaxResponseSuccess("删除成功");
+    }
+
+    /**
      * 获取已上传文件的路径列表
      *
      * @param key
@@ -73,6 +86,7 @@ public class CaseController extends BaseController {
         key = key + getCurrentUserId(session);
         List<String> paths = uploadFileNames.get(key);
         mm.addAttribute("paths", paths);
+        mm.addAttribute("key", key);
         return COMPONENT_IMAGES_DISPLAY_URL;
     }
 

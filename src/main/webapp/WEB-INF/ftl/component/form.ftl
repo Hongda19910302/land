@@ -28,7 +28,7 @@
                                     case -280:
                                         break;
                                     default :
-                                        alertMsg.error("文件上传组件出现错误！");
+                                        alertMsg.error("文件上传组件出现错误！errorCode："+errorCode);
                                         break;
                                 }
                             }
