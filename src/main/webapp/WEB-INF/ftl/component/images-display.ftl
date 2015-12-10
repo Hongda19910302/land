@@ -18,12 +18,12 @@
         //绑定【删除全部】已上传的文件功能
         $("#delAllBtn${key}").click(function () {
             $.get("case/delUploadedFiles", {
-                key:"${key}"
+                key: "${key}"
             }, function (data) {
-                if(data&&data.statusCode==200){
+                if (data && data.statusCode == 200) {
                     alertMsg.correct("已上传的文件都已安全删除！");
                     $.pdialog.closeCurrent();//关闭当前活动层
-                }else{
+                } else {
                     alertMsg.error("系统错误，随后管理员会跟进处理！");
                 }
             });
@@ -34,6 +34,8 @@
 </script>
 
 <#--按钮栏-->
+<#if paths&&paths?size gt 0>
+
 <form id="imagesDisplay${key}" action="case/delUploadedFiles">
     <input type="hidden" name="key" value="${key}"/>
 
@@ -69,3 +71,5 @@
         </ul>
     </div>
 </form>
+
+</#if>
