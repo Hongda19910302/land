@@ -61,7 +61,7 @@
             type="text/javascript"></script>
 
 <#--图片展示组件-->
-    <script src="${resourceRoot}/dwz/galleria/galleria-1.4.2.js"
+    <script src="${resourceRoot}/dwz/galleria/galleria-1.4.2.land.js"
             type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/galleria/themes/classic/galleria.classic.js"
             type="text/javascript">
