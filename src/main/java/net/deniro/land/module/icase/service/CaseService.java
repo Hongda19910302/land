@@ -278,6 +278,7 @@ public class CaseService {
             if (regionId != null) {
                 TRegion region = regionDao.get(regionId);
                 caseNum.append(region.getRegionCode() != null ? region.getRegionCode() : TRegion.DEFAULT_REGION_CODE);
+                tCase.setRegionId(regionId);
             }
 
             //添加日期
