@@ -8,6 +8,7 @@ import net.deniro.land.common.utils.ftp.FtpUtils;
 import net.deniro.land.module.icase.entity.CaseParam;
 import net.deniro.land.module.icase.service.CaseService;
 import net.deniro.land.module.system.action.BaseController;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -65,12 +66,18 @@ public class CaseController extends BaseController {
      * 删除已上传的文件
      *
      * @param key
+     * @param fileName 文件名称
      * @return
      */
     @RequestMapping(value = "/delUploadedFiles")
     @ResponseBody
-    public AjaxResponse delUploadedFiles(String key,String paths) {
-        uploadFileNames.remove(key);
+    public AjaxResponse delUploadedFiles(String key, String fileName) {
+        if (StringUtils.isBlank(fileName)) {//删除全部
+            uploadFileNames.remove(key);
+        } else {//删除某个文件
+            uploadFileNames.get(key).remove(fileName);
+        }
+
         return new AjaxResponseSuccess("删除成功");
     }
 
