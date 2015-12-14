@@ -145,7 +145,7 @@
                                     <span><input class="lookupInput"
                                                  name="${item.inputName}Name"
                                                  id="${item.inputName}Name_${componentId}"
-                                                 type="text" readonly
+                                                 type="text" readonly="true"
                                                  style="${item.inputCssStyle}"></span>
                                     <a class="btnLook"
                                        href="/comp/lookupRegion?componentId=${componentId}"
@@ -173,12 +173,12 @@
                                 <div class="formMap">
                                     <span>经度</span>
                                     <input type="text" name="${item
-                                    .inputName}Longitude"
+                                    .inputName}Longitude" readonly="true"
                                            class="${item.inputClass}"
                                            style="${item.inputCssStyle}"/>
                                     <span>纬度</span>
                                     <input type="text" name="${item
-                                    .inputName}Latitude"
+                                    .inputName}Latitude" readonly="true"
                                            class="${item.inputClass}"
                                            style="${item.inputCssStyle}"/>
                                     <a class="btnLook"
