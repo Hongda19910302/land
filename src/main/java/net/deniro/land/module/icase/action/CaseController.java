@@ -3,7 +3,6 @@ package net.deniro.land.module.icase.action;
 import net.deniro.land.common.dwz.AjaxResponse;
 import net.deniro.land.common.dwz.AjaxResponseError;
 import net.deniro.land.common.dwz.AjaxResponseSuccess;
-import net.deniro.land.common.utils.UUIDGenerator;
 import net.deniro.land.common.utils.ftp.FtpUtils;
 import net.deniro.land.module.icase.entity.CaseParam;
 import net.deniro.land.module.icase.service.CaseService;
@@ -21,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,6 +39,28 @@ public class CaseController extends BaseController {
 
     @Autowired
     private FtpUtils ftpUtils;
+
+    /**
+     * 新增案件
+     *
+     * @param caseParam 案件参数
+     * @return
+     */
+    @RequestMapping(value = "add")
+    @ResponseBody
+    public AjaxResponse addCase(CaseParam caseParam) {
+        try {
+            boolean isOk = caseService.addCase(caseParam);
+            if (isOk) {
+                return new AjaxResponseSuccess("新增案件成功");
+            } else {
+                return new AjaxResponseError("新增案件失败");
+            }
+        } catch (Exception e) {
+            logger.error("新增案件", e);
+            return new AjaxResponseError("新增案件失败");
+        }
+    }
 
     /**
      * 上传【违法照片】

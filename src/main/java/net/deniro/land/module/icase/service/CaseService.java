@@ -204,7 +204,7 @@ public class CaseService {
             tCase.setSouthTo(caseParam.getSouthTo());
 
             //处理违法面积
-            if (caseParam.getSpace() != 0) {
+            if (caseParam.getSpace() != null && caseParam.getSpace() != 0) {
                 tCase.setIllegalAreaSpace(caseParam.getSpace());
             } else {
                 tCase.setIllegalAreaSpace(caseParam.getIllegalAreaSpace());
@@ -269,9 +269,17 @@ public class CaseService {
              * 生成并设置案件号
              */
             StringBuilder caseNum = new StringBuilder("");
+
             //添加地区码
-            TRegion region = regionDao.get(caseParam.getPlaceId());
-            caseNum.append(region.getRegionCode() != null ? region.getRegionCode() : TRegion.DEFAULT_REGION_CODE);
+            Integer regionId = caseParam.getRegionId();
+            if (caseParam.getPlaceId() != null) {
+                regionId = caseParam.getPlaceId();
+            }
+            if (regionId != null) {
+                TRegion region = regionDao.get(regionId);
+                caseNum.append(region.getRegionCode() != null ? region.getRegionCode() : TRegion.DEFAULT_REGION_CODE);
+            }
+
             //添加日期
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyMMdd");
             Date date = new Date();
@@ -977,6 +985,10 @@ public class CaseService {
      * @param relationType 资源类型
      */
     private void addAttachments(String imagesInJson, Integer relationId, RelationType relationType) {
+        if(StringUtils.isBlank(imagesInJson)){
+            return;
+        }
+
         List<Images> images = JsonUtils.readJson(imagesInJson, List
                 .class, Images.class);
         for (Images image : images) {
