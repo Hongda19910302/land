@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.Column;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -232,13 +233,17 @@ public class CaseService {
             //处理经度和纬度
             if (caseParam.getGpsX() != null) {
                 tCase.setLng(caseParam.getGpsX());
-            } else {
+            } else if(caseParam.getLng()!=null){
                 tCase.setLng(caseParam.getLng());
+            }else{
+                tCase.setLng(new BigDecimal(caseParam.getCoordinateLongitude()));
             }
             if (caseParam.getGpsY() != null) {
                 tCase.setLat(caseParam.getGpsY());
-            } else {
+            } else if(caseParam.getLat()!=null){
                 tCase.setLat(caseParam.getLat());
+            }else{
+                tCase.setLat(new BigDecimal(caseParam.getCoordinateLatitude()));
             }
 
 

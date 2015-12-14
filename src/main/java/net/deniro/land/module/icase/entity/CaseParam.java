@@ -128,6 +128,16 @@ public class CaseParam extends QueryParam {
     private BigDecimal lat;
 
     /**
+     * Gps经度
+     */
+    private String coordinateLongitude;
+
+    /**
+     * Gps纬度
+     */
+    private String coordinateLatitude;
+
+    /**
      * 巡查员id
      */
     private Integer inspectorId;
