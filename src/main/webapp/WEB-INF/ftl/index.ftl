@@ -5,9 +5,10 @@
 
     <link href="${resourceRoot}/dwz/themes/default/style.land.css" rel="stylesheet"
           type="text/css" media="screen"/>
-    <link href="${resourceRoot}/dwz/themes/css/core.css" rel="stylesheet" type="text/css"
+    <link href="${resourceRoot}/dwz/themes/css/core.land.css" rel="stylesheet"
+          type="text/css"
           media="screen"/>
-    <link href="${resourceRoot}/dwz/themes/css/land.core.css" rel="stylesheet"
+    <link href="${resourceRoot}/dwz/themes/css/land.css" rel="stylesheet"
           type="text/css"
           media="screen"/>
     <link href="${resourceRoot}/dwz/themes/css/print.css" rel="stylesheet" type="text/css"
