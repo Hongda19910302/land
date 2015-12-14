@@ -102,8 +102,6 @@ public class BaseController {
             list.add(file.getName());
             uploadFileNames.put(key, list);
 
-            logger.info("uploadFileNames:" + uploadFileNames.size());
-
             return true;
         } catch (IOException e) {
             logger.error("上传至临时文件夹", e);
