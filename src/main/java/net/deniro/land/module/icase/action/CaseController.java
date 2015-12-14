@@ -8,6 +8,7 @@ import net.deniro.land.module.icase.entity.CaseParam;
 import net.deniro.land.module.icase.service.CaseService;
 import net.deniro.land.module.system.action.BaseController;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,8 +49,10 @@ public class CaseController extends BaseController {
      */
     @RequestMapping(value = "add")
     @ResponseBody
-    public AjaxResponse addCase(CaseParam caseParam) {
+    public AjaxResponse addCase(CaseParam caseParam, HttpSession session) {
         try {
+            caseParam.setUserId(String.valueOf(getCurrentUserId(session)));
+
             boolean isOk = caseService.addCase(caseParam);
             if (isOk) {
                 return new AjaxResponseSuccess("新增案件成功");
