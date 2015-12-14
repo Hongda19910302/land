@@ -1,6 +1,6 @@
 /*图片展示*/
-.imagesDisplay{
-    margin:0 auto;
+.imagesDisplay {
+    margin: 0 auto;
 }
 
 /*文件上传*/
@@ -13,8 +13,14 @@
     margin-bottom: 10px;
 }
 
-.buttonContent{
-    cursor:pointer;
+.fileQueue.required {
+    background: url(../default/images/form/input_bg.png) no-repeat scroll;
+    background-position: 100% 0;
+
+}
+
+.buttonContent {
+    cursor: pointer;
 }
 
 /*地图*/

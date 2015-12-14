@@ -115,7 +115,7 @@
                    }"/>
 
                                 <div id="${componentId}${item.inputName}FileQueue"
-                                     class="fileQueue"></div>
+                                     class="fileQueue ${item.inputClass}"></div>
                                 <div class="button">
                                     <div id="${componentId}${item.inputName}UploadBtn"
                                          class="buttonContent">开始上传
@@ -142,7 +142,7 @@
                                     <input name="${item.inputName}Id"
                                            id="${item.inputName}Id_${componentId}" value=""
                                            type="hidden"/>
-                                    <span><input class="lookupInput"
+                                    <span><input class="lookupInput ${item.inputClass}"
                                                  name="${item.inputName}Name"
                                                  id="${item.inputName}Name_${componentId}"
                                                  type="text" readonly="true"
