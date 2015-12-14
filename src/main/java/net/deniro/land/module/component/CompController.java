@@ -67,15 +67,18 @@ public class CompController {
     /**
      * 跳转至表单组件
      *
+     * @param componentId
+     * @param mm
+     * @param session
      * @return
      */
     @RequestMapping(value = "/form")
-    public String form(ModelMap mm,HttpSession session) {
+    public String form(Integer componentId, ModelMap mm, HttpSession session) {
         User user = (User) session.getAttribute(UserService.USER_CODE);
 
-        CompForm compForm = compFormService.findById(1,user.getCompanyId());
+        CompForm compForm = compFormService.findById(componentId, user.getCompanyId());
         mm.addAttribute("compForm", compForm);
-        mm.addAttribute("componentId", 221);
+        mm.addAttribute("componentId", componentId);
 
         return "/component/form";
     }

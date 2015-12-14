@@ -233,16 +233,16 @@ public class CaseService {
             //处理经度和纬度
             if (caseParam.getGpsX() != null) {
                 tCase.setLng(caseParam.getGpsX());
-            } else if(caseParam.getLng()!=null){
+            } else if (caseParam.getLng() != null) {
                 tCase.setLng(caseParam.getLng());
-            }else{
+            } else if (StringUtils.isNotBlank(caseParam.getCoordinateLongitude())) {
                 tCase.setLng(new BigDecimal(caseParam.getCoordinateLongitude()));
             }
             if (caseParam.getGpsY() != null) {
                 tCase.setLat(caseParam.getGpsY());
-            } else if(caseParam.getLat()!=null){
+            } else if (caseParam.getLat() != null) {
                 tCase.setLat(caseParam.getLat());
-            }else{
+            } else if (StringUtils.isNotBlank(caseParam.getCoordinateLongitude())) {
                 tCase.setLat(new BigDecimal(caseParam.getCoordinateLatitude()));
             }
 
@@ -991,7 +991,7 @@ public class CaseService {
      * @param relationType 资源类型
      */
     private void addAttachments(String imagesInJson, Integer relationId, RelationType relationType) {
-        if(StringUtils.isBlank(imagesInJson)){
+        if (StringUtils.isBlank(imagesInJson)) {
             return;
         }
 
