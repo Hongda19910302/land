@@ -324,6 +324,9 @@ public class CaseDao extends BaseDao<TCase> {
         if (BooleanUtils.toBoolean(queryParam.getIsDraft())) {//草稿箱
             sql.append(" and t.status=:caseStatus");
             params.put("caseStatus", CaseStatus.DRAFT.code());
+        }else{//其他情况，查询不到草稿箱数据
+            sql.append(" and t.status!=:caseStatus");
+            params.put("caseStatus", CaseStatus.DRAFT.code());
         }
 
         //查询总数SQL
