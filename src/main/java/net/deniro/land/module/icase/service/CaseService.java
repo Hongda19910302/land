@@ -246,8 +246,12 @@ public class CaseService {
                 tCase.setLat(new BigDecimal(caseParam.getCoordinateLatitude()));
             }
 
+            if (StringUtils.equals(caseParam.getActionType(), "draft")) {//草稿
+                tCase.setStatus(DRAFT.code());
+            } else {//立案
+                tCase.setStatus(PREPARE.code());
+            }
 
-            tCase.setStatus(PREPARE.code());
             tCase.setRecycleStatus(NO.code());
             tCase.setCreateTime(new Date());
 

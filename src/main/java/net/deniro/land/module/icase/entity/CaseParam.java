@@ -16,6 +16,10 @@ import java.util.List;
 @Data
 public class CaseParam extends QueryParam {
 
+    /**
+     * action类型
+     */
+    private String actionType;
 
     /**
      * 用户ID

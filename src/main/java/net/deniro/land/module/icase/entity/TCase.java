@@ -336,7 +336,12 @@ public class TCase implements Serializable {
         /**
          * 撤销案件
          */
-        CANCEL(7);
+        CANCEL(7),
+
+        /**
+         * 草稿箱
+         */
+        DRAFT(20);
 
         /**
          * 移动端码
