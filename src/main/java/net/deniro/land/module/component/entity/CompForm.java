@@ -49,4 +49,10 @@ public class CompForm implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "compForm", fetch = FetchType.EAGER)
     @OrderBy("orderNo ASC ")
     private Set<CompFormItem> compFormItems;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "compForm", fetch = FetchType.EAGER)
+    @OrderBy("orderNo ASC ")
+    private Set<CompFormBtn> compFormBtns;
+
+
 }

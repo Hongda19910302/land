@@ -35,7 +35,7 @@ public class AnnotationHibernateCodeMarkerTest {
 
         List<String> tableNames = new ArrayList<String>();
 //        tableNames.add("comp_form");
-        tableNames.add("comp_form_item");
+        tableNames.add("comp_form_btn");
 
         String packagePath = "net.deniro.land.module.component.entity";
 

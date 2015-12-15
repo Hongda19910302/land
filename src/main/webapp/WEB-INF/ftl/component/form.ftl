@@ -219,24 +219,21 @@
     <#--按钮栏-->
         <div class="formBar">
             <ul>
-                <li>
-                    <div class="buttonActive">
-                        <div class="buttonContent">
-                            <button
-                                    type="submit">提交
-                            </button>
+                <#list compForm.compFormBtns as btn>
+                    <li>
+                        <div class="buttonActive">
+                            <div class="buttonContent">
+                                <button
+                                        type="${btn.type}"
+                                        <#if btn.btnClass??>
+                                            class="${btn.btnClass}"
+                                        </#if>
+                                        >${btn.name}
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="buttonActive">
-                        <div class="buttonContent">
-                            <button
-                                    type="button" class="close">取消
-                            </button>
-                        </div>
-                    </div>
-                </li>
+                    </li>
+                </#list>
             </ul>
         </div>
     </form>
