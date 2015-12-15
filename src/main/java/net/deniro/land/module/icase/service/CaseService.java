@@ -19,6 +19,7 @@ import net.deniro.land.module.system.dao.UserDao;
 import net.deniro.land.module.system.entity.TRegion;
 import net.deniro.land.module.system.entity.User;
 import org.apache.commons.collections.map.MultiKeyMap;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
@@ -246,7 +247,7 @@ public class CaseService {
                 tCase.setLat(new BigDecimal(caseParam.getCoordinateLatitude()));
             }
 
-            if (StringUtils.equals(caseParam.getActionType(), "draft")) {//草稿
+            if (BooleanUtils.toBoolean(caseParam.getIsDraft())) {//草稿
                 tCase.setStatus(DRAFT.code());
             } else {//立案
                 tCase.setStatus(PREPARE.code());

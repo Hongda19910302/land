@@ -17,9 +17,9 @@ import java.util.List;
 public class CaseParam extends QueryParam {
 
     /**
-     * action类型
+     * 是否是草稿箱
      */
-    private String actionType;
+    private String isDraft;
 
     /**
      * 用户ID

@@ -8,6 +8,7 @@ import net.deniro.land.module.icase.entity.CaseVariableField;
 import net.deniro.land.module.icase.entity.TCase;
 import net.deniro.land.module.icase.entity.TCase.CaseStatus;
 import net.deniro.land.module.icase.entity.VariableDataValueSelectName;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
@@ -320,6 +321,10 @@ public class CaseDao extends BaseDao<TCase> {
             params.put("getCreateTimeEnd", queryParam.getCreateTimeEnd());
         }
 
+        if (BooleanUtils.toBoolean(queryParam.getIsDraft())) {//草稿箱
+            sql.append(" and t.status=:caseStatus");
+            params.put("caseStatus", CaseStatus.DRAFT.code());
+        }
 
         //查询总数SQL
         String countSql = "select count(1) " + sql.toString();

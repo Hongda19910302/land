@@ -8,7 +8,6 @@ import net.deniro.land.module.icase.entity.CaseParam;
 import net.deniro.land.module.icase.service.CaseService;
 import net.deniro.land.module.system.action.BaseController;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -151,7 +150,8 @@ public class CaseController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/query")
-    public String query(CaseParam queryParam, ModelMap mm) {
+    public String query(CaseParam queryParam, ModelMap mm, HttpSession session) {
+        queryParam.setUserId(String.valueOf(getCurrentUserId(session)));
         super.pageSearch(mm, caseService.findPage(queryParam), queryParam, "case/query");
         return COMPONENT_PAGE_SEARCH_URL;
     }
