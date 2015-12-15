@@ -76,6 +76,12 @@ public class CompController {
     public String form(Integer componentId, ModelMap mm, HttpSession session) {
         User user = (User) session.getAttribute(UserService.USER_CODE);
 
+        //获取当前用户的区域信息
+        List<TRegion> regions = regionService.findByCompanyIdForTree(user.getCompanyId());
+        if (regions != null && !regions.isEmpty()) {
+            mm.addAttribute("currentUserRegion", regions.get(0));
+        }
+
         CompForm compForm = compFormService.findById(componentId, user.getCompanyId());
         mm.addAttribute("compForm", compForm);
         mm.addAttribute("componentId", componentId);

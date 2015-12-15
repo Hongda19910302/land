@@ -28,7 +28,7 @@
                                     case -280:
                                         break;
                                     default :
-                                        alertMsg.error("文件上传组件出现错误！errorCode："+errorCode);
+                                        alertMsg.error("文件上传组件出现错误！errorCode：" + errorCode);
                                         break;
                                 }
                             }
@@ -125,28 +125,36 @@
                                 .inputName}CancelBtn" class="button">
                                     <div class="buttonContent">取消上传</div>
                                 </div>
-                            <a class="btnLook"
-                               href="/case/lookupUploadedFiles?key=${item
-                               .inputName}"
-                               target="dialog"
-                               rel="lookupUploadedFiles"
-                               mask="true" minable="false" height="600"
-                               width="800"
-                               resizable="false"
-                               maxable="false"
-                               title="已上传的${item.title}"></a>
+                                <a class="btnLook"
+                                   href="/case/lookupUploadedFiles?key=${item
+                                   .inputName}"
+                                   target="dialog"
+                                   rel="lookupUploadedFiles"
+                                   mask="true" minable="false" height="600"
+                                   width="800"
+                                   resizable="false"
+                                   maxable="false"
+                                   title="已上传的${item.title}"></a>
                                 <#break>
 
                             <#case "REGION"><#--区域选择框-->
                                 <div class="lookupRegionBtn">
                                     <input name="${item.inputName}Id"
-                                           id="${item.inputName}Id_${componentId}" value=""
+                                           id="${item.inputName}Id_${componentId}"
+                                        <#if currentUserRegion??><#--默认为当前用户所在区域-->
+                                           value="${currentUserRegion.regionId}"
+                                        </#if>
+
                                            type="hidden"/>
                                     <span><input class="lookupInput ${item.inputClass}"
                                                  name="${item.inputName}Name"
                                                  id="${item.inputName}Name_${componentId}"
                                                  type="text" readonly="true"
-                                                 style="${item.inputCssStyle}"></span>
+                                                 style="${item.inputCssStyle}"
+                                        <#if currentUserRegion??>
+                                                 value="${currentUserRegion.name}"
+                                        </#if>
+                                            ></span>
                                     <a class="btnLook"
                                        href="/comp/lookupRegion?componentId=${componentId}"
                                        target="dialog"
