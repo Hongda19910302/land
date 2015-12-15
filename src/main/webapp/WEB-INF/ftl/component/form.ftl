@@ -223,11 +223,11 @@
                     <li>
                         <div class="buttonActive">
                             <div class="buttonContent">
-                                <button
+                                <button id="form_btn_${btn.id}"
                                         type="${btn.type}"
-                                        <#if btn.btnClass??>
-                                            class="${btn.btnClass}"
-                                        </#if>
+                                    <#if btn.btnClass??>
+                                        class="${btn.btnClass}"
+                                    </#if>
                                         >${btn.name}
                                 </button>
                             </div>
@@ -237,6 +237,20 @@
             </ul>
         </div>
     </form>
+
+    <#list compForm.compFormBtns as btn>
+        <#if btn.actionUrl??>
+            <script type="text/javascript">
+                $(function () {
+                    $("#form_btn_${btn.id}").click(function () {
+                        $("#${componentId}").attr("action","${btn.actionUrl}");
+                    });
+                });
+            </script>
+
+        </#if>
+    </#list>
+
 
 </#if>
 </div>

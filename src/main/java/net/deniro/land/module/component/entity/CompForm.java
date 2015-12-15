@@ -40,12 +40,6 @@ public class CompForm implements Serializable {
     @Column(name = "name", nullable = true,length = 30)
     private String name;
 
-    /**
-    * action地址
-    */
-    @Column(name = "action_url", nullable = true,length = 100)
-    private String actionUrl;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "compForm", fetch = FetchType.EAGER)
     @OrderBy("orderNo ASC ")
     private Set<CompFormItem> compFormItems;
