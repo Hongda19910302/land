@@ -181,12 +181,21 @@ public class CaseService {
             if (caseParam.getGpsFlag() != null) {
                 tCase.setLocateType(caseParam.getGpsFlag());
             }
+
+            //经纬度
             if (caseParam.getGpsX() != null) {
                 tCase.setLng(caseParam.getGpsX());
+            } else if (caseParam.getCoordinateLongitude() != null) {
+                tCase.setLng(new BigDecimal(caseParam.getCoordinateLongitude()));
             }
+
             if (caseParam.getGpsY() != null) {
                 tCase.setLat(caseParam.getGpsY());
+            } else if (caseParam.getCoordinateLatitude() != null) {
+                tCase.setLat(new BigDecimal(caseParam.getCoordinateLatitude()));
             }
+
+
             if (caseParam.getXcyId() != null) {
                 tCase.setInspectorId(caseParam.getXcyId());
             }
@@ -197,7 +206,7 @@ public class CaseService {
             }
 
             //所在区域
-            if(caseParam.getRegionId()!=null){
+            if (caseParam.getRegionId() != null) {
                 tCase.setRegionId(caseParam.getRegionId());
             }
 
