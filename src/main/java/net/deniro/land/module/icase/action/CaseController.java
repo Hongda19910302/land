@@ -65,6 +65,13 @@ public class CaseController extends BaseController {
 
         if (caseId != null) {//编辑
             TCase tCase = caseService.findById(caseId);
+
+            //处理区域信息
+            TRegion region=tCase.getFindRegion();
+            if(region!=null){
+                tCase.setRegionName(region.getName());
+                tCase.setRegionId(region.getRegionId());
+            }
             mm.addAttribute("obj", tCase);
         } else {//新增
             //获取当前用户的区域信息

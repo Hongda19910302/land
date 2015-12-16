@@ -148,6 +148,9 @@
                                         <#if currentUserRegion??><#--默认为当前用户所在区域-->
                                            value="${currentUserRegion.regionId}"
                                         </#if>
+                                        <#if obj??><#--展示字段值-->
+                                           value="${obj[item.inputName+"Id"]}"
+                                        </#if>
 
                                            type="hidden"/>
                                     <span><input class="lookupInput ${item.inputClass}"
@@ -157,6 +160,9 @@
                                                  style="${item.inputCssStyle}"
                                         <#if currentUserRegion??>
                                                  value="${currentUserRegion.name}"
+                                        </#if>
+                                        <#if obj??><#--展示字段值-->
+                                                 value="${obj[item.inputName+"Name"]}"
                                         </#if>
                                             ></span>
                                     <a class="btnLook"

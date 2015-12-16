@@ -340,7 +340,7 @@ public class CaseDao extends BaseDao<TCase> {
                 .getPageNum() - 1);//起始位置
         sql.append(" limit ").append(start).append(",").append
                 (queryParam.getNumPerPage());
-        String selectSql = " select t.*,v.name inspectorName,u.name creatorName,w.name regionName " + sql.toString();
+        String selectSql = " select t.*,v.name inspectorName,u.name creatorName,w.name regionName,w.region_id  regionId  " + sql.toString();
 
         //查询
         List<TCase> datas = namedParameterJdbcTemplate.query(selectSql, params, new
@@ -383,6 +383,8 @@ public class CaseDao extends BaseDao<TCase> {
                         entity.setInspectorName(resultSet.getString("inspectorName"));
                         entity.setRegionName(resultSet.getString("regionName"));
                         entity.setCreatorName(resultSet.getString("creatorName"));
+                        entity.setRegionName(resultSet.getString("regionName"));
+                        entity.setRegionId(resultSet.getInt("regionId"));
                         return entity;
                     }
                 });
