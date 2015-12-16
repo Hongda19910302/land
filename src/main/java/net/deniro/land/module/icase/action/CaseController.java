@@ -25,6 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 /**
@@ -60,18 +62,29 @@ public class CaseController extends BaseController {
     @RequestMapping(value = "/addOrEditForm")
     public String addOrEditForm(Integer componentId, Integer caseId, ModelMap mm,
                                 HttpSession
-            session) {
+                                        session) {
         User user = (User) session.getAttribute(UserService.USER_CODE);
 
         if (caseId != null) {//编辑
             TCase tCase = caseService.findById(caseId);
 
             //处理区域信息
-            TRegion region=tCase.getFindRegion();
-            if(region!=null){
+            TRegion region = tCase.getFindRegion();
+            if (region != null) {
                 tCase.setRegionName(region.getName());
                 tCase.setRegionId(region.getRegionId());
             }
+
+            //处理地理坐标信息
+            DecimalFormat df=new DecimalFormat("#.00000");//保留小数点后5位
+            if (tCase.getLng() != null) {
+                tCase.setCoordinateLongitude(df.format(tCase.getLng()));
+            }
+            if (tCase.getLat() != null) {
+                tCase.setCoordinateLatitude(df.format(tCase.getLat()));
+            }
+
+
             mm.addAttribute("obj", tCase);
         } else {//新增
             //获取当前用户的区域信息

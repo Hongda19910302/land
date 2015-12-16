@@ -202,6 +202,18 @@ public class TCase implements Serializable {
     private BigDecimal lat;
 
     /**
+     * Gps经度
+     */
+    @Transient
+    private String coordinateLongitude;
+
+    /**
+     * Gps纬度
+     */
+    @Transient
+    private String coordinateLatitude;
+
+    /**
      * 定位类型
      */
     @Column(name = "locate_type", nullable = true, length = 2)
