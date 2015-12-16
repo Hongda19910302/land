@@ -220,6 +220,19 @@ public class CaseController extends BaseController {
     }
 
     /**
+     * 跳转至【草稿箱】
+     *
+     * @return
+     */
+    @RequestMapping(value = "/draft")
+    public String draft(CaseParam queryParam, ModelMap mm, HttpSession session) {
+        queryParam.setIsDraft("true");
+
+        return query(queryParam, mm, session);
+    }
+
+
+    /**
      * 跳转至【案件查询】
      *
      * @return
