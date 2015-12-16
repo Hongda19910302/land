@@ -2,9 +2,6 @@
 
 <#if compForm??>
 
-<#--组件ID-->
-    <#assign componentId="form_"+compForm.id>
-
     <form method="post" action="${compForm.actionUrl}" id="${componentId}" class="pageForm"
           onsubmit="return validateCallback(this)">
 

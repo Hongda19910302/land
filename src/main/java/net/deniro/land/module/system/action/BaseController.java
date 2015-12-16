@@ -12,6 +12,7 @@ import net.deniro.land.module.system.entity.User;
 import net.deniro.land.module.system.service.ModuleService;
 import net.deniro.land.module.system.service.UserService;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -184,7 +185,8 @@ public class BaseController {
 
         CompForm compForm = compFormService.findById(componentId, user.getCompanyId());
         mm.addAttribute("compForm", compForm);
-        mm.addAttribute("componentId", componentId);
+        mm.addAttribute("componentId", "form_"+componentId+"_"+ RandomUtils.nextInt(0,100));
+
     }
 
     /**
