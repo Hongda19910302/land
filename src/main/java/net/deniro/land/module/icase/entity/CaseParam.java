@@ -185,7 +185,13 @@ public class CaseParam extends QueryParam {
     /**
      * 巡查结果
      */
+    @Deprecated
     private Integer inspectResult;
+
+    /**
+     * 巡查结果
+     */
+    private Integer surveyResult;
 
     /**
      * 案件来源

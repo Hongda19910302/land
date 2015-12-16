@@ -136,7 +136,7 @@ public class TCase implements Serializable {
     private Integer illegalType;
 
     /**
-     * 用地性质；1:非耕地 2:农田
+     * 用地性质；来自可变字段
      */
     @Column(name = "land_usage", nullable = true, length = 2)
     private Integer landUsage;
@@ -160,7 +160,7 @@ public class TCase implements Serializable {
     private String surveyResultName;
 
     /**
-     * 案件来源
+     * 案件来源；来自可变字段
      */
     @Column(name = "case_source", nullable = true, length = 2)
     private Integer caseSource;

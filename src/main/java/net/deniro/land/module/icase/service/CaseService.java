@@ -213,12 +213,11 @@ public class CaseService {
             }
 
             //处理违法地址
-            if(StringUtils.isNotBlank(caseParam.getIllegalAddr())){
+            if (StringUtils.isNotBlank(caseParam.getIllegalAddr())) {
                 tCase.setIllegalArea(caseParam.getIllegalAddr());
-            }else{
+            } else {
                 tCase.setIllegalArea(caseParam.getIllegalArea());
             }
-
 
 
             tCase.setIllegalType(caseParam.getIllegalType());
@@ -235,8 +234,14 @@ public class CaseService {
                 tCase.setRemark(caseParam.getRemark());
             }
 
+            //处理巡查结果
+            if (caseParam.getInspectResult() != null) {
+                tCase.setSurveyResult(caseParam.getInspectResult());
+            } else {
+                tCase.setSurveyResult(caseParam.getSurveyResult());
+            }
 
-            tCase.setSurveyResult(caseParam.getInspectResult());
+
             tCase.setLocateType(caseParam.getGpsFlag());
 
             //处理经度和纬度
