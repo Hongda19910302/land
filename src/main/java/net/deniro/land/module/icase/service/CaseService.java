@@ -164,6 +164,12 @@ public class CaseService {
             if (caseParam.getXcyId() != null) {
                 tCase.setInspectorId(caseParam.getXcyId());
             }
+
+            //当事人
+            if (StringUtils.isNotBlank(caseParam.getParties())) {
+                tCase.setParties(caseParam.getParties());
+            }
+
             tCase.setModifyTime(new Date());
 
             caseDao.update(tCase);
