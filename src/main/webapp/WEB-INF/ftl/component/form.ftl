@@ -193,12 +193,21 @@
                                     <input type="text" name="${item
                                     .inputName}Longitude" readonly="true"
                                            class="${item.inputClass}"
-                                           style="${item.inputCssStyle}"/>
+                                           style="${item.inputCssStyle}"
+                                        <#if obj??><#--展示字段值-->
+                                           value="${obj[item
+                                           .inputName+"Longitude"]}"
+                                        </#if>
+                                            />
                                     <span>纬度</span>
                                     <input type="text" name="${item
                                     .inputName}Latitude" readonly="true"
                                            class="${item.inputClass}"
-                                           style="${item.inputCssStyle}"/>
+                                           style="${item.inputCssStyle}"
+                                        <#if obj??><#--展示字段值-->
+                                           value="${obj[item.inputName+"Latitude"]}"
+                                        </#if>
+                                            />
                                     <a class="btnLook"
                                        href="/comp/lookupGeographicCoordinates?formId=${componentId}&fieldName=${item
                                        .inputName}"
