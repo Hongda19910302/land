@@ -174,10 +174,14 @@ public class CaseService {
                 tCase.setRemark(caseParam.getRemark());
             }
 
-
+            //巡查结果
             if (caseParam.getInspectResult() != null) {
                 tCase.setSurveyResult(caseParam.getInspectResult());
+            }else if(caseParam.getSurveyResult()!=null){
+                tCase.setSurveyResult(caseParam.getSurveyResult());
             }
+
+
             if (caseParam.getGpsFlag() != null) {
                 tCase.setLocateType(caseParam.getGpsFlag());
             }
@@ -208,6 +212,11 @@ public class CaseService {
             //所在区域
             if (caseParam.getRegionId() != null) {
                 tCase.setRegionId(caseParam.getRegionId());
+            }
+
+            //违建用途
+            if(caseParam.getIllegalUse()!=null){
+                tCase.setIllegalUse(caseParam.getIllegalUse());
             }
 
             tCase.setModifyTime(new Date());
