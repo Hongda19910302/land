@@ -159,14 +159,18 @@ public class CaseService {
             if (caseParam.getCaseSource() != null) {
                 tCase.setCaseSource(caseParam.getCaseSource());
             }
+
+            //违法面积
             if (caseParam.getSpace() != null) {
                 tCase.setIllegalAreaSpace(caseParam.getSpace());
+            } else if (caseParam.getIllegalAreaSpace() != null) {
+                tCase.setIllegalAreaSpace(caseParam.getIllegalAreaSpace());
             }
 
             //备注
             if (caseParam.getCaseComment() != null) {
                 tCase.setRemark(caseParam.getCaseComment());
-            }else if(caseParam.getRemark()!=null){
+            } else if (caseParam.getRemark() != null) {
                 tCase.setRemark(caseParam.getRemark());
             }
 
@@ -190,6 +194,11 @@ public class CaseService {
             //当事人
             if (StringUtils.isNotBlank(caseParam.getParties())) {
                 tCase.setParties(caseParam.getParties());
+            }
+
+            //所在区域
+            if(caseParam.getRegionId()!=null){
+                tCase.setRegionId(caseParam.getRegionId());
             }
 
             tCase.setModifyTime(new Date());
