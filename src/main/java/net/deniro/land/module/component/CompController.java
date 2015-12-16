@@ -72,6 +72,7 @@ public class CompController {
      * @param session
      * @return
      */
+    @Deprecated
     @RequestMapping(value = "/form")
     public String form(Integer componentId, ModelMap mm, HttpSession session) {
         User user = (User) session.getAttribute(UserService.USER_CODE);

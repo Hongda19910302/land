@@ -5,10 +5,8 @@ import net.deniro.land.common.entity.QueryParam;
 import net.deniro.land.common.service.Constants;
 import net.deniro.land.common.utils.UUIDGenerator;
 import net.deniro.land.common.utils.ftp.FtpUtils;
-import net.deniro.land.module.component.entity.CompPageSearch;
-import net.deniro.land.module.component.entity.CompPageSearchForm;
-import net.deniro.land.module.component.entity.ComponentType;
-import net.deniro.land.module.component.entity.InputType;
+import net.deniro.land.module.component.entity.*;
+import net.deniro.land.module.component.service.CompFormService;
 import net.deniro.land.module.component.service.CompPageSearchService;
 import net.deniro.land.module.system.entity.User;
 import net.deniro.land.module.system.service.ModuleService;
@@ -45,12 +43,20 @@ public class BaseController {
      */
     public static final String COMPONENT_PAGE_SEARCH_URL = "/component/page-search";
 
+    /**
+     * 表单组件URL地址
+     */
+    public static final String COMPONENT_FORM_URL = "/component/form";
+
     @Deprecated
     @Autowired
     private ModuleService moduleService;
 
     @Autowired
     private CompPageSearchService compPageSearchService;
+
+    @Autowired
+    private CompFormService compFormService;
 
     @Autowired
     private FtpUtils ftpUtils;
@@ -164,6 +170,21 @@ public class BaseController {
         } else {
             return -1;
         }
+    }
+
+    /**
+     * 调用表单组件
+     *
+     * @param componentId
+     * @param mm
+     * @param session
+     */
+    public void form(Integer componentId, ModelMap mm, HttpSession session) {
+        User user = (User) session.getAttribute(UserService.USER_CODE);
+
+        CompForm compForm = compFormService.findById(componentId, user.getCompanyId());
+        mm.addAttribute("compForm", compForm);
+        mm.addAttribute("componentId", componentId);
     }
 
     /**

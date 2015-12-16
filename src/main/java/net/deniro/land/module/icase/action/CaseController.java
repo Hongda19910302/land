@@ -7,6 +7,10 @@ import net.deniro.land.common.utils.ftp.FtpUtils;
 import net.deniro.land.module.icase.entity.CaseParam;
 import net.deniro.land.module.icase.service.CaseService;
 import net.deniro.land.module.system.action.BaseController;
+import net.deniro.land.module.system.entity.TRegion;
+import net.deniro.land.module.system.entity.User;
+import net.deniro.land.module.system.service.RegionService;
+import net.deniro.land.module.system.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +42,32 @@ public class CaseController extends BaseController {
     private CaseService caseService;
 
     @Autowired
+    private RegionService regionService;
+
+    @Autowired
     private FtpUtils ftpUtils;
+
+    /**
+     * 跳转至新建或编辑案件表单
+     *
+     * @param componentId
+     * @param mm
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/addOrEdit")
+    public String addOrEdit(Integer componentId, ModelMap mm, HttpSession session) {
+        User user = (User) session.getAttribute(UserService.USER_CODE);
+
+        //获取当前用户的区域信息
+        List<TRegion> regions = regionService.findByCompanyIdForTree(user.getCompanyId());
+        if (regions != null && !regions.isEmpty()) {
+            mm.addAttribute("currentUserRegion", regions.get(0));
+        }
+
+        form(componentId, mm, session);
+        return COMPONENT_FORM_URL;
+    }
 
     /**
      * 新增案件
