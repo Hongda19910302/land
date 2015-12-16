@@ -177,8 +177,13 @@ public class CaseService {
             //巡查结果
             if (caseParam.getInspectResult() != null) {
                 tCase.setSurveyResult(caseParam.getInspectResult());
-            }else if(caseParam.getSurveyResult()!=null){
+            } else if (caseParam.getSurveyResult() != null) {
                 tCase.setSurveyResult(caseParam.getSurveyResult());
+            }
+
+            //案件来源
+            if (caseParam.getCaseSource() != null) {
+                tCase.setCaseSource(caseParam.getCaseSource());
             }
 
 
@@ -215,7 +220,7 @@ public class CaseService {
             }
 
             //违建用途
-            if(caseParam.getIllegalUse()!=null){
+            if (caseParam.getIllegalUse() != null) {
                 tCase.setIllegalUse(caseParam.getIllegalUse());
             }
 
