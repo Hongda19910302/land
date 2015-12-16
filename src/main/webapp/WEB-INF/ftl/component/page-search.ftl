@@ -440,9 +440,9 @@
                             //打开新对话框
                             $.pdialog.open(url, containId, containTitle, {
                                 //高度
-                                height:  ${toolBtn.dialogHeight},
+                                height:  ${toolBtn.dialogHeight?c},
                                 //宽度
-                                width:  ${toolBtn.dialogWidth},
+                                width:  ${toolBtn.dialogWidth?c},
                                 //最小高度
                                 minH:  ${toolBtn.dialogMinHeight},
                                 //最小宽度
