@@ -116,23 +116,33 @@ public class CaseService {
             if (caseParam.getPlaceId() != null) {
                 tCase.setRegionId(caseParam.getPlaceId());
             }
+
+            //东南西北至
             if (caseParam.getEast() != null) {
                 tCase.setEastTo(caseParam.getEast());
+            } else if (caseParam.getEastTo() != null) {
+                tCase.setEastTo(caseParam.getEastTo());
             }
             if (caseParam.getWest() != null) {
                 tCase.setWestTo(caseParam.getWest());
+            } else if (caseParam.getWestTo() != null) {
+                tCase.setWestTo(caseParam.getWestTo());
             }
             if (caseParam.getNorth() != null) {
                 tCase.setNorthTo(caseParam.getNorth());
+            } else if (caseParam.getNorthTo() != null) {
+                tCase.setNorthTo(caseParam.getNorthTo());
             }
             if (caseParam.getSouth() != null) {
                 tCase.setSouthTo(caseParam.getSouth());
+            } else if (caseParam.getSouthTo() != null) {
+                tCase.setSouthTo(caseParam.getSouthTo());
             }
 
             //违法地点
             if (caseParam.getIllegalAddr() != null) {
                 tCase.setIllegalArea(caseParam.getIllegalAddr());
-            }else if(caseParam.getIllegalArea()!=null){
+            } else if (caseParam.getIllegalArea() != null) {
                 tCase.setIllegalArea(caseParam.getIllegalArea());
             }
 
