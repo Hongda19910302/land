@@ -62,7 +62,13 @@
                             <#case "TEXT"><#--文本输入框-->
                                 <input type="text" name="${item.inputName}"
                                        class="${item.inputClass}"
-                                       style="${item.inputCssStyle}"/>
+                                       style="${item.inputCssStyle}"
+
+                                    <#if obj??><#--展示字段值-->
+                                       value="${obj[item.inputName]}"
+                                    </#if>
+
+                                        />
                                 <#break>
 
                             <#case "VARIABLE"><#--字段为可变内容的下拉选择框-->
@@ -243,7 +249,7 @@
             <script type="text/javascript">
                 $(function () {
                     $("#form_btn_${btn.id}").click(function () {
-                        $("#${componentId}").attr("action","${btn.actionUrl}");
+                        $("#${componentId}").attr("action", "${btn.actionUrl}");
                     });
                 });
             </script>
