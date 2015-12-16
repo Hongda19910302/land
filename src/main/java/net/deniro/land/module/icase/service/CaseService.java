@@ -128,9 +128,15 @@ public class CaseService {
             if (caseParam.getSouth() != null) {
                 tCase.setSouthTo(caseParam.getSouth());
             }
+
+            //违法地点
             if (caseParam.getIllegalAddr() != null) {
                 tCase.setIllegalArea(caseParam.getIllegalAddr());
+            }else if(caseParam.getIllegalArea()!=null){
+                tCase.setIllegalArea(caseParam.getIllegalArea());
             }
+
+
             if (caseParam.getIllegalType() != null) {
                 tCase.setIllegalType(caseParam.getIllegalType());
             }
