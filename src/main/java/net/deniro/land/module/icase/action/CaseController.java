@@ -12,6 +12,7 @@ import net.deniro.land.module.system.entity.TRegion;
 import net.deniro.land.module.system.entity.User;
 import net.deniro.land.module.system.service.RegionService;
 import net.deniro.land.module.system.service.UserService;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,8 +117,16 @@ public class CaseController extends BaseController {
             String tip = "";
             String navTabId = "";
             if (caseParam.getCaseId() != null) {//修改
+                if (BooleanUtils.toBoolean(caseParam.getIsDraft())) {//继续存为草稿，刷新【草稿箱】模块
+                    navTabId = MENU_TAB_PREFIX + "28";
+                } else {//预立案，刷新【案件查询】模块
+                    caseParam.setStatus(String.valueOf(TCase.CaseStatus.PREPARE.code()));
+                    navTabId = MENU_TAB_PREFIX + "10";
+                }
+
                 isOk = caseService.modifyCase(caseParam);
-                navTabId = MENU_TAB_PREFIX + "28";
+
+
                 tip = "案件修改";
             } else {//新增
                 isOk = caseService.addCase(caseParam);

@@ -224,6 +224,11 @@ public class CaseService {
                 tCase.setIllegalUse(caseParam.getIllegalUse());
             }
 
+            //案件状态
+            if (StringUtils.isNotBlank(caseParam.getStatus())) {
+                tCase.setStatus(NumberUtils.toInt(caseParam.getStatus()));
+            }
+
             tCase.setModifyTime(new Date());
 
             caseDao.update(tCase);
