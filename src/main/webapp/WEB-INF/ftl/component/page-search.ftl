@@ -417,7 +417,7 @@
 
                     var $select = $tbody.find(".selected");
                     if ($select.length == 0) {//未选择某条记录，提示
-                        alertMsg.warn("请选择某条记录！")
+                        alertMsg.warn("请先选择某条记录！");
                         event.preventDefault();
                         return;
                     }
