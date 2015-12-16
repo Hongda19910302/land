@@ -396,7 +396,7 @@
             <#list toolBtns as toolBtn>
                 <#assign toolBtnClassName=toolBtn.btnClassName>
                 <li><a id="${toolBtnClassName}_${componentId}"
-                       class="${toolBtnClassName}"><span>详情</span></a>
+                       class="${toolBtnClassName}"><span>${toolBtn.btnName}</span></a>
                 </li>
             </#list>
         </ul>
