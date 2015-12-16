@@ -57,8 +57,9 @@ public class CaseController extends BaseController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "/addOrEdit")
-    public String addOrEdit(Integer componentId, Integer caseId, ModelMap mm, HttpSession
+    @RequestMapping(value = "/addOrEditForm")
+    public String addOrEditForm(Integer componentId, Integer caseId, ModelMap mm,
+                                HttpSession
             session) {
         User user = (User) session.getAttribute(UserService.USER_CODE);
 

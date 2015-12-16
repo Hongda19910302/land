@@ -212,7 +212,15 @@ public class CaseService {
                 tCase.setIllegalAreaSpace(caseParam.getIllegalAreaSpace());
             }
 
-            tCase.setIllegalArea(caseParam.getIllegalAddr());
+            //处理违法地址
+            if(StringUtils.isNotBlank(caseParam.getIllegalAddr())){
+                tCase.setIllegalArea(caseParam.getIllegalAddr());
+            }else{
+                tCase.setIllegalArea(caseParam.getIllegalArea());
+            }
+
+
+
             tCase.setIllegalType(caseParam.getIllegalType());
             tCase.setIllegalUse(caseParam.getIllegalUse());
             tCase.setLandUsage(caseParam.getLandUsage());

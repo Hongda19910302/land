@@ -104,7 +104,13 @@ public class CaseParam extends QueryParam {
     /**
      * 违法地点
      */
+    @Deprecated
     private String illegalAddr;
+
+    /**
+     * 违法地点
+     */
+    private String IllegalArea;
 
     /**
      * 违法面积
