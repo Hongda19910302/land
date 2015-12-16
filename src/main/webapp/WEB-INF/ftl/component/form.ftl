@@ -94,7 +94,8 @@
                             <#case "TEXTAREA"><#-- 多行文本框-->
                                 <textarea name="${item.inputName}" class="${item
                                 .inputClass}" cols="${item.textareaCols}" rows="${item
-                                .textareaRows}"></textarea>
+                                .textareaRows}"
+                                        ><#if obj??>${obj[item.inputName]}</#if></textarea>
                                 <#break>
 
                             <#case "UPLOAD"><#-- 文件上传-->
