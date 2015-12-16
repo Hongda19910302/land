@@ -26,8 +26,9 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.List;
+
+import static net.deniro.land.common.dwz.AjaxResponseSuccess.MENU_TAB_PREFIX;
 
 /**
  * 案件
@@ -76,7 +77,7 @@ public class CaseController extends BaseController {
             }
 
             //处理地理坐标信息
-            DecimalFormat df=new DecimalFormat("#.00000");//保留小数点后5位
+            DecimalFormat df = new DecimalFormat("#.00000");//保留小数点后5位
             if (tCase.getLng() != null) {
                 tCase.setCoordinateLongitude(df.format(tCase.getLng()));
             }
@@ -98,27 +99,43 @@ public class CaseController extends BaseController {
         return COMPONENT_FORM_URL;
     }
 
+
     /**
-     * 新增案件
+     * 新增或修改案件
      *
      * @param caseParam 案件参数
      * @return
      */
-    @RequestMapping(value = "add")
+    @RequestMapping(value = "addOrEdit")
     @ResponseBody
-    public AjaxResponse addCase(CaseParam caseParam, HttpSession session) {
+    public AjaxResponse addOrEditCase(CaseParam caseParam, HttpSession session) {
         try {
             caseParam.setUserId(String.valueOf(getCurrentUserId(session)));
 
-            boolean isOk = caseService.addCase(caseParam);
+            boolean isOk;
+            String tip = "";
+            String navTabId = "";
+            if (caseParam.getCaseId() != null) {//修改
+                isOk = caseService.modifyCase(caseParam);
+                navTabId = MENU_TAB_PREFIX + "28";
+                tip = "案件修改";
+            } else {//新增
+                isOk = caseService.addCase(caseParam);
+                navTabId = MENU_TAB_PREFIX + "10";
+                tip = "案件新增";
+            }
+
             if (isOk) {
-                return new AjaxResponseSuccess("新增案件成功");
+                AjaxResponseSuccess ajaxResponseSuccess = new AjaxResponseSuccess(tip + "成功");
+                ajaxResponseSuccess.setNavTabId(navTabId);
+                ajaxResponseSuccess.setCloseCurrent();
+                return ajaxResponseSuccess;
             } else {
-                return new AjaxResponseError("新增案件失败");
+                return new AjaxResponseError(tip + "失败");
             }
         } catch (Exception e) {
-            logger.error("新增案件", e);
-            return new AjaxResponseError("新增案件失败");
+            logger.error("新增或修改案件", e);
+            return new AjaxResponseError("操作失败");
         }
     }
 
