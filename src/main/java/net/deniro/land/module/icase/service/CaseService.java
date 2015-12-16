@@ -162,9 +162,15 @@ public class CaseService {
             if (caseParam.getSpace() != null) {
                 tCase.setIllegalAreaSpace(caseParam.getSpace());
             }
+
+            //备注
             if (caseParam.getCaseComment() != null) {
                 tCase.setRemark(caseParam.getCaseComment());
+            }else if(caseParam.getRemark()!=null){
+                tCase.setRemark(caseParam.getRemark());
             }
+
+
             if (caseParam.getInspectResult() != null) {
                 tCase.setSurveyResult(caseParam.getInspectResult());
             }
