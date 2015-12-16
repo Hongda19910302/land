@@ -27,9 +27,11 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import static net.deniro.land.common.dwz.AjaxResponseSuccess.MENU_TAB_PREFIX;
+import static net.deniro.land.common.dwz.AjaxResponseSuccess.NAB_TAB_ID_SPLIT;
 
 /**
  * 案件
@@ -115,28 +117,30 @@ public class CaseController extends BaseController {
 
             boolean isOk;
             String tip = "";
-            String navTabId = "";
+            List<String> navTabIds = new ArrayList<String>();
+            String draftId = MENU_TAB_PREFIX + "28";//【草稿箱】模块
+            String queryCaseId = MENU_TAB_PREFIX + "10";//【案件查询】模块
             if (caseParam.getCaseId() != null) {//修改
                 if (BooleanUtils.toBoolean(caseParam.getIsDraft())) {//继续存为草稿，刷新【草稿箱】模块
-                    navTabId = MENU_TAB_PREFIX + "28";
-                } else {//预立案，刷新【案件查询】模块
+                    navTabIds.add(draftId);
+                } else {//预立案，刷新【草稿箱】、【案件查询】模块
                     caseParam.setStatus(String.valueOf(TCase.CaseStatus.PREPARE.code()));
-                    navTabId = MENU_TAB_PREFIX + "10";
+                    navTabIds.add(draftId);
+                    navTabIds.add(queryCaseId);
                 }
 
                 isOk = caseService.modifyCase(caseParam);
-
-
                 tip = "案件修改";
             } else {//新增
                 isOk = caseService.addCase(caseParam);
-                navTabId = MENU_TAB_PREFIX + "10";
+                navTabIds.add(queryCaseId);
                 tip = "案件新增";
             }
 
             if (isOk) {
                 AjaxResponseSuccess ajaxResponseSuccess = new AjaxResponseSuccess(tip + "成功");
-                ajaxResponseSuccess.setNavTabId(navTabId);
+                ajaxResponseSuccess.setNavTabIds(StringUtils.join(navTabIds.toArray(),
+                        NAB_TAB_ID_SPLIT));
                 ajaxResponseSuccess.setCloseCurrent();
                 return ajaxResponseSuccess;
             } else {

@@ -16,9 +16,14 @@ public class AjaxResponseSuccess extends AjaxResponse {
 
 
     /**
-     * 需要重新载入内容navTabId
+     * 需要重新载入内容navTabIds，多个以逗号分隔
      */
-    private String navTabId = "";
+    private String navTabIds = "";
+
+    /**
+     * navTabIds分隔符
+     */
+    public static final String NAB_TAB_ID_SPLIT = ",";
 
     /**
      * 如果是closeCurrent就会关闭当前tab
@@ -28,7 +33,7 @@ public class AjaxResponseSuccess extends AjaxResponse {
     /**
      * 菜单模块的tab前缀
      */
-    public static final String MENU_TAB_PREFIX="child_menu_";
+    public static final String MENU_TAB_PREFIX = "child_menu_";
 
     /**
      * 设置为关闭当前tab
