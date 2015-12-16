@@ -194,13 +194,13 @@ public class CaseService {
             //经纬度
             if (caseParam.getGpsX() != null) {
                 tCase.setLng(caseParam.getGpsX());
-            } else if (caseParam.getCoordinateLongitude() != null) {
+            } else if (StringUtils.isNotBlank(caseParam.getCoordinateLongitude())) {
                 tCase.setLng(new BigDecimal(caseParam.getCoordinateLongitude()));
             }
 
             if (caseParam.getGpsY() != null) {
                 tCase.setLat(caseParam.getGpsY());
-            } else if (caseParam.getCoordinateLatitude() != null) {
+            } else if (StringUtils.isNotBlank(caseParam.getCoordinateLatitude())) {
                 tCase.setLat(new BigDecimal(caseParam.getCoordinateLatitude()));
             }
 
