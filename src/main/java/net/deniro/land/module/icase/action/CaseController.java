@@ -5,6 +5,7 @@ import net.deniro.land.common.dwz.AjaxResponseError;
 import net.deniro.land.common.dwz.AjaxResponseSuccess;
 import net.deniro.land.common.utils.ftp.FtpUtils;
 import net.deniro.land.module.icase.entity.CaseParam;
+import net.deniro.land.module.icase.entity.TCase;
 import net.deniro.land.module.icase.service.CaseService;
 import net.deniro.land.module.system.action.BaseController;
 import net.deniro.land.module.system.entity.TRegion;
@@ -48,21 +49,28 @@ public class CaseController extends BaseController {
     private FtpUtils ftpUtils;
 
     /**
-     * 跳转至新建或编辑案件表单
+     * 跳转至【新建或编辑案件】表单
      *
-     * @param componentId
+     * @param componentId 组件ID
+     * @param caseId      案件ID
      * @param mm
      * @param session
      * @return
      */
     @RequestMapping(value = "/addOrEdit")
-    public String addOrEdit(Integer componentId, ModelMap mm, HttpSession session) {
+    public String addOrEdit(Integer componentId, Integer caseId, ModelMap mm, HttpSession
+            session) {
         User user = (User) session.getAttribute(UserService.USER_CODE);
 
-        //获取当前用户的区域信息
-        List<TRegion> regions = regionService.findByCompanyIdForTree(user.getCompanyId());
-        if (regions != null && !regions.isEmpty()) {
-            mm.addAttribute("currentUserRegion", regions.get(0));
+        if (caseId != null) {//编辑
+            TCase tCase = caseService.findById(caseId);
+            mm.addAttribute("obj", tCase);
+        } else {//新增
+            //获取当前用户的区域信息
+            List<TRegion> regions = regionService.findByCompanyIdForTree(user.getCompanyId());
+            if (regions != null && !regions.isEmpty()) {
+                mm.addAttribute("currentUserRegion", regions.get(0));
+            }
         }
 
         form(componentId, mm, session);
