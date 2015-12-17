@@ -52,7 +52,7 @@ public class FtpHeartBeatThread implements Runnable {
             } catch (Exception ex) {
                 logger.error("FTP服务器连接失败，尝试重连。失败原因：" + ex.getMessage());
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(100);//FTP重连时间缩短为0.1s
                 } catch (InterruptedException e) {
                     logger.error("FTP服务器心跳检测", e);
                 }
