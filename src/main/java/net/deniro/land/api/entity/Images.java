@@ -19,4 +19,14 @@ public class Images {
      * 附件类型 0:照片 1：单据 2:压缩文件 3：word文件
      */
     private Integer imageType;
+
+    /**
+     * 文件名称
+     */
+    private String fileName;
+
+    /**
+     * 文件实际路径
+     */
+    private String fileActualPath;
 }
