@@ -16,9 +16,7 @@ public class Images {
     private String imageAddr;
 
     /**
-     * 文件类型；
-     * 0:拆除前/后照片
-     * 1:制止通知单
+     * 附件类型 0:照片 1：单据 2:压缩文件 3：word文件
      */
     private Integer imageType;
 }
