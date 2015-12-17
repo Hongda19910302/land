@@ -76,6 +76,7 @@ public class FtpUtils {
 
     /**
      * 获取实际上传路径
+     *
      * @param userId 当前用户ID
      * @return
      */
@@ -130,10 +131,7 @@ public class FtpUtils {
         try {
             mkDirs(path);
 
-            while (!heartBeatThread.getClient().isConnected()) {//如果未连接，则等待1s重新获取
-                Thread.sleep(1000);
-            }
-            client = heartBeatThread.getClient();
+            setClient();
 
             client.changeDirectory(path);//切换到指定路径下
             client.upload(file, new CustomFTPDataTransferListener(file.getName()));//上传
@@ -146,14 +144,9 @@ public class FtpUtils {
     }
 
     /**
-     * 创建层级目录
-     *
-     * @param path
+     * 设置FTP连接
      */
-    public void mkDirs(String path) {
-        if (StringUtils.isBlank(path)) {
-            return;
-        }
+    public void setClient() {
         while (!heartBeatThread.getClient().isConnected()) {//如果未连接，则等待1s重新获取
             try {
                 Thread.sleep(1000);
@@ -162,6 +155,18 @@ public class FtpUtils {
             }
         }
         client = heartBeatThread.getClient();
+    }
+
+    /**
+     * 创建层级目录
+     *
+     * @param path
+     */
+    public void mkDirs(String path) {
+        if (StringUtils.isBlank(path)) {
+            return;
+        }
+        setClient();
 
         try {
             String currentPath = client.currentDirectory();//当前路径
