@@ -74,6 +74,16 @@ public class FtpUtils {
      */
     private FTPClient client;
 
+    /**
+     * 获取实际上传路径
+     * @param userId 当前用户ID
+     * @return
+     */
+    public String getRealPath(String userId) {
+        return getBaseDir() + Constants.FTP_PATH_SPLIT + getRealDir() +
+                Constants.FTP_PATH_SPLIT + userId + Constants.FTP_PATH_SPLIT + getImgDir();
+    }
+
 
     /**
      * 生成FTP临时图片存放路径
@@ -120,10 +130,12 @@ public class FtpUtils {
         try {
             mkDirs(path);
 
-            client = heartBeatThread.getClient();
-            if (!client.isConnected()) {
-                return false;
+
+            while (!heartBeatThread.getClient().isConnected()) {//如果未连接，则等待1s重新获取
+                Thread.sleep(1000);
             }
+            client = heartBeatThread.getClient();
+
             client.changeDirectory(path);//切换到指定路径下
             client.upload(file, new CustomFTPDataTransferListener(file.getName()));//上传
 
@@ -195,7 +207,7 @@ public class FtpUtils {
      * 启动心跳连接
      */
     public void initHeartBeat() {
-        heartBeatThread = new FtpHeartBeatThread(client,this);
+        heartBeatThread = new FtpHeartBeatThread(client, this);
         executor = Executors.newSingleThreadExecutor();
         executor.execute(heartBeatThread);
     }
