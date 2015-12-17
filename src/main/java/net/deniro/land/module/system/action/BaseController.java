@@ -1,5 +1,6 @@
 package net.deniro.land.module.system.action;
 
+import net.deniro.land.api.entity.Images;
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.common.entity.QueryParam;
 import net.deniro.land.common.service.Constants;
@@ -23,6 +24,8 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+
+import static net.deniro.land.module.icase.entity.TAttachment.AttachmentType;
 
 /**
  * 基础
@@ -73,6 +76,31 @@ public class BaseController {
     public static Map<String, List<FTPUploadFile>> uploadFileNames = Collections.synchronizedMap(new
             HashMap<String,
                     List<FTPUploadFile>>());
+
+    /**
+     * 依据key，获取待上传的文件列表
+     * @param key
+     * @param ftpRealPath ftp实际路径
+     * @param attachmentType 附件类型
+     * @return
+     */
+    public List<Images> findToUploadFilesByKey(String key, String ftpRealPath,
+                                               AttachmentType attachmentType) {
+        List<Images> files = new ArrayList<Images>();
+        if (uploadFileNames.containsKey(key)) {//存在需要上传的文件
+            List<FTPUploadFile> FTPUploadFiles = uploadFileNames.get(key);
+            for (FTPUploadFile FTPUploadFile : FTPUploadFiles) {
+                Images image = new Images();
+                image.setImageAddr(ftpRealPath +
+                        FTPUploadFile.getFileName());
+                image.setImageType(attachmentType.code());
+                image.setFileName(FTPUploadFile.getFileName());
+                image.setFileActualPath(FTPUploadFile.getFilePath());
+                files.add(image);
+            }
+        }
+        return files;
+    }
 
     /**
      * 获取文件上传的临时绝对路径
