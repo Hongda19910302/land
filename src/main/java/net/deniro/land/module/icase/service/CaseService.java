@@ -9,6 +9,7 @@ import net.deniro.land.common.dao.Page;
 import net.deniro.land.common.utils.JsonUtils;
 import net.deniro.land.common.utils.PropertiesReader;
 import net.deniro.land.common.utils.TimeUtils;
+import net.deniro.land.common.utils.ftp.FtpUtils;
 import net.deniro.land.module.icase.dao.*;
 import net.deniro.land.module.icase.entity.*;
 import net.deniro.land.module.icase.entity.TAttachmentRelation.RelationType;
@@ -27,12 +28,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Column;
+import java.io.File;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import static net.deniro.land.api.entity.OverAuditParam.CheckType;
 import static net.deniro.land.module.icase.entity.TCase.CaseStatus.*;
@@ -82,10 +86,7 @@ public class CaseService {
     private RegionDao regionDao;
 
     @Autowired
-    private SelectTypeDao selectTypeDao;
-
-    @Autowired
-    private VariableFieldDao variableFieldDao;
+    private FtpUtils ftpUtils;
 
     /**
      * 修改案件
@@ -386,8 +387,23 @@ public class CaseService {
             /**
              * 新增附件
              */
-            addAttachments(caseParam.getImages(), tCase.getCaseId(), RelationType
-                    .CASE);
+            if (StringUtils.isNotBlank(caseParam.getImages())) {
+                addAttachments(caseParam.getImages(), tCase.getCaseId(), RelationType
+                        .CASE);
+            } else {
+                addAttachments(caseParam.getAttachmentList(), tCase.getCaseId(), RelationType.CASE);
+
+                //上传附件至FTP服务器
+                List<File> files = new ArrayList<File>();
+                for (Images image : caseParam.getAttachmentList()) {
+                    File file = new File(image.getFileActualPath());
+                    files.add(file);
+                }
+                Executor executor = Executors.newSingleThreadExecutor();
+                executor.execute(new UploadFTPService(caseParam.getUserId(), files,ftpUtils));
+
+            }
+
 
             /**
              * 新增流程日志
@@ -1069,17 +1085,16 @@ public class CaseService {
     /**
      * 新增附件
      *
-     * @param imagesInJson 附件信息（json格式）
+     * @param images       附件信息
      * @param relationId   关联的资源ID
      * @param relationType 资源类型
      */
-    private void addAttachments(String imagesInJson, Integer relationId, RelationType relationType) {
-        if (StringUtils.isBlank(imagesInJson)) {
+    private void addAttachments(List<Images> images, Integer relationId, RelationType
+            relationType) {
+        if (images == null || images.isEmpty()) {
             return;
         }
 
-        List<Images> images = JsonUtils.readJson(imagesInJson, List
-                .class, Images.class);
         for (Images image : images) {
             //创建附件
             TAttachment attachment = new TAttachment();
@@ -1095,6 +1110,24 @@ public class CaseService {
             tAttachmentRelation.setRelationType(relationType.code());
             attachmentRelationDao.save(tAttachmentRelation);
         }
+    }
+
+    /**
+     * 新增附件
+     *
+     * @param imagesInJson 附件信息（json格式）
+     * @param relationId   关联的资源ID
+     * @param relationType 资源类型
+     */
+    private void addAttachments(String imagesInJson, Integer relationId, RelationType relationType) {
+        if (StringUtils.isBlank(imagesInJson)) {
+            return;
+        }
+
+        List<Images> images = JsonUtils.readJson(imagesInJson, List
+                .class, Images.class);
+
+        addAttachments(images, relationId, relationType);
     }
 
 }

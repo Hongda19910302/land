@@ -1,6 +1,7 @@
 package net.deniro.land.module.icase.entity;
 
 import lombok.Data;
+import net.deniro.land.api.entity.Images;
 import net.deniro.land.common.entity.QueryParam;
 
 import java.math.BigDecimal;
@@ -222,6 +223,11 @@ public class CaseParam extends QueryParam {
      * 照片；json字符串，格式见 net.deniro.land.api.entity.Images
      */
     private String images;
+
+    /**
+     * 附件列表
+     */
+    private List<Images> attachmentList;
 
     /**
      * 未知

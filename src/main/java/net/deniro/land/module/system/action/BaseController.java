@@ -63,11 +63,26 @@ public class BaseController {
     private FtpUtils ftpUtils;
 
     /**
-     * 待上传的文件；key：关键字；value：待上传的文件名称列表
+     * 上传文件的临时路径
      */
-    public static Map<String, List<String>> uploadFileNames = Collections.synchronizedMap(new
+    public static final String UPLOAD_TEMP_PATH = "/temp/";
+
+    /**
+     * 待上传的文件；key：关键字；value：待上传的文件
+     */
+    public static Map<String, List<ToUploadFile>> uploadFileNames = Collections.synchronizedMap(new
             HashMap<String,
-                    List<String>>());
+                    List<ToUploadFile>>());
+
+    /**
+     * 获取文件上传的临时绝对路径
+     *
+     * @param session
+     * @return
+     */
+    public String getUploadTempAbsolutePath(HttpSession session) {
+        return getAbsolutePath(session) + UPLOAD_TEMP_PATH;
+    }
 
     /**
      * 获取项目绝对路径
@@ -89,8 +104,8 @@ public class BaseController {
      */
     public boolean uploadToTemp(String key, MultipartFile multipartFile, HttpSession
             session) {
-        File file = new File(getAbsolutePath(session)
-                + "/temp/" + UUIDGenerator.get() + Constants.FILE_EXTENSION_PREFIX + FilenameUtils
+        File file = new File(getUploadTempAbsolutePath(session) + UUIDGenerator.get() + Constants
+                .FILE_EXTENSION_PREFIX + FilenameUtils
                 .getExtension
                         (multipartFile.getOriginalFilename()));
         logger.info("待上传文件：" + file.getName());
@@ -98,15 +113,17 @@ public class BaseController {
         try {
             multipartFile.transferTo(file);
 
-            //保存待上传的文件名称列表到缓存
-            List<String> list = null;
-            key = key + getCurrentUserId(session);
+            //保存待上传的文件列表到缓存
+            List<ToUploadFile> list = null;
             if (uploadFileNames.containsKey(key)) {
                 list = uploadFileNames.get(key);
             } else {
-                list = new ArrayList<String>();
+                list = new ArrayList<ToUploadFile>();
             }
-            list.add(file.getName());
+            ToUploadFile toUploadFile = new ToUploadFile();
+            toUploadFile.setFileName(file.getName());
+            toUploadFile.setFilePath(file.getAbsolutePath());
+            list.add(toUploadFile);
             uploadFileNames.put(key, list);
 
             return true;
@@ -185,7 +202,7 @@ public class BaseController {
 
         CompForm compForm = compFormService.findById(componentId, user.getCompanyId());
         mm.addAttribute("compForm", compForm);
-        mm.addAttribute("componentId", "form_"+componentId+"_"+ RandomUtils.nextInt(0,100));
+        mm.addAttribute("componentId", "form_" + componentId + "_" + RandomUtils.nextInt(0, 100));
 
     }
 

@@ -1,10 +1,13 @@
 package net.deniro.land.module.icase.action;
 
+import net.deniro.land.api.entity.Images;
 import net.deniro.land.common.dwz.AjaxResponse;
 import net.deniro.land.common.dwz.AjaxResponseError;
 import net.deniro.land.common.dwz.AjaxResponseSuccess;
 import net.deniro.land.common.utils.ftp.FtpUtils;
+import net.deniro.land.module.component.entity.ToUploadFile;
 import net.deniro.land.module.icase.entity.CaseParam;
+import net.deniro.land.module.icase.entity.TAttachment;
 import net.deniro.land.module.icase.entity.TCase;
 import net.deniro.land.module.icase.service.CaseService;
 import net.deniro.land.module.system.action.BaseController;
@@ -28,6 +31,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static net.deniro.land.common.dwz.AjaxResponseSuccess.MENU_TAB_PREFIX;
@@ -53,6 +57,21 @@ public class CaseController extends BaseController {
 
     @Autowired
     private FtpUtils ftpUtils;
+
+    /**
+     * 上传【单据文书】的key
+     */
+    public static final String UPLOAD_CASE_DOCUMENTS_KEY_PREFIX = "caseDocuments";
+
+    /**
+     * 获取上传【单据文书】的key
+     *
+     * @param session
+     * @return
+     */
+    public String getCaseDocumentsKey(HttpSession session) {
+        return UPLOAD_CASE_DOCUMENTS_KEY_PREFIX + getCurrentUserId(session);
+    }
 
     /**
      * 跳转至【新建或编辑案件】表单
@@ -132,7 +151,31 @@ public class CaseController extends BaseController {
                 isOk = caseService.modifyCase(caseParam);
                 tip = "案件修改";
             } else {//新增
+
+                /**
+                 * 新增附件
+                 */
+                List<Images> files = new ArrayList<Images>();
+                String caseDocumentsKey = getCaseDocumentsKey(session);
+                if (uploadFileNames.containsKey(caseDocumentsKey)) {//存在需要上传的文件
+                    List<ToUploadFile> toUploadFiles = uploadFileNames.get(caseDocumentsKey);
+                    for (ToUploadFile toUploadFile : toUploadFiles) {
+                        Images image = new Images();
+                        image.setImageAddr(ftpUtils.getRealPath(caseParam.getUserId()) +
+                                toUploadFile.getFileName());
+                        image.setImageType(TAttachment.AttachmentType.BILL.code());
+                        image.setFileName(toUploadFile.getFileName());
+                        image.setFileActualPath(toUploadFile.getFilePath());
+                        files.add(image);
+                    }
+                }
+                caseParam.setAttachmentList(files);
+
                 isOk = caseService.addCase(caseParam);
+
+                //清空待上传文件
+                uploadFileNames.remove(caseDocumentsKey);
+
                 navTabIds.add(queryCaseId);
                 tip = "案件新增";
             }
@@ -185,7 +228,13 @@ public class CaseController extends BaseController {
         if (StringUtils.isBlank(fileName)) {//删除全部
             uploadFileNames.remove(key);
         } else {//删除某个文件
-            uploadFileNames.get(key).remove(fileName);
+            List<ToUploadFile> files = uploadFileNames.get(key);
+            for (Iterator<ToUploadFile> it = files.iterator(); it.hasNext(); ) {
+                ToUploadFile file = it.next();
+                if (StringUtils.equals(file.getFileName(), fileName)) {
+                    it.remove();
+                }
+            }
         }
 
         return new AjaxResponseSuccess("删除成功");
@@ -201,8 +250,8 @@ public class CaseController extends BaseController {
     @RequestMapping(value = "/lookupUploadedFiles")
     public String lookupUploadedFiles(String key, HttpSession session, ModelMap mm) {
         key = key + getCurrentUserId(session);
-        List<String> paths = uploadFileNames.get(key);
-        mm.addAttribute("paths", paths);
+        List<ToUploadFile> toUploadFiles = uploadFileNames.get(key);
+        mm.addAttribute("toUploadFiles", toUploadFiles);
         mm.addAttribute("key", key);
         return COMPONENT_IMAGES_DISPLAY_URL;
     }
@@ -213,7 +262,6 @@ public class CaseController extends BaseController {
      *
      * @param multipartFile
      * @return
-     * @throws IOException
      */
     @RequestMapping(value = "/uploadCaseDocuments")
     @ResponseBody
@@ -221,7 +269,7 @@ public class CaseController extends BaseController {
                                             MultipartFile multipartFile, HttpSession session)
             throws IOException {
         if (!multipartFile.isEmpty()) {
-            boolean isOk = uploadToTemp("caseDocuments", multipartFile, session);
+            boolean isOk = uploadToTemp(getCaseDocumentsKey(session), multipartFile, session);
             if (isOk) {
                 return new AjaxResponseSuccess("上传成功");
             } else {

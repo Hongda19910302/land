@@ -130,7 +130,6 @@ public class FtpUtils {
         try {
             mkDirs(path);
 
-
             while (!heartBeatThread.getClient().isConnected()) {//如果未连接，则等待1s重新获取
                 Thread.sleep(1000);
             }
@@ -156,8 +155,12 @@ public class FtpUtils {
             return;
         }
         client = heartBeatThread.getClient();
-        if (!client.isConnected()) {
-            return;
+        while (!heartBeatThread.getClient().isConnected()) {//如果未连接，则等待1s重新获取
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                logger.error("重连失败");
+            }
         }
 
         try {
