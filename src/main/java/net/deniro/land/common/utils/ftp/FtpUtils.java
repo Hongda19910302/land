@@ -154,7 +154,6 @@ public class FtpUtils {
         if (StringUtils.isBlank(path)) {
             return;
         }
-        client = heartBeatThread.getClient();
         while (!heartBeatThread.getClient().isConnected()) {//如果未连接，则等待1s重新获取
             try {
                 Thread.sleep(1000);
@@ -162,6 +161,7 @@ public class FtpUtils {
                 logger.error("重连失败");
             }
         }
+        client = heartBeatThread.getClient();
 
         try {
             String currentPath = client.currentDirectory();//当前路径

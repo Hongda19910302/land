@@ -4,7 +4,7 @@
 <#assign filePathPrefix="temp/"/>
 
 <div class="galleria">
-<#list toUploadFiles as file>
+<#list FTPUploadFiles as file>
     <img src="${filePathPrefix}${file.fileName}">
 </#list>
 </div>
@@ -83,7 +83,7 @@
 </script>
 
 <#--按钮栏-->
-<#if toUploadFiles&&toUploadFiles?size gt 0>
+<#if FTPUploadFiles&&FTPUploadFiles?size gt 0>
 
 <form id="imagesDisplay${key}" action="case/delUploadedFiles">
     <input type="hidden" name="key" value="${key}"/>

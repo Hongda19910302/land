@@ -70,9 +70,9 @@ public class BaseController {
     /**
      * 待上传的文件；key：关键字；value：待上传的文件
      */
-    public static Map<String, List<ToUploadFile>> uploadFileNames = Collections.synchronizedMap(new
+    public static Map<String, List<FTPUploadFile>> uploadFileNames = Collections.synchronizedMap(new
             HashMap<String,
-                    List<ToUploadFile>>());
+                    List<FTPUploadFile>>());
 
     /**
      * 获取文件上传的临时绝对路径
@@ -114,16 +114,16 @@ public class BaseController {
             multipartFile.transferTo(file);
 
             //保存待上传的文件列表到缓存
-            List<ToUploadFile> list = null;
+            List<FTPUploadFile> list = null;
             if (uploadFileNames.containsKey(key)) {
                 list = uploadFileNames.get(key);
             } else {
-                list = new ArrayList<ToUploadFile>();
+                list = new ArrayList<FTPUploadFile>();
             }
-            ToUploadFile toUploadFile = new ToUploadFile();
-            toUploadFile.setFileName(file.getName());
-            toUploadFile.setFilePath(file.getAbsolutePath());
-            list.add(toUploadFile);
+            FTPUploadFile FTPUploadFile = new FTPUploadFile();
+            FTPUploadFile.setFileName(file.getName());
+            FTPUploadFile.setFilePath(file.getAbsolutePath());
+            list.add(FTPUploadFile);
             uploadFileNames.put(key, list);
 
             return true;

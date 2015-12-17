@@ -5,7 +5,7 @@ import net.deniro.land.common.dwz.AjaxResponse;
 import net.deniro.land.common.dwz.AjaxResponseError;
 import net.deniro.land.common.dwz.AjaxResponseSuccess;
 import net.deniro.land.common.utils.ftp.FtpUtils;
-import net.deniro.land.module.component.entity.ToUploadFile;
+import net.deniro.land.module.component.entity.FTPUploadFile;
 import net.deniro.land.module.icase.entity.CaseParam;
 import net.deniro.land.module.icase.entity.TAttachment;
 import net.deniro.land.module.icase.entity.TCase;
@@ -158,14 +158,14 @@ public class CaseController extends BaseController {
                 List<Images> files = new ArrayList<Images>();
                 String caseDocumentsKey = getCaseDocumentsKey(session);
                 if (uploadFileNames.containsKey(caseDocumentsKey)) {//存在需要上传的文件
-                    List<ToUploadFile> toUploadFiles = uploadFileNames.get(caseDocumentsKey);
-                    for (ToUploadFile toUploadFile : toUploadFiles) {
+                    List<FTPUploadFile> FTPUploadFiles = uploadFileNames.get(caseDocumentsKey);
+                    for (FTPUploadFile FTPUploadFile : FTPUploadFiles) {
                         Images image = new Images();
                         image.setImageAddr(ftpUtils.getRealPath(caseParam.getUserId()) +
-                                toUploadFile.getFileName());
+                                FTPUploadFile.getFileName());
                         image.setImageType(TAttachment.AttachmentType.BILL.code());
-                        image.setFileName(toUploadFile.getFileName());
-                        image.setFileActualPath(toUploadFile.getFilePath());
+                        image.setFileName(FTPUploadFile.getFileName());
+                        image.setFileActualPath(FTPUploadFile.getFilePath());
                         files.add(image);
                     }
                 }
@@ -228,9 +228,9 @@ public class CaseController extends BaseController {
         if (StringUtils.isBlank(fileName)) {//删除全部
             uploadFileNames.remove(key);
         } else {//删除某个文件
-            List<ToUploadFile> files = uploadFileNames.get(key);
-            for (Iterator<ToUploadFile> it = files.iterator(); it.hasNext(); ) {
-                ToUploadFile file = it.next();
+            List<FTPUploadFile> files = uploadFileNames.get(key);
+            for (Iterator<FTPUploadFile> it = files.iterator(); it.hasNext(); ) {
+                FTPUploadFile file = it.next();
                 if (StringUtils.equals(file.getFileName(), fileName)) {
                     it.remove();
                 }
@@ -250,8 +250,8 @@ public class CaseController extends BaseController {
     @RequestMapping(value = "/lookupUploadedFiles")
     public String lookupUploadedFiles(String key, HttpSession session, ModelMap mm) {
         key = key + getCurrentUserId(session);
-        List<ToUploadFile> toUploadFiles = uploadFileNames.get(key);
-        mm.addAttribute("toUploadFiles", toUploadFiles);
+        List<FTPUploadFile> FTPUploadFiles = uploadFileNames.get(key);
+        mm.addAttribute("FTPUploadFiles", FTPUploadFiles);
         mm.addAttribute("key", key);
         return COMPONENT_IMAGES_DISPLAY_URL;
     }

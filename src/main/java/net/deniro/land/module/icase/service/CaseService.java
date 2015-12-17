@@ -400,7 +400,7 @@ public class CaseService {
                     files.add(file);
                 }
                 Executor executor = Executors.newSingleThreadExecutor();
-                executor.execute(new UploadFTPService(caseParam.getUserId(), files,ftpUtils));
+                executor.execute(new FTPUploadService(caseParam.getUserId(), files,ftpUtils));
 
             }
 
@@ -472,11 +472,7 @@ public class CaseService {
     public boolean delInstruction(Integer instructionId) {
         try {
             int count = instructionDao.del(instructionId);
-            if (count > 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return count > 0;
         } catch (Exception e) {
             logger.error("删除案件批示", e);
             return false;
