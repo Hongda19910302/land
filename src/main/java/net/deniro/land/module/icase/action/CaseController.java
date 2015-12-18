@@ -405,7 +405,7 @@ public class CaseController extends BaseController {
                 }
             }
 
-
+            //todo 这里未考虑其他模块的文件上传情况
             List<TAttachment> attachments = caseService.findAttachments(id, CASE);
             for (TAttachment attachment : attachments) {
 

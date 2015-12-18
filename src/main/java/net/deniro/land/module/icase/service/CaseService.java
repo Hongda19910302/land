@@ -285,6 +285,9 @@ public class CaseService {
 
             caseDao.update(tCase);
 
+            addAttachments(caseParam.getAttachmentList(), tCase.getCaseId(), RelationType.CASE);
+            uploadFTP(caseParam);
+
             return true;
         } catch (Exception e) {
             logger.error("修改案件", e);
@@ -443,16 +446,7 @@ public class CaseService {
                         .CASE);
             } else {
                 addAttachments(caseParam.getAttachmentList(), tCase.getCaseId(), RelationType.CASE);
-
-                //上传附件至FTP服务器
-                List<File> files = new ArrayList<File>();
-                for (Images image : caseParam.getAttachmentList()) {
-                    File file = new File(image.getFileActualPath());
-                    files.add(file);
-                }
-                Executor executor = Executors.newSingleThreadExecutor();
-                executor.execute(new FTPUploadService(caseParam.getUserId(), files, ftpUtils));
-
+                uploadFTP(caseParam);
             }
 
 
@@ -473,6 +467,26 @@ public class CaseService {
         }
 
 
+    }
+
+    /**
+     * 上传附件至FTP服务器
+     *
+     * @param caseParam
+     */
+    private void uploadFTP(CaseParam caseParam) {
+        if (caseParam == null || caseParam.getAttachmentList() == null || caseParam
+                .getAttachmentList().isEmpty()) {
+            return;
+        }
+
+        List<File> files = new ArrayList<File>();
+        for (Images image : caseParam.getAttachmentList()) {
+            File file = new File(image.getFileActualPath());
+            files.add(file);
+        }
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(new FTPUploadService(caseParam.getUserId(), files, ftpUtils));
     }
 
     /**
