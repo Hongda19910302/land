@@ -83,7 +83,7 @@ public class FtpUtils {
     public String getRealPath(String userId) {
         return Constants.FTP_PATH_SPLIT + getBaseDir() + Constants.FTP_PATH_SPLIT +
                 getRealDir() +
-                Constants.FTP_PATH_SPLIT + userId + Constants.FTP_PATH_SPLIT + getImgDir()+Constants.FTP_PATH_SPLIT;
+                Constants.FTP_PATH_SPLIT + userId + Constants.FTP_PATH_SPLIT + getImgDir() + Constants.FTP_PATH_SPLIT;
     }
 
 
@@ -148,7 +148,8 @@ public class FtpUtils {
      * 获取FTP连接
      */
     public FTPClient getClient() {
-        while (!heartBeatThread.getClient().isConnected()) {//如果未连接，则等待1s重新获取
+        while (!heartBeatThread.getClient().isConnected() || !heartBeatThread.getClient()
+                .isAuthenticated()) {//如果未连接或者未验证，则等待1s重新获取
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
