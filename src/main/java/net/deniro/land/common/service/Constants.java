@@ -33,7 +33,7 @@ public class Constants {
     /**
      * 文件扩展名前缀
      */
-    public static final String FILE_EXTENSION_PREFIX=".";
+    public static final String FILE_EXTENSION_PREFIX = ".";
 
     /**
      * 树型图标路径前缀
@@ -49,4 +49,9 @@ public class Constants {
      * mysql日期格式
      */
     public static final String MYSQL_DATE_FORMAT = "%Y-%m-%d";
+
+    /**
+     * FTP中的HTTP地址访问前缀ID
+     */
+    public static final String FTP_HTTP_URL_PREFIX_ID = "httpPrefix";
 }
