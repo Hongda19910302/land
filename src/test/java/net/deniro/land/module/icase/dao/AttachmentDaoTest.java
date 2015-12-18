@@ -28,8 +28,13 @@ public class AttachmentDaoTest {
     private AttachmentDao attachmentDao;
 
     @Test
+    public void deleteAllByFilePath(){
+        System.out.println("$$$$$$$$$$"+attachmentDao.deleteAllByFilePath("http://110.84.129.58:8070/res//gt/real/37/img/20140930210901-1.png"));
+    }
+
+    @Test
     public void deleteAll() {
-        System.out.printf("$$$$$$$$$$$$$$" + attachmentDao.deleteAll(559,
+        System.out.printf("$$$$$$$$$$$$$$" + attachmentDao.deleteAll(558,
                 TAttachmentRelation.RelationType.CASE));
     }
 

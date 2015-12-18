@@ -2,6 +2,7 @@ package net.deniro.land.module.icase.dao;
 
 import net.deniro.land.common.dao.BaseDao;
 import net.deniro.land.module.icase.entity.TAttachment;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -26,6 +27,30 @@ public class AttachmentDao extends BaseDao<TAttachment> {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
+     * 删除所有相关附件记录
+     * @param filePath 文件路径
+     * @return
+     */
+    public int deleteAllByFilePath(String filePath){
+        if(StringUtils.isBlank(filePath)){
+            return 0;
+        }
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("filePath",filePath);
+
+        String delRelationSql ="DELETE FROM t_attachment_relation WHERE ATTACHMENT_ID in" +
+                "(SELECT w.ATTACHMENT_ID FROM t_attachment w WHERE w.ADDR=:filePath)";
+
+        String delAttachmentSql ="DELETE FROM t_attachment WHERE ADDR=:filePath";
+
+        int count = 0;
+        count = count + namedParameterJdbcTemplate.update(delRelationSql, params);
+        count = count + namedParameterJdbcTemplate.update(delAttachmentSql, params);
+        return count;
+    }
+
+    /**
      * 删除所有相关记录
      *
      * @param relationId   关联的ID
@@ -37,16 +62,16 @@ public class AttachmentDao extends BaseDao<TAttachment> {
         params.put("relationId", relationId);
         params.put("relationType", relationType.code());
 
+        String delAttachmentSql = "DELETE FROM t_attachment  WHERE ATTACHMENT_ID in(SELECT " +
+                "w.ATTACHMENT_ID FROM t_attachment_relation w WHERE w.RELATION_ID=:relationId AND w.RELATION_TYPE=:relationType)";
+
         String delRelationSql = "DELETE FROM " +
                 "t_attachment_relation WHERE " +
                 "RELATION_ID=:relationId AND RELATION_TYPE=:relationType";
 
-        String delAttachmentSql = "DELETE FROM t_attachment  WHERE ATTACHMENT_ID in(SELECT " +
-                "w.ATTACHMENT_ID FROM t_attachment_relation w WHERE w.RELATION_ID=:relationId AND w.RELATION_TYPE=:relationType)";
-
         int count = 0;
-        count = count + namedParameterJdbcTemplate.update(delRelationSql, params);
         count = count + namedParameterJdbcTemplate.update(delAttachmentSql, params);
+        count = count + namedParameterJdbcTemplate.update(delRelationSql, params);
         return count;
     }
 
