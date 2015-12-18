@@ -374,6 +374,18 @@ public class CaseController extends BaseController {
                 ftpUploadFiles = new ArrayList<FTPUploadFile>();
             }
 
+
+            if (!ftpUploadFiles.isEmpty()) {//清空缓存中的来源于FTP类型的文件，以便后面重新获取
+                for (Iterator<FTPUploadFile> it = ftpUploadFiles.iterator(); it.hasNext(); ) {
+                    FTPUploadFile file = it.next();
+                    if (file.getFileSource() == FTPUploadFile
+                            .FileSource.FTP) {
+                        it.remove();
+                    }
+                }
+            }
+
+
             List<TAttachment> attachments = caseService.findAttachments(id, CASE);
             for (TAttachment attachment : attachments) {
                 FTPUploadFile file = new FTPUploadFile();
