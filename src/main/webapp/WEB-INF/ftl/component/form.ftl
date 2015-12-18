@@ -2,7 +2,7 @@
 
 <#if compForm??>
 
-    <form method="post" action="${compForm.actionUrl}" id="${componentId}" class="pageForm"
+    <form method="post" id="${componentId}" class="pageForm"
           onsubmit="return validateCallback(this,navTabAjaxDone)">
 
         <div class="pageFormContent nowrap" layoutH="${compForm.buttonBarHeight}">
@@ -280,6 +280,7 @@
             <script type="text/javascript">
                 $(function () {
                     $("#form_btn_${btn.id}").click(function () {
+                        console.log("${btn.actionUrl}");
                         $("#${componentId}").attr("action", "${btn.actionUrl}");
                     });
                 });
