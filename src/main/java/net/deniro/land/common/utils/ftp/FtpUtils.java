@@ -81,8 +81,9 @@ public class FtpUtils {
      * @return
      */
     public String getRealPath(String userId) {
-        return getBaseDir() + Constants.FTP_PATH_SPLIT + getRealDir() +
-                Constants.FTP_PATH_SPLIT + userId + Constants.FTP_PATH_SPLIT + getImgDir();
+        return Constants.FTP_PATH_SPLIT + getBaseDir() + Constants.FTP_PATH_SPLIT +
+                getRealDir() +
+                Constants.FTP_PATH_SPLIT + userId + Constants.FTP_PATH_SPLIT + getImgDir()+Constants.FTP_PATH_SPLIT;
     }
 
 
