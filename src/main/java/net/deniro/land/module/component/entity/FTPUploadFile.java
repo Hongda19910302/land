@@ -21,4 +21,24 @@ public class FTPUploadFile {
      */
     private String filePath;
 
+    /**
+     * 文件来源
+     */
+    private FileSource fileSource = FileSource.TEMP;
+
+    /**
+     * 文件来源
+     */
+    public enum FileSource {
+        /**
+         * 临时文件夹
+         */
+        TEMP,
+        /**
+         * ftp地址
+         */
+        FTP
+    }
+
+
 }
