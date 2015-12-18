@@ -11,6 +11,7 @@ import net.deniro.land.module.component.entity.FTPUploadFile;
 import net.deniro.land.module.icase.entity.CaseParam;
 import net.deniro.land.module.icase.entity.TAttachment;
 import net.deniro.land.module.icase.entity.TAttachmentRelation;
+import net.deniro.land.module.icase.entity.TAttachmentRelation.RelationType;
 import net.deniro.land.module.icase.entity.TCase;
 import net.deniro.land.module.icase.service.CaseService;
 import net.deniro.land.module.system.action.BaseController;
@@ -96,8 +97,13 @@ public class CaseController extends BaseController {
      * @param session
      * @return
      */
-    public String getIllegalPhotosKey(HttpSession session) {
-        return UPLOAD_ILLEGAL_PHOTOS_KEY_PREFIX + getCurrentUserId(session);
+    public String getIllegalPhotosKey(Integer id, HttpSession session) {
+        StringBuilder str = new StringBuilder(UPLOAD_ILLEGAL_PHOTOS_KEY_PREFIX);
+        if (id != null) {
+            str.append(id);
+        }
+        str.append(getCurrentUserId(session));
+        return str.toString();
     }
 
     /**
@@ -166,6 +172,12 @@ public class CaseController extends BaseController {
             List<String> navTabIds = new ArrayList<String>();
             String draftId = MENU_TAB_PREFIX + "28";//【草稿箱】模块
             String queryCaseId = MENU_TAB_PREFIX + "10";//【案件查询】模块
+
+            /**
+             * 新增附件
+             */
+            String ftpRealPath = ftpUtils.getRealPath(caseParam.getUserId());
+
             if (caseParam.getCaseId() != null) {//修改
                 if (BooleanUtils.toBoolean(caseParam.getIsDraft())) {//继续存为草稿，刷新【草稿箱】模块
                     navTabIds.add(draftId);
@@ -175,14 +187,22 @@ public class CaseController extends BaseController {
                     navTabIds.add(queryCaseId);
                 }
 
+                //修改单据文书
+                String caseDocumentsKey = getCaseDocumentsKey(caseParam.getCaseId(), session);
+                List<Images> files = findToUploadFilesByKey(caseDocumentsKey, ftpRealPath,
+                        BILL);
+
+                //修改违法照片
+                String illegalPhotosKey = getIllegalPhotosKey(caseParam.getCaseId(), session);
+                files.addAll(findToUploadFilesByKey(illegalPhotosKey, ftpRealPath, PHOTO));
+
+                caseParam.setAttachmentList(files);
+
+
                 isOk = caseService.modifyCase(caseParam);
                 tip = "案件修改";
             } else {//新增
 
-                /**
-                 * 新增附件
-                 */
-                String ftpRealPath = ftpUtils.getRealPath(caseParam.getUserId());
 
                 //新增单据文书
                 String caseDocumentsKey = getCaseDocumentsKey(null, session);
@@ -190,7 +210,7 @@ public class CaseController extends BaseController {
                         BILL);
 
                 //新增违法照片
-                String illegalPhotosKey = getIllegalPhotosKey(session);
+                String illegalPhotosKey = getIllegalPhotosKey(null, session);
                 files.addAll(findToUploadFilesByKey(illegalPhotosKey, ftpRealPath, PHOTO));
 
                 caseParam.setAttachmentList(files);
@@ -234,7 +254,7 @@ public class CaseController extends BaseController {
                                             MultipartFile multipartFile, Integer id, HttpSession session)
             throws IOException {
         if (!multipartFile.isEmpty()) {
-            boolean isOk = uploadToTemp(getIllegalPhotosKey(session), multipartFile,
+            boolean isOk = uploadToTemp(getIllegalPhotosKey(id, session), multipartFile,
                     session);
             if (isOk) {
                 return new AjaxResponseSuccess("上传成功");
@@ -332,7 +352,7 @@ public class CaseController extends BaseController {
             //删除所有附件记录
             if (id != null) {
                 //todo 这里未考虑其他模块的文件上传情况
-                caseService.deleteAllAttachments(id, TAttachmentRelation.RelationType.CASE);
+                caseService.deleteAllAttachments(id, RelationType.CASE);
             }
         } else {//删除某个文件
 
@@ -388,6 +408,17 @@ public class CaseController extends BaseController {
 
             List<TAttachment> attachments = caseService.findAttachments(id, CASE);
             for (TAttachment attachment : attachments) {
+
+                if (StringUtils.contains(key, UPLOAD_CASE_DOCUMENTS_KEY_PREFIX)) {//单据
+                    if (attachment.getAttachmentType() != TAttachment.AttachmentType.BILL.code()) {
+                        continue;
+                    }
+                } else if (StringUtils.contains(key, UPLOAD_ILLEGAL_PHOTOS_KEY_PREFIX)) {//照片
+                    if (attachment.getAttachmentType() != TAttachment.AttachmentType.PHOTO.code()) {
+                        continue;
+                    }
+                }
+
                 FTPUploadFile file = new FTPUploadFile();
                 file.setFilePath(attachment.getAddr());
                 file.setFileSource(FTP);
