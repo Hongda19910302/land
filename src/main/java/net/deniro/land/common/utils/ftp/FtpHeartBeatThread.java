@@ -44,16 +44,14 @@ public class FtpHeartBeatThread implements Runnable {
      * @throws FTPIllegalReplyException
      */
     private void connect() throws IOException, FTPException, FTPIllegalReplyException {
-        if (client == null || !client.isConnected() || !client.isAuthenticated()) {
-            client = new FTPClient();
-            client.setCharset(Constants.CHARSET);
-            client.setType(FTPClient.TYPE_BINARY);
-            client.connect(new URL(ftpUtils.getPrefix() + ftpUtils.getIp()).getHost(),
-                    ftpUtils.getPort());
-            client.login(ftpUtils.getAccount(), ftpUtils.getPassword());
-            client.currentDirectory();
-            logger.info("FTP服务器连接状态：" + client.isConnected());
-        }
+        client = new FTPClient();
+        client.setCharset(Constants.CHARSET);
+        client.setType(FTPClient.TYPE_BINARY);
+        client.connect(new URL(ftpUtils.getPrefix() + ftpUtils.getIp()).getHost(),
+                ftpUtils.getPort());
+        client.login(ftpUtils.getAccount(), ftpUtils.getPassword());
+        client.currentDirectory();
+        logger.info("FTP服务器连接状态：" + client.isConnected());
     }
 
     /**
@@ -61,11 +59,17 @@ public class FtpHeartBeatThread implements Runnable {
      */
     public void run() {
         try {
-            connect();
+            while (true) {
+                if (client == null || !client.isConnected() || !client.isAuthenticated()) {
+                    connect();
+                    Thread.sleep(1000);
+                }
+            }
+
         } catch (Exception ex) {
             logger.error("FTP服务器连接失败，尝试重连。失败原因：" + ex.getMessage());
             try {
-                Thread.sleep(100);//FTP重连时间缩短为0.1s
+                Thread.sleep(1000);
                 run();
             } catch (InterruptedException e) {
                 logger.error("FTP服务器心跳检测", e);
