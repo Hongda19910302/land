@@ -79,8 +79,9 @@ public class BaseController {
 
     /**
      * 依据key，获取待上传的文件列表
+     *
      * @param key
-     * @param ftpRealPath ftp实际路径
+     * @param ftpRealPath    ftp实际路径
      * @param attachmentType 附件类型
      * @return
      */
@@ -130,8 +131,10 @@ public class BaseController {
      * @param session
      * @return
      */
-    public boolean uploadToTemp(String key, MultipartFile multipartFile, HttpSession
-            session) {
+    public boolean uploadToTemp(String key, MultipartFile multipartFile,
+                                HttpSession
+                                        session) {
+
         File file = new File(getUploadTempAbsolutePath(session) + UUIDGenerator.get() + Constants
                 .FILE_EXTENSION_PREFIX + FilenameUtils
                 .getExtension

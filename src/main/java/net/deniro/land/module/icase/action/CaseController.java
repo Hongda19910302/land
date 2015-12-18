@@ -4,9 +4,13 @@ import net.deniro.land.api.entity.Images;
 import net.deniro.land.common.dwz.AjaxResponse;
 import net.deniro.land.common.dwz.AjaxResponseError;
 import net.deniro.land.common.dwz.AjaxResponseSuccess;
+import net.deniro.land.common.service.Constants;
+import net.deniro.land.common.utils.PropertiesReader;
 import net.deniro.land.common.utils.ftp.FtpUtils;
 import net.deniro.land.module.component.entity.FTPUploadFile;
 import net.deniro.land.module.icase.entity.CaseParam;
+import net.deniro.land.module.icase.entity.TAttachment;
+import net.deniro.land.module.icase.entity.TAttachmentRelation;
 import net.deniro.land.module.icase.entity.TCase;
 import net.deniro.land.module.icase.service.CaseService;
 import net.deniro.land.module.system.action.BaseController;
@@ -34,8 +38,11 @@ import java.util.List;
 
 import static net.deniro.land.common.dwz.AjaxResponseSuccess.MENU_TAB_PREFIX;
 import static net.deniro.land.common.dwz.AjaxResponseSuccess.NAB_TAB_ID_SPLIT;
+import static net.deniro.land.module.component.entity.FTPUploadFile.FileSource.FTP;
+import static net.deniro.land.module.component.entity.FTPUploadFile.FileSource.TEMP;
 import static net.deniro.land.module.icase.entity.TAttachment.AttachmentType.BILL;
 import static net.deniro.land.module.icase.entity.TAttachment.AttachmentType.PHOTO;
+import static net.deniro.land.module.icase.entity.TAttachmentRelation.RelationType.CASE;
 
 /**
  * 案件
@@ -69,8 +76,13 @@ public class CaseController extends BaseController {
      * @param session
      * @return
      */
-    public String getCaseDocumentsKey(HttpSession session) {
-        return UPLOAD_CASE_DOCUMENTS_KEY_PREFIX + getCurrentUserId(session);
+    public String getCaseDocumentsKey(Integer id, HttpSession session) {
+        StringBuilder str = new StringBuilder(UPLOAD_CASE_DOCUMENTS_KEY_PREFIX);
+        if (id != null) {
+            str.append(id);
+        }
+        str.append(getCurrentUserId(session));
+        return str.toString();
     }
 
     /**
@@ -121,9 +133,9 @@ public class CaseController extends BaseController {
             if (tCase.getLat() != null) {
                 tCase.setCoordinateLatitude(df.format(tCase.getLat()));
             }
-
-
             mm.addAttribute("obj", tCase);
+
+            mm.addAttribute("fileUploadId", tCase.getCaseId());//用于文件上传的ID
         } else {//新增
             //获取当前用户的区域信息
             List<TRegion> regions = regionService.findByCompanyIdForTree(user.getCompanyId());
@@ -173,7 +185,7 @@ public class CaseController extends BaseController {
                 String ftpRealPath = ftpUtils.getRealPath(caseParam.getUserId());
 
                 //新增单据文书
-                String caseDocumentsKey = getCaseDocumentsKey(session);
+                String caseDocumentsKey = getCaseDocumentsKey(null, session);
                 List<Images> files = findToUploadFilesByKey(caseDocumentsKey, ftpRealPath,
                         BILL);
 
@@ -211,6 +223,7 @@ public class CaseController extends BaseController {
      * 上传【违法照片】
      *
      * @param multipartFile
+     * @param id
      * @param session
      * @return
      * @throws IOException
@@ -218,10 +231,11 @@ public class CaseController extends BaseController {
     @RequestMapping(value = "/uploadIllegalPhotos")
     @ResponseBody
     public AjaxResponse uploadIllegalPhotos(@RequestParam("illegalPhotosFileInput")
-                                            MultipartFile multipartFile, HttpSession session)
+                                            MultipartFile multipartFile, Integer id, HttpSession session)
             throws IOException {
         if (!multipartFile.isEmpty()) {
-            boolean isOk = uploadToTemp(getIllegalPhotosKey(session), multipartFile, session);
+            boolean isOk = uploadToTemp(getIllegalPhotosKey(session), multipartFile,
+                    session);
             if (isOk) {
                 return new AjaxResponseSuccess("上传成功");
             } else {
@@ -237,15 +251,21 @@ public class CaseController extends BaseController {
      * 上传【单据文书】
      *
      * @param multipartFile
+     * @param id
+     * @param session
      * @return
+     * @throws IOException
      */
     @RequestMapping(value = "/uploadCaseDocuments")
     @ResponseBody
     public AjaxResponse uploadCaseDocuments(@RequestParam("caseDocumentsFileInput")
-                                            MultipartFile multipartFile, HttpSession session)
+                                            MultipartFile multipartFile, Integer id,
+                                            HttpSession
+                                                    session)
             throws IOException {
         if (!multipartFile.isEmpty()) {
-            boolean isOk = uploadToTemp(getCaseDocumentsKey(session), multipartFile, session);
+            boolean isOk = uploadToTemp(getCaseDocumentsKey(id, session), multipartFile,
+                    session);
             if (isOk) {
                 return new AjaxResponseSuccess("上传成功");
             } else {
@@ -296,22 +316,38 @@ public class CaseController extends BaseController {
      * 删除已上传的文件
      *
      * @param key
-     * @param fileName 文件名称
+     * @param fileName   文件名称
+     * @param filePath   文件路径
+     * @param fileSource 文件来源
+     * @param id         当前对象ID
      * @return
      */
     @RequestMapping(value = "/delUploadedFiles")
     @ResponseBody
-    public AjaxResponse delUploadedFiles(String key, String fileName) {
+    public AjaxResponse delUploadedFiles(String key, String fileName, String filePath, String
+            fileSource, Integer id) {
         if (StringUtils.isBlank(fileName)) {//删除全部
             uploadFileNames.remove(key);
-        } else {//删除某个文件
-            List<FTPUploadFile> files = uploadFileNames.get(key);
-            for (Iterator<FTPUploadFile> it = files.iterator(); it.hasNext(); ) {
-                FTPUploadFile file = it.next();
-                if (StringUtils.equals(file.getFileName(), fileName)) {
-                    it.remove();
-                }
+
+            //删除所有附件记录
+            if (id != null) {
+                //todo 这里未考虑其他模块的文件上传情况
+                caseService.deleteAllAttachments(id, TAttachmentRelation.RelationType.CASE);
             }
+        } else {//删除某个文件
+
+            if (StringUtils.equals(fileSource, TEMP.name())) {
+                List<FTPUploadFile> files = uploadFileNames.get(key);
+                for (Iterator<FTPUploadFile> it = files.iterator(); it.hasNext(); ) {
+                    FTPUploadFile file = it.next();
+                    if (StringUtils.equals(file.getFileName(), fileName)) {
+                        it.remove();
+                    }
+                }
+            } else if (StringUtils.equals(fileSource, FTP.name())) {
+                caseService.deleteAllByFilePath(filePath);
+            }
+
         }
 
         return new AjaxResponseSuccess("删除成功");
@@ -321,15 +357,41 @@ public class CaseController extends BaseController {
      * 获取已上传文件的路径列表
      *
      * @param key
+     * @param id      当前操作对象的ID
      * @param session
+     * @param mm
      * @return
      */
     @RequestMapping(value = "/lookupUploadedFiles")
-    public String lookupUploadedFiles(String key, HttpSession session, ModelMap mm) {
-        key = key + getCurrentUserId(session);
-        List<FTPUploadFile> FTPUploadFiles = uploadFileNames.get(key);
-        mm.addAttribute("FTPUploadFiles", FTPUploadFiles);
+    public String lookupUploadedFiles(String key, Integer id, HttpSession session,
+                                      ModelMap mm) {
+        Integer userId = getCurrentUserId(session);
+        key = key + userId;
+        List<FTPUploadFile> ftpUploadFiles = uploadFileNames.get(key);
+
+        if (id != null) {//从附件表中取文件地址
+            if (ftpUploadFiles == null) {
+                ftpUploadFiles = new ArrayList<FTPUploadFile>();
+            }
+
+            List<TAttachment> attachments = caseService.findAttachments(id, CASE);
+            for (TAttachment attachment : attachments) {
+                FTPUploadFile file = new FTPUploadFile();
+                file.setFilePath(attachment.getAddr());
+                file.setFileSource(FTP);
+                ftpUploadFiles.add(file);
+            }
+
+            String ftpHttpUrl = PropertiesReader.value(Constants
+                    .FTP_HTTP_URL_PREFIX_ID) + ftpUtils.getRealPath(String.valueOf(userId));
+            mm.addAttribute("ftpHttpUrl", ftpHttpUrl);
+        } else {
+            mm.addAttribute("filePathPrefix", "/temp");//文件来自于临时路径
+        }
+
+        mm.addAttribute("ftpUploadFiles", ftpUploadFiles);
         mm.addAttribute("key", key);
+        mm.addAttribute("id", id);
         return COMPONENT_IMAGES_DISPLAY_URL;
     }
 }

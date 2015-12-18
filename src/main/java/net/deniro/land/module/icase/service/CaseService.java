@@ -6,6 +6,7 @@ import net.deniro.land.api.entity.Images;
 import net.deniro.land.api.entity.InspectParam;
 import net.deniro.land.api.entity.OverAuditParam;
 import net.deniro.land.common.dao.Page;
+import net.deniro.land.common.service.Constants;
 import net.deniro.land.common.utils.JsonUtils;
 import net.deniro.land.common.utils.PropertiesReader;
 import net.deniro.land.common.utils.TimeUtils;
@@ -87,6 +88,56 @@ public class CaseService {
 
     @Autowired
     private FtpUtils ftpUtils;
+
+    /**
+     * 删除所有相关附件记录
+     *
+     * @param filePath 文件路径
+     * @return
+     */
+    public boolean deleteAllByFilePath(String filePath) {
+        try {
+            attachmentDao.deleteAllByFilePath(filePath);
+            return true;
+        } catch (Exception e) {
+            logger.error("删除所有相关附件记录", e);
+            return false;
+        }
+    }
+
+    /**
+     * 删除所有附件相关记录
+     *
+     * @param relationId   关联的ID
+     * @param relationType 关联类型
+     * @return 返回受影响的条数
+     */
+    public boolean deleteAllAttachments(Integer relationId, RelationType relationType) {
+        try {
+            attachmentDao.deleteAll(relationId, relationType);
+            return true;
+        } catch (Exception e) {
+            logger.error("删除所有附件相关记录", e);
+            return false;
+        }
+    }
+
+    /**
+     * 获取附件
+     *
+     * @param caseId       案件ID
+     * @param relationType 关联类型
+     * @return
+     */
+    public List<TAttachment> findAttachments(Integer caseId, RelationType relationType) {
+        try {
+            return attachmentDao.findByAuditIdAndType(caseId,
+                    relationType);
+        } catch (Exception e) {
+            logger.error("获取附件", e);
+            return new ArrayList<TAttachment>();
+        }
+    }
 
     /**
      * 修改案件
@@ -400,7 +451,7 @@ public class CaseService {
                     files.add(file);
                 }
                 Executor executor = Executors.newSingleThreadExecutor();
-                executor.execute(new FTPUploadService(caseParam.getUserId(), files,ftpUtils));
+                executor.execute(new FTPUploadService(caseParam.getUserId(), files, ftpUtils));
 
             }
 
@@ -1094,7 +1145,8 @@ public class CaseService {
         for (Images image : images) {
             //创建附件
             TAttachment attachment = new TAttachment();
-            attachment.setAddr(PropertiesReader.value("httpPrefix") + image.getImageAddr());
+            attachment.setAddr(PropertiesReader.value(Constants.FTP_HTTP_URL_PREFIX_ID) +
+                    image.getImageAddr());
             attachment.setAttachmentType(image.getImageType());
             attachment.setCreateTime(new Date());
             attachmentDao.save(attachment);

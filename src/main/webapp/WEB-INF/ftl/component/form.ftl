@@ -123,7 +123,7 @@
                                     .inputName}FileInput"
                                            uploaderOption="{
                     swf:'${resourceRoot}/dwz/uploadify/scripts/uploadify.swf',
-                    uploader:'${item.uploadActionUrl}',
+                    uploader:'${item.uploadActionUrl}?id=${fileUploadId}',
                     formData:{},
                     queueID:'${componentId}${item.inputName}FileQueue',
                     buttonText:'${item.uploadButtonText}',
@@ -149,7 +149,7 @@
                                     </div>
                                     <a class="btnLook"
                                        href="/case/lookupUploadedFiles?key=${item
-                                       .inputName}"
+                                       .inputName}${fileUploadId}&id=${fileUploadId}"
                                        target="dialog"
                                        rel="lookupUploadedFiles"
                                        mask="true" minable="false" height="600"
