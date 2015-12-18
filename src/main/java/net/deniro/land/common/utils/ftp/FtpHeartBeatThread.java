@@ -1,9 +1,12 @@
 package net.deniro.land.common.utils.ftp;
 
 import it.sauronsoftware.ftp4j.FTPClient;
+import it.sauronsoftware.ftp4j.FTPException;
+import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 import net.deniro.land.common.service.Constants;
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
 import java.net.URL;
 
 /**
@@ -34,28 +37,38 @@ public class FtpHeartBeatThread implements Runnable {
     }
 
     /**
+     * 连接
+     *
+     * @throws IOException
+     * @throws FTPException
+     * @throws FTPIllegalReplyException
+     */
+    private void connect() throws IOException, FTPException, FTPIllegalReplyException {
+        if (client == null || !client.isConnected() || !client.isAuthenticated()) {
+            client = new FTPClient();
+            client.setCharset(Constants.CHARSET);
+            client.setType(FTPClient.TYPE_BINARY);
+            client.connect(new URL(ftpUtils.getPrefix() + ftpUtils.getIp()).getHost(),
+                    ftpUtils.getPort());
+            client.login(ftpUtils.getAccount(), ftpUtils.getPassword());
+            client.currentDirectory();
+            logger.info("FTP服务器连接状态：" + client.isConnected());
+        }
+    }
+
+    /**
      * FTP服务器心跳检测，如果断开连接，则进行重连
      */
     public void run() {
-        while (true) {
+        try {
+            connect();
+        } catch (Exception ex) {
+            logger.error("FTP服务器连接失败，尝试重连。失败原因：" + ex.getMessage());
             try {
-                if (client == null || !client.isConnected()) {
-                    client = new FTPClient();
-                    client.setCharset(Constants.CHARSET);
-                    client.setType(FTPClient.TYPE_BINARY);
-                    client.connect(new URL(ftpUtils.getPrefix() + ftpUtils.getIp()).getHost(),
-                            ftpUtils.getPort());
-                    client.login(ftpUtils.getAccount(), ftpUtils.getPassword());
-                    client.currentDirectory();
-                    logger.info("FTP服务器连接状态：" + client.isConnected());
-                }
-            } catch (Exception ex) {
-                logger.error("FTP服务器连接失败，尝试重连。失败原因：" + ex.getMessage());
-                try {
-                    Thread.sleep(100);//FTP重连时间缩短为0.1s
-                } catch (InterruptedException e) {
-                    logger.error("FTP服务器心跳检测", e);
-                }
+                Thread.sleep(100);//FTP重连时间缩短为0.1s
+                run();
+            } catch (InterruptedException e) {
+                logger.error("FTP服务器心跳检测", e);
             }
         }
     }
