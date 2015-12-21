@@ -225,7 +225,11 @@ public class CaseController extends BaseController {
                 uploadFileNames.remove(caseDocumentsKey);
                 uploadFileNames.remove(illegalPhotosKey);
 
-                navTabIds.add(queryCaseId);
+                if (BooleanUtils.toBoolean(caseParam.getIsDraft())) {//继续存为草稿，刷新【草稿箱】模块
+                    navTabIds.add(draftId);
+                } else {//预立案，刷新【案件查询】模块
+                    navTabIds.add(queryCaseId);
+                }
                 tip = "案件新增";
             }
 
