@@ -42,7 +42,7 @@ public class CompPageSearchFormDao extends BaseDao<CompPageSearchForm> {
             params.put("getId", queryParam.getCid());
         }
 
-        hql.append(" order by t.id desc");
+        hql.append(" order by t.orderNo");
 
         return super.pagedQuery(hql.toString(), queryParam.getPageNum(), queryParam
                 .getNumPerPage(), params);
