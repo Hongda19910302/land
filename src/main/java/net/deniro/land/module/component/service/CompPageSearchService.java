@@ -4,6 +4,7 @@ import net.deniro.land.common.dao.Page;
 import net.deniro.land.module.component.dao.CompPageSearchDao;
 import net.deniro.land.module.component.dao.CompPageSearchFormDao;
 import net.deniro.land.module.component.dao.CompPageSearchTableDao;
+import net.deniro.land.module.component.dao.CompPageSearchToolBarDao;
 import net.deniro.land.module.component.entity.*;
 import net.deniro.land.module.system.entity.DataSetType;
 import net.deniro.land.module.system.service.CompanyService;
@@ -74,6 +75,24 @@ public class CompPageSearchService {
 
     @Autowired
     private CompPageSearchTableDao compPageSearchTableDao;
+
+    @Autowired
+    private CompPageSearchToolBarDao compPageSearchToolBarDao;
+
+    /**
+     * 分页查询组件中的工具栏
+     *
+     * @param queryParam 查询参数
+     * @return
+     */
+    public Page findPage(CompPageSearchToolBarQueryParam queryParam) {
+        try {
+            return compPageSearchToolBarDao.findPage(queryParam);
+        } catch (Exception e) {
+            logger.error("分页查询组件中的工具栏", e);
+            return new Page();
+        }
+    }
 
     /**
      * 分页查询组件中的分页表格
