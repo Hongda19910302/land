@@ -482,6 +482,9 @@ public class CaseService {
 
         List<File> files = new ArrayList<File>();
         for (Images image : caseParam.getAttachmentList()) {
+            if(image.getFileName()==null){//已经在FTP服务器上，则无需上传
+                continue;
+            }
             File file = new File(image.getFileActualPath());
             files.add(file);
         }

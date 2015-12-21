@@ -200,6 +200,11 @@ public class CaseController extends BaseController {
 
 
                 isOk = caseService.modifyCase(caseParam);
+
+                //清空待上传文件
+                uploadFileNames.remove(caseDocumentsKey);
+                uploadFileNames.remove(illegalPhotosKey);
+
                 tip = "案件修改";
             } else {//新增
 

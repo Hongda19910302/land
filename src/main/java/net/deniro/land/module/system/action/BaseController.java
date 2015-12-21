@@ -151,10 +151,10 @@ public class BaseController {
             } else {
                 list = new ArrayList<FTPUploadFile>();
             }
-            FTPUploadFile FTPUploadFile = new FTPUploadFile();
-            FTPUploadFile.setFileName(file.getName());
-            FTPUploadFile.setFilePath(file.getAbsolutePath());
-            list.add(FTPUploadFile);
+            FTPUploadFile ftpUploadFile = new FTPUploadFile();
+            ftpUploadFile.setFileName(file.getName());
+            ftpUploadFile.setFilePath(file.getAbsolutePath());
+            list.add(ftpUploadFile);
             uploadFileNames.put(key, list);
 
             return true;
