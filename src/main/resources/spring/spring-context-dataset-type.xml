@@ -8,6 +8,37 @@
        ">
     <!-- 数据字典；如果key为多值，以-作为分隔符-->
 
+    <!-- 数据集类型-->
+    <util:map id="dataSetType" map-class="java.util.LinkedHashMap">
+        <entry key="INPUT_TYPE" value="输入框类型"/>
+        <entry key="COMPANY" value="单位"/>
+        <entry key="COMMON_STATUS" value="基本状态"/>
+        <entry key="ROLE_STATUS" value="角色状态"/>
+        <entry key="HAS_STATUS" value="是否 “有” 状态"/>
+        <entry key="USER_STATUS" value="用户状态"/>
+        <entry key="SEX" value="性别"/>
+        <entry key="VARIABLE_FIELD_TYPE" value="案件字段类型"/>
+        <entry key="IS_YES" value="是或否类型"/>
+        <entry key="CASE_IS_UPLOAD" value="案件是否上报"/>
+        <entry key="CASE_STATUS" value="案件状态"/>
+        <entry key="VERSION_TYPE" value="版本项类型"/>
+    </util:map>
+
+    <!-- 输入框类型-->
+    <util:map id="inputType" map-class="java.util.LinkedHashMap">
+        <entry key="TEXT" value="文本输入框"/>
+        <entry key="SELECT" value="下拉选择框"/>
+        <entry key="BEGIN_END_DATE" value="起止日期选择框"/>
+        <entry key="HIDDEN" value="隐藏字段"/>
+        <entry key="REGION" value="区域选择框"/>
+        <entry key="TEXTAREA" value="多行文本框"/>
+        <entry key="MAP" value="地理坐标选择框"/>
+        <entry key="VARIABLE" value="下拉选择框（来源于可变字段）"/>
+        <entry key="UPLOAD" value="起止日期选择框"/>
+        <entry key="BEGIN_END_DATE" value="文件上传选择框"/>
+    </util:map>
+
+
     <!-- （单位ID+可变字段key）与下拉框名值对映射关系-->
     <bean name="VariableSelectRelation"
           class="net.deniro.land.module.icase.entity.VariableSelectRelation"

@@ -62,6 +62,12 @@ public class CompPageSearchService {
     @Resource(name = "versionType")
     private Map<String, String> versionType;
 
+    @Resource(name = "inputType")
+    private Map<String, String> inputType;
+
+    @Resource(name = "dataSetType")
+    private Map<String, String> dataSetTypes;
+
     @Autowired
     private CompPageSearchFormDao compPageSearchFormDao;
 
@@ -146,6 +152,12 @@ public class CompPageSearchService {
                         break;
                     case VERSION_TYPE:
                         field.setTransformDataSet(versionType);
+                        break;
+                    case INPUT_TYPE:
+                        field.setTransformDataSet(inputType);
+                        break;
+                    case DATA_SET_TYPE:
+                        field.setTransformDataSet(dataSetTypes);
                         break;
 
 

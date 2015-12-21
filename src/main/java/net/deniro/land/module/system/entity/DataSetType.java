@@ -7,6 +7,17 @@ package net.deniro.land.module.system.entity;
  *         2015/10/20
  */
 public enum DataSetType {
+
+    /**
+     * 数据集类型
+     */
+    DATA_SET_TYPE,
+
+    /**
+     * 输入框类型
+     */
+    INPUT_TYPE,
+
     /**
      * 单位
      */
