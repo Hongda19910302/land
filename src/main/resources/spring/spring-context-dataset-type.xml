@@ -8,9 +8,17 @@
        ">
     <!-- 数据字典；如果key为多值，以-作为分隔符-->
 
+    <!-- 分页查询按钮打开方式-->
+    <util:map id="PageSearchBtnOpenType" map-class="java.util.LinkedHashMap">
+        <entry key="TAB" value="新页签"/>
+        <entry key="DIALOG" value="对话框"/>
+        <entry key="CONFIRM" value="确认框"/>
+    </util:map>
+
     <!-- 数据集类型-->
     <util:map id="dataSetType" map-class="java.util.LinkedHashMap">
         <entry key="INPUT_TYPE" value="输入框类型"/>
+        <entry key="PAGE_SEARCH_BTN_OPEN_TYPE" value="分页查询按钮打开方式"/>
         <entry key="COMPANY" value="单位"/>
         <entry key="COMMON_STATUS" value="基本状态"/>
         <entry key="ROLE_STATUS" value="角色状态"/>

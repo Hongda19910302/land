@@ -70,6 +70,9 @@ public class CompPageSearchService {
     @Resource(name = "dataSetType")
     private Map<String, String> dataSetTypes;
 
+    @Resource(name = "PageSearchBtnOpenType")
+    private Map<String, String> pageSearchBtnOpenType;
+
     @Autowired
     private CompPageSearchFormDao compPageSearchFormDao;
 
@@ -196,6 +199,9 @@ public class CompPageSearchService {
                         break;
                     case DATA_SET_TYPE:
                         field.setTransformDataSet(dataSetTypes);
+                        break;
+                    case PAGE_SEARCH_BTN_OPEN_TYPE:
+                        field.setTransformDataSet(pageSearchBtnOpenType);
                         break;
 
 

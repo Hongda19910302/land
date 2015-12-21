@@ -9,6 +9,11 @@ package net.deniro.land.module.system.entity;
 public enum DataSetType {
 
     /**
+     * 分页查询按钮打开方式
+     */
+    PAGE_SEARCH_BTN_OPEN_TYPE,
+
+    /**
      * 数据集类型
      */
     DATA_SET_TYPE,
