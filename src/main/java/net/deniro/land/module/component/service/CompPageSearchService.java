@@ -2,6 +2,7 @@ package net.deniro.land.module.component.service;
 
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.module.component.dao.CompPageSearchDao;
+import net.deniro.land.module.component.dao.CompPageSearchFormDao;
 import net.deniro.land.module.component.entity.*;
 import net.deniro.land.module.system.entity.DataSetType;
 import net.deniro.land.module.system.service.CompanyService;
@@ -60,6 +61,24 @@ public class CompPageSearchService {
 
     @Resource(name = "versionType")
     private Map<String, String> versionType;
+
+    @Autowired
+    private CompPageSearchFormDao compPageSearchFormDao;
+
+    /**
+     * 分页查询组件中的查询表单
+     *
+     * @param queryParam 查询参数
+     * @return
+     */
+    public Page findPage(CompPageSearchFormQueryParam queryParam) {
+        try {
+            return compPageSearchFormDao.findPage(queryParam);
+        } catch (Exception e) {
+            logger.error("分页查询组件中的查询表单", e);
+            return new Page();
+        }
+    }
 
     /**
      * 分页查询

@@ -431,6 +431,7 @@
                     <#switch toolBtn.openType>
                         <#case "TAB">
                             //打开新页签
+                            console.log("containTitle:"+containTitle);
                             navTab.openTab(containId, url, {
                                 title: containTitle, fresh: ${toolBtn.isFresh}
                             });
