@@ -34,8 +34,8 @@ public class CompPageSearchToolBarDao extends BaseDao<CompPageSearchToolBar> {
          * 新增查询条件
          */
         if (StringUtils.isNotBlank(queryParam.getBtnName())) {
-            hql.append(" and t.btnName = :getBtnName");
-            params.put("getBtnName", queryParam.getBtnName());
+            hql.append(" and t.btnName like :getBtnName");
+            params.put("getBtnName", queryParam.getBtnName()+"%");
         }
         if (queryParam.getCid() != null) {
             hql.append(" and t.compPageSearch.id = :getId");
