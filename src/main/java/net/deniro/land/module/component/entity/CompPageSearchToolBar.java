@@ -129,6 +129,12 @@ public class CompPageSearchToolBar implements Serializable {
     @Column(name = "is_fresh", nullable = true, length = 5)
     private String isFresh;
 
+    /**
+     * 确认框展示信息
+     */
+    @Column(name = "confirm_tip", nullable = true, length = 100)
+    private String confirmTip;
+
     @ManyToOne
     @JoinColumn(name = "comp_page_search_id")
     private CompPageSearch compPageSearch;

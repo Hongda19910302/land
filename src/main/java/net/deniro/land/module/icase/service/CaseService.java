@@ -90,6 +90,24 @@ public class CaseService {
     private FtpUtils ftpUtils;
 
     /**
+     * 删除案件
+     *
+     * @param caseId 案件ID
+     */
+    public boolean delete(Integer caseId) {
+        try {
+            TCase tCase = caseDao.get(caseId);
+            if (tCase != null) {
+                caseDao.remove(tCase);
+            }
+            return true;
+        } catch (Exception e) {
+            logger.error("删除案件", e);
+            return false;
+        }
+    }
+
+    /**
      * 删除所有相关附件记录
      *
      * @param filePath 文件路径
@@ -482,7 +500,7 @@ public class CaseService {
 
         List<File> files = new ArrayList<File>();
         for (Images image : caseParam.getAttachmentList()) {
-            if(image.getFileName()==null){//已经在FTP服务器上，则无需上传
+            if (image.getFileName() == null) {//已经在FTP服务器上，则无需上传
                 continue;
             }
             File file = new File(image.getFileActualPath());

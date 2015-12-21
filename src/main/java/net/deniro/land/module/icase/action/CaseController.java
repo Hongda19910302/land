@@ -10,7 +10,6 @@ import net.deniro.land.common.utils.ftp.FtpUtils;
 import net.deniro.land.module.component.entity.FTPUploadFile;
 import net.deniro.land.module.icase.entity.CaseParam;
 import net.deniro.land.module.icase.entity.TAttachment;
-import net.deniro.land.module.icase.entity.TAttachmentRelation;
 import net.deniro.land.module.icase.entity.TAttachmentRelation.RelationType;
 import net.deniro.land.module.icase.entity.TCase;
 import net.deniro.land.module.icase.service.CaseService;
@@ -65,6 +64,32 @@ public class CaseController extends BaseController {
 
     @Autowired
     private FtpUtils ftpUtils;
+
+    /**
+     * 【草稿箱】模块
+     */
+    public static final String DRAFT_ID = MENU_TAB_PREFIX + "28";
+
+    /**
+     * 删除案件
+     *
+     * @param caseId
+     * @return
+     */
+    @RequestMapping(value = "/delete")
+    @ResponseBody
+    public AjaxResponse delete(Integer caseId) {
+        boolean isOk = caseService.delete(caseId);
+        if (isOk) {
+            //刷新【草稿箱】模块
+            List<String> navTabIds = new ArrayList<String>();
+            navTabIds.add(DRAFT_ID);
+            return getAjaxSuccess("案件已删除", navTabIds);
+        } else {
+            return new AjaxResponseError("案件删除失败");
+        }
+    }
+
 
     /**
      * 上传【单据文书】的key
@@ -170,7 +195,7 @@ public class CaseController extends BaseController {
             boolean isOk;
             String tip = "";
             List<String> navTabIds = new ArrayList<String>();
-            String draftId = MENU_TAB_PREFIX + "28";//【草稿箱】模块
+
             String queryCaseId = MENU_TAB_PREFIX + "10";//【案件查询】模块
 
             /**
@@ -180,10 +205,10 @@ public class CaseController extends BaseController {
 
             if (caseParam.getCaseId() != null) {//修改
                 if (BooleanUtils.toBoolean(caseParam.getIsDraft())) {//继续存为草稿，刷新【草稿箱】模块
-                    navTabIds.add(draftId);
+                    navTabIds.add(DRAFT_ID);
                 } else {//预立案，刷新【草稿箱】、【案件查询】模块
                     caseParam.setStatus(String.valueOf(TCase.CaseStatus.PREPARE.code()));
-                    navTabIds.add(draftId);
+                    navTabIds.add(DRAFT_ID);
                     navTabIds.add(queryCaseId);
                 }
 
@@ -226,7 +251,7 @@ public class CaseController extends BaseController {
                 uploadFileNames.remove(illegalPhotosKey);
 
                 if (BooleanUtils.toBoolean(caseParam.getIsDraft())) {//继续存为草稿，刷新【草稿箱】模块
-                    navTabIds.add(draftId);
+                    navTabIds.add(DRAFT_ID);
                 } else {//预立案，刷新【案件查询】模块
                     navTabIds.add(queryCaseId);
                 }

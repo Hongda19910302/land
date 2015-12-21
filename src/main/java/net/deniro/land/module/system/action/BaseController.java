@@ -2,6 +2,7 @@ package net.deniro.land.module.system.action;
 
 import net.deniro.land.api.entity.Images;
 import net.deniro.land.common.dao.Page;
+import net.deniro.land.common.dwz.AjaxResponseSuccess;
 import net.deniro.land.common.entity.QueryParam;
 import net.deniro.land.common.service.Constants;
 import net.deniro.land.common.utils.UUIDGenerator;
@@ -25,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+import static net.deniro.land.common.dwz.AjaxResponseSuccess.NAB_TAB_ID_SPLIT;
 import static net.deniro.land.module.icase.entity.TAttachment.AttachmentType;
 
 /**
@@ -76,6 +78,19 @@ public class BaseController {
     public static Map<String, List<FTPUploadFile>> uploadFileNames = Collections.synchronizedMap(new
             HashMap<String,
                     List<FTPUploadFile>>());
+
+    /**
+     * 获取成功响应对象
+     * @param tip 提示信息
+     * @param navTabIds 待刷新的 tab id 列表
+     * @return
+     */
+    public AjaxResponseSuccess getAjaxSuccess(String tip, List<String> navTabIds){
+        AjaxResponseSuccess ajaxResponseSuccess=new AjaxResponseSuccess(tip);
+        ajaxResponseSuccess.setNavTabIds(StringUtils.join(navTabIds.toArray(),
+                NAB_TAB_ID_SPLIT));
+        return ajaxResponseSuccess;
+    }
 
     /**
      * 依据key，获取待上传的文件列表

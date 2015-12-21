@@ -198,7 +198,7 @@
                                    .fieldName}Begin"
                                    class="date lookupDateInput"
                                    readonly="true"/>
-                            <a class="inputDateButton lookupBtn" href="javascript:;
+                            <a class="inputDateButton lookupBtn" href="javascript:
             ">选择开始${field.displayName}</a>
                         </td>
                         <td class="inputDateEndLabel">
@@ -209,7 +209,7 @@
                                    name="${field.fieldName}End"
                                    class="date lookupDateInput"
                                    readonly="true"/>
-                            <a class="inputDateButton lookupBtn" href="javascript:;
+                            <a class="inputDateButton lookupBtn" href="javascript:
             ">选择结束${field.displayName}</a>
                         </td>
                         <#break>
@@ -435,6 +435,18 @@
                                 title: containTitle, fresh: ${toolBtn.isFresh}
                             });
                             <#break>
+
+                        <#case "CONFIRM">
+                            //打开确认框
+                            console.log("1");
+                            alertMsg.confirm("${toolBtn.confirmTip}",{
+                               okCall:function(){
+                                   $.post(url,null,DWZ.ajaxDone,"json");
+                               }
+                            });
+
+                            <#break>
+
                         <#--todo 对话框有问题，检索时后端的页面也会同时刷新-->
                         <#case "DIALOG">
                             //打开新对话框
