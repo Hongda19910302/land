@@ -395,7 +395,7 @@
         <ul class="toolBar">
             <#list toolBtns as toolBtn>
                 <#assign toolBtnClassName=toolBtn.btnClassName>
-                <li><a id="${toolBtnClassName}_${componentId}"
+                <li><a id="${toolBtnClassName}_${toolBtn.id}"
                        class="${toolBtnClassName}"><span>${toolBtn.btnName}</span></a>
                 </li>
             </#list>
@@ -405,9 +405,8 @@
     <script type="text/javascript">
         $(function () {
             <#list toolBtns as toolBtn>
-                var $toolBarBtn = $("#${toolBtn.btnClassName}_${componentId}");
+                var $toolBarBtn = $("#${toolBtn.btnClassName}_${toolBtn.id}");
                 $toolBarBtn.live("click", function (event) {
-                    //console.log($("#table_tbody_${componentId}").length);
                     var $tbody = $("#table_tbody_${componentId}");
                     if ($tbody.length == 0) {//没有数据，提示
                         alertMsg.warn("没有数据，无需处理！");
@@ -425,7 +424,7 @@
                     //console.log($select.attr("rel"));
                     var selectedId = $select.attr("rel");//已选择的记录ID
                     var url = "${toolBtn.url}" + selectedId;
-                    var containId = "${componentId}" + selectedId;//容器ID
+                    var containId = "${toolBtn.id}" + selectedId;//容器ID
                     var containTitle = "${toolBtn.tabName} (" + selectedId + ")";//容器标题
 
                     <#switch toolBtn.openType>
