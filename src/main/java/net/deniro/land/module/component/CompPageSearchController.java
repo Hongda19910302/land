@@ -2,6 +2,7 @@ package net.deniro.land.module.component;
 
 import net.deniro.land.module.component.entity.CompPageSearchFormQueryParam;
 import net.deniro.land.module.component.entity.CompPageSearchQueryParam;
+import net.deniro.land.module.component.entity.CompPageSearchTableQueryParam;
 import net.deniro.land.module.component.service.CompPageSearchService;
 import net.deniro.land.module.system.action.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,19 @@ public class CompPageSearchController extends BaseController {
     private CompPageSearchService compPageSearchService;
 
     /**
-     * 跳转至 分页查询组件中的查询表单管理主界面
+     * 跳转至 分页查询组件中的分页表格 管理主界面
+     *
+     * @return
+     */
+    @RequestMapping(value = "/tableIndex")
+    public String tableIndex(CompPageSearchTableQueryParam queryParam, ModelMap mm) {
+        super.pageSearch(mm, compPageSearchService.findPage(queryParam), queryParam,
+                "compPageSearch/tableIndex");
+        return COMPONENT_PAGE_SEARCH_URL;
+    }
+
+    /**
+     * 跳转至 分页查询组件中的查询表单 管理主界面
      *
      * @return
      */
