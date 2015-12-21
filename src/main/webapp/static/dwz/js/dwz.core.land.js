@@ -47,7 +47,7 @@ var DWZ = {
 				result = result.replace(new RegExp("\\{" + i + "\\}", "g"), args[i]);
 			}
 			return result;
-		}
+		};
 		return _format(this._msg[key], args);
 	},
 	debug:function(msg){
@@ -115,7 +115,16 @@ var DWZ = {
 			else DWZ.loadLogin();
 		} else if (json[DWZ.keys.statusCode] == DWZ.statusCode.ok){
 			if(json[DWZ.keys.message] && alertMsg) alertMsg.correct(json[DWZ.keys.message]);
-		};
+
+			//支持一次性刷新多个tab页面
+			if (json.navTabIds){ //把指定navTab页面标记为需要“重新载入”。注意navTabId不能是当前navTab页面的
+				var tabIds=json.navTabIds.split(",");
+				for(var i=0;i<tabIds.length;i++){
+					navTab.reloadFlag(tabIds[i]);
+				}
+
+			}
+		}
 	},
 
 	init:function(pageFrag, options){
@@ -428,24 +437,24 @@ var DWZ = {
  */
 function Map(){
 
-	this.elements = new Array();
+	this.elements = [];
 	
 	this.size = function(){
 		return this.elements.length;
-	}
+	};
 	
 	this.isEmpty = function(){
 		return (this.elements.length < 1);
-	}
+	};
 	
 	this.clear = function(){
-		this.elements = new Array();
-	}
+		this.elements = [];
+	};
 	
 	this.put = function(_key, _value){
 		this.remove(_key);
 		this.elements.push({key: _key, value: _value});
-	}
+	};
 	
 	this.remove = function(_key){
 		try {
@@ -459,7 +468,7 @@ function Map(){
 			return false;
 		}
 		return false;
-	}
+	};
 	
 	this.get = function(_key){
 		try {
@@ -469,12 +478,12 @@ function Map(){
 		} catch (e) {
 			return null;
 		}
-	}
+	};
 	
 	this.element = function(_index){
 		if (_index < 0 || _index >= this.elements.length) { return null; }
 		return this.elements[_index];
-	}
+	};
 	
 	this.containsKey = function(_key){
 		try {
@@ -487,18 +496,18 @@ function Map(){
 			return false;
 		}
 		return false;
-	}
+	};
 	
 	this.values = function(){
-		var arr = new Array();
+		var arr = [];
 		for (i = 0; i < this.elements.length; i++) {
 			arr.push(this.elements[i].value);
 		}
 		return arr;
-	}
+	};
 	
 	this.keys = function(){
-		var arr = new Array();
+		var arr = [];
 		for (i = 0; i < this.elements.length; i++) {
 			arr.push(this.elements[i].key);
 		}
