@@ -232,6 +232,7 @@ public class CaseParam extends QueryParam {
     /**
      * 未知
      */
+    @Deprecated
     private Integer illegalUse;
 
     /**

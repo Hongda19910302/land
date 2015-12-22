@@ -82,7 +82,7 @@
                     </tr>
                     <tr>
                         <th>违法现状</th>
-                        <td colspan="3">${tCase.currentStatus}</td>
+                        <td colspan="3">${tCase.caseSource}</td>
                     </tr>
                     <tr>
                         <th>案件来源</th>
