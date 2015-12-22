@@ -1,3 +1,15 @@
+/*案件明细*/
+.caseDetail tbody tr th {
+    background: url("../default/images/grid/tableth.png") repeat-x scroll 0 0 #f0eff0;
+    border-right: solid 1px #d0d0d0;
+    border-bottom: solid 1px #d0d0d0;
+    line-height: 30px;
+}
+
+.caseDetail tbody tr td {
+    padding: 5px 10px;
+}
+
 /*图片展示*/
 .imagesDisplay {
     margin: 0 auto;

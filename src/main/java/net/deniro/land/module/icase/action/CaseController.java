@@ -29,12 +29,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import static net.deniro.land.common.dwz.AjaxResponseSuccess.MENU_TAB_PREFIX;
 import static net.deniro.land.common.dwz.AjaxResponseSuccess.NAB_TAB_ID_SPLIT;
@@ -65,10 +67,51 @@ public class CaseController extends BaseController {
     @Autowired
     private FtpUtils ftpUtils;
 
+    @Resource(name = "caseStatus")
+    private Map<String, String> caseStatus;
+
     /**
      * 【草稿箱】模块
      */
     public static final String DRAFT_ID = MENU_TAB_PREFIX + "28";
+
+    /**
+     * 查询案件详情
+     *
+     * @param caseId 案件ID
+     * @return
+     */
+    @RequestMapping(value = "/findById")
+    public String findById(Integer caseId, ModelMap mm) {
+        TCase tCase = caseService.findById(caseId);
+
+        //巡查员
+        User inspector = tCase.getInspector();
+        if (inspector != null) {
+            tCase.setInspectorName(inspector.getName());
+        }
+
+        //创建者
+        User creator = tCase.getCreator();
+        if (creator != null) {
+            tCase.setCreatorName(creator.getName());
+        }
+
+        //案件状态转换为显示值
+        if (tCase.getStatus() != null) {
+            tCase.setStatusInDisplay(caseStatus.get(String.valueOf(tCase.getStatus())));
+        }
+
+        //所在地区
+        if(tCase.getRegionId()!=null){
+            tCase.setRegionName(tCase.getFindRegion().getName());
+        }
+
+
+        mm.addAttribute("tCase", tCase);
+
+        return "case/detail";
+    }
 
     /**
      * 删除案件

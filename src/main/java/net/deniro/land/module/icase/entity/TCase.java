@@ -232,6 +232,12 @@ public class TCase implements Serializable {
     private Integer status;
 
     /**
+     * 案件状态，用于显示
+     */
+    @Transient
+    private String statusInDisplay;
+
+    /**
      * 修改时间
      */
     @Column(name = "modify_time", nullable = true, length = 0)
@@ -279,6 +285,14 @@ public class TCase implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "inspector_id", referencedColumnName = "USER_ID", insertable = false, updatable = false)
     private User inspector;
+
+    /**
+     * 创建者
+     */
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "creater_id", referencedColumnName = "USER_ID", insertable = false, updatable = false)
+    private User creator;
 
     /**
      * 批示状态；0：未批示；1：我已批示；2：他人批示
