@@ -25,6 +25,8 @@
             <props>
                 <!--当遇见值为null的对象属性时，返回一个空白字符串-->
                 <prop key="classic_compatible">true</prop>
+                <!-- 数字格式保留5位小数-->
+                <prop key="number_format">0.#####</prop>
             </props>
         </property>
     </bean>
