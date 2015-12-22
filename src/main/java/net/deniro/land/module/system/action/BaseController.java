@@ -13,6 +13,7 @@ import net.deniro.land.module.component.service.CompPageSearchService;
 import net.deniro.land.module.system.entity.User;
 import net.deniro.land.module.system.service.ModuleService;
 import net.deniro.land.module.system.service.UserService;
+import org.apache.commons.collections.map.MultiKeyMap;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -80,13 +81,39 @@ public class BaseController {
                     List<FTPUploadFile>>());
 
     /**
+     * 获取可变字段显示内容
+     *
+     * @param variableSelects 可变字段键值对
+     * @param user            当前用户
+     * @param fieldName       字段名称
+     * @param value           可变字段值
+     * @return
+     */
+    public String findVariableDisplayName(MultiKeyMap variableSelects, User user,
+                                          String fieldName, String
+                                                  value) {
+        LinkedHashMap<String, String> map = (LinkedHashMap<String, String>)
+                variableSelects.get(String.valueOf(user.getCompanyId()),
+                        fieldName);
+        if (map != null && !map.isEmpty()) {
+            for (String s : map.keySet()) {
+                if (StringUtils.equals(String.valueOf(value), s)) {
+                    return map.get(s);
+                }
+            }
+        }
+        return "";
+    }
+
+    /**
      * 获取成功响应对象
-     * @param tip 提示信息
+     *
+     * @param tip       提示信息
      * @param navTabIds 待刷新的 tab id 列表
      * @return
      */
-    public AjaxResponseSuccess getAjaxSuccess(String tip, List<String> navTabIds){
-        AjaxResponseSuccess ajaxResponseSuccess=new AjaxResponseSuccess(tip);
+    public AjaxResponseSuccess getAjaxSuccess(String tip, List<String> navTabIds) {
+        AjaxResponseSuccess ajaxResponseSuccess = new AjaxResponseSuccess(tip);
         ajaxResponseSuccess.setNavTabIds(StringUtils.join(navTabIds.toArray(),
                 NAB_TAB_ID_SPLIT));
         return ajaxResponseSuccess;
@@ -228,12 +255,22 @@ public class BaseController {
      * @return
      */
     public Integer getCurrentUserId(HttpSession session) {
-        User user = (User) session.getAttribute(UserService.USER_CODE);
+        User user = getCurrentUser(session);
         if (user != null) {
             return user.getUserId();
         } else {
             return -1;
         }
+    }
+
+    /**
+     * 获取当前登录用户
+     *
+     * @param session
+     * @return
+     */
+    public User getCurrentUser(HttpSession session) {
+        return (User) session.getAttribute(UserService.USER_CODE);
     }
 
     /**
