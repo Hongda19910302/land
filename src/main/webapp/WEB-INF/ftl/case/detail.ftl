@@ -74,19 +74,19 @@
                     </tr>
                     <tr>
                         <th>违建类型</th>
-                        <td colspan="3">${tCase.illegalType}</td>
+                        <td colspan="3">${tCase.illegalTypeInDisplay}</td>
                     </tr>
                     <tr>
                         <th>用地性质</th>
-                        <td colspan="3">${tCase.landUsage}</td>
+                        <td colspan="3">${tCase.landUsageInDisplay}</td>
                     </tr>
                     <tr>
                         <th>违法现状</th>
-                        <td colspan="3">${tCase.caseSource}</td>
+                        <td colspan="3">${tCase.statusInDisplay}</td>
                     </tr>
                     <tr>
                         <th>案件来源</th>
-                        <td colspan="3">${tCase.caseSource}</td>
+                        <td colspan="3">${tCase.caseSourceInDisplay}</td>
                     </tr>
                     <tr>
                         <th>备注</th>

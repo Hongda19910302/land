@@ -135,11 +135,20 @@ public class TCase implements Serializable {
     @Column(name = "illegal_type", nullable = true, length = 2)
     private Integer illegalType;
 
+    @Transient
+    private String illegalTypeInDisplay;
+
     /**
      * 用地性质；来自可变字段
      */
     @Column(name = "land_usage", nullable = true, length = 2)
     private Integer landUsage;
+
+    /**
+     * 用地性质，用于显示
+     */
+    @Transient
+    private String landUsageInDisplay;
 
     /**
      * 违法现状
@@ -164,6 +173,12 @@ public class TCase implements Serializable {
      */
     @Column(name = "case_source", nullable = true, length = 2)
     private Integer caseSource;
+
+    /**
+     * 案件来源；用于显示
+     */
+    @Transient
+    private String caseSourceInDisplay;
 
     /**
      * 巡查员ID

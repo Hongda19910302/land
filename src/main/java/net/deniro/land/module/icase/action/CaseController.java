@@ -12,12 +12,14 @@ import net.deniro.land.module.icase.entity.CaseParam;
 import net.deniro.land.module.icase.entity.TAttachment;
 import net.deniro.land.module.icase.entity.TAttachmentRelation.RelationType;
 import net.deniro.land.module.icase.entity.TCase;
+import net.deniro.land.module.icase.entity.VariableSelectRelation;
 import net.deniro.land.module.icase.service.CaseService;
 import net.deniro.land.module.system.action.BaseController;
 import net.deniro.land.module.system.entity.TRegion;
 import net.deniro.land.module.system.entity.User;
 import net.deniro.land.module.system.service.RegionService;
 import net.deniro.land.module.system.service.UserService;
+import org.apache.commons.collections.map.MultiKeyMap;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -70,6 +72,9 @@ public class CaseController extends BaseController {
     @Resource(name = "caseStatus")
     private Map<String, String> caseStatus;
 
+    @Autowired
+    private VariableSelectRelation variableSelectRelation;
+
     /**
      * 【草稿箱】模块
      */
@@ -82,7 +87,7 @@ public class CaseController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/findById")
-    public String findById(Integer caseId, ModelMap mm) {
+    public String findById(Integer caseId, ModelMap mm, HttpSession session) {
         TCase tCase = caseService.findById(caseId);
 
         //巡查员
@@ -103,8 +108,37 @@ public class CaseController extends BaseController {
         }
 
         //所在地区
-        if(tCase.getRegionId()!=null){
+        if (tCase.getRegionId() != null) {
             tCase.setRegionName(tCase.getFindRegion().getName());
+        }
+
+        /**
+         * 可变字段赋值
+         */
+        //获取可变字段键值对
+        MultiKeyMap variableSelects = variableSelectRelation.getVariableSelects();
+        User user = getCurrentUser(session);
+        //违建类型
+        if (tCase.getIllegalType() != null) {
+            tCase.setIllegalTypeInDisplay(findVariableDisplayName(variableSelects, user,
+                    "illegalType", String.valueOf(tCase
+                            .getIllegalType())));
+        }
+        //用地性质
+        if (tCase.getLandUsage() != null) {
+            tCase.setLandUsageInDisplay(findVariableDisplayName(variableSelects, user,
+                    "landUsage", String.valueOf(tCase
+                            .getLandUsage())));
+        }
+        //违法现状
+        if (tCase.getStatus() != null) {
+            tCase.setStatusInDisplay(findVariableDisplayName(variableSelects, user,
+                    "surveyResult", String.valueOf(tCase.getStatus())));
+        }
+        //案件来源
+        if (tCase.getCaseSource() != null) {
+            tCase.setCaseSourceInDisplay(findVariableDisplayName(variableSelects, user,
+                    "caseSource", String.valueOf(tCase.getCaseSource())));
         }
 
 
