@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.Resource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -25,8 +26,12 @@ public class FlowRecordDao extends BaseDao<TCaseFlowRecord> {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+    @Resource(name = "caseFlowRecordOperationType")
+    private Map<String, String> caseFlowRecordOperationType;
+
     /**
      * 查询案件（返回的对象包含操作者名称、发送者名称、接收者名称）
+     *
      * @param caseId
      * @return
      */
@@ -53,11 +58,16 @@ public class FlowRecordDao extends BaseDao<TCaseFlowRecord> {
                         entity.setToUserId(resultSet.getInt("TO_USER_ID"));
                         entity.setOperation(resultSet.getString("OPERATION"));
                         entity.setCreateTime(resultSet.getTimestamp("CREATE_TIME"));
-                        entity.setOperationType(resultSet.getInt("OPERATION_TYPE"));
                         entity.setCaseId(resultSet.getInt("CASE_ID"));
                         entity.setOperatorName(resultSet.getString("operatorName"));
                         entity.setFromName(resultSet.getString("fromName"));
                         entity.setToName(resultSet.getString("toName"));
+
+                        Integer operationTypeCode = resultSet.getInt("OPERATION_TYPE");
+                        entity.setOperationType(operationTypeCode);
+                        entity.setOperationTypeInDisplay(caseFlowRecordOperationType.get(String.valueOf
+                                (operationTypeCode)));
+
                         return entity;
                     }
                 });

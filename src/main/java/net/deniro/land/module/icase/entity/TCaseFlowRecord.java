@@ -116,6 +116,12 @@ public class TCaseFlowRecord implements Serializable {
     private TCase findCase;
 
     /**
+     * 操作类型；用于显示
+     */
+    @Transient
+    private String operationTypeInDisplay;
+
+    /**
      * 操作类型
      */
     public enum OperationType {

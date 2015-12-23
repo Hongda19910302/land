@@ -8,6 +8,18 @@
        ">
     <!-- 数据字典；如果key为多值，以-作为分隔符-->
 
+    <!-- 案件流转记录操作类型-->
+    <util:map id="caseFlowRecordOperationType" map-class="java.util.LinkedHashMap">
+        <entry key="1" value="立案"/>
+        <entry key="2" value="立案审核"/>
+        <entry key="3" value="申请结案"/>
+        <entry key="4" value="一次结案审核"/>
+        <entry key="5" value="二次结案审核"/>
+        <entry key="6" value="删除"/>
+        <entry key="7" value="案件指派"/>
+    </util:map>
+
+
     <!-- 分页查询按钮打开方式-->
     <util:map id="PageSearchBtnOpenType" map-class="java.util.LinkedHashMap">
         <entry key="TAB" value="新页签"/>

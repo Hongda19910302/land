@@ -16,7 +16,7 @@
                 <td>${record.operatorName}</td>
                 <td>${record.fromName}</td>
                 <td>${record.toName}</td>
-                <td>${record.operationType}</td>
+                <td>${record.operationTypeInDisplay}</td>
                 <td>${record.createTime}</td>
             </tr>
             </#list>
