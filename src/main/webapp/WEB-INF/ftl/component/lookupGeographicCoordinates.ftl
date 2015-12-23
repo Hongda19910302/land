@@ -339,7 +339,7 @@
 
             //创建地图标注
         <#if mode??&&mode="DISPLAY"&&lng??&&lat??>
-            var marker=new TMarker(new TLngLat("${lng}","${lat}"));
+            var marker = new TMarker(new TLngLat("${lng}", "${lat}"));
             map${id}.addOverLay(marker);
         </#if>
         }
@@ -364,7 +364,13 @@
 <body>
 
 <#--地图-->
-<div id="mapDiv${id}" class="mapDiv"></div>
+<div id="mapDiv${id}"
+<#if mode??&&mode=="DISPLAY">
+     class="mapDisplayDiv"
+<#else>
+     class="mapDiv"
+</#if>
+     ></div>
 
 <#if mode??&&mode=="DISPLAY"><#--不展示选定功能-->
 <#else>
