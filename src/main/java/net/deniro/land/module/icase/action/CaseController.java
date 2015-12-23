@@ -78,6 +78,23 @@ public class CaseController extends BaseController {
     public static final String DRAFT_ID = MENU_TAB_PREFIX + "28";
 
     /**
+     * 查询案件流转记录
+     *
+     * @param caseId 案件ID
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "/findFlowRecords")
+    public String findFlowRecords(Integer caseId, ModelMap mm) {
+
+        if (caseId != null) {
+            List<TCaseFlowRecord> flowRecords = caseService.findFlowRecordByCaseId(caseId);
+            mm.addAttribute("flowRecords", flowRecords);
+        }
+        return "case/flowRecords";
+    }
+
+    /**
      * 查询案件巡查记录
      *
      * @param caseId 案件ID
