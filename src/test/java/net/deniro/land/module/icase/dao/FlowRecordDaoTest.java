@@ -15,7 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/spring-context-base.xml",
         "classpath:spring/spring-context-db.xml", "classpath:spring/spring-context-tx" +
-        ".xml", "classpath:spring/spring-context-dataset-type.xml"})
+        ".xml", "classpath:spring/spring-context-dataset-type.xml",
+        "classpath:spring/spring-context-ftp.xml"})
 @TransactionConfiguration
 @Transactional
 public class FlowRecordDaoTest {
@@ -26,5 +27,10 @@ public class FlowRecordDaoTest {
         @Test
         public void testFindByCaseId() throws Exception {
                 System.out.println("$$$$$$$$$$$$$$$"+flowRecordDao.findByCaseId(129));
+        }
+
+        @Test
+        public void findByCaseIdWithName(){
+                System.out.println("$$$$$$$$"+flowRecordDao.findByCaseIdWithName(597));
         }
 }
