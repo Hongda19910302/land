@@ -308,6 +308,8 @@ public class CaseController extends BaseController {
             List<String> navTabIds = new ArrayList<String>();
 
             String queryCaseId = MENU_TAB_PREFIX + "10";//【案件查询】模块
+            String myCaseId = MENU_TAB_PREFIX + "8";//【我的案件】模块
+
 
             /**
              * 新增附件
@@ -321,6 +323,7 @@ public class CaseController extends BaseController {
                     caseParam.setStatus(String.valueOf(TCase.CaseStatus.PREPARE.code()));
                     navTabIds.add(DRAFT_ID);
                     navTabIds.add(queryCaseId);
+                    navTabIds.add(myCaseId);
                 }
 
                 //修改单据文书
