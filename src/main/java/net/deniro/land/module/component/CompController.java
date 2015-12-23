@@ -1,5 +1,6 @@
 package net.deniro.land.module.component;
 
+import net.deniro.land.common.service.Constants;
 import net.deniro.land.common.spring.mvc.ResourcePathExposer;
 import net.deniro.land.module.component.entity.CompForm;
 import net.deniro.land.module.component.entity.CompanyTreeNode;
@@ -51,16 +52,33 @@ public class CompController {
     /**
      * 跳转至地理坐标选择组件
      *
+     * @param mode      模式
      * @param formId    表单ID
      * @param fieldName 表单字段名称 用于带回选择的字段数据
+     * @param lng       经度
+     * @param lat       纬度
      * @param mm
      * @return
      */
     @RequestMapping(value = "/lookupGeographicCoordinates")
-    public String lookupGeographicCoordinates(String formId, String fieldName, ModelMap mm) {
+    public String lookupGeographicCoordinates(String mode, String formId, String
+            fieldName, String lng, String lat,
+                                              ModelMap
+                                                      mm) {
         mm.addAttribute("id", RandomUtils.nextInt(1, 100));//加入ID，避免同一组件冲突
         mm.addAttribute("formId", formId);
         mm.addAttribute("fieldName", fieldName);
+
+        if (StringUtils.equals(mode, Constants.DISPLAY_MODE)) {
+            mm.addAttribute("mode", mode);
+        }
+        if(StringUtils.isNotBlank(lng)){
+            mm.addAttribute("lng", lng);
+        }
+        if(StringUtils.isNotBlank(lat)){
+            mm.addAttribute("lat", lat);
+        }
+
         return "/component/lookupGeographicCoordinates";
     }
 

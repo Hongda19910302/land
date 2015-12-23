@@ -528,7 +528,7 @@ public class CaseController extends BaseController {
         List<FTPUploadFile> ftpUploadFiles = new ArrayList<FTPUploadFile>();
 
         //从缓存中取上传文件
-        if (StringUtils.isNotBlank(key) && !StringUtils.equals(pattern, "DISPLAY")) {
+        if (StringUtils.isNotBlank(key) && !StringUtils.equals(pattern, Constants.DISPLAY_MODE)) {
             key = key + userId;
             ftpUploadFiles = uploadFileNames.get(key);
         }

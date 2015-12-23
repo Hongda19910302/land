@@ -54,4 +54,9 @@ public class Constants {
      * FTP中的HTTP地址访问前缀ID
      */
     public static final String FTP_HTTP_URL_PREFIX_ID = "httpPrefix";
+
+    /**
+     * 展示模式
+     */
+    public static final String DISPLAY_MODE="DISPLAY";
 }

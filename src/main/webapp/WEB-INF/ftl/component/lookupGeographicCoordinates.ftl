@@ -11,8 +11,16 @@
         var zoom${id} = 12;//缩放级别
         var mapSearchResults${id} = [];//查询结果集
         var mapSearchResultIdPrefix${id} = "address_";//查询结果对象的ID前缀
+
         var defaultLongitude${id} = 119.30324;//默认经度（五一广场）
+        <#if lng??>
+        defaultLongitude${id} = ${lng};
+        </#if>
+
         var defalutLatitude${id} = 26.07852;//默认纬度
+        <#if lat??>
+        defalutLatitude${id} = ${lat};
+        </#if>
 
         $(function () {
             initMap();
@@ -137,7 +145,7 @@
                         marker: marker,
                         winHtml: winHtml,
                         lnglat: lnglat
-                    }
+                    };
                     mapSearchResults${id}.push(result);
                 }
 
@@ -352,6 +360,8 @@
 <#--地图-->
 <div id="mapDiv${id}" class="mapDiv"></div>
 
+<#if mode??&&mode=="DISPLAY"><#--不展示选定功能-->
+<#else>
 <#--选定的经纬度坐标-->
 <div class="mapCoordinate">
     <ul>
@@ -363,18 +373,20 @@
                                                            id="latitudeInput${id}"
                                                            readonly="true">
         </li>
-        <li><a id="mapCoordinateBtn${id}" class="button" href="javascript:;"><span>选定</span></a>
+        <li><a id="mapCoordinateBtn${id}" class="button" href="javascript:"><span>选定</span></a>
         </li>
     </ul>
 
 </div>
+</#if>
+
 
 <#--搜索面板-->
 <div class="mapSearch">
     <ul class="mapSearchKey">
         <li class="mapPromptStrong">搜索内容：</li>
         <li><input type="text" id="mapKeyWord${id}" class="mapKeyWord" value="万宝"/></li>
-        <li><a id="mapSearchBtn${id}" class="button" href="javascript:;"><span>搜索</span></a>
+        <li><a id="mapSearchBtn${id}" class="button" href="javascript:"><span>搜索</span></a>
         </li>
     </ul>
 <#--提示词面板-->
@@ -386,14 +398,14 @@
             <div id="mapPaginationInfo${id}" class="mapPaginationInfo"></div>
             <ul class="mapPagination">
                 <li>
-                    <a id="mapFirstBtn${id}" class="button" href="javascript:;
+                    <a id="mapFirstBtn${id}" class="button" href="javascript:
                     "><span>首页</span></a>
                 </li>
                 <li>
                     <a id="mapPreviousBtn${id}" class="button"><span>《</span></a>
                 </li>
                 <li>
-                    <a id="mapNextBtn${id}" class="button" href="javascript:;
+                    <a id="mapNextBtn${id}" class="button" href="javascript:
                     "><span>》</span></a>
                 </li>
                 <li>
@@ -408,7 +420,7 @@
 
                 </li>
                 <li>
-                    <a id="mapJumpToBtn${id}" class="button" href="javascript:;
+                    <a id="mapJumpToBtn${id}" class="button" href="javascript:
                     "><span>跳转</span></a>
                 </li>
             </ul>
