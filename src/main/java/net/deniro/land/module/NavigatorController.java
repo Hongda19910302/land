@@ -42,6 +42,7 @@ public class NavigatorController {
             logger.warn("无法获取当前账号session！");
         }
         mm.addAttribute("allMenu",menuService.findAll(currentUser.getRoleId()));
+        mm.addAttribute("currentUser",currentUser);
 
         return "/index";
     }

@@ -1,3 +1,12 @@
+/* 首页登录账号展示 */
+.headerNav span {
+    position: absolute;
+    top: 8px;
+    right: 120px;
+    z-index: 32;
+    color: wheat;
+}
+
 /*案件明细*/
 .caseDetail tbody tr th {
     background: url("../default/images/grid/tableth.png") repeat-x scroll 0 0 #f0eff0;

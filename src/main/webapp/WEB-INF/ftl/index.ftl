@@ -140,6 +140,7 @@
     <div id="header">
         <div class="headerNav">
             <a class="logo" href="#">标志</a>
+            <span>当前登录账号：${currentUser.account}</span>
             <ul class="nav">
                 <li><a id="changePassword" href="#">修改密码</a></li>
                 <li><a id="exit" href="#">退出</a></li>
@@ -195,7 +196,7 @@
                 <div class="tabsPageHeaderContent">
                     <!-- 显示左右控制时添加 class="tabsPageHeaderMargin" -->
                     <ul class="navTab-tab">
-                        <li tabid="main" class="main"><a href="javascript:;"><span><span
+                        <li tabid="main" class="main"><a href="javascript:"><span><span
                                 class="home_icon">我的主页</span></span></a></li>
                     </ul>
                 </div>
@@ -206,7 +207,7 @@
                 <div class="tabsMore">more</div>
             </div>
             <ul class="tabsMoreList">
-                <li><a href="javascript:;">主页</a></li>
+                <li><a href="javascript:">主页</a></li>
             </ul>
             <div class="navTab-panel tabsPageContent layoutBox">
                 <div class="page unitBox">
