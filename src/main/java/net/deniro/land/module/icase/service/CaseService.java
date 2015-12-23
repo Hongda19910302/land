@@ -923,6 +923,21 @@ public class CaseService {
     }
 
     /**
+     * 通过案件ID，查询流转记录（返回的对象包含操作者名称、发送者名称、接收者名称）
+     *
+     * @param caseId
+     * @return
+     */
+    public List<TCaseFlowRecord> findFlowRecordByCaseIdWithName(Integer caseId) {
+        try {
+            return flowRecordDao.findByCaseIdWithName(caseId);
+        } catch (Exception e) {
+            logger.error(" 通过案件ID，查询流转记录", e);
+            return new ArrayList<TCaseFlowRecord>();
+        }
+    }
+
+    /**
      * 通过案件ID，查询流转记录
      *
      * @param caseId

@@ -88,7 +88,7 @@ public class CaseController extends BaseController {
     public String findFlowRecords(Integer caseId, ModelMap mm) {
 
         if (caseId != null) {
-            List<TCaseFlowRecord> flowRecords = caseService.findFlowRecordByCaseId(caseId);
+            List<TCaseFlowRecord> flowRecords = caseService.findFlowRecordByCaseIdWithName(caseId);
             mm.addAttribute("flowRecords", flowRecords);
         }
         return "case/flowRecords";

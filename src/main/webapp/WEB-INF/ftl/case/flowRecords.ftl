@@ -13,9 +13,9 @@
         <#if flowRecords??>
             <#list flowRecords as record>
             <tr>
-                <td>${record.operaterId}</td>
-                <td>${record.fromUserId}</td>
-                <td>${record.toUserId}</td>
+                <td>${record.operatorName}</td>
+                <td>${record.fromName}</td>
+                <td>${record.toName}</td>
                 <td>${record.operationType}</td>
                 <td>${record.createTime}</td>
             </tr>

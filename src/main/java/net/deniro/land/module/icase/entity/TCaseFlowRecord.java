@@ -34,16 +34,34 @@ public class TCaseFlowRecord implements Serializable {
     private Integer operaterId;
 
     /**
+     * 操作者名称
+     */
+    @Transient
+    private String operatorName;
+
+    /**
      * 案件原操作者ID
      */
     @Column(name = "from_user_id", nullable = true, length = 11)
     private Integer fromUserId;
 
     /**
+     * 发送者名称
+     */
+    @Transient
+    private String fromName;
+
+    /**
      * 接受者ID
      */
     @Column(name = "to_user_id", nullable = true, length = 11)
     private Integer toUserId;
+
+    /**
+     * 接收者名称
+     */
+    @Transient
+    private String toName;
 
     /**
      * 操作
