@@ -330,5 +330,20 @@ public class CaseParam extends QueryParam {
      */
     private Integer xcyId;
 
+    /**
+     * 模块类型
+     */
+    private ModuleType moduleType;
+
+    /**
+     * 模块类型
+     */
+    public enum ModuleType {
+        /**
+         * 我的案件
+         */
+        MY_CASE
+    }
+
 
 }

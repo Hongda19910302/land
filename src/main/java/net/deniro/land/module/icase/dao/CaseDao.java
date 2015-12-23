@@ -329,6 +329,17 @@ public class CaseDao extends BaseDao<TCase> {
             params.put("caseStatus", CaseStatus.DRAFT.code());
         }
 
+
+        //模块条件
+        if(queryParam.getModuleType()!=null){
+            switch (queryParam.getModuleType()){
+                case MY_CASE://只能查询到自己创建的案件
+                    sql.append(" and t.creater_id=:getUserId");
+                    params.put("getUserId", queryParam.getUserId());
+                    break;
+            }
+        }
+
         //查询总数SQL
         String countSql = "select count(1) " + sql.toString();
         int count = namedParameterJdbcTemplate.queryForInt(countSql, params);

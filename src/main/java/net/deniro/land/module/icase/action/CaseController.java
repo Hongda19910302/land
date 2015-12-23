@@ -435,10 +435,18 @@ public class CaseController extends BaseController {
     /**
      * 跳转至【我的案件】
      *
+     * @param queryParam
+     * @param mm
+     * @param session
      * @return
      */
     @RequestMapping(value = "/my")
-    public String my(CaseParam queryParam, ModelMap mm) {
+    public String my(CaseParam queryParam, ModelMap mm, HttpSession session) {
+
+        if (queryParam != null) {
+            queryParam.setUserId(String.valueOf(getCurrentUserId(session)));
+        }
+
         super.pageSearch(mm, caseService.findPage(queryParam), queryParam, "case/my");
         return COMPONENT_PAGE_SEARCH_URL;
     }
