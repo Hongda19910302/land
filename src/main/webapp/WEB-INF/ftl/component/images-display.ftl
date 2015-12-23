@@ -65,7 +65,7 @@
                 key: "${key}",
                 fileName: fileName,
                 fileSource: "${file.fileSource}",
-                filePath:src,
+                filePath: src,
                 id: "${id}"
             }, function (data) {
                 if (data && data.statusCode == 200) {
@@ -100,33 +100,35 @@
 </script>
 
 <#--按钮栏-->
-<#if ftpUploadFiles&&ftpUploadFiles?size gt 0>
+<#if pattern!="DISPLAY"><#--不是展示模式-->
 
-<form id="imagesDisplay${key}" action="case/delUploadedFiles">
-    <input type="hidden" name="key" value="${key}"/>
+    <#if ftpUploadFiles&&ftpUploadFiles?size gt 0>
 
-    <div class="formBar">
-        <ul>
-            <li>
-                <div class="buttonActive">
-                    <div class="buttonContent">
-                        <button
-                                type="button" id="delCurrentBtn${key}">删除当前
-                        </button>
+    <form id="imagesDisplay${key}" action="case/delUploadedFiles">
+        <input type="hidden" name="key" value="${key}"/>
+
+        <div class="formBar">
+            <ul>
+                <li>
+                    <div class="buttonActive">
+                        <div class="buttonContent">
+                            <button
+                                    type="button" id="delCurrentBtn${key}">删除当前
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </li>
-            <li>
-                <div class="buttonActive">
-                    <div class="buttonContent">
-                        <button
-                                type="button" id="delAllBtn${key}">删除全部
-                        </button>
+                </li>
+                <li>
+                    <div class="buttonActive">
+                        <div class="buttonContent">
+                            <button
+                                    type="button" id="delAllBtn${key}">删除全部
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </li>
-        </ul>
-    </div>
-</form>
-
+                </li>
+            </ul>
+        </div>
+    </form>
+    </#if>
 </#if>

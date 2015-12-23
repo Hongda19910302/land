@@ -97,7 +97,7 @@
                         <th>单据</th>
                         <td colspan="3">
                             <a class="btnLook"
-                               href="/case/lookupUploadedFiles?key=caseDocuments&id=${tCase.caseId}"
+                               href="/case/lookupUploadedFiles?key=caseDocuments&id=${tCase.caseId}&pattern=DISPLAY"
                                target="dialog"
                                rel="lookupUploadedFiles"
                                mask="true" minable="false" height="600"
@@ -111,7 +111,7 @@
                         <th>照片</th>
                         <td colspan="3">
                             <a class="btnLook"
-                               href="/case/lookupUploadedFiles?key=illegalPhotos&id=${tCase.caseId}"
+                               href="/case/lookupUploadedFiles?key=illegalPhotos&id=${tCase.caseId}&pattern=DISPLAY"
                                target="dialog"
                                rel="lookupUploadedFiles"
                                mask="true" minable="false" height="600"

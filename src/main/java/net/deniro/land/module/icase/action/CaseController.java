@@ -514,19 +514,21 @@ public class CaseController extends BaseController {
      *
      * @param key
      * @param id      当前操作对象的ID
+     * @param pattern 组件模式
      * @param session
      * @param mm
      * @return
      */
     @RequestMapping(value = "/lookupUploadedFiles")
-    public String lookupUploadedFiles(String key, Integer id, HttpSession session,
+    public String lookupUploadedFiles(String key, Integer id, String pattern, HttpSession
+            session,
                                       ModelMap mm) {
         Integer userId = getCurrentUserId(session);
 
         List<FTPUploadFile> ftpUploadFiles = new ArrayList<FTPUploadFile>();
 
         //从缓存中取上传文件
-        if (StringUtils.isNotBlank(key)) {
+        if (StringUtils.isNotBlank(key) && !StringUtils.equals(pattern, "DISPLAY")) {
             key = key + userId;
             ftpUploadFiles = uploadFileNames.get(key);
         }
@@ -577,6 +579,7 @@ public class CaseController extends BaseController {
         mm.addAttribute("ftpUploadFiles", ftpUploadFiles);
         mm.addAttribute("key", key);
         mm.addAttribute("id", id);
+        mm.addAttribute("pattern", pattern);
         return COMPONENT_IMAGES_DISPLAY_URL;
     }
 }
