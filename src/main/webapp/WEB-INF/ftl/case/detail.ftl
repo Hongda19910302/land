@@ -1,3 +1,11 @@
+<script type="text/javascript">
+    $(function () {
+        $("#case_print_btn").click(function () {
+            $.print($(".caseDetail"));
+        });
+    });
+</script>
+
 <div class="pageContent">
     <div class="tabs" currentIndex="0" eventType="click">
         <div class="tabsHeader">
@@ -93,7 +101,7 @@
                         <th>备注</th>
                         <td colspan="3">${tCase.remark}</td>
                     </tr>
-                    <tr>
+                    <tr class="no-print">
                         <th>单据</th>
                         <td colspan="3">
                             <a class="btnLook"
@@ -107,7 +115,7 @@
                                title="已上传的单据"></a>
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="no-print">
                         <th>照片</th>
                         <td colspan="3">
                             <a class="btnLook"
@@ -145,7 +153,7 @@
                         <div class="buttonContent">
                             <button id="case_print_btn"
                                     type="button"
-                                    >打印预览
+                                    >打印
                             </button>
                         </div>
                     </div>

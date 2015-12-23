@@ -68,11 +68,13 @@
             type="text/javascript">
     </script>
 
-<#--地图组件-->
+    <#--地图组件-->
     <script src="http://api.tianditu.com/js/maps.js" type="text/javascript"></script>
     <script src="http://api.tianditu.com/js/service.js" type="text/javascript"></script>
     <script src="http://api.tianditu.com/js/maptools.js" type="text/javascript"></script>
 
+    <#--打印组件-->
+    <script src="${resourceRoot}/dwz/print/jQuery.print.js" type="text/javascript"></script>
 
     <script src="${resourceRoot}/dwz/js/dwz.core.land.js" type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/js/dwz.util.date.js" type="text/javascript"></script>
