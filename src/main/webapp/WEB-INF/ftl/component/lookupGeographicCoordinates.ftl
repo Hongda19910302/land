@@ -336,6 +336,12 @@
                 }
             });
             pickup.addEvent();
+
+            //创建地图标注
+        <#if mode??&&mode="DISPLAY"&&lng??&&lat??>
+            var marker=new TMarker(new TLngLat("${lng}","${lat}"));
+            map${id}.addOverLay(marker);
+        </#if>
         }
 
         //添加地图版本控件
