@@ -78,6 +78,31 @@ public class CaseController extends BaseController {
     public static final String DRAFT_ID = MENU_TAB_PREFIX + "28";
 
     /**
+     * 【我的案件】模块
+     */
+    public static final String MY_CASE_ID = MENU_TAB_PREFIX + "8";
+
+    /**
+     * 删除案件（可恢复）
+     *
+     * @param caseId
+     * @return
+     */
+    @RequestMapping(value = "/fakeDelete")
+    @ResponseBody
+    public AjaxResponse fakeDelete(Integer caseId) {
+        boolean isOk = caseService.fakeDelete(caseId);
+        if (isOk) {
+            //刷新【我的案件】模块
+            List<String> navTabIds = new ArrayList<String>();
+            navTabIds.add(MY_CASE_ID);
+            return getAjaxSuccess("案件已删除", navTabIds);
+        } else {
+            return new AjaxResponseError("案件删除失败");
+        }
+    }
+
+    /**
      * 查询案件流转记录
      *
      * @param caseId 案件ID
@@ -308,7 +333,7 @@ public class CaseController extends BaseController {
             List<String> navTabIds = new ArrayList<String>();
 
             String queryCaseId = MENU_TAB_PREFIX + "10";//【案件查询】模块
-            String myCaseId = MENU_TAB_PREFIX + "8";//【我的案件】模块
+
 
 
             /**
@@ -323,7 +348,7 @@ public class CaseController extends BaseController {
                     caseParam.setStatus(String.valueOf(TCase.CaseStatus.PREPARE.code()));
                     navTabIds.add(DRAFT_ID);
                     navTabIds.add(queryCaseId);
-                    navTabIds.add(myCaseId);
+                    navTabIds.add(MY_CASE_ID);
                 }
 
                 //修改单据文书

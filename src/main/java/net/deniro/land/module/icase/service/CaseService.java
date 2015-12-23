@@ -90,6 +90,24 @@ public class CaseService {
     private FtpUtils ftpUtils;
 
     /**
+     * 删除案件（可恢复）
+     *
+     * @param caseId 案件ID
+     */
+    public boolean fakeDelete(Integer caseId) {
+        try {
+            TCase tCase = caseDao.get(caseId);
+            tCase.setDelTime(new Date());
+            tCase.setRecycleStatus(TCase.RecycleStatus.YES.code());
+            caseDao.update(tCase);
+            return true;
+        } catch (Exception e) {
+            logger.error("删除案件（可恢复）", e);
+            return false;
+        }
+    }
+
+    /**
      * 删除案件
      *
      * @param caseId 案件ID
