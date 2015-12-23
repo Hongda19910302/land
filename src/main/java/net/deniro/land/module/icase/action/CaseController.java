@@ -522,8 +522,14 @@ public class CaseController extends BaseController {
     public String lookupUploadedFiles(String key, Integer id, HttpSession session,
                                       ModelMap mm) {
         Integer userId = getCurrentUserId(session);
-        key = key + userId;
-        List<FTPUploadFile> ftpUploadFiles = uploadFileNames.get(key);
+
+        List<FTPUploadFile> ftpUploadFiles = new ArrayList<FTPUploadFile>();
+
+        //从缓存中取上传文件
+        if (StringUtils.isNotBlank(key)) {
+            key = key + userId;
+            ftpUploadFiles = uploadFileNames.get(key);
+        }
 
         if (id != null) {//从附件表中取文件地址
             if (ftpUploadFiles == null) {

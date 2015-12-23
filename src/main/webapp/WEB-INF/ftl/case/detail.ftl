@@ -3,11 +3,12 @@
         <div class="tabsHeader">
             <div class="tabsHeaderContent">
                 <ul>
-                    <li a href="javascript:"><span>基础信息</span></li>
-                    <li a href="javascript:"><span>巡查记录</span></li>
-                    <li a href="javascript:"><span>案件位置</span></li>
-                    <li a href="javascript:"><span>案件流转</span></li>
-                    <li a href="javascript:"><span>案件批示</span></li>
+                    <li><a href="javascript:"><span>基础信息</span></a></li>
+                    <li><a href="case/findInspects?caseId=${tCase.caseId}"
+                           class="j-ajax"><span>巡查记录</span></a></li>
+                    <li><a href="javascript:"><span>案件位置</span></a></li>
+                    <li><a href="javascript:"><span>案件流转</span></a></li>
+                    <li><a href="javascript:"><span>案件批示</span></a></li>
                 </ul>
             </div>
         </div>
@@ -92,12 +93,40 @@
                         <th>备注</th>
                         <td colspan="3">${tCase.remark}</td>
                     </tr>
+                    <tr>
+                        <th>单据</th>
+                        <td colspan="3">
+                            <a class="btnLook"
+                               href="/case/lookupUploadedFiles?key=caseDocuments&id=${tCase.caseId}"
+                               target="dialog"
+                               rel="lookupUploadedFiles"
+                               mask="true" minable="false" height="600"
+                               width="800"
+                               resizable="false"
+                               maxable="false"
+                               title="已上传的单据"></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>照片</th>
+                        <td colspan="3">
+                            <a class="btnLook"
+                               href="/case/lookupUploadedFiles?key=illegalPhotos&id=${tCase.caseId}"
+                               target="dialog"
+                               rel="lookupUploadedFiles"
+                               mask="true" minable="false" height="600"
+                               width="800"
+                               resizable="false"
+                               maxable="false"
+                               title="已上传的照片"></a>
+                        </td>
+                    </tr>
                     </tbody>
 
                 </table>
 
             </div>
-            <div>内容2</div>
+            <div></div>
             <div>内容3</div>
             <div>内容4</div>
             <div>内容5</div>
