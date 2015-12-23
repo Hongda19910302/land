@@ -390,9 +390,6 @@
     </ul>
 
 </div>
-</#if>
-
-
 <#--搜索面板-->
 <div class="mapSearch">
     <ul class="mapSearchKey">
@@ -439,6 +436,10 @@
         </div>
     </div>
 </div>
+
+</#if>
+
+
 
 </body>
 </html>
