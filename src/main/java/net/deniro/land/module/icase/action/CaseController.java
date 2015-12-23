@@ -8,11 +8,8 @@ import net.deniro.land.common.service.Constants;
 import net.deniro.land.common.utils.PropertiesReader;
 import net.deniro.land.common.utils.ftp.FtpUtils;
 import net.deniro.land.module.component.entity.FTPUploadFile;
-import net.deniro.land.module.icase.entity.CaseParam;
-import net.deniro.land.module.icase.entity.TAttachment;
+import net.deniro.land.module.icase.entity.*;
 import net.deniro.land.module.icase.entity.TAttachmentRelation.RelationType;
-import net.deniro.land.module.icase.entity.TCase;
-import net.deniro.land.module.icase.entity.VariableSelectRelation;
 import net.deniro.land.module.icase.service.CaseService;
 import net.deniro.land.module.system.action.BaseController;
 import net.deniro.land.module.system.entity.TRegion;
@@ -79,6 +76,26 @@ public class CaseController extends BaseController {
      * 【草稿箱】模块
      */
     public static final String DRAFT_ID = MENU_TAB_PREFIX + "28";
+
+    /**
+     * 查询案件巡查记录
+     *
+     * @param caseId 案件ID
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "/findInspects")
+    public String findInspects(Integer caseId, ModelMap mm) {
+
+        //巡查记录
+        if (caseId != null) {
+            List<TInspect> inspects = caseService.findInspectById(caseId);
+            mm.addAttribute("inspects", inspects);
+        }
+
+
+        return "case/inspects";
+    }
 
     /**
      * 查询案件详情
