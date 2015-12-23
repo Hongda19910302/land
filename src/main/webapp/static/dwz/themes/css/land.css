@@ -47,8 +47,8 @@
 /*地图*/
 .mapDiv {
     position: absolute;
-    width: 1000px;
-    height: 530px;
+    width: 1020px;
+    height: 600px;
 }
 
 .mapDisplayDiv {
