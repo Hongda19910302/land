@@ -140,7 +140,7 @@
     <div id="header">
         <div class="headerNav">
             <a class="logo" href="#">标志</a>
-            <span>当前登录账号：${currentUser.account}</span>
+            <span>您好！${currentUser.name}</span>
             <ul class="nav">
                 <li><a id="changePassword" href="#">修改密码</a></li>
                 <li><a id="exit" href="#">退出</a></li>
