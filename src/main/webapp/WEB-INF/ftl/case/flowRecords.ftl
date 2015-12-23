@@ -1,5 +1,5 @@
 <div class="pageContent">
-    <table class="list" width="100%" layoutH="76">
+    <table class="list flowRecords" width="100%" layoutH="76">
         <thead>
         <tr>
             <th width="120">操作者</th>

@@ -1,3 +1,8 @@
+/*案件流转日志展示*/
+.flowRecords tbody tr td {
+    text-align: center;
+}
+
 /* 首页登录账号展示 */
 .headerNav span {
     position: absolute;
