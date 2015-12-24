@@ -41,6 +41,7 @@ import java.util.concurrent.Executors;
 
 import static net.deniro.land.api.entity.OverAuditParam.CheckType;
 import static net.deniro.land.module.icase.entity.TCase.CaseStatus.*;
+import static net.deniro.land.module.icase.entity.TCase.IsReport.TRUE;
 import static net.deniro.land.module.icase.entity.TCase.RecycleStatus.NO;
 import static net.deniro.land.module.icase.entity.TCaseAudit.Type.OVER;
 import static net.deniro.land.module.icase.entity.TCaseAudit.Type.START;
@@ -88,6 +89,24 @@ public class CaseService {
 
     @Autowired
     private FtpUtils ftpUtils;
+
+    /**
+     * 上报案件
+     *
+     * @param caseId 案件ID
+     * @return
+     */
+    public boolean report(Integer caseId) {
+        try {
+            TCase tCase = caseDao.get(caseId);
+            tCase.setIsUpload(TRUE.code());
+            caseDao.update(tCase);
+            return true;
+        } catch (Exception e) {
+            logger.error("上报案件", e);
+            return false;
+        }
+    }
 
     /**
      * 恢复案件

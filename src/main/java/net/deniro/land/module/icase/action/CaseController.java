@@ -93,6 +93,28 @@ public class CaseController extends BaseController {
     public static final String CASE_RECYCLE_BIN_ID = MENU_TAB_PREFIX + "14";
 
     /**
+     * 上报案件
+     *
+     * @param caseId
+     * @return
+     */
+    @RequestMapping(value = "/report")
+    @ResponseBody
+    public AjaxResponse report(Integer caseId) {
+        boolean isOk = caseService.report(caseId);
+        if (isOk) {
+            //刷新相应页签
+            List<String> navTabIds = new ArrayList<String>();
+            navTabIds.add(MY_CASE_ID);
+            navTabIds.add(QUERY_CASE_ID);
+
+            return getAjaxSuccess("案件已上报", navTabIds);
+        } else {
+            return new AjaxResponseError("案件上报失败");
+        }
+    }
+
+    /**
      * 恢复案件
      *
      * @param caseId

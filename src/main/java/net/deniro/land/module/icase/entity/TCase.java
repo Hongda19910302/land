@@ -341,6 +341,46 @@ public class TCase implements Serializable {
     }
 
     /**
+     * 是否上报
+     */
+    public enum IsReport {
+        /**
+         * 已上报
+         */
+        TRUE(2),
+        /**
+         * 未上报
+         */
+        FALSE(1);
+
+        private int code;
+
+        IsReport(int code) {
+            this.code = code;
+        }
+
+        /**
+         * 获取枚举对象
+         *
+         * @param code 来源码
+         * @return
+         */
+        public static IsReport get(int code) {
+            IsReport[] sources = IsReport.values();
+            for (IsReport source : sources) {
+                if (source.code() == code) {
+                    return source;
+                }
+            }
+            return null;
+        }
+
+        public int code() {
+            return code;
+        }
+    }
+
+    /**
      * 案件状态
      */
     public enum CaseStatus {
