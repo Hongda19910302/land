@@ -193,8 +193,37 @@
 }
 
 /*表格工具栏按钮样式*/
+/*详情*/
 .panelBar .toolBar a.detail span {
     background-position: 0 -896px;
+}
+/*导入*/
+.panelBar .toolBar a.import span {
+    background-position: 0 -946px;
+}
+/*导出*/
+.panelBar .toolBar a.export span {
+    background-position: 0 -996px;
+}
+/*恢复*/
+.panelBar .toolBar a.recovery span {
+    background-position: 0 -1046px;
+}
+/*上报*/
+.panelBar .toolBar a.forward span {
+    background-position: 0 -1096px;
+}
+/*审核*/
+.panelBar .toolBar a.audit span {
+    background-position: 0 -1146px;
+}
+/*指派*/
+.panelBar .toolBar a.assign span {
+    background-position: 0 -1196px;
+}
+/*查看*/
+.panelBar .toolBar a.look span {
+    background-position: 0 -1246px;
 }
 
 /*表单中的地理选择组件*/
