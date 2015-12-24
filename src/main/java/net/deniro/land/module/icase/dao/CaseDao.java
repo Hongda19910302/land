@@ -174,7 +174,13 @@ public class CaseDao extends BaseDao<TCase> {
         /**
          * 新增查询条件
          */
-        sql.append(" and t.recycle_status=").append(NO.code());//正常状态
+        if(StringUtils.isNotBlank(queryParam.getRecycleStatus())){
+            sql.append(" and t.recycle_status=").append(queryParam.getRecycleStatus());
+        }else{
+            sql.append(" and t.recycle_status=").append(NO.code());//正常状态
+        }
+
+
 
         /**
          * 新增需要包含的状态
