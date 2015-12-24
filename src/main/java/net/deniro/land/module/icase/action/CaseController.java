@@ -73,14 +73,47 @@ public class CaseController extends BaseController {
     private VariableSelectRelation variableSelectRelation;
 
     /**
-     * 【草稿箱】模块
+     * 【草稿箱】页签
      */
     public static final String DRAFT_ID = MENU_TAB_PREFIX + "28";
 
     /**
-     * 【我的案件】模块
+     * 【我的案件】页签
      */
     public static final String MY_CASE_ID = MENU_TAB_PREFIX + "8";
+
+    /**
+     * 【案件查询】页签
+     */
+    public static final String QUERY_CASE_ID = MENU_TAB_PREFIX + "10";
+
+    /**
+     * 【案件回收站】页签
+     */
+    public static final String CASE_RECYCLE_BIN_ID = MENU_TAB_PREFIX + "14";
+
+    /**
+     * 恢复案件
+     *
+     * @param caseId
+     * @return
+     */
+    @RequestMapping(value = "/recovery")
+    @ResponseBody
+    public AjaxResponse recovery(Integer caseId) {
+        boolean isOk = caseService.recovery(caseId);
+        if (isOk) {
+            //刷新相应页签
+            List<String> navTabIds = new ArrayList<String>();
+            navTabIds.add(MY_CASE_ID);
+            navTabIds.add(QUERY_CASE_ID);
+            navTabIds.add(CASE_RECYCLE_BIN_ID);
+
+            return getAjaxSuccess("案件已恢复", navTabIds);
+        } else {
+            return new AjaxResponseError("案件恢复失败");
+        }
+    }
 
     /**
      * 删除案件（可恢复）
@@ -93,9 +126,11 @@ public class CaseController extends BaseController {
     public AjaxResponse fakeDelete(Integer caseId) {
         boolean isOk = caseService.fakeDelete(caseId);
         if (isOk) {
-            //刷新【我的案件】模块
+            //刷新
             List<String> navTabIds = new ArrayList<String>();
             navTabIds.add(MY_CASE_ID);
+            navTabIds.add(CASE_RECYCLE_BIN_ID);
+
             return getAjaxSuccess("案件已删除", navTabIds);
         } else {
             return new AjaxResponseError("案件删除失败");
@@ -217,7 +252,7 @@ public class CaseController extends BaseController {
     public AjaxResponse delete(Integer caseId) {
         boolean isOk = caseService.delete(caseId);
         if (isOk) {
-            //刷新【草稿箱】模块
+            //刷新【草稿箱】页签
             List<String> navTabIds = new ArrayList<String>();
             navTabIds.add(DRAFT_ID);
             return getAjaxSuccess("案件已删除", navTabIds);
@@ -332,9 +367,6 @@ public class CaseController extends BaseController {
             String tip = "";
             List<String> navTabIds = new ArrayList<String>();
 
-            String queryCaseId = MENU_TAB_PREFIX + "10";//【案件查询】模块
-
-
 
             /**
              * 新增附件
@@ -342,12 +374,12 @@ public class CaseController extends BaseController {
             String ftpRealPath = ftpUtils.getRealPath(caseParam.getUserId());
 
             if (caseParam.getCaseId() != null) {//修改
-                if (BooleanUtils.toBoolean(caseParam.getIsDraft())) {//继续存为草稿，刷新【草稿箱】模块
+                if (BooleanUtils.toBoolean(caseParam.getIsDraft())) {//继续存为草稿，刷新【草稿箱】页签
                     navTabIds.add(DRAFT_ID);
-                } else {//预立案，刷新【草稿箱】、【案件查询】模块
+                } else {//预立案，刷新【草稿箱】、【案件查询】页签
                     caseParam.setStatus(String.valueOf(TCase.CaseStatus.PREPARE.code()));
                     navTabIds.add(DRAFT_ID);
-                    navTabIds.add(queryCaseId);
+                    navTabIds.add(QUERY_CASE_ID);
                     navTabIds.add(MY_CASE_ID);
                 }
 
@@ -389,10 +421,10 @@ public class CaseController extends BaseController {
                 uploadFileNames.remove(caseDocumentsKey);
                 uploadFileNames.remove(illegalPhotosKey);
 
-                if (BooleanUtils.toBoolean(caseParam.getIsDraft())) {//继续存为草稿，刷新【草稿箱】模块
+                if (BooleanUtils.toBoolean(caseParam.getIsDraft())) {//继续存为草稿，刷新【草稿箱】页签
                     navTabIds.add(DRAFT_ID);
-                } else {//预立案，刷新【案件查询】模块
-                    navTabIds.add(queryCaseId);
+                } else {//预立案，刷新【案件查询】页签
+                    navTabIds.add(QUERY_CASE_ID);
                 }
                 tip = "案件新增";
             }
@@ -532,7 +564,7 @@ public class CaseController extends BaseController {
 
             //删除所有附件记录
             if (id != null) {
-                //todo 这里未考虑其他模块的文件上传情况
+                //todo 这里未考虑其他页签的文件上传情况
                 caseService.deleteAllAttachments(id, RelationType.CASE);
             }
         } else {//删除某个文件
@@ -594,7 +626,7 @@ public class CaseController extends BaseController {
                 }
             }
 
-            //todo 这里未考虑其他模块的文件上传情况
+            //todo 这里未考虑其他页签的文件上传情况
             List<TAttachment> attachments = caseService.findAttachments(id, CASE);
             for (TAttachment attachment : attachments) {
 

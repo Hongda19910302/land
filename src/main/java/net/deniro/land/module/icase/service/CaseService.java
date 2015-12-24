@@ -90,6 +90,23 @@ public class CaseService {
     private FtpUtils ftpUtils;
 
     /**
+     * 恢复案件
+     *
+     * @param caseId 案件ID
+     */
+    public boolean recovery(Integer caseId) {
+        try {
+            TCase tCase = caseDao.get(caseId);
+            tCase.setRecycleStatus(TCase.RecycleStatus.NO.code());
+            caseDao.update(tCase);
+            return true;
+        } catch (Exception e) {
+            logger.error("恢复案件", e);
+            return false;
+        }
+    }
+
+    /**
      * 删除案件（可恢复）
      *
      * @param caseId 案件ID
