@@ -252,9 +252,11 @@ public class CaseController extends BaseController {
     public AjaxResponse delete(Integer caseId) {
         boolean isOk = caseService.delete(caseId);
         if (isOk) {
-            //刷新【草稿箱】页签
+            //刷新相应模块的页签
             List<String> navTabIds = new ArrayList<String>();
             navTabIds.add(DRAFT_ID);
+            navTabIds.add(CASE_RECYCLE_BIN_ID);
+
             return getAjaxSuccess("案件已删除", navTabIds);
         } else {
             return new AjaxResponseError("案件删除失败");
