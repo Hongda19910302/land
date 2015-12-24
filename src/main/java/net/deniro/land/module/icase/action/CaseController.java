@@ -537,6 +537,17 @@ public class CaseController extends BaseController {
         return query(queryParam, mm, session);
     }
 
+    /**
+     * 跳转至【已上报案件】
+     *
+     * @return
+     */
+    @RequestMapping(value = "/reportedCasesIndex")
+    public String reportedCasesIndex(CaseParam queryParam, ModelMap mm, HttpSession
+            session) {
+        queryParam.setIsUpload(String.valueOf(TCase.IsReport.TRUE.code()));
+        return query(queryParam, mm, session);
+    }
 
     /**
      * 跳转至【案件回收站】
