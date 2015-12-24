@@ -69,7 +69,7 @@
 
         //绑定重置按钮
         $("#resetBtn_${componentId}").click(function () {
-            $("#searchForm_${componentId}").clearForm();
+            $("#searchForm_${componentId}").clearForm('.special:hidden');
         });
 
     });
@@ -84,7 +84,8 @@
 
 <#--处理隐藏的表单字段-->
 <#list hiddenFormFields as field>
-    <input type="hidden" name="${field.fieldName}" value="${queryParam[field.fieldName]}"/>
+    <input type="hidden" name="${field.fieldName}" value="${queryParam[field
+    .fieldName]}"/>
 </#list>
 
 <#list formFields as field>
@@ -222,7 +223,7 @@
                         <td class="lookupRegionBtn">
                             <input name="${field.fieldName}Id"
                                    id="${field.fieldName}Id_${componentId}" value=""
-                                   type="hidden"/>
+                                   type="hidden" class="special"/>
             <span><input class="lookupInput"
                          name="${field.fieldName}Name"
                          id="${field.fieldName}Name_${componentId}"
@@ -275,13 +276,13 @@
                 <td colspan="4" class="lookupCompanyRegionBtn">
                     <span class="lookupCompanyRegionBtnCompanyTag">归属单位：</span>
                     <input name="companyId" id="companyId_${componentId}" value=""
-                           type="hidden"/>
+                           type="hidden" class="special"/>
                         <span><input class="lookupCompanyRegionBtnCompanyName"
                                 name="companyName" id="companyName_${componentId}"
                                      type="text" readonly></span>
                     <span class="lookupCompanyRegionBtnRegionTag">所属区域：</span>
                     <input name="regionId" id="regionId_${componentId}" value=""
-                           type="hidden"/>
+                           type="hidden" class="special"/>
                         <span >
                             <input class="lookupCompanyRegionBtnRegionName"
                                    name="regionName" id="regionName_${componentId}"
@@ -322,12 +323,12 @@
                 <td class="lookupCompanyDepartmentBtn">
                     <span>归属单位：</span>
                     <input name="companyId" id="companyId_${componentId}" value=""
-                           type="hidden"/>
+                           type="hidden" class="special"/>
                         <span><input name="companyName" id="companyName_${componentId}"
                                      type="text" readonly></span>
                     <span>部门：</span>
                     <input name="departmentId" id="departmentId_${componentId}" value=""
-                           type="hidden"/>
+                           type="hidden" class="special"/>
                         <span>
                             <input name="departmentName" id="departmentName_${componentId}"
                                    type="text"

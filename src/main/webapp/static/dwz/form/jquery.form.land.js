@@ -1202,7 +1202,7 @@
 
         //让hidden的表单字段支持重置操作
         //@author deniro
-        var re = /^(?:color|date|datetime|email|month|number|password|range|search|tel|text|time|url|week|hidden)$/i; // 'hidden' is in this list
+        var re = /^(?:color|date|datetime|email|month|number|password|range|search|tel|text|time|url|week)$/i; // 'hidden' is in this list
 
         return this.each(function () {
             var t = this.type, tag = this.tagName.toLowerCase();
