@@ -515,6 +515,17 @@ public class CaseController extends BaseController {
 
 
     /**
+     * 跳转至【案件回收站】
+     *
+     * @return
+     */
+    @RequestMapping(value = "/recycleBinIndex")
+    public String recycleBinIndex(CaseParam queryParam, ModelMap mm, HttpSession session) {
+        queryParam.setRecycleStatus(String.valueOf(TCase.RecycleStatus.YES.code()));
+        return query(queryParam, mm, session);
+    }
+
+    /**
      * 跳转至【案件查询】
      *
      * @return

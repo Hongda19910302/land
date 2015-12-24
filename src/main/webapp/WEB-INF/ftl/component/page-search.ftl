@@ -24,7 +24,9 @@
 
     <#--处理隐藏的表单字段-->
     <#list hiddenFormFields as field>
-        $("#${field.fieldName}_${componentId}").val("${queryParam[field.fieldName]!""}");
+        var $hidden=$("#${field.fieldName}_${componentId}");
+        $hidden.val("${queryParam[field.fieldName]!""}");
+        console.log("${queryParam[field.fieldName]!""}");
     </#list>
 
 
@@ -439,7 +441,6 @@
 
                         <#case "CONFIRM">
                             //打开确认框
-                            console.log("1");
                             alertMsg.confirm("${toolBtn.confirmTip}",{
                                okCall:function(){
                                    $.post(url,null,DWZ.ajaxDone,"json");
