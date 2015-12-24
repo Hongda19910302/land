@@ -110,7 +110,7 @@ public class CaseController extends BaseController {
 
             return getAjaxSuccess("案件已上报", navTabIds);
         } else {
-            return new AjaxResponseError("案件上报失败");
+            return new AjaxResponseError("案件已上报过，无须重复上报！");
         }
     }
 

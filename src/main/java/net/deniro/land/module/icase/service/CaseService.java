@@ -99,6 +99,12 @@ public class CaseService {
     public boolean report(Integer caseId) {
         try {
             TCase tCase = caseDao.get(caseId);
+
+            //如果案件已上报过，则无须重复上报
+            if (tCase.getIsUpload() != null && tCase.getIsUpload() == TRUE.code()) {
+                return false;
+            }
+
             tCase.setIsUpload(TRUE.code());
             caseDao.update(tCase);
             return true;
