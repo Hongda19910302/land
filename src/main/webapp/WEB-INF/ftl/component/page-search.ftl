@@ -537,7 +537,7 @@
                         </#if>
                             >
                     <#--数据转换后展示-->
-                <#if field.transformDataSetType??&&field.transformDataSetType?is_sequence>
+                <#if field.transformDataSetType??&&field.transformDataSetType?has_content>
                     <#--处理数据字典中key为多值的情况-->
                         <#list field.transformDataSet?keys as key>
                             <#assign currentfieldValue="">
