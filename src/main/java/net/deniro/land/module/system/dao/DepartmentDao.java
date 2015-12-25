@@ -77,8 +77,30 @@ public class DepartmentDao extends BaseDao<Department> {
     }
 
     /**
+     * 查询所有子部门信息（正常状态、拥有某个模块权限）
+     *
+     * @param companyId          公司ID
+     * @param parentDepartmentId 上级部门ID
+     * @param moduleId           模块ID
+     * @return
+     */
+    public List<Department> findChilds(Integer companyId, Integer parentDepartmentId,
+                                       Integer moduleId) {
+        StringBuilder hql = new StringBuilder(" from Department where 1=1 ");
+        hql.append(" and status=").append(NORMAL.code());
+        hql.append(" and companyId=? and parentId=?");
+        hql.append(" and departmentId in(");
+        hql.append(" SELECT a.departmentId FROM User a,TBackRolePrivilege b");
+        hql.append(" WHERE a.roleId=b.backRoleId");
+        hql.append(" AND b.backPrivilegeId=?)");
+
+        return this.find(hql.toString(), companyId, parentDepartmentId, moduleId);
+    }
+
+    /**
      * 查询所有子部门信息（正常状态）
-     * @param companyId 公司ID
+     *
+     * @param companyId          公司ID
      * @param parentDepartmentId 上级部门ID
      * @return
      */
@@ -102,6 +124,26 @@ public class DepartmentDao extends BaseDao<Department> {
         hql.append(" and parentId=?");
 
         return this.find(hql.toString(), parentDepartmentId);
+    }
+
+    /**
+     * 查询所有顶级部门（正常状态、拥有某个模块权限）
+     *
+     * @param companyId 公司ID
+     * @param moduleId  模块ID
+     * @return
+     */
+    public List<Department> findTops(Integer companyId, Integer moduleId) {
+        StringBuilder hql = new StringBuilder(" from Department where 1=1 ");
+        hql.append(" and status=").append(NORMAL.code());
+        hql.append(" and companyId=?");
+        hql.append(" and parentId is null");
+        hql.append(" and departmentId in(");
+        hql.append(" SELECT a.departmentId FROM User a,TBackRolePrivilege b");
+        hql.append(" WHERE a.roleId=b.backRoleId");
+        hql.append(" AND b.backPrivilegeId=?)");
+
+        return this.find(hql.toString(), companyId, moduleId);
     }
 
     /**

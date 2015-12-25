@@ -25,8 +25,13 @@ public class DepartmentDaoTest {
     private DepartmentDao departmentDao;
 
     @Test
+    public void findTops(){
+        System.out.println("$$$$$$$$:"+departmentDao.findTops(30,12));
+    }
+
+    @Test
     public void findChilds(){
-        System.out.println("$$$$$$:"+departmentDao.findChilds(30,76));
+        System.out.println("$$$$$$:"+departmentDao.findChilds(30,76,12));
     }
 
     @Test
