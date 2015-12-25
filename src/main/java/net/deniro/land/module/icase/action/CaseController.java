@@ -44,6 +44,7 @@ import static net.deniro.land.module.icase.entity.TAttachment.AttachmentType.PHO
 import static net.deniro.land.module.icase.entity.TAttachmentRelation.RelationType.CASE;
 import static net.deniro.land.module.icase.entity.TCase.CaseStatus.CANCEL;
 import static net.deniro.land.module.icase.entity.TCase.CaseStatus.PREPARE;
+import static net.deniro.land.module.icase.entity.TCaseAudit.AuditResult;
 
 /**
  * 案件
@@ -95,7 +96,50 @@ public class CaseController extends BaseController {
     /**
      * 【立案审核】页签
      */
-    public static final String REGISTER_AUDIT_ID= MENU_TAB_PREFIX+"15";
+    public static final String REGISTER_AUDIT_ID = MENU_TAB_PREFIX + "15";
+
+    /**
+     * 立案审核
+     *
+     * @param caseId          案件ID
+     * @param opinion         审核意见
+     * @param auditResultCode 审核结果码
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/registerAudit")
+    @ResponseBody
+    public AjaxResponse registerAudit(Integer caseId, String opinion, Integer
+            auditResultCode,
+                                      HttpSession session) {
+        try {
+            AuditResult auditResult = AuditResult.get(auditResultCode);
+            boolean isOk = caseService.audit(getCurrentUserId(session), caseId, auditResult, opinion);
+            if (isOk) {
+                //刷新相应页签
+                List<String> navTabIds = new ArrayList<String>();
+                navTabIds.add(REGISTER_AUDIT_ID);
+                navTabIds.add(QUERY_CASE_ID);
+                return getAjaxSuccessAndCloseCurrent("立案审核成功", navTabIds);
+            } else {
+                return new AjaxResponseError("立案审核失败");
+            }
+        } catch (Exception e) {
+            logger.error("立案审核失败", e);
+            return new AjaxResponseError("立案审核失败");
+        }
+    }
+
+    /**
+     * 跳转至【立案审核】填写意见页
+     *
+     * @return
+     */
+    @RequestMapping(value = "/registerAuditOpinionIndex")
+    public String registerAuditOpinionIndex(Integer caseId, ModelMap mm) {
+        mm.addAttribute("caseId", caseId);
+        return "case/registerAuditOpinionIndex";
+    }
 
     /**
      * 上报案件

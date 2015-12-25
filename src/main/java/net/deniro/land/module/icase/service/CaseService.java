@@ -927,6 +927,9 @@ public class CaseService {
      */
     public boolean audit(Integer userId, Integer caseId, AuditResult auditResult, String
             remark) {
+        if (caseId == null) {
+            return false;
+        }
 
         Date currentDate = new Date();
 
