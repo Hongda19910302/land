@@ -99,6 +99,16 @@ public class CaseController extends BaseController {
     public static final String REGISTER_AUDIT_ID = MENU_TAB_PREFIX + "15";
 
     /**
+     * 跳转至【巡查员列表选择】页
+     * @return
+     */
+    @RequestMapping(value = "/lookupInspectorIndex")
+    public String lookupInspectorIndex(Integer caseId,ModelMap mm){
+        mm.addAttribute("caseId",caseId);
+        return "case/lookupInspectorIndex";
+    }
+
+    /**
      * 立案审核
      *
      * @param caseId          案件ID

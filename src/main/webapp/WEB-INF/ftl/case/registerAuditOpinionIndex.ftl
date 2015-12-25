@@ -28,12 +28,24 @@
     <form method="post" id="registerAuditOpinionIndex${caseId}" class="pageForm"
           onsubmit="return validateCallback(this,navTabAjaxDone)"
           action="case/registerAudit">
-        <input type="hidden" name="inspectorId">
+        <input type="hidden" id="inspectorId${caseId}" name="inspectorId">
         <div class="pageFormContent" layoutH="56">
             <dl>
                 <dt>巡查员：</dt>
                 <dd><input type="text" id="inspectorName${caseId}" name="inspectorName"
-                           readonly="true"></dd>
+                           readonly="true">
+                    <a class="btnLook"
+                       href="/case/lookupInspectorIndex?caseId=${caseId}"
+                       target="dialog"
+                       rel="lookupInspector"
+                       resizable="false"
+                       minable="false"
+                       maxable="false"
+                       mask="true"
+                       width="600"
+                       height="480"
+                       title="选择巡查员"></a>
+                </dd>
             </dl>
             <dl>
                 <dt>审核意见：</dt>
