@@ -4,12 +4,12 @@
         //初始化部门树
         initDepartmentTree();
 
-        $(".companyRegionBtn").click(function () {
-            $.bringBackCompanyAndRegion(
+        $("#inspectorIndexBtn${caseId}").click(function () {
+            $.bringBackInspectors(
                     {
-                        id:${caseId},
-                        regionId: $("#lookup_regionId_${caseId}").val(),
-                        regionName: $("#lookup_regionName_${caseId}").val()
+                        caseId:${caseId},
+                        inspectorId: $("#lookup_inspectorId_${caseId}").val(),
+                        inspectorName: $("#lookup_inspectorName_${caseId}").val()
                     });
         });
 
@@ -90,7 +90,7 @@
         <li>
             <div class="button">
                 <div class="buttonContent">
-                    <button type="button">确定</button>
+                    <button id="inspectorIndexBtn${caseId}" type="button">确定</button>
                 </div>
             </div>
             <div class="button">

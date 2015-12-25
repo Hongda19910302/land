@@ -83,6 +83,33 @@
 		},
 
 		/**
+		 * 带回选择的巡查员信息
+		 * @param args
+		 */
+		bringBackInspectors: function (args) {
+			//console.log(args);
+
+			//获取审核意见填写对话框的字段区域
+			var $page= $("#registerAuditOpinionIndex"+args.caseId);
+
+			//寻找具体字段并赋值
+			$page.find(":input").each(function(){
+				var $input = $(this);
+				var inputName = $input.attr("name");
+				for (var key in args) {
+					if (key == inputName) {
+						$input.val(args[key]);
+						break;
+					}
+				}
+
+			});
+
+
+			$.pdialog.closeCurrent();
+		},
+
+		/**
 		 * 带回选择的单位与区域信息
 		 * @param args
 		 */
