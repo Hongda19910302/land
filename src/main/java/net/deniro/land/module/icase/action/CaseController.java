@@ -81,6 +81,9 @@ public class CaseController extends BaseController {
     @Autowired
     private DepartmentService departmentService;
 
+    @Autowired
+    private UserService userService;
+
     /**
      * 【草稿箱】页签
      */
@@ -107,6 +110,30 @@ public class CaseController extends BaseController {
     public static final String REGISTER_AUDIT_ID = MENU_TAB_PREFIX + "15";
 
     /**
+     * 查询拥有【案件巡查】模块权限的用户树节点
+     *
+     * @param departmentId 部门ID
+     * @return
+     */
+    @RequestMapping(value = "/findUserHasCaseInspectModule")
+    @ResponseBody
+    public List<User> findUserHasCaseInspectModule(String departmentId) {
+        try {
+            List<User> users = userService.findInspectorsByDepartmentId(NumberUtils.toInt
+                    (departmentId));
+
+            //设置图标
+            for (User user : users) {
+                user.setIcon(Constants.DIALOG_IMG_PATH + "user.png");
+            }
+            return users;
+        } catch (Exception e) {
+            logger.error("查询拥有【案件巡查】模块权限的用户树节点", e);
+            return new ArrayList<User>();
+        }
+    }
+
+    /**
      * 查询拥有【案件巡查】模块权限的部门树节点
      *
      * @param treeQueryParam 树型控件查询参数
@@ -125,7 +152,7 @@ public class CaseController extends BaseController {
 
 
         if (StringUtils.isBlank(treeQueryParam.getDepartmentId())) {//第一次加载
-            departments.addAll(departmentService.findTops(user.getCompanyId(),MenuService.CASE_INSPECT_MODULE_ID));
+            departments.addAll(departmentService.findTops(user.getCompanyId(), MenuService.CASE_INSPECT_MODULE_ID));
         } else {
             departments.addAll(departmentService.findChilds(user.getCompanyId(), NumberUtils.toInt
                     (treeQueryParam.getDepartmentId()), MenuService.CASE_INSPECT_MODULE_ID));

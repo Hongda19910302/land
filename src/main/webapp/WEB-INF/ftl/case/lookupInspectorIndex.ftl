@@ -23,20 +23,20 @@
         var setting = {
             async: {
                 enable: true,
-                url: "/comp/recursiveFindRegionTreeNode",
-                autoParam: ["regionId=regionId"],
-                otherParam: {"companyId": id}
+                url: "/case/findUserHasCaseInspectModule",
+                autoParam: ["userId=userId"],
+                otherParam: {"departmentId": id}
             },
             callback: {
                 //点击某个巡查员，保存选择的巡查员信息
                 onClick: function (event, treeId, treeNode, clickFlag) {
-                    $("#lookup_inspectorId_${caseId}").val(treeNode.regionId);
+                    $("#lookup_inspectorId_${caseId}").val(treeNode.userId);
                     $("#lookup_inspectorName_${caseId}").val(treeNode.name);
                 }
             }
         };
 
-        $.fn.zTree.init($("#regionTree_${caseId}"), setting);
+        $.fn.zTree.init($("#inspectorTree_${caseId}"), setting);
     }
 
     //初始化部门树

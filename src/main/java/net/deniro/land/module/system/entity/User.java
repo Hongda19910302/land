@@ -147,6 +147,14 @@ public class User implements Serializable {
     private Integer roleId;
 
     /**
+     * 叶子节点图标
+     */
+    @Getter
+    @Setter
+    @Transient
+    private String icon;
+
+    /**
      * 角色
      */
     @Getter

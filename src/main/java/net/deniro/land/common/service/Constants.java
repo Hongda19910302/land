@@ -1,5 +1,7 @@
 package net.deniro.land.common.service;
 
+import net.deniro.land.common.spring.mvc.ResourcePathExposer;
+
 /**
  * 常量
  *
@@ -58,5 +60,11 @@ public class Constants {
     /**
      * 展示模式
      */
-    public static final String DISPLAY_MODE="DISPLAY";
+    public static final String DISPLAY_MODE = "DISPLAY";
+
+    /**
+     * 对话框图片路径
+     */
+    public static final String DIALOG_IMG_PATH = ResourcePathExposer.getResourceRoot() +
+            "/dwz/themes/default/images/dialog/";
 }
