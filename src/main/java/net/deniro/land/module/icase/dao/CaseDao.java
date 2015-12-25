@@ -157,17 +157,7 @@ public class CaseDao extends BaseDao<TCase> {
                 ".creater_id=u.user_id left join t_user v on t.inspector_id=v.user_id" +
                 " left join t_region w on t.region_id=w.region_id ");
 
-//        if (StringUtils.isNotBlank(queryParam.getXcyName()) || StringUtils.isNotBlank
-//                (queryParam.getCreatorName())) {//关联用户表
-//            sql.append(" ,t_user u ");
-//        }
-
         sql.append(" where 1=1 ");
-
-//        if (StringUtils.isNotBlank(queryParam.getXcyName()) || StringUtils.isNotBlank
-//                (queryParam.getCreatorName())) {//添加关联用户表条件
-//            sql.append(" and t.creater_id = u.user_id ");
-//        }
 
         Map<String, Object> params = new HashMap<String, Object>();
 

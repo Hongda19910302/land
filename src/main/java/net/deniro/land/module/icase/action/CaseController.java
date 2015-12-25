@@ -10,6 +10,7 @@ import net.deniro.land.common.utils.ftp.FtpUtils;
 import net.deniro.land.module.component.entity.FTPUploadFile;
 import net.deniro.land.module.icase.entity.*;
 import net.deniro.land.module.icase.entity.TAttachmentRelation.RelationType;
+import net.deniro.land.module.icase.entity.TCase.CaseStatus;
 import net.deniro.land.module.icase.service.CaseService;
 import net.deniro.land.module.system.action.BaseController;
 import net.deniro.land.module.system.entity.TRegion;
@@ -32,10 +33,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static net.deniro.land.common.dwz.AjaxResponseSuccess.MENU_TAB_PREFIX;
 import static net.deniro.land.common.dwz.AjaxResponseSuccess.NAB_TAB_ID_SPLIT;
@@ -44,6 +42,8 @@ import static net.deniro.land.module.component.entity.FTPUploadFile.FileSource.T
 import static net.deniro.land.module.icase.entity.TAttachment.AttachmentType.BILL;
 import static net.deniro.land.module.icase.entity.TAttachment.AttachmentType.PHOTO;
 import static net.deniro.land.module.icase.entity.TAttachmentRelation.RelationType.CASE;
+import static net.deniro.land.module.icase.entity.TCase.CaseStatus.CANCEL;
+import static net.deniro.land.module.icase.entity.TCase.CaseStatus.PREPARE;
 
 /**
  * 案件
@@ -401,7 +401,7 @@ public class CaseController extends BaseController {
                 if (BooleanUtils.toBoolean(caseParam.getIsDraft())) {//继续存为草稿，刷新【草稿箱】页签
                     navTabIds.add(DRAFT_ID);
                 } else {//预立案，刷新【草稿箱】、【案件查询】页签
-                    caseParam.setStatus(String.valueOf(TCase.CaseStatus.PREPARE.code()));
+                    caseParam.setStatus(String.valueOf(PREPARE.code()));
                     navTabIds.add(DRAFT_ID);
                     navTabIds.add(QUERY_CASE_ID);
                     navTabIds.add(MY_CASE_ID);
@@ -557,6 +557,20 @@ public class CaseController extends BaseController {
     @RequestMapping(value = "/recycleBinIndex")
     public String recycleBinIndex(CaseParam queryParam, ModelMap mm, HttpSession session) {
         queryParam.setRecycleStatus(String.valueOf(TCase.RecycleStatus.YES.code()));
+        return query(queryParam, mm, session);
+    }
+
+    /**
+     * 跳转至【立案审核】
+     *
+     * @return
+     */
+    @RequestMapping(value = "/registerAuditIndex")
+    public String registerAuditIndex(CaseParam queryParam, ModelMap mm, HttpSession session) {
+
+        CaseStatus[] statuses = {PREPARE, CANCEL};
+        queryParam.setIncludeStatus(Arrays.asList(statuses));
+
         return query(queryParam, mm, session);
     }
 
