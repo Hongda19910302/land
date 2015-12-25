@@ -106,6 +106,20 @@ public class BaseController {
     }
 
     /**
+     * 获取成功响应对象（设置为关闭当前对话框）
+     *
+     * @param tip       提示信息
+     * @param navTabIds 待刷新的 tab id 列表
+     * @return
+     */
+    public AjaxResponseSuccess getAjaxSuccessAndCloseCurrentDialog(String tip, List<String>
+            navTabIds) {
+        AjaxResponseSuccess ajaxResponseSuccess = getAjaxSuccess(tip, navTabIds);
+        ajaxResponseSuccess.setCloseCurrentDialog();
+        return ajaxResponseSuccess;
+    }
+
+    /**
      * 获取成功响应对象（设置为关闭当前页签）
      *
      * @param tip       提示信息
