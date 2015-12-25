@@ -36,10 +36,17 @@ public class AjaxResponseSuccess extends AjaxResponse {
     public static final String MENU_TAB_PREFIX = "child_menu_";
 
     /**
-     * 设置为关闭当前tab
+     * 设置关闭当前tab
      */
     public void setCloseCurrent() {
         callbackType = "closeCurrent";
+    }
+
+    /**
+     * 设置关闭当前对话框
+     */
+    public void setCloseCurrentDialog(){
+        callbackType="closeCurrentDialog";
     }
 
     public AjaxResponseSuccess(String message) {
