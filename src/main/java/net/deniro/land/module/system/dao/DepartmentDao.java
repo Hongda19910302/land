@@ -78,6 +78,20 @@ public class DepartmentDao extends BaseDao<Department> {
 
     /**
      * 查询所有子部门信息（正常状态）
+     * @param companyId 公司ID
+     * @param parentDepartmentId 上级部门ID
+     * @return
+     */
+    public List<Department> findChilds(Integer companyId, Integer parentDepartmentId) {
+        StringBuilder hql = new StringBuilder(" from Department where 1=1 ");
+        hql.append(" and status=").append(NORMAL.code());
+        hql.append(" and companyId=? and parentId=?");
+
+        return this.find(hql.toString(), companyId, parentDepartmentId);
+    }
+
+    /**
+     * 查询所有子部门信息（正常状态）
      *
      * @param parentDepartmentId 父部门ID
      * @return
@@ -87,7 +101,7 @@ public class DepartmentDao extends BaseDao<Department> {
         hql.append(" and status=").append(NORMAL.code());
         hql.append(" and parentId=?");
 
-        return this.find(hql.toString(), new Object[]{parentDepartmentId});
+        return this.find(hql.toString(), parentDepartmentId);
     }
 
     /**
@@ -102,6 +116,6 @@ public class DepartmentDao extends BaseDao<Department> {
         hql.append(" and companyId=?");
         hql.append(" and parentId is null");
 
-        return this.find(hql.toString(), new Object[]{companyId});
+        return this.find(hql.toString(), companyId);
     }
 }
