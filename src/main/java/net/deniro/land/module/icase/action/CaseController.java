@@ -114,13 +114,24 @@ public class CaseController extends BaseController {
                                       HttpSession session) {
         try {
             AuditResult auditResult = AuditResult.get(auditResultCode);
+
+            String tip = "";
+            switch (auditResult) {
+                case PASS:
+                    tip = "案件已通过审核";
+                    break;
+                case NO_PASS:
+                    tip = "案件已被撤销";
+                    break;
+            }
+
             boolean isOk = caseService.audit(getCurrentUserId(session), caseId, auditResult, opinion);
             if (isOk) {
                 //刷新相应页签
                 List<String> navTabIds = new ArrayList<String>();
                 navTabIds.add(REGISTER_AUDIT_ID);
                 navTabIds.add(QUERY_CASE_ID);
-                return getAjaxSuccessAndCloseCurrent("立案审核成功", navTabIds);
+                return getAjaxSuccessAndCloseCurrentDialog(tip, navTabIds);
             } else {
                 return new AjaxResponseError("立案审核失败");
             }
