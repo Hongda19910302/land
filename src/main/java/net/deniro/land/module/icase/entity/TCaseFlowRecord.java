@@ -150,9 +150,9 @@ public class TCaseFlowRecord implements Serializable {
          */
         DEL(6),
         /**
-         * 案件指派
+         * 案件被撤销
          */
-        ASSIGN(7);
+        CANCELED(7);
 
         private int code;
 

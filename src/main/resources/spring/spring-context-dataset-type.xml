@@ -16,7 +16,7 @@
         <entry key="4" value="一次结案审核"/>
         <entry key="5" value="二次结案审核"/>
         <entry key="6" value="删除"/>
-        <entry key="7" value="案件指派"/>
+        <entry key="7" value="案件被撤销"/>
     </util:map>
 
 

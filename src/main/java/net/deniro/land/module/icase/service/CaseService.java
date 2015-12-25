@@ -758,7 +758,7 @@ public class CaseService {
             addFlowLog(assignParam.getCaseId(), assignParam.getUserId(), assignParam.getXcyId(),
                     assignParam.getXcyId(),
                     OperationType
-                            .ASSIGN,
+                            .CANCELED,
                     "案件指派", "");
 
             return true;
@@ -963,7 +963,7 @@ public class CaseService {
                 case NO_PASS:
                     tCase.setStatus(CANCEL.code());
                     description = "撤销案件！";
-                    operationType = ASSIGN;
+                    operationType = CANCELED;
                     break;
             }
 
