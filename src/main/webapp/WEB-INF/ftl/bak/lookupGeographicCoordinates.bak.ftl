@@ -127,7 +127,7 @@
                         marker: marker,
                         winHtml: winHtml,
                         lnglat: lnglat
-                    }
+                    };
                     mapSearchResults.push(result);
                 }
 
@@ -352,7 +352,7 @@
                                                            id="latitudeInput"
                                                            readonly="true">
         </li>
-        <li><a id="mapCoordinateBtn" class="button" href="javascript:;"><span>选定</span></a>
+        <li><a id="mapCoordinateBtn" class="button" href="javascript:"><span>选定</span></a>
         </li>
     </ul>
 
@@ -363,7 +363,7 @@
     <ul class="mapSearchKey">
         <li class="mapPromptStrong">搜索内容：</li>
         <li><input type="text" id="mapKeyWord" value="万宝"/></li>
-        <li><a id="mapSearchBtn" class="button" href="javascript:;"><span>搜索</span></a></li>
+        <li><a id="mapSearchBtn" class="button" href="javascript:"><span>搜索</span></a></li>
     </ul>
 <#--提示词面板-->
     <div id="mapPromptDiv" class="prompt"></div>
@@ -374,14 +374,14 @@
             <div id="mapPaginationInfo" class="mapPaginationInfo"></div>
             <ul class="mapPagination">
                 <li>
-                    <a id="mapFirstBtn" class="button" href="javascript:;
+                    <a id="mapFirstBtn" class="button" href="javascript:
                     "><span>首页</span></a>
                 </li>
                 <li>
                     <a id="mapPreviousBtn" class="button"><span>《</span></a>
                 </li>
                 <li>
-                    <a id="mapNextBtn" class="button" href="javascript:;
+                    <a id="mapNextBtn" class="button" href="javascript:
                     "><span>》</span></a>
                 </li>
                 <li>
@@ -395,7 +395,7 @@
 
                 </li>
                 <li>
-                    <a id="mapJumpToBtn" class="button" href="javascript:;
+                    <a id="mapJumpToBtn" class="button" href="javascript:
                     "><span>跳转</span></a>
                 </li>
             </ul>
