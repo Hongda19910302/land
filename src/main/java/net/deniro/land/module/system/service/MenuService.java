@@ -20,6 +20,11 @@ public class MenuService {
 
     static Logger logger = Logger.getLogger(MenuService.class);
 
+    /**
+     * 【案件巡查】模块ID
+     */
+    public static final Integer CASE_INSPECT_MODULE_ID=12;
+
     @Autowired
     private MenuDao menuDao;
 

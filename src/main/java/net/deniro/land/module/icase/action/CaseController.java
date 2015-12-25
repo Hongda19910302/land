@@ -8,18 +8,23 @@ import net.deniro.land.common.service.Constants;
 import net.deniro.land.common.utils.PropertiesReader;
 import net.deniro.land.common.utils.ftp.FtpUtils;
 import net.deniro.land.module.component.entity.FTPUploadFile;
+import net.deniro.land.module.component.entity.TreeQueryParam;
 import net.deniro.land.module.icase.entity.*;
 import net.deniro.land.module.icase.entity.TAttachmentRelation.RelationType;
 import net.deniro.land.module.icase.entity.TCase.CaseStatus;
 import net.deniro.land.module.icase.service.CaseService;
 import net.deniro.land.module.system.action.BaseController;
+import net.deniro.land.module.system.entity.Department;
 import net.deniro.land.module.system.entity.TRegion;
 import net.deniro.land.module.system.entity.User;
+import net.deniro.land.module.system.service.DepartmentService;
+import net.deniro.land.module.system.service.MenuService;
 import net.deniro.land.module.system.service.RegionService;
 import net.deniro.land.module.system.service.UserService;
 import org.apache.commons.collections.map.MultiKeyMap;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -73,6 +78,9 @@ public class CaseController extends BaseController {
     @Autowired
     private VariableSelectRelation variableSelectRelation;
 
+    @Autowired
+    private DepartmentService departmentService;
+
     /**
      * 【草稿箱】页签
      */
@@ -99,12 +107,41 @@ public class CaseController extends BaseController {
     public static final String REGISTER_AUDIT_ID = MENU_TAB_PREFIX + "15";
 
     /**
+     * 查询拥有【案件巡查】模块权限的部门树节点
+     *
+     * @param treeQueryParam 树型控件查询参数
+     * @return
+     */
+    @RequestMapping(value = "/findDepartmentTreeNodeHasCaseInspectModule")
+    @ResponseBody
+    public List<Department> findDepartmentTreeNodeHasCaseInspectModule(TreeQueryParam treeQueryParam,
+                                                                       HttpSession session) {
+        List<Department> departments = new ArrayList<Department>();
+
+        User user = getCurrentUser(session);
+        if (user == null) {
+            return departments;
+        }
+
+
+        if (StringUtils.isBlank(treeQueryParam.getDepartmentId())) {//第一次加载
+            departments.addAll(departmentService.findTops(user.getCompanyId(),MenuService.CASE_INSPECT_MODULE_ID));
+        } else {
+            departments.addAll(departmentService.findChilds(user.getCompanyId(), NumberUtils.toInt
+                    (treeQueryParam.getDepartmentId()), MenuService.CASE_INSPECT_MODULE_ID));
+        }
+
+        return departments;
+    }
+
+    /**
      * 跳转至【巡查员列表选择】页
+     *
      * @return
      */
     @RequestMapping(value = "/lookupInspectorIndex")
-    public String lookupInspectorIndex(Integer caseId,ModelMap mm){
-        mm.addAttribute("caseId",caseId);
+    public String lookupInspectorIndex(Integer caseId, ModelMap mm) {
+        mm.addAttribute("caseId", caseId);
         return "case/lookupInspectorIndex";
     }
 

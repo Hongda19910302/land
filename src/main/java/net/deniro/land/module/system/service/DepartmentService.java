@@ -5,7 +5,6 @@ import net.deniro.land.common.spring.mvc.ResourcePathExposer;
 import net.deniro.land.module.system.dao.DepartmentDao;
 import net.deniro.land.module.system.entity.Department;
 import net.deniro.land.module.system.entity.DepartmentQueryParam;
-import net.deniro.land.module.system.entity.UserQueryParam;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +41,25 @@ public class DepartmentService {
         }
     }
 
+    /**
+     * 查询所有子部门信息（正常状态、且拥有某个模块权限）
+     *
+     * @param companyId          公司ID
+     * @param parentDepartmentId 父部门ID
+     * @param moduleId           模块ID
+     * @return
+     */
+    public List<Department> findChilds(Integer companyId, Integer parentDepartmentId, Integer moduleId) {
+        try {
+            List<Department> departments = departmentDao.findChilds
+                    (companyId, parentDepartmentId, moduleId);
+            setAttribute(departments);
+            return departments;
+        } catch (Exception e) {
+            logger.error(" 查询所有子部门信息（正常状态、且拥有某个模块权限）", e);
+            return new ArrayList<Department>();
+        }
+    }
 
     /**
      * 查询所有子部门信息（正常状态）
@@ -77,8 +95,26 @@ public class DepartmentService {
                 department.setIconClose(ICON_URL_PREFIX + "house_go.png");
             } else {
                 department.setIsParent("false");
-                department.setIcon(ICON_URL_PREFIX+"group.png");
+                department.setIcon(ICON_URL_PREFIX + "group.png");
             }
+        }
+    }
+
+    /**
+     * 查询所有顶级部门（正常状态、且拥有某个模块权限）
+     *
+     * @param companyId 公司ID
+     * @param moduleId  模块ID
+     * @return
+     */
+    public List<Department> findTops(Integer companyId, Integer moduleId) {
+        try {
+            List<Department> departments = departmentDao.findTops(companyId, moduleId);
+            setAttribute(departments);
+            return departments;
+        } catch (Exception e) {
+            logger.error(" 查询所有顶级部门（正常状态、且拥有某个模块权限）", e);
+            return new ArrayList<Department>();
         }
     }
 

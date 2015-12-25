@@ -2,7 +2,7 @@
 <script type="text/javascript">
     $(function () {
         //初始化部门树
-        //initDepartmentTree();
+        initDepartmentTree();
 
         $(".companyRegionBtn").click(function () {
             $.bringBackCompanyAndRegion(
@@ -44,16 +44,16 @@
         var setting = {
             async: {
                 enable: true,
-                url: "/comp/findAllCompany",
+                url: "/case/findDepartmentTreeNodeHasCaseInspectModule",
                 //设置id名称格式规范：id参数名=server接受的参数名
-                autoParam: ["companyId=companyId"]
+                autoParam: ["departmentId=departmentId"]
             },
 
             callback: {
                 //点击某个部门，初始化人员树
                 onClick: function (event, treeId, treeNode, clickFlag) {
 //                    console.log(treeNode);
-                    initInspectorTree(treeNode.companyId);
+                    initInspectorTree(treeNode.departmentId);
 
                     //初始化巡查员信息
                     $("#lookup_inspectorId_${caseId}").val("");
@@ -72,7 +72,7 @@
 </form>
 
 <div class="pageContent">
-    <div class="pageFormContent" layoutH="58">
+    <div class="pageFormContent lookupCompanyDepartmentTree" layoutH="58">
         <div>
             <span>选择部门</span>
             <ul id="departmentTree_${caseId}" class="ztree"></ul>
