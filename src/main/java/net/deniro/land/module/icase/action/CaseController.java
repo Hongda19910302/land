@@ -93,6 +93,11 @@ public class CaseController extends BaseController {
     public static final String CASE_RECYCLE_BIN_ID = MENU_TAB_PREFIX + "14";
 
     /**
+     * 【立案审核】页签
+     */
+    public static final String REGISTER_AUDIT_ID= MENU_TAB_PREFIX+"15";
+
+    /**
      * 上报案件
      *
      * @param caseId
@@ -400,11 +405,14 @@ public class CaseController extends BaseController {
             if (caseParam.getCaseId() != null) {//修改
                 if (BooleanUtils.toBoolean(caseParam.getIsDraft())) {//继续存为草稿，刷新【草稿箱】页签
                     navTabIds.add(DRAFT_ID);
+                    navTabIds.add(REGISTER_AUDIT_ID);
+
                 } else {//预立案，刷新【草稿箱】、【案件查询】页签
                     caseParam.setStatus(String.valueOf(PREPARE.code()));
                     navTabIds.add(DRAFT_ID);
                     navTabIds.add(QUERY_CASE_ID);
                     navTabIds.add(MY_CASE_ID);
+                    navTabIds.add(REGISTER_AUDIT_ID);
                 }
 
                 //修改单据文书
