@@ -60,7 +60,7 @@
                 <li>
                     <div class="buttonActive">
                         <div class="buttonContent">
-                            <button type="submit" id="registerAuditYes${caseId}">立案
+                            <button type="button" id="registerAuditYes${caseId}">立案
                             </button>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                 <li>
                     <div class="buttonActive">
                         <div class="buttonContent">
-                            <button type="submit" id="registerAuditNo${caseId}">撤销案件
+                            <button type="button" id="registerAuditNo${caseId}">撤销案件
                             </button>
                         </div>
                     </div>
