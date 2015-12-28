@@ -859,7 +859,51 @@ public class CaseController extends BaseController {
     }
 
     /**
-     * 获取已上传文件的路径列表
+     * 获取已上传文件的路径列表（巡查记录）
+     *
+     * @param key
+     * @param id
+     * @param session
+     * @param mm
+     * @return
+     */
+    @RequestMapping(value = "/lookupInspectUploadedFiles")
+    public String lookupInspectUploadedFiles(String key, Integer id, HttpSession
+            session,
+                                             ModelMap mm) {
+        List<FTPUploadFile> ftpUploadFiles = new ArrayList<FTPUploadFile>();
+
+        List<TAttachment> attachments = caseService.findAttachments(id, RelationType.INSPECT);
+        for (TAttachment attachment : attachments) {
+            if (StringUtils.contains(key, UPLOAD_CASE_DOCUMENTS_KEY_PREFIX)) {//单据
+                if (attachment.getAttachmentType() != TAttachment.AttachmentType.BILL.code()) {
+                    continue;
+                }
+            } else if (StringUtils.contains(key, UPLOAD_ILLEGAL_PHOTOS_KEY_PREFIX)) {//照片
+                if (attachment.getAttachmentType() != TAttachment.AttachmentType.PHOTO.code()) {
+                    continue;
+                }
+            }
+            FTPUploadFile file = new FTPUploadFile();
+            file.setFilePath(attachment.getAddr());
+            file.setFileSource(FTP);
+            ftpUploadFiles.add(file);
+        }
+
+        String ftpHttpUrl = PropertiesReader.value(Constants
+                .FTP_HTTP_URL_PREFIX_ID) + ftpUtils.getRealPath(String.valueOf
+                (getCurrentUserId(session)));
+        mm.addAttribute("ftpHttpUrl", ftpHttpUrl);
+
+        mm.addAttribute("ftpUploadFiles", ftpUploadFiles);
+        mm.addAttribute("key", key);
+        mm.addAttribute("id", id);
+        mm.addAttribute("pattern", Constants.DISPLAY_MODE);
+        return COMPONENT_IMAGES_DISPLAY_URL;
+    }
+
+    /**
+     * 获取已上传文件的路径列表（案件）
      *
      * @param key
      * @param id      当前操作对象的ID
