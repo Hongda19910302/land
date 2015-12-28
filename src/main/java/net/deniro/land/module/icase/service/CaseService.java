@@ -1,6 +1,5 @@
 package net.deniro.land.module.icase.service;
 
-import net.deniro.land.api.MobileController;
 import net.deniro.land.api.entity.AssignParam;
 import net.deniro.land.api.entity.Images;
 import net.deniro.land.api.entity.InspectParam;
@@ -33,9 +32,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -89,6 +86,19 @@ public class CaseService {
 
     @Autowired
     private FtpUtils ftpUtils;
+
+    @Autowired
+    private DataTypeService dataTypeService;
+
+    /**
+     * 巡查结果的数据映射关系
+     */
+    public static List<TDataType> SURVEY_RESULT_DATA_TYPES = null;
+    /**
+     * 巡查结果的键值对
+     */
+    public static Map<Integer, String> SURVEY_RESULT_DATA_TYPES_MAP = new HashMap<Integer, String>();
+
 
     /**
      * 上报案件
@@ -958,7 +968,7 @@ public class CaseService {
                 case PASS:
                     if (tCase.getInspectorId() != null) {
                         inspectorId = tCase.getInspectorId();
-                    }else{
+                    } else {
                         tCase.setInspectorId(inspectorId);
                     }
                     User inspector = userDao.get(inspectorId);
@@ -1038,6 +1048,21 @@ public class CaseService {
     }
 
     /**
+     * 初始化巡查结果的键值对
+     */
+    public void initInspectResultMap() {
+        if (SURVEY_RESULT_DATA_TYPES == null) {
+            SURVEY_RESULT_DATA_TYPES = dataTypeService.findByVariableFieldKey
+                    ("surveyResult");
+            for (TDataType dataType : SURVEY_RESULT_DATA_TYPES) {
+                SURVEY_RESULT_DATA_TYPES_MAP.put(dataType
+                        .getDataTypeValue(), dataType.getDataTypeName());
+            }
+
+        }
+    }
+
+    /**
      * 获取巡查记录列表
      *
      * @param caseId 案件ID
@@ -1048,9 +1073,14 @@ public class CaseService {
             List<TInspect> inspects = inspectDao.findByCaseId(caseId);
 
             //设置巡查结果显示名称
-            if (!MobileController.SURVEY_RESULT_DATA_TYPES_MAP.isEmpty()) {
+
+            if (SURVEY_RESULT_DATA_TYPES_MAP.isEmpty()) {
+                initInspectResultMap();
+            }
+
+            if (!SURVEY_RESULT_DATA_TYPES_MAP.isEmpty()) {
                 for (TInspect inspect : inspects) {
-                    String inspectResultName = MobileController.SURVEY_RESULT_DATA_TYPES_MAP
+                    String inspectResultName = SURVEY_RESULT_DATA_TYPES_MAP
                             .get(NumberUtils.toInt(inspect
                                     .getInspectResult()));
                     inspect.setInspectResultName

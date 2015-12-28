@@ -26,11 +26,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static net.deniro.land.module.icase.entity.TCaseAudit.AuditResult.get;
+import static net.deniro.land.module.icase.service.CaseService.SURVEY_RESULT_DATA_TYPES;
+import static net.deniro.land.module.icase.service.CaseService.SURVEY_RESULT_DATA_TYPES_MAP;
 
 /**
  * 移动客户端接口
@@ -585,14 +585,6 @@ public class MobileController {
         }
     }
 
-    /**
-     * 巡查结果的数据映射关系
-     */
-    public static List<TDataType> SURVEY_RESULT_DATA_TYPES = null;
-    /**
-     * 巡查结果的键值对
-     */
-    public static Map<Integer, String> SURVEY_RESULT_DATA_TYPES_MAP = new HashMap<Integer, String>();
 
     /**
      * 案件详情-巡查记录+核查记录
