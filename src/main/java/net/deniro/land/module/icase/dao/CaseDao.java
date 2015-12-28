@@ -175,6 +175,12 @@ public class CaseDao extends BaseDao<TCase> {
         /**
          * 新增需要包含的状态
          */
+        if(queryParam.getCaseStatus()!=null){
+            List<CaseStatus> statuses=queryParam.getIncludeStatus();
+            statuses.add(CaseStatus.get(queryParam.getCaseStatus()));
+            queryParam.setIncludeStatus(statuses);
+        }
+
         if (!queryParam.getIncludeStatus().isEmpty()) {
             sql.append(" and t.status in(");
             for (CaseStatus caseStatus : queryParam.getIncludeStatus()) {
@@ -247,10 +253,6 @@ public class CaseDao extends BaseDao<TCase> {
         if (StringUtils.isNotBlank(queryParam.getCaseNum())) {
             sql.append(" and t.case_Num like :caseNum");
             params.put("caseNum", "%" + queryParam.getCaseNum() + "%");
-        }
-        if (queryParam.getCaseStatus() != null && queryParam.getCaseStatus() != 0) {
-            sql.append(" and t.status=:caseStatus");
-            params.put("caseStatus", queryParam.getCaseStatus());
         }
         if (StringUtils.isNotBlank(queryParam.getParties())) {
             sql.append(" and t.parties like :parties");
