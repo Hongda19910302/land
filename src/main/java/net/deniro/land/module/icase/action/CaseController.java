@@ -1,5 +1,6 @@
 package net.deniro.land.module.icase.action;
 
+import net.deniro.land.api.entity.AssignParam;
 import net.deniro.land.api.entity.Images;
 import net.deniro.land.common.dwz.AjaxResponse;
 import net.deniro.land.common.dwz.AjaxResponseError;
@@ -100,6 +101,11 @@ public class CaseController extends BaseController {
     public static final String QUERY_CASE_ID = MENU_TAB_PREFIX + "10";
 
     /**
+     * 【案件巡查】页签
+     */
+    public static final String INSPECT_CASE_ID = MENU_TAB_PREFIX + "12";
+
+    /**
      * 【案件回收站】页签
      */
     public static final String CASE_RECYCLE_BIN_ID = MENU_TAB_PREFIX + "14";
@@ -167,9 +173,40 @@ public class CaseController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/lookupInspectorIndex")
-    public String lookupInspectorIndex(Integer caseId, ModelMap mm) {
+    public String lookupInspectorIndex(Integer caseId, String type, ModelMap mm) {
         mm.addAttribute("caseId", caseId);
+        mm.addAttribute("type", type);
         return "case/lookupInspectorIndex";
+    }
+
+    /**
+     * 指派巡查员
+     *
+     * @param caseId      案件ID
+     * @param inspectorId 巡查员ID
+     * @return
+     */
+    @RequestMapping(value = "/assignInspector")
+    @ResponseBody
+    public AjaxResponse assignInspector(Integer caseId, Integer inspectorId, HttpSession session) {
+        if (caseId == null || inspectorId == null) {
+            return new AjaxResponseError("指派巡查员失败");
+        }
+
+        AssignParam param = new AssignParam();
+        param.setCaseId(caseId);
+        param.setType(1);
+        param.setXcyId(inspectorId);
+        param.setUserId(getCurrentUserId(session));
+        boolean isOk = caseService.assign(param);
+        if (isOk) {
+            //刷新相应页签
+            List<String> navTabIds = new ArrayList<String>();
+            navTabIds.add(INSPECT_CASE_ID);
+            return getAjaxSuccessAndCloseCurrentDialog("已成功指派巡查员！", navTabIds);
+        } else {
+            return new AjaxResponseError("指派巡查员失败！");
+        }
     }
 
     /**
@@ -674,7 +711,7 @@ public class CaseController extends BaseController {
     public String draft(CaseParam queryParam, ModelMap mm, HttpSession session) {
         queryParam.setIsDraft("true");
 
-        return query(queryParam, mm, session,"case/draft");
+        return query(queryParam, mm, session, "case/draft");
     }
 
     /**
@@ -686,7 +723,7 @@ public class CaseController extends BaseController {
     public String reportedCasesIndex(CaseParam queryParam, ModelMap mm, HttpSession
             session) {
         queryParam.setIsUpload(String.valueOf(TCase.IsReport.TRUE.code()));
-        return query(queryParam, mm, session,"case/reportedCasesIndex");
+        return query(queryParam, mm, session, "case/reportedCasesIndex");
     }
 
     /**
@@ -697,7 +734,7 @@ public class CaseController extends BaseController {
     @RequestMapping(value = "/recycleBinIndex")
     public String recycleBinIndex(CaseParam queryParam, ModelMap mm, HttpSession session) {
         queryParam.setRecycleStatus(String.valueOf(TCase.RecycleStatus.YES.code()));
-        return query(queryParam, mm, session,"case/recycleBinIndex");
+        return query(queryParam, mm, session, "case/recycleBinIndex");
     }
 
     /**
@@ -711,7 +748,7 @@ public class CaseController extends BaseController {
         queryParam.setIncludeStatus(Arrays.asList(statuses));
 
         queryParam.setModuleType(INSPECT_CASE);
-        return query(queryParam, mm, session,"case/inspectCaseIndex");
+        return query(queryParam, mm, session, "case/inspectCaseIndex");
     }
 
     /**
@@ -725,7 +762,7 @@ public class CaseController extends BaseController {
         CaseStatus[] statuses = {PREPARE, CANCEL};
         queryParam.setIncludeStatus(Arrays.asList(statuses));
 
-        return query(queryParam, mm, session,"case/registerAuditIndex");
+        return query(queryParam, mm, session, "case/registerAuditIndex");
     }
 
     /**
