@@ -921,12 +921,14 @@ public class CaseService {
      *
      * @param userId      用户ID
      * @param caseId      案件ID
+     * @param inspectorId 巡查员ID
      * @param auditResult 审核结果
      * @param remark      备注
      * @return 是否成功
      */
-    public boolean audit(Integer userId, Integer caseId, AuditResult auditResult, String
-            remark) {
+    public boolean audit(Integer userId, Integer caseId, Integer inspectorId, AuditResult
+            auditResult, String
+                                 remark) {
         if (caseId == null) {
             return false;
         }
@@ -954,7 +956,10 @@ public class CaseService {
             OperationType operationType = null;
             switch (auditResult) {
                 case PASS:
-                    User inspector = userDao.get(tCase.getInspectorId());
+                    if (tCase.getInspectorId() != null) {
+                        inspectorId = tCase.getInspectorId();
+                    }
+                    User inspector = userDao.get(inspectorId);
                     tCase.setDepartmentId(inspector.getDepartmentId());//设置下一节点操作部门
                     tCase.setStatus(INSPECT.code());
                     description = "通过立案审核！";

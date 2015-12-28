@@ -177,14 +177,16 @@ public class CaseController extends BaseController {
      *
      * @param caseId          案件ID
      * @param opinion         审核意见
+     * @param inspectorId     巡查员ID
      * @param auditResultCode 审核结果码
      * @param session
      * @return
      */
     @RequestMapping(value = "/registerAudit")
     @ResponseBody
-    public AjaxResponse registerAudit(Integer caseId, String opinion, Integer
-            auditResultCode,
+    public AjaxResponse registerAudit(Integer caseId, String opinion, Integer inspectorId,
+                                      Integer
+                                              auditResultCode,
                                       HttpSession session) {
         try {
             AuditResult auditResult = AuditResult.get(auditResultCode);
@@ -199,7 +201,8 @@ public class CaseController extends BaseController {
                     break;
             }
 
-            boolean isOk = caseService.audit(getCurrentUserId(session), caseId, auditResult, opinion);
+            boolean isOk = caseService.audit(getCurrentUserId(session), caseId,
+                    inspectorId, auditResult, opinion);
             if (isOk) {
                 //刷新相应页签
                 List<String> navTabIds = new ArrayList<String>();

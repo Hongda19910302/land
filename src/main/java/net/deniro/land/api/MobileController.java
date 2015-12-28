@@ -545,7 +545,7 @@ public class MobileController {
         }
 
         try {
-            boolean isOk = caseService.audit(userId, caseId, get(auditResult), remark);
+            boolean isOk = caseService.audit(userId, caseId, null, get(auditResult), remark);
             if (isOk) {
                 r = new SuccessResult();
             } else {
