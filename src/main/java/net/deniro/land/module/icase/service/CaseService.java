@@ -958,6 +958,8 @@ public class CaseService {
                 case PASS:
                     if (tCase.getInspectorId() != null) {
                         inspectorId = tCase.getInspectorId();
+                    }else{
+                        tCase.setInspectorId(inspectorId);
                     }
                     User inspector = userDao.get(inspectorId);
                     tCase.setDepartmentId(inspector.getDepartmentId());//设置下一节点操作部门
