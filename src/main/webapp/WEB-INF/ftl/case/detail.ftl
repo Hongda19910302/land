@@ -17,7 +17,7 @@
                     <li><a href="/comp/lookupGeographicCoordinates?mode=DISPLAY&lng=${tCase.lng}&lat=${tCase.lat}" class="j-ajax"><span>案件位置</span></a></li>
                     <li><a href="/case/findFlowRecords?caseId=${tCase.caseId}"
                     class="j-ajax"><span>案件流转</span></a></li>
-                    <li><a href="javascript:"><span>案件批示</span></a></li>
+                    <#--<li><a href="javascript:"><span>案件批示</span></a></li>-->
                 </ul>
             </div>
         </div>
@@ -138,7 +138,7 @@
             <div></div>
             <div></div>
             <div></div>
-            <div></div>
+            <#--<div></div>-->
         </div>
 
         <div class="tabsFooter">
