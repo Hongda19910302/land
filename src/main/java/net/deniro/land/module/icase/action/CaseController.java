@@ -674,7 +674,7 @@ public class CaseController extends BaseController {
     public String draft(CaseParam queryParam, ModelMap mm, HttpSession session) {
         queryParam.setIsDraft("true");
 
-        return query(queryParam, mm, session);
+        return query(queryParam, mm, session,"case/draft");
     }
 
     /**
@@ -686,7 +686,7 @@ public class CaseController extends BaseController {
     public String reportedCasesIndex(CaseParam queryParam, ModelMap mm, HttpSession
             session) {
         queryParam.setIsUpload(String.valueOf(TCase.IsReport.TRUE.code()));
-        return query(queryParam, mm, session);
+        return query(queryParam, mm, session,"case/reportedCasesIndex");
     }
 
     /**
@@ -697,7 +697,7 @@ public class CaseController extends BaseController {
     @RequestMapping(value = "/recycleBinIndex")
     public String recycleBinIndex(CaseParam queryParam, ModelMap mm, HttpSession session) {
         queryParam.setRecycleStatus(String.valueOf(TCase.RecycleStatus.YES.code()));
-        return query(queryParam, mm, session);
+        return query(queryParam, mm, session,"case/recycleBinIndex");
     }
 
     /**
@@ -711,7 +711,7 @@ public class CaseController extends BaseController {
         queryParam.setIncludeStatus(Arrays.asList(statuses));
 
         queryParam.setModuleType(INSPECT_CASE);
-        return query(queryParam, mm, session);
+        return query(queryParam, mm, session,"case/inspectCaseIndex");
     }
 
     /**
@@ -725,16 +725,20 @@ public class CaseController extends BaseController {
         CaseStatus[] statuses = {PREPARE, CANCEL};
         queryParam.setIncludeStatus(Arrays.asList(statuses));
 
-        return query(queryParam, mm, session);
+        return query(queryParam, mm, session,"case/registerAuditIndex");
     }
 
     /**
      * 跳转至【案件查询】
      *
+     * @param queryParam
+     * @param mm
+     * @param session
+     * @param url        action路径
      * @return
      */
     @RequestMapping(value = "/query")
-    public String query(CaseParam queryParam, ModelMap mm, HttpSession session) {
+    public String query(CaseParam queryParam, ModelMap mm, HttpSession session, String url) {
         if (queryParam.getModuleType() != null) {
             switch (queryParam.getModuleType()) {
                 case INSPECT_CASE:
@@ -748,8 +752,12 @@ public class CaseController extends BaseController {
             queryParam.setUserId(String.valueOf(getCurrentUserId(session)));
         }
 
+        String actionUrl = "case/query";
+        if (StringUtils.isNotBlank(url)) {
+            actionUrl = url;
+        }
 
-        super.pageSearch(mm, caseService.findPage(queryParam), queryParam, "case/query");
+        super.pageSearch(mm, caseService.findPage(queryParam), queryParam, actionUrl);
         return COMPONENT_PAGE_SEARCH_URL;
     }
 
