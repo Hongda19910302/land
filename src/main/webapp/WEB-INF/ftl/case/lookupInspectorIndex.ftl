@@ -5,12 +5,21 @@
         initDepartmentTree();
 
         $("#inspectorIndexBtn${caseId}").click(function () {
+        <#if type??&&type="assign"><#-- 直接指派巡查员-->
+            $.post("case/assignInspector", {
+                caseId:${caseId},
+                inspectorId: $("#lookup_inspectorId_${caseId}").val()
+            }, navTabAjaxDone, "json");
+        <#else><#-- 取回巡查员信息-->
             $.bringBackInspectors(
                     {
                         caseId:${caseId},
                         inspectorId: $("#lookup_inspectorId_${caseId}").val(),
                         inspectorName: $("#lookup_inspectorName_${caseId}").val()
                     });
+        </#if>
+
+
         });
 
     });
