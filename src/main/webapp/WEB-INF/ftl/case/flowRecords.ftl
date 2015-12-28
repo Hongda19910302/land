@@ -2,9 +2,9 @@
     <table class="list flowRecords" width="100%" layoutH="76">
         <thead>
         <tr>
-            <th width="120">操作者</th>
-            <th width="120">发送者</th>
-            <th width="120">接收者</th>
+            <th width="120">当前节点操作者</th>
+            <th width="120">下一节点操作者</th>
+            <#--<th width="120">接收者</th>-->
             <th width="120">操作类型</th>
             <th width="120">操作时间</th>
         </tr>
@@ -15,7 +15,7 @@
             <tr>
                 <td>${record.operatorName}</td>
                 <td>${record.fromName}</td>
-                <td>${record.toName}</td>
+                <#--<td>${record.toName}</td>-->
                 <td>${record.operationTypeInDisplay}</td>
                 <td>${record.createTime}</td>
             </tr>
