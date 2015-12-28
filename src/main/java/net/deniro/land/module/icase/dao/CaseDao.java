@@ -271,6 +271,12 @@ public class CaseDao extends BaseDao<TCase> {
             params.put("xcyName", "%" + queryParam.getXcyName() + "%");
         }
 
+        //巡查员ID
+        if(queryParam.getInspectorId()!=null){
+            sql.append(" and t.inspector_id= :getInspectorId");
+            params.put("getInspectorId",queryParam.getInspectorId());
+        }
+
         /**
          * 区域
          */
@@ -335,6 +341,8 @@ public class CaseDao extends BaseDao<TCase> {
                     break;
             }
         }
+
+
 
         //查询总数SQL
         String countSql = "select count(1) " + sql.toString();

@@ -44,11 +44,11 @@ import static net.deniro.land.common.dwz.AjaxResponseSuccess.MENU_TAB_PREFIX;
 import static net.deniro.land.common.dwz.AjaxResponseSuccess.NAB_TAB_ID_SPLIT;
 import static net.deniro.land.module.component.entity.FTPUploadFile.FileSource.FTP;
 import static net.deniro.land.module.component.entity.FTPUploadFile.FileSource.TEMP;
+import static net.deniro.land.module.icase.entity.CaseParam.ModuleType.INSPECT_CASE;
 import static net.deniro.land.module.icase.entity.TAttachment.AttachmentType.BILL;
 import static net.deniro.land.module.icase.entity.TAttachment.AttachmentType.PHOTO;
 import static net.deniro.land.module.icase.entity.TAttachmentRelation.RelationType.CASE;
-import static net.deniro.land.module.icase.entity.TCase.CaseStatus.CANCEL;
-import static net.deniro.land.module.icase.entity.TCase.CaseStatus.PREPARE;
+import static net.deniro.land.module.icase.entity.TCase.CaseStatus.*;
 import static net.deniro.land.module.icase.entity.TCaseAudit.AuditResult;
 
 /**
@@ -701,6 +701,20 @@ public class CaseController extends BaseController {
     }
 
     /**
+     * 跳转至【巡查案件】
+     *
+     * @return
+     */
+    @RequestMapping(value = "/inspectCaseIndex")
+    public String inspectCaseIndex(CaseParam queryParam, ModelMap mm, HttpSession session) {
+        CaseStatus[] statuses = {INSPECT};
+        queryParam.setIncludeStatus(Arrays.asList(statuses));
+
+        queryParam.setModuleType(INSPECT_CASE);
+        return query(queryParam, mm, session);
+    }
+
+    /**
      * 跳转至【立案审核】
      *
      * @return
@@ -721,7 +735,20 @@ public class CaseController extends BaseController {
      */
     @RequestMapping(value = "/query")
     public String query(CaseParam queryParam, ModelMap mm, HttpSession session) {
-        queryParam.setUserId(String.valueOf(getCurrentUserId(session)));
+        if (queryParam.getModuleType() != null) {
+            switch (queryParam.getModuleType()) {
+                case INSPECT_CASE:
+                    queryParam.setInspectorId(getCurrentUserId(session));
+                    break;
+                default:
+                    queryParam.setUserId(String.valueOf(getCurrentUserId(session)));
+                    break;
+            }
+        } else {
+            queryParam.setUserId(String.valueOf(getCurrentUserId(session)));
+        }
+
+
         super.pageSearch(mm, caseService.findPage(queryParam), queryParam, "case/query");
         return COMPONENT_PAGE_SEARCH_URL;
     }

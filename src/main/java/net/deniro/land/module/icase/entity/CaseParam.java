@@ -342,7 +342,12 @@ public class CaseParam extends QueryParam {
         /**
          * 我的案件
          */
-        MY_CASE
+        MY_CASE,
+
+        /**
+         * 案件巡查
+         */
+        INSPECT_CASE
     }
 
 
