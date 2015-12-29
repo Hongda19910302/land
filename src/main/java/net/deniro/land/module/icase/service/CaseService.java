@@ -831,8 +831,11 @@ public class CaseService {
                         tCase.setStatus(SECOND_OVER.code());
                         break;
                 }
-                caseDao.update(tCase);
+            } else {//驳回，巡查制止、未上报
+                tCase.setStatus(INSPECT.code());
+                tCase.setIsUpload(TCase.IsReport.FALSE.code());
             }
+            caseDao.update(tCase);
 
 
             /**
