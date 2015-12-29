@@ -329,6 +329,17 @@ public class CaseController extends BaseController {
     }
 
     /**
+     * 跳转至【二次结案审核】填写意见页
+     *
+     * @return
+     */
+    @RequestMapping(value = "/secondCloseAuditOpinionIndex")
+    public String secondCloseAuditOpinionIndex(Integer caseId, ModelMap mm) {
+        mm.addAttribute("caseId", caseId);
+        return "case/secondCloseAuditOpinionIndex";
+    }
+
+    /**
      * 上报案件
      *
      * @param caseId

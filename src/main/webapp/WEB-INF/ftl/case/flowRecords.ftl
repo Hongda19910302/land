@@ -4,7 +4,7 @@
         <tr>
             <th width="120">操作者</th>
             <#--<th width="120">下一节点操作者</th>-->
-            <th width="120">下一节点操作者</th>
+            <#--<th width="120">下一节点操作者</th>-->
             <th width="120">说明</th>
             <th width="120">操作类型</th>
             <th width="120">操作时间</th>
@@ -16,7 +16,7 @@
             <tr>
                 <td>${record.operatorName}</td>
                 <#--<td>${record.fromName}</td>-->
-                <td>${record.toName}</td>
+                <#--<td>${record.toName}</td>-->
                 <td>${record.operation}</td>
                 <td>${record.operationTypeInDisplay}</td>
                 <td>${record.createTime}</td>
