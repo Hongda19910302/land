@@ -739,6 +739,20 @@ public class CaseController extends BaseController {
     }
 
     /**
+     * 跳转至【二次结案审核】
+     *
+     * @return
+     */
+    @RequestMapping(value = "/secondCloseCaseAuditIndex")
+    public String secondCloseCaseAuditIndex(CaseParam queryParam, ModelMap mm, HttpSession session) {
+        CaseStatus[] statuses = {FIRST_OVER};
+        queryParam.setIncludeStatus(Arrays.asList(statuses));
+
+        queryParam.setModuleType(ModuleType.SECOND_CLOSE_CASE_AUDIT);
+        return query(queryParam, mm, session, "case/secondCloseCaseAuditIndex");
+    }
+
+    /**
      * 跳转至【结案审核】
      *
      * @return

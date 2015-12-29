@@ -352,7 +352,12 @@ public class CaseParam extends QueryParam {
         /**
          * 结案审核
          */
-        CLOSE_CASE_AUDIT
+        CLOSE_CASE_AUDIT,
+
+        /**
+         * 二次结案审核
+         */
+        SECOND_CLOSE_CASE_AUDIT
     }
 
 
