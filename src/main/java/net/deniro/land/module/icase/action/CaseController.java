@@ -11,6 +11,7 @@ import net.deniro.land.common.utils.ftp.FtpUtils;
 import net.deniro.land.module.component.entity.FTPUploadFile;
 import net.deniro.land.module.component.entity.TreeQueryParam;
 import net.deniro.land.module.icase.entity.*;
+import net.deniro.land.module.icase.entity.CaseParam.ModuleType;
 import net.deniro.land.module.icase.entity.TAttachmentRelation.RelationType;
 import net.deniro.land.module.icase.entity.TCase.CaseStatus;
 import net.deniro.land.module.icase.service.CaseService;
@@ -738,6 +739,20 @@ public class CaseController extends BaseController {
     }
 
     /**
+     * 跳转至【结案审核】
+     *
+     * @return
+     */
+    @RequestMapping(value = "/closeCaseAuditIndex")
+    public String closeCaseAuditIndex(CaseParam queryParam, ModelMap mm, HttpSession session) {
+        CaseStatus[] statuses = {APPLY};
+        queryParam.setIncludeStatus(Arrays.asList(statuses));
+
+        queryParam.setModuleType(ModuleType.CLOSE_CASE_AUDIT);
+        return query(queryParam, mm, session, "case/closeCaseAuditIndex");
+    }
+
+    /**
      * 跳转至【巡查案件】
      *
      * @return
@@ -778,6 +793,8 @@ public class CaseController extends BaseController {
     public String query(CaseParam queryParam, ModelMap mm, HttpSession session, String url) {
         if (queryParam.getModuleType() != null) {
             switch (queryParam.getModuleType()) {
+                case CLOSE_CASE_AUDIT:
+                    break;
                 case INSPECT_CASE:
                     queryParam.setInspectorId(getCurrentUserId(session));
                     break;

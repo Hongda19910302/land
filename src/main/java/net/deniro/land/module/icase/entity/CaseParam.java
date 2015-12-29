@@ -347,7 +347,12 @@ public class CaseParam extends QueryParam {
         /**
          * 案件巡查
          */
-        INSPECT_CASE
+        INSPECT_CASE,
+
+        /**
+         * 结案审核
+         */
+        CLOSE_CASE_AUDIT
     }
 
 
