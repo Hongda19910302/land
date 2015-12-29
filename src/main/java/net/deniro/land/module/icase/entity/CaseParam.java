@@ -18,6 +18,11 @@ import java.util.List;
 public class CaseParam extends QueryParam {
 
     /**
+     * 是否是超级管理员
+     */
+    private boolean isSuperAdmin;
+
+    /**
      * 是否是草稿箱
      */
     private String isDraft;

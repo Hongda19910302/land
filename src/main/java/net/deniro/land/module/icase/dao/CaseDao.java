@@ -224,7 +224,10 @@ public class CaseDao extends BaseDao<TCase> {
                     }
                 }
             }
-        } else {
+        }else if(queryParam.isSuperAdmin()){//如果是超级管理员，则不做限制
+
+        }
+        else {
             if (StringUtils.isNotBlank(queryParam.getUserId())) {
                 sql.append(" and t.creater_id=:creatorId");
                 params.put("creatorId", queryParam.getUserId());

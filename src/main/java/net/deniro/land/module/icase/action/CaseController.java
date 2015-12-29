@@ -856,6 +856,11 @@ public class CaseController extends BaseController {
     }
 
     /**
+     * 超级管理员ID
+     */
+    public static final Integer SUPER_ADMIN_ID = 1;
+
+    /**
      * 跳转至【案件查询】
      *
      * @param queryParam
@@ -866,20 +871,28 @@ public class CaseController extends BaseController {
      */
     @RequestMapping(value = "/query")
     public String query(CaseParam queryParam, ModelMap mm, HttpSession session, String url) {
+
+        Integer currentUserId = getCurrentUserId(session);
+        //判断是否是超级管理员
+        if (currentUserId == SUPER_ADMIN_ID) {
+            queryParam.setSuperAdmin(true);
+        }
+
         if (queryParam.getModuleType() != null) {
             switch (queryParam.getModuleType()) {
                 case CLOSE_CASE_AUDIT:
                     break;
                 case INSPECT_CASE:
-                    queryParam.setInspectorId(getCurrentUserId(session));
+                    queryParam.setInspectorId(currentUserId);
                     break;
                 default:
-                    queryParam.setUserId(String.valueOf(getCurrentUserId(session)));
+                    queryParam.setUserId(String.valueOf(currentUserId));
                     break;
             }
         } else {
-            queryParam.setUserId(String.valueOf(getCurrentUserId(session)));
+            queryParam.setUserId(String.valueOf(currentUserId));
         }
+
 
         String actionUrl = "case/query";
         if (StringUtils.isNotBlank(url)) {
