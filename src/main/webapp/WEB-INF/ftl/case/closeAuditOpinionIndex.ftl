@@ -4,14 +4,14 @@
         //审核通过
         $("#closeAuditYes${caseId}").click(function () {
             $("#closeAuditOpinionIndex${caseId}").attr("action",
-                    "case/closeAudit?result=0&caseId=${caseId}");
+                    "case/closeAudit?operationType=FIRST_CLOSE_APPLY&caseId=${caseId}");
             $("#closeAuditOpinionIndex${caseId}").submit();
         });
 
         //审核不通过
         $("#closeAuditNo${caseId}").click(function () {
             $("#closeAuditOpinionIndex${caseId}").attr("action",
-                    "case/closeAudit?result=1&caseId=${caseId}");
+                    "case/closeAudit?operationType=FIRST_CLOSE_APPLY_REJECT&caseId=${caseId}");
             $("#closeAuditOpinionIndex${caseId}").submit();
         });
     });

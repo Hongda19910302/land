@@ -2,7 +2,6 @@ package net.deniro.land.module.icase.action;
 
 import net.deniro.land.api.entity.AssignParam;
 import net.deniro.land.api.entity.Images;
-import net.deniro.land.api.entity.OverAuditParam;
 import net.deniro.land.common.dwz.AjaxResponse;
 import net.deniro.land.common.dwz.AjaxResponseError;
 import net.deniro.land.common.dwz.AjaxResponseSuccess;
@@ -53,6 +52,7 @@ import static net.deniro.land.module.icase.entity.TAttachment.AttachmentType.PHO
 import static net.deniro.land.module.icase.entity.TAttachmentRelation.RelationType.CASE;
 import static net.deniro.land.module.icase.entity.TCase.CaseStatus.*;
 import static net.deniro.land.module.icase.entity.TCaseAudit.AuditResult;
+import static net.deniro.land.module.icase.entity.TCaseFlowRecord.*;
 
 /**
  * 案件
@@ -271,27 +271,30 @@ public class CaseController extends BaseController {
     /**
      * 结案审核
      *
-     * @param caseId  案件ID
-     * @param opinion 意见
-     * @param result  审核结果；0:审批通过；1:审批不通过
+     * @param caseId        案件ID
+     * @param opinion       意见
+     * @param operationType 操作类型
      * @param session
      * @return
      */
     @RequestMapping(value = "/closeAudit")
     @ResponseBody
-    public AjaxResponse closeAudit(Integer caseId, String opinion, Integer result, HttpSession session) {
+    public AjaxResponse closeAudit(Integer caseId, String opinion, String operationType,
+                                   HttpSession session) {
 
-        if (caseId == null || StringUtils.isBlank(opinion) || result == null) {
+        if (caseId == null || StringUtils.isBlank(opinion) || StringUtils.isBlank(operationType)) {
             return new AjaxResponseError("结案审核失败");
         }
 
-        OverAuditParam param = new OverAuditParam();
-        param.setCaseId(caseId);
-        param.setUserId(getCurrentUserId(session));
-        param.setRemark(opinion);
-        param.setCaseStatus(result);
-        param.setCheckType(OverAuditParam.CheckType.FIRST.code());
-        boolean isOk = caseService.overAudit(param);
+        OperationType type = null;
+        try {
+            type = OperationType.valueOf(operationType);
+        } catch (IllegalArgumentException e) {
+            logger.error("结案审核", e);
+            return new AjaxResponseError("结案审核失败");
+        }
+
+        boolean isOk = caseService.overAudit(getCurrentUserId(session), caseId, type, opinion);
         if (isOk) {
             //刷新相应页签
             List<String> navTabIds = new ArrayList<String>();

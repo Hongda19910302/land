@@ -781,6 +781,88 @@ public class CaseService {
     }
 
     /**
+     * 结案审核（一次或者二次）
+     *
+     * @param userId        账号ID
+     * @param caseId        案件ID
+     * @param operationType 操作类型
+     * @param opinion       审核意见
+     * @return
+     */
+    public boolean overAudit(Integer userId, Integer caseId, OperationType operationType,
+                             String opinion) {
+
+        try {
+            Date currentDate = new Date();
+
+            /**
+             * 判断审核类型
+             */
+            TCase tCase = caseDao.findById(caseId);
+            AuditResult auditResult = AuditResult.NO_PASS;
+            Integer auditNo = 1;//审核类型；1：一次审核；2：二次审核
+            String description = "";//流程描述
+            switch (operationType) {
+                case FIRST_CLOSE_APPLY:
+                    auditResult = AuditResult.PASS;
+                    tCase.setStatus(FIRST_OVER.code());
+                    description = "一次结案审核通过";
+                    break;
+                case FIRST_CLOSE_APPLY_REJECT:
+                    tCase.setStatus(INSPECT.code());
+                    tCase.setIsUpload(TCase.IsReport.FALSE.code());
+                    description = "一次结案审核被驳回";
+                    break;
+                case SECOND_CLOSE_APPLY:
+                    auditResult = AuditResult.PASS;
+                    auditNo = 2;
+                    tCase.setStatus(SECOND_CLOSE_APPLY.code());
+                    description = "二次结案审核通过";
+                    break;
+                case SECOND_CLOSE_APPLY_REJECT:
+                    auditNo = 2;
+                    tCase.setStatus(INSPECT.code());
+                    description = "二次结案审核被驳回";
+                    break;
+                default:
+                    return false;
+            }
+
+            /**
+             * 更新案件状态
+             */
+            caseDao.update(tCase);
+
+            /**
+             * 新增案件审核
+             */
+            TCaseAudit caseAudit = new TCaseAudit();
+            caseAudit.setAuditerId(userId);
+            caseAudit.setAuditResult(auditResult.code());
+            caseAudit.setCaseId(caseId);
+            caseAudit.setRemark(opinion);
+            caseAudit.setAuditType(OVER.code());
+            caseAudit.setAuditNo(auditNo);
+            caseAudit.setAuditTime(currentDate);
+            auditDao.save(caseAudit);
+
+            /**
+             * 新增流程日志
+             */
+            addFlowLog(caseId, userId, operationType,
+                    description, opinion);
+
+            //todo 如果是二次结案，则删除短信池中的案件
+
+            return true;
+        } catch (Exception e) {
+            logger.error("结案审核", e);
+            return false;
+        }
+
+    }
+
+    /**
      * 结案审核
      *
      * @param overAuditParam
@@ -831,9 +913,6 @@ public class CaseService {
                         tCase.setStatus(SECOND_OVER.code());
                         break;
                 }
-            } else {//驳回，巡查制止、未上报
-                tCase.setStatus(INSPECT.code());
-                tCase.setIsUpload(TCase.IsReport.FALSE.code());
             }
             caseDao.update(tCase);
 

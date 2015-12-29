@@ -152,7 +152,15 @@ public class TCaseFlowRecord implements Serializable {
         /**
          * 案件被撤销
          */
-        CANCELED(7);
+        CANCELED(7),
+        /**
+         * 一次结案审核被驳回
+         */
+        FIRST_CLOSE_APPLY_REJECT(8),
+        /**
+         * 二次结案审核被驳回
+         */
+        SECOND_CLOSE_APPLY_REJECT(9);
 
         private int code;
 
