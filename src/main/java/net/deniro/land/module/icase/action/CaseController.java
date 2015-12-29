@@ -2,6 +2,7 @@ package net.deniro.land.module.icase.action;
 
 import net.deniro.land.api.entity.AssignParam;
 import net.deniro.land.api.entity.Images;
+import net.deniro.land.api.entity.OverAuditParam;
 import net.deniro.land.common.dwz.AjaxResponse;
 import net.deniro.land.common.dwz.AjaxResponseError;
 import net.deniro.land.common.dwz.AjaxResponseSuccess;
@@ -115,6 +116,17 @@ public class CaseController extends BaseController {
      * 【立案审核】页签
      */
     public static final String REGISTER_AUDIT_ID = MENU_TAB_PREFIX + "15";
+
+    /**
+     * 【结案审核】页签
+     */
+    public static final String CLOSE_AUDIT_ID = MENU_TAB_PREFIX + "16";
+
+    /**
+     * 【二次结案审核】页签
+     */
+    public static final String SECOND_CLOSE_AUDIT_ID = MENU_TAB_PREFIX + "17";
+
 
     /**
      * 查询拥有【案件巡查】模块权限的用户树节点
@@ -257,6 +269,41 @@ public class CaseController extends BaseController {
     }
 
     /**
+     * 结案审核
+     *
+     * @param caseId  案件ID
+     * @param opinion 意见
+     * @param result  审核结果；0:审批通过；1:审批不通过
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/closeAudit")
+    @ResponseBody
+    public AjaxResponse closeAudit(Integer caseId, String opinion, Integer result, HttpSession session) {
+
+        if (caseId == null || StringUtils.isBlank(opinion) || result == null) {
+            return new AjaxResponseError("结案审核失败");
+        }
+
+        OverAuditParam param = new OverAuditParam();
+        param.setCaseId(caseId);
+        param.setUserId(getCurrentUserId(session));
+        param.setRemark(opinion);
+        param.setCaseStatus(result);
+        param.setCheckType(OverAuditParam.CheckType.FIRST.code());
+        boolean isOk = caseService.overAudit(param);
+        if (isOk) {
+            //刷新相应页签
+            List<String> navTabIds = new ArrayList<String>();
+            navTabIds.add(CLOSE_AUDIT_ID);
+            navTabIds.add(SECOND_CLOSE_AUDIT_ID);
+            return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
+        } else {
+            return new AjaxResponseError("结案审核失败");
+        }
+    }
+
+    /**
      * 跳转至【立案审核】填写意见页
      *
      * @return
@@ -265,6 +312,17 @@ public class CaseController extends BaseController {
     public String registerAuditOpinionIndex(Integer caseId, ModelMap mm) {
         mm.addAttribute("caseId", caseId);
         return "case/registerAuditOpinionIndex";
+    }
+
+    /**
+     * 跳转至【结案审核】填写意见页
+     *
+     * @return
+     */
+    @RequestMapping(value = "/closeAuditOpinionIndex")
+    public String closeAuditOpinionIndex(Integer caseId, ModelMap mm) {
+        mm.addAttribute("caseId", caseId);
+        return "case/closeAuditOpinionIndex";
     }
 
     /**
