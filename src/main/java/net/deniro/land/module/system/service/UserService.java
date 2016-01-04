@@ -42,6 +42,23 @@ public class UserService {
     public static final String USER_CODE = "user";
 
     /**
+     * 更新密码
+     *
+     * @param userId 用户ID
+     * @param pwd    新密码
+     * @return
+     */
+    public boolean updatePwd(Integer userId, String pwd) {
+        try {
+            int count = userDao.updatePwd(userId, pwd);
+            return count > 0;
+        } catch (Exception e) {
+            logger.error("更新密码", e);
+            return false;
+        }
+    }
+
+    /**
      * 依据ID，获取用户
      *
      * @param userId

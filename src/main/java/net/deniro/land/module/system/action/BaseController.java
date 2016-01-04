@@ -142,8 +142,12 @@ public class BaseController {
      */
     public AjaxResponseSuccess getAjaxSuccess(String tip, List<String> navTabIds) {
         AjaxResponseSuccess ajaxResponseSuccess = new AjaxResponseSuccess(tip);
-        ajaxResponseSuccess.setNavTabIds(StringUtils.join(navTabIds.toArray(),
-                NAB_TAB_ID_SPLIT));
+
+        if(navTabIds!=null&&!navTabIds.isEmpty()){
+            ajaxResponseSuccess.setNavTabIds(StringUtils.join(navTabIds.toArray(),
+                    NAB_TAB_ID_SPLIT));
+        }
+
         return ajaxResponseSuccess;
     }
 

@@ -1,11 +1,16 @@
 package net.deniro.land.module.system.action;
 
+import net.deniro.land.common.dwz.AjaxResponse;
+import net.deniro.land.common.dwz.AjaxResponseError;
+import net.deniro.land.common.dwz.AjaxResponseSuccess;
 import net.deniro.land.common.service.dwz.Result;
 import net.deniro.land.common.service.dwz.ResultError;
+import net.deniro.land.common.utils.Md5Utils;
 import net.deniro.land.module.system.entity.User;
 import net.deniro.land.module.system.entity.UserQueryParam;
 import net.deniro.land.module.system.service.UserService;
 import nl.captcha.Captcha;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +35,36 @@ public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;
+
+    /**
+     * 修改密码
+     *
+     * @param oldPwd  旧密码
+     * @param newPwd  新密码
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/modifyPwd")
+    @ResponseBody
+    public AjaxResponse modifyPwd(String oldPwd, String newPwd, HttpSession
+            session) {
+        if (StringUtils.isBlank(oldPwd) || StringUtils.isBlank(newPwd)) {
+            return new AjaxResponseError("密码修改失败");
+        }
+
+        User user = getCurrentUser(session);
+        if (!StringUtils.equals(user.getPassword(), Md5Utils.encryptIn16(oldPwd))) {
+            return new AjaxResponseError("旧密码不正确");
+        }
+
+
+        boolean isOk = userService.updatePwd(user.getUserId(), Md5Utils.encryptIn16(newPwd));
+        if (isOk) {
+            return getAjaxSuccessAndCloseCurrent("密码修改成功", null);
+        } else {
+            return new AjaxResponseError("密码修改失败");
+        }
+    }
 
     /**
      * 跳转到密码修改页
