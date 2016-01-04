@@ -169,7 +169,7 @@
         </div>
     </div>
     <div id="login_footer">
-        ${platformInfo} Copyright &copy; 2015 deniro All Rights Reserved.
+        ${platformInfo} ${copyright}
     </div>
 </div>
 </body>

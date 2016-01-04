@@ -223,7 +223,7 @@
 
 </div>
 
-<div id="footer">${platformInfo} Copyright &copy; 2015 deniro</div>
+<div id="footer">${platformInfo} ${copyright}</div>
 
 <#--地图组件-->
 <script src="http://api.tianditu.com/js/maps.js" type="text/javascript"></script>
