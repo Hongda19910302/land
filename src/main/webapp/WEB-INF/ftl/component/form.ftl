@@ -77,6 +77,13 @@
                                            equalTo="#${item.textEqualToId}${componentId}"
                                         </#if>
 
+                                        <#if item.textMaxLength??><#--输入框最大长度-->
+                                            maxlength="${item.textMaxLength}"
+                                        </#if>
+                                        <#if item.textMinLength??><#--输入框最小长度-->
+                                            minlength="${item.textMinLength}"
+                                        </#if>
+
                                         <#if obj??><#--展示字段值-->
                                            value="${obj[item.inputName]}"
                                         </#if>
