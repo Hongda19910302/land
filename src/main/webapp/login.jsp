@@ -107,9 +107,9 @@
         <div class="login_headerContent">
             <div class="navList">
                 <ul>
-                    <li><a href="#">设为首页</a></li>
-                    <li><a href="#">反馈</a></li>
-                    <li><a href="#" target="_blank">帮助</a></li>
+                    <%--<li><a href="#">设为首页</a></li>--%>
+                    <%--<li><a href="#">反馈</a></li>--%>
+                    <%--<li><a href="#" target="_blank">帮助</a></li>--%>
                 </ul>
             </div>
             <h2 class="login_title"><img
