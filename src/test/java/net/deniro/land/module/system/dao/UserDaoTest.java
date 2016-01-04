@@ -1,5 +1,6 @@
 package net.deniro.land.module.system.dao;
 
+import net.deniro.land.common.utils.Md5Utils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/spring-context-base.xml",
         "classpath:spring/spring-context-db.xml", "classpath:spring/spring-context-tx" +
-        ".xml", "classpath:spring/spring-context-dataset-type.xml"})
+        ".xml", "classpath:spring/spring-context-dataset-type.xml",
+        "classpath:spring/spring-context-ftp.xml"})
 @TransactionConfiguration
 @Transactional
 public class UserDaoTest {
@@ -24,7 +26,13 @@ public class UserDaoTest {
     private UserDao userDao;
 
     @Test
-    public void findInspectorsByDepartmentId(){
+    public void updatePwd() {
+        System.out.println("$$$$$$$$$$$" + userDao.updatePwd(1, Md5Utils.encryptIn16
+                ("123456")));
+    }
+
+    @Test
+    public void findInspectorsByDepartmentId() {
         System.out.println(userDao.findInspectorsByDepartmentId(1));
     }
 

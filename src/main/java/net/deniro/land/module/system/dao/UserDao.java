@@ -17,7 +17,9 @@ import static net.deniro.land.module.system.entity.User.Status.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -121,6 +123,22 @@ public class UserDao extends BaseDao<User> {
         StringBuilder hql = new StringBuilder(" from User where status=");
         hql.append(NORMAL.code());
         hql.append(" and account = ?");
-        return this.find(hql.toString(), new Object[]{account});
+        return this.find(hql.toString(), account);
+    }
+
+    /**
+     * 更新密码
+     *
+     * @param userId 用户ID
+     * @param pwd    新密码
+     * @return
+     */
+    public int updatePwd(Integer userId, String pwd) {
+        String sql = "update t_user set PASSWORD=:pwd where USER_ID=:userId";
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("userId", userId);
+        params.put("pwd", pwd);
+
+        return namedParameterJdbcTemplate.update(sql, params);
     }
 }
