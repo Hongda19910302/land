@@ -2,7 +2,6 @@ package net.deniro.land.module.system.action;
 
 import net.deniro.land.common.service.dwz.Result;
 import net.deniro.land.common.service.dwz.ResultError;
-import net.deniro.land.module.system.entity.RoleQueryParam;
 import net.deniro.land.module.system.entity.User;
 import net.deniro.land.module.system.entity.UserQueryParam;
 import net.deniro.land.module.system.service.UserService;
@@ -14,7 +13,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpSession;
 
@@ -32,6 +30,22 @@ public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;
+
+    /**
+     * 跳转到密码修改页
+     *
+     * @param componentId
+     * @param mm
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/modifyPwdIndex")
+    public String modifyPwdIndex(Integer componentId, ModelMap mm,
+                                 HttpSession
+                                         session) {
+        form(componentId, mm, session);
+        return COMPONENT_FORM_URL;
+    }
 
     /**
      * 跳转至账户管理主界面

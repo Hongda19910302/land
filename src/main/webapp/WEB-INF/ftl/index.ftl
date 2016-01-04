@@ -139,7 +139,8 @@
             <a class="logo" href="#">标志</a>
             <span>您好！${currentUser.name}</span>
             <ul class="nav">
-                <li><a id="changePassword" href="#">修改密码</a></li>
+                <li><a href="user/modifyPwdIndex?componentId=2"
+                       target="navTab">修改密码</a></li>
                 <li><a id="exit" href="#">退出</a></li>
             </ul>
         </div>
