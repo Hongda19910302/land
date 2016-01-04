@@ -72,6 +72,10 @@
                                     <input type="text" name="${item.inputName}"
                                            class="${item.inputClass}"
                                            style="${item.inputCssStyle}"
+                                           id="${item.inputName}${componentId}"
+                                        <#if item.textEqualToId??><#--判断是否与其中的某个输入框值相等-->
+                                           equalTo="#${item.textEqualToId}${componentId}"
+                                        </#if>
 
                                         <#if obj??><#--展示字段值-->
                                            value="${obj[item.inputName]}"
