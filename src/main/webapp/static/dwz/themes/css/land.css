@@ -1,3 +1,14 @@
+/*行政区域管理*/
+.regionTree {
+    margin-top: 10px;
+    border: 1px solid #617775;
+    background: #f0f6e4;
+    width: auto;
+    height: 97%;
+    overflow-y: scroll;
+    overflow-x: auto;
+}
+
 /*案件流转日志展示*/
 .flowRecords tbody tr td {
     text-align: center;
@@ -197,30 +208,37 @@
 .panelBar .toolBar a.detail span {
     background-position: 0 -896px;
 }
+
 /*导入*/
 .panelBar .toolBar a.import span {
     background-position: 0 -946px;
 }
+
 /*导出*/
 .panelBar .toolBar a.export span {
     background-position: 0 -996px;
 }
+
 /*恢复*/
 .panelBar .toolBar a.recovery span {
     background-position: 0 -1046px;
 }
+
 /*上报*/
 .panelBar .toolBar a.report span {
     background-position: 0 -1096px;
 }
+
 /*审核*/
 .panelBar .toolBar a.audit span {
     background-position: 0 -1146px;
 }
+
 /*指派*/
 .panelBar .toolBar a.assign span {
     background-position: 0 -1196px;
 }
+
 /*查看*/
 .panelBar .toolBar a.look span {
     background-position: 0 -1246px;
