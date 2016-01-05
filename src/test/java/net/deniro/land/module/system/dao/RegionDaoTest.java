@@ -26,7 +26,12 @@ public class RegionDaoTest {
     private RegionDao regionDao;
 
     @Test
-    public void findParentIds(){
+    public void findAllTop() {
+        System.out.println("$$$$$$$$$"+regionDao.findAllTop());
+    }
+
+    @Test
+    public void findParentIds() {
         System.out.println(regionDao.findParentIds());
     }
 

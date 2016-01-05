@@ -56,6 +56,17 @@ public class RegionDao extends BaseDao<TRegion> {
     }
 
     /**
+     * 获取所有顶级行政区域
+     *
+     * @return
+     */
+    public List<TRegion> findAllTop() {
+        StringBuilder hql = new StringBuilder("select t from TRegion t ");
+        hql.append("where t.parentId is null ");
+        return this.find(hql.toString());
+    }
+
+    /**
      * 依据单位ID，获取行政区域
      *
      * @param companyId
@@ -85,6 +96,6 @@ public class RegionDao extends BaseDao<TRegion> {
         hql.append(" and s.relationType=?");
         hql.append(" and s.relationId=?");
         hql.append(" order by t.regionLevel");
-        return this.find(hql.toString(), new Object[]{relationType.code(), id});
+        return this.find(hql.toString(), relationType.code(), id);
     }
 }
