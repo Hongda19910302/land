@@ -7,6 +7,15 @@
 
         //打开新增区域对话框
         $("#regionIndexAddBrother").click(function () {
+
+            //判断是否有选择某个区域，如果未选择，则弹出提示框
+            var treeObj= $.fn.zTree.getZTreeObj("regionIndexTree");
+            var nodes=treeObj.getSelectedNodes();
+            if(!nodes||nodes.length==0){
+                alertMsg.warn("请先选择某个区域！");
+                return;
+            }
+
             $.pdialog.open("region/addOrEditIndex?componentId=3", "regionIndexAddIndex",
                     "新增区域", {
                 //高度
