@@ -72,10 +72,10 @@ public class CompController {
         if (StringUtils.equals(mode, Constants.DISPLAY_MODE)) {
             mm.addAttribute("mode", mode);
         }
-        if(StringUtils.isNotBlank(lng)){
+        if (StringUtils.isNotBlank(lng)) {
             mm.addAttribute("lng", lng);
         }
-        if(StringUtils.isNotBlank(lat)){
+        if (StringUtils.isNotBlank(lat)) {
             mm.addAttribute("lat", lat);
         }
 
@@ -134,6 +134,30 @@ public class CompController {
         List<TRegion> data = new ArrayList<TRegion>();
         if (StringUtils.isBlank(regionId)) {//第一次加载
             data.addAll(regionService.findByCompanyIdForTree(companyId));
+        } else {
+            data.addAll(regionService.findChildrenByRegionIdForTree(NumberUtils.toInt
+                    (regionId)));
+        }
+
+        return data;
+    }
+
+    /**
+     * 查询所有区域树节点
+     *
+     * @param regionId 区域ID
+     * @return
+     */
+    @RequestMapping(value = "/findAllRegionTreeNode")
+    @ResponseBody
+    public List<TRegion> findAllRegionTreeNode(String
+                                                       regionId) {
+
+        List<TRegion> data = new ArrayList<TRegion>();
+
+
+        if (StringUtils.isBlank(regionId)) {//第一次加载
+            data.addAll(regionService.findAllTop());
         } else {
             data.addAll(regionService.findChildrenByRegionIdForTree(NumberUtils.toInt
                     (regionId)));

@@ -26,6 +26,22 @@ public class RegionService {
     private RegionDao regionDao;
 
     /**
+     * 获取所有顶级行政区域（树型）
+     *
+     * @return
+     */
+    public List<TRegion> findAllTop() {
+        try {
+            List<TRegion> regions = regionDao.findAllTop();
+            setAttribute(regions);
+            return regions;
+        } catch (Exception e) {
+            logger.error("  获取所有顶级行政区域（树型）", e);
+            return new ArrayList<TRegion>();
+        }
+    }
+
+    /**
      * 依据单位ID，获取行政区域（树型）
      *
      * @param companyId
