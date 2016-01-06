@@ -44,6 +44,18 @@ public class RegionDao extends BaseDao<TRegion> {
     }
 
     /**
+     * 依据区域ID，获取子区域列表（正常状态）
+     *
+     * @param regionId
+     * @return
+     */
+    public List<TRegion> findChildrenByRegionIdInNormal(Integer regionId) {
+        String hql = " from TRegion t where 1=1 ";
+        hql += " and t.status=0 and t.parentRegion.regionId=? ";
+        return this.find(hql, regionId);
+    }
+
+    /**
      * 依据区域ID，获取子区域列表
      *
      * @param regionId
@@ -53,6 +65,17 @@ public class RegionDao extends BaseDao<TRegion> {
         String hql = " from TRegion t where 1=1 ";
         hql += " and t.parentRegion.regionId=? ";
         return this.find(hql, regionId);
+    }
+
+    /**
+     * 获取所有顶级行政区域（正常状态）
+     *
+     * @return
+     */
+    public List<TRegion> findAllTopInNormal() {
+        StringBuilder hql = new StringBuilder("select t from TRegion t ");
+        hql.append("where t.parentId is null and t.status=0");
+        return this.find(hql.toString());
     }
 
     /**

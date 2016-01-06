@@ -157,9 +157,9 @@ public class CompController {
 
 
         if (StringUtils.isBlank(regionId)) {//第一次加载
-            data.addAll(regionService.findAllTop());
+            data.addAll(regionService.findAllTopInNormal());
         } else {
-            data.addAll(regionService.findChildrenByRegionIdForTree(NumberUtils.toInt
+            data.addAll(regionService.findChildrenByRegionIdInNormal(NumberUtils.toInt
                     (regionId)));
         }
 
