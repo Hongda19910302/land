@@ -17,6 +17,26 @@
             addOrEditRegionDialog("EDIT","编辑区域");
         });
 
+        $("#regionIndexDelete").click(function () {
+
+            //判断是否有选择某个区域，如果未选择，则弹出提示框
+            var treeObj = $.fn.zTree.getZTreeObj("regionIndexTree");
+            var nodes = treeObj.getSelectedNodes();
+            if (!nodes || nodes.length == 0) {
+                alertMsg.warn("请先选择某个区域！");
+                return;
+            }
+
+           alertMsg.confirm("确定删除选定的区域？",{
+               okCall: function () {
+                   var currentNode = nodes[0];//当前选择的节点
+                   var currentRegionId = currentNode.regionId;//当前选择的区域ID
+                   $("#regionIndexFormCurrentRegionId").val(currentRegionId);
+                   $("#regionIndexForm").submit();
+               }
+           });
+        });
+
 
     });
 
@@ -99,6 +119,10 @@
     </div>
 </div>
 
+<form id="regionIndexForm" action="region/delete" onsubmit="return validateCallback(this,navTabAjaxDone)">
+    <input type="hidden" id="regionIndexFormCurrentRegionId" name="currentRegionId"/>
+</form>
+
 <div class="formBar">
     <ul>
         <li>
@@ -119,7 +143,7 @@
             </div>
             <div class="button">
                 <div class="buttonContent">
-                    <button type="button">删除</button>
+                    <button id="regionIndexDelete" type="button">删除</button>
                 </div>
             </div>
             <div class="button">

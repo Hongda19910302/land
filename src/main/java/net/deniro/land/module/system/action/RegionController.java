@@ -36,6 +36,28 @@ public class RegionController extends BaseController {
      */
     public static final String REGION_ID = MENU_TAB_PREFIX + "26";
 
+    @RequestMapping("/delete")
+    @ResponseBody
+    public AjaxResponse delete(Integer currentRegionId) {
+        if (currentRegionId == null) {
+            return new AjaxResponseError("操作失败");
+        }
+
+        TRegion region = regionService.findById(currentRegionId);
+        if (region.getRegionId() != null) {
+            region.setStatus(2);
+            boolean isOk = regionService.update(region);
+            if (isOk) {
+                List<String> navTabIds = new ArrayList<String>();
+                navTabIds.add(REGION_ID);
+                return getAjaxSuccess("删除成功", navTabIds);
+            } else {
+                return new AjaxResponseError("操作失败");
+            }
+        } else
+            return new AjaxResponseError("操作失败");
+    }
+
     /**
      * 新增或更新
      *

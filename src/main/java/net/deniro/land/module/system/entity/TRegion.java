@@ -89,7 +89,7 @@ public class TRegion implements Serializable {
     private String regionCode;
 
     /**
-     * 状态 0:正常 1:停用
+     * 状态 0:正常 1:停用 2:删除
      */
     @Column(name = "status", nullable = true, length = 10)
     private Integer status;

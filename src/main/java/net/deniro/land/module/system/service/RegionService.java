@@ -42,6 +42,22 @@ public class RegionService {
     }
 
     /**
+     * 删除行政区域
+     *
+     * @param region
+     * @return
+     */
+    public boolean delete(TRegion region) {
+        try {
+            regionDao.remove(region);
+            return true;
+        } catch (Exception e) {
+            logger.error("删除行政区域", e);
+            return false;
+        }
+    }
+
+    /**
      * 更新行政区域
      *
      * @param region
