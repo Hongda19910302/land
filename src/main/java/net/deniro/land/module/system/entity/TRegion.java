@@ -37,6 +37,12 @@ public class TRegion implements Serializable {
     @Transient
     private Integer currentRegionParentId;
 
+    /**
+     * 操作类型（新增同级区域、新增子区域）
+     */
+    @Transient
+    private String operateType;
+
 
     /**
      * 行政地区ID
@@ -138,4 +144,19 @@ public class TRegion implements Serializable {
     @Setter
     @Transient
     private String icon;
+
+    /**
+     * 操作类型
+     */
+    public enum OperateType {
+        /**
+         * 新增同级区域
+         */
+        ADD_BROTHER,
+
+        /**
+         * 新增子区域
+         */
+        ADD_CHILD
+    }
 }
