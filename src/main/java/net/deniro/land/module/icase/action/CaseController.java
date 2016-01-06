@@ -10,6 +10,7 @@ import net.deniro.land.common.utils.PropertiesReader;
 import net.deniro.land.common.utils.ftp.FtpUtils;
 import net.deniro.land.module.component.entity.FTPUploadFile;
 import net.deniro.land.module.component.entity.TreeQueryParam;
+import net.deniro.land.module.component.service.CompFormService;
 import net.deniro.land.module.icase.entity.*;
 import net.deniro.land.module.icase.entity.CaseParam.ModuleType;
 import net.deniro.land.module.icase.entity.TAttachmentRelation.RelationType;
@@ -606,7 +607,7 @@ public class CaseController extends BaseController {
             if (tCase.getLat() != null) {
                 tCase.setCoordinateLatitude(df.format(tCase.getLat()));
             }
-            mm.addAttribute("obj", tCase);
+            mm.addAttribute(CompFormService.OBJECT_NAME, tCase);
 
             mm.addAttribute("fileUploadId", tCase.getCaseId());//用于文件上传的ID
         } else {//新增

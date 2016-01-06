@@ -11,7 +11,9 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -25,11 +27,19 @@ public class CompFormService {
 
     static Logger logger = Logger.getLogger(CompFormService.class);
 
+    /**
+     * 传入表单模板的对象名称
+     */
+    public static final String OBJECT_NAME = "obj";
+
     @Autowired
     private CompFormDao compFormDao;
 
     @Autowired
     private VariableSelectRelation variableSelectRelation;
+
+    @Resource(name = "commonStatus")
+    private Map<String, String> commonStatus;
 
     /**
      * 查询 表单组件配置信息
@@ -50,6 +60,9 @@ public class CompFormService {
                     case SELECT://下拉选择框
                         switch (DataSetType.valueOf(item
                                 .getSelectListDataSetType())) {
+                            case COMMON_STATUS:
+                                item.setSelectListDataSet(commonStatus);
+                                break;
                         }
                         break;
                     case VARIABLE://可变字段

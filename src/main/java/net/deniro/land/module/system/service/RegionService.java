@@ -26,6 +26,22 @@ public class RegionService {
     private RegionDao regionDao;
 
     /**
+     * 新增行政区域
+     *
+     * @param region
+     * @return
+     */
+    public boolean add(TRegion region) {
+        try {
+            regionDao.save(region);
+            return true;
+        } catch (Exception e) {
+            logger.error("新增行政区域", e);
+            return false;
+        }
+    }
+
+    /**
      * 获取所有顶级行政区域（树型）
      *
      * @return

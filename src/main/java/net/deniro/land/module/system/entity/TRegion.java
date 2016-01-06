@@ -25,6 +25,18 @@ public class TRegion implements Serializable {
      */
     public static final String DEFAULT_REGION_CODE = "000000";
 
+    /**
+     * 当前选择的区域ID
+     */
+    @Transient
+    private Integer currentRegionId;
+
+    /**
+     * 当前选择的节点的父节点区域ID
+     */
+    @Transient
+    private Integer currentRegionParentId;
+
 
     /**
      * 行政地区ID
