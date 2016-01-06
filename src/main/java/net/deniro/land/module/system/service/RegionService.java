@@ -34,7 +34,7 @@ public class RegionService {
     public TRegion findById(Integer regionId) {
 
         try {
-            return regionDao.load(regionId);
+            return regionDao.get(regionId);
         } catch (Exception e) {
             logger.error(" 依据ID，获取区域对象", e);
             return new TRegion();

@@ -114,7 +114,13 @@
                                         <#if selectListDataSet?exists>
                                             <#list selectListDataSet?keys as key>
                                                 <option
-                                                        value="${key}">${selectListDataSet[key]}</option>
+                                                        value="${key}"
+
+                                                    <#if obj??&&obj[item.inputName]==key><#--展示字段值-->
+                                                        selected
+                                                    </#if>
+
+                                                        >${selectListDataSet[key]}</option>
                                             </#list>
                                         </#if>
                                     </select>

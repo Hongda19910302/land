@@ -91,9 +91,13 @@ public class RegionController extends BaseController {
             oldRegion.setDes(region.getDes());
             oldRegion.setRegionCode(region.getRegionCode());
             oldRegion.setStatus(region.getStatus());
-            regionService.update(oldRegion);
+            boolean isOk = regionService.update(oldRegion);
+            if (isOk) {
+                return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
+            } else {
+                return new AjaxResponseError("操作失败");
+            }
 
-            return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
         }
     }
 
