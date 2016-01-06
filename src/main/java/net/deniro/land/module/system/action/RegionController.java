@@ -50,6 +50,9 @@ public class RegionController extends BaseController {
             return new AjaxResponseError("操作失败");
         }
 
+        List<String> navTabIds = new ArrayList<String>();
+        navTabIds.add(REGION_ID);
+
         if (region.getRegionId() == null || region.getRegionId() == 0) {//新增
 
             OperateType operateType;
@@ -77,14 +80,20 @@ public class RegionController extends BaseController {
             boolean isOk = regionService.add(region);
 
             if (isOk) {
-                List<String> navTabIds = new ArrayList<String>();
-                navTabIds.add(REGION_ID);
                 return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
             } else
                 return new AjaxResponseError("操作失败");
 
         } else {//更新
-            return new AjaxResponseError("操作失败");
+            TRegion oldRegion = regionService.findById(region.getRegionId());
+            oldRegion.setName(region.getName());
+            oldRegion.setShortName(region.getShortName());
+            oldRegion.setDes(region.getDes());
+            oldRegion.setRegionCode(region.getRegionCode());
+            oldRegion.setStatus(region.getStatus());
+            regionService.update(oldRegion);
+
+            return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
         }
     }
 
@@ -106,7 +115,23 @@ public class RegionController extends BaseController {
                                  HttpSession
                                          session) {
 
+        OperateType type = null;
+        try {
+            type = OperateType.valueOf(operateType);
+        } catch (IllegalArgumentException e) {
+            logger.error("操作类型无法解析");
+        }
+
         TRegion region = new TRegion();
+        if (type != null) {
+            switch (type) {
+                case EDIT://编辑
+                    region = regionService.findById(currentRegionId);
+                    break;
+            }
+        }
+
+
         region.setCurrentRegionId(currentRegionId);
         region.setCurrentRegionParentId(currentRegionParentId);
         region.setOperateType(operateType);

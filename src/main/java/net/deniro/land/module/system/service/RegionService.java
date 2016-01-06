@@ -26,6 +26,38 @@ public class RegionService {
     private RegionDao regionDao;
 
     /**
+     * 依据ID，获取区域对象
+     *
+     * @param regionId
+     * @return
+     */
+    public TRegion findById(Integer regionId) {
+
+        try {
+            return regionDao.load(regionId);
+        } catch (Exception e) {
+            logger.error(" 依据ID，获取区域对象", e);
+            return new TRegion();
+        }
+    }
+
+    /**
+     * 更新行政区域
+     *
+     * @param region
+     * @return
+     */
+    public boolean update(TRegion region) {
+        try {
+            regionDao.update(region);
+            return true;
+        } catch (Exception e) {
+            logger.error("更新行政区域", e);
+            return false;
+        }
+    }
+
+    /**
      * 新增行政区域
      *
      * @param region

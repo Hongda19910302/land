@@ -6,18 +6,36 @@
 
 
         $("#regionIndexAddBrother").click(function () {
-            addOrEditRegionDialog("ADD_BROTHER");
+            addOrEditRegionDialog("ADD_BROTHER","新增同级区域");
         });
 
         $("#regionIndexAddChild").click(function () {
-            addOrEditRegionDialog("ADD_CHILD");
+            addOrEditRegionDialog("ADD_CHILD","新增子区域");
+        });
+
+        $("#regionIndexEdit").click(function () {
+            addOrEditRegionDialog("EDIT","编辑区域");
         });
 
 
     });
 
-    //新增或编辑区域对话框
-    function addOrEditRegionDialog(operateType) {
+    //是否已经选择了某个区域
+    function isSelectedRegion() {
+        var treeObj = $.fn.zTree.getZTreeObj("regionIndexTree");
+        var nodes = treeObj.getSelectedNodes();
+        if (!nodes || nodes.length == 0) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 新增或编辑区域对话框
+     * @param operateType 操作类型
+     * @param dialogName 对话框名称
+     */
+    function addOrEditRegionDialog(operateType,dialogName) {
         //判断是否有选择某个区域，如果未选择，则弹出提示框
         var treeObj = $.fn.zTree.getZTreeObj("regionIndexTree");
         var nodes = treeObj.getSelectedNodes();
@@ -37,9 +55,9 @@
 
         $.pdialog.open("region/addOrEditIndex?componentId=3&currentRegionId=" +
                 currentRegionId + "&currentRegionParentId=" +
-                currentRegionParentId+"&operateType="+operateType,
+                currentRegionParentId + "&operateType=" + operateType,
                 "regionIndexAddIndex",
-                "新增区域", {
+                dialogName, {
                     //高度
                     height: 500,
                     //宽度
@@ -96,7 +114,7 @@
             </div>
             <div class="button">
                 <div class="buttonContent">
-                    <button type="button">编辑</button>
+                    <button id="regionIndexEdit" type="button">编辑</button>
                 </div>
             </div>
             <div class="button">

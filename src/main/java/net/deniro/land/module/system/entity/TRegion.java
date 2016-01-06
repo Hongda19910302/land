@@ -157,6 +157,11 @@ public class TRegion implements Serializable {
         /**
          * 新增子区域
          */
-        ADD_CHILD
+        ADD_CHILD,
+
+        /**
+         * 编辑
+         */
+        EDIT
     }
 }
