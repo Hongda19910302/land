@@ -66,15 +66,23 @@ public class DepartmentController extends BaseController {
 
         switch (operateType) {
             case ADD_TOP://新增顶级部门
-                if (department.getCurrentCompanyId() == null) {
+                if (department.getCurrentCompanyId() == -1) {
                     return new AjaxResponseError("操作失败");
                 } else {
                     department.setCompanyId(department.getCurrentCompanyId());
-                    boolean isOk = departmentService.add(department);
-                    if (isOk) {
-                        return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
-                    } else
-                        return new AjaxResponseError("操作失败");
+                    return add(department, navTabIds);
+                }
+            case ADD_BROTHER://新增同级部门
+                if (department.getCurrentCompanyId() == -1 || department
+                        .getCurrentDepartmentId() == -1) {
+                    return new AjaxResponseError("操作失败");
+                } else {
+                    department.setCompanyId(department.getCurrentCompanyId());
+                    if (department.getCurrentDepartmentParentId() == -1) {//新增顶级部门
+                    } else {//其他
+                        department.setParentId(department.getCurrentDepartmentParentId());
+                    }
+                    return add(department, navTabIds);
                 }
             default:
                 return new AjaxResponseError("操作失败");
@@ -82,18 +90,38 @@ public class DepartmentController extends BaseController {
     }
 
     /**
+     * 新增部门
+     *
+     * @param department
+     * @param navTabIds
+     * @return
+     */
+    private AjaxResponse add(Department department, List<String> navTabIds) {
+        boolean isOk = departmentService.add(department);
+        if (isOk) {
+            return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
+        } else
+            return new AjaxResponseError("操作失败");
+    }
+
+
+    /**
      * 跳转至部门新建或编辑页
      *
      * @param componentId
-     * @param currentCompanyId 当前选择的单位ID
+     * @param currentCompanyId          当前选择的单位ID
+     * @param currentDepartmentId       当前选择的部门ID
+     * @param currentDepartmentParentId 当前选择的部门的父部门ID
      * @param operateType
      * @param mm
      * @param session
      * @return
      */
     @RequestMapping(value = "/addOrEditIndex")
-    public String addOrEditIndex(Integer componentId, Integer currentCompanyId, String
-            operateType,
+    public String addOrEditIndex(Integer componentId, Integer currentCompanyId, Integer
+            currentDepartmentId, Integer currentDepartmentParentId,
+                                 String
+                                         operateType,
                                  ModelMap mm,
                                  HttpSession
                                          session) {
@@ -102,6 +130,9 @@ public class DepartmentController extends BaseController {
 
         department.setOperateType(operateType);
         department.setCurrentCompanyId(currentCompanyId);
+        department.setCurrentDepartmentId(currentDepartmentId);
+        department.setCurrentDepartmentParentId(currentDepartmentParentId);
+
         mm.addAttribute(CompFormService.OBJECT_NAME, department);
 
         form(componentId, mm, session);

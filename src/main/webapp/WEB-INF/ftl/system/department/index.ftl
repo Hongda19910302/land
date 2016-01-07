@@ -8,42 +8,64 @@
 
         //【新增同级部门】按钮
         $("#addBorther${id}").click(function () {
-            var treeObj = $.fn.zTree.getZTreeObj("companyTree_${id}");
-            var nodes = treeObj.getSelectedNodes();
-            if (!nodes || nodes.length == 0) {
-                alertMsg.warn("请先选择某个单位！");
-
+            var currentCompanyId = findSelectedCompanyId();//当前选择的单位ID
+            if (currentCompanyId == -1) {
+                alertMsg.warn("请先选择单位！");
+                return;
             }
+
+            var currentDepartment = findSelectedDepartmentId();//当前选择的部门节点
+            if (currentDepartment == -1) {
+                alertMsg.warn("请先选择部门！");
+                return;
+            }
+            var currentDepartmentId = currentDepartment.departmentId;//当前选择的部门ID
+            var currentDepartmentParentId = currentDepartment.parentId;//当前选择的部门的父部门ID
+            if (!currentDepartmentParentId) {
+                currentDepartmentParentId = -1;
+            }
+
+            openAddOrEditDepartmentDialog("ADD_BROTHER", currentCompanyId,
+                    currentDepartmentId, currentDepartmentParentId);
         });
 
         //【新增顶级部门】按钮
         $("#addTop${id}").click(function () {
             var currentCompanyId = findSelectedCompanyId();//当前选择的单位ID
-            if(currentCompanyId==-1){
+            if (currentCompanyId == -1) {
                 alertMsg.warn("请先选择单位！");
                 return;
             }
-
-            var operateType = "ADD_TOP";//操作类型
-
-            openAddOrEditDepartmentDialog(operateType, currentCompanyId);
+            openAddOrEditDepartmentDialog("ADD_TOP", currentCompanyId, -1, -1);
 
         });
     });
 
-    //查找已选择的单位ID
-    function findSelectedCompanyId(){
+    //查找已选择的部门ID，返回选中的节点
+    function findSelectedDepartmentId() {
+        var treeObj = $.fn.zTree.getZTreeObj("departmentTree_${id}");
+        var nodes = treeObj.getSelectedNodes();
+        if (!nodes || nodes.length == 0) {
+            return -1;
+        } else {
+            return nodes[0];
+        }
+    }
+
+    //查找已选择的单位ID，返回单位ID
+    function findSelectedCompanyId() {
         var treeObj = $.fn.zTree.getZTreeObj("companyTree_${id}");
         var nodes = treeObj.getSelectedNodes();
         if (!nodes || nodes.length == 0) {
             return -1;
-        }else{
+        } else {
             return nodes[0].companyId;
         }
     }
 
     //打开新建或编辑部门对话框
-    function openAddOrEditDepartmentDialog(operateType, currentCompanyId) {
+    function openAddOrEditDepartmentDialog(operateType, currentCompanyId,
+                                           currentDepartmentId, currentDepartmentParentId) {
         var dialogName = "";//对话框名称
         switch (operateType) {
             case "ADD_TOP":
@@ -61,7 +83,10 @@
         }
 
         $.pdialog.open("department/addOrEditIndex?componentId=5&currentCompanyId=" +
-                currentCompanyId + "&operateType=" + operateType,
+                currentCompanyId +
+                "&currentDepartmentId=" + currentDepartmentId +
+                "&currentDepartmentParentId=" + currentDepartmentParentId + "&operateType=" +
+                operateType,
                 "addOrEditDepartmentIndex",
                 dialogName, {
                     //高度

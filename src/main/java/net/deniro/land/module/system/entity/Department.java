@@ -159,6 +159,22 @@ public class Department implements Serializable {
     private Integer currentCompanyId;
 
     /**
+     * 当前选择的部门ID
+     */
+    @Getter
+    @Setter
+    @Transient
+    private Integer currentDepartmentId;
+
+    /**
+     * 当前选择的部门的父部门ID
+     */
+    @Getter
+    @Setter
+    @Transient
+    private Integer currentDepartmentParentId;
+
+    /**
      * 操作类型
      */
     @Getter
