@@ -61,6 +61,12 @@ public class Company implements Serializable {
     private Integer regionId;
 
     /**
+     * 关联的区域名称
+     */
+    @Transient
+    private String regionName;
+
+    /**
      * 上级单位
      */
     @Setter

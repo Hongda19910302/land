@@ -2,9 +2,11 @@ package net.deniro.land.module.system.service;
 
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.module.system.dao.CompanyDao;
+import net.deniro.land.module.system.dao.RegionDao;
 import net.deniro.land.module.system.dao.RegionRelationDao;
 import net.deniro.land.module.system.entity.Company;
 import net.deniro.land.module.system.entity.CompanyQueryParam;
+import net.deniro.land.module.system.entity.TRegion;
 import net.deniro.land.module.system.entity.TRegionRelation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,9 @@ public class CompanyService {
     @Autowired
     private RegionRelationDao regionRelationDao;
 
+    @Autowired
+    private RegionDao regionDao;
+
     /**
      * 更新单位
      *
@@ -38,10 +43,59 @@ public class CompanyService {
     public boolean update(Company company) {
         try {
             companyDao.update(company);
+
+            if (company.getRegionId() != null) {
+                regionRelationDao.deleteAllByCompanyId(company.getCompanyId());
+                addRegionRelation(company);
+            }
+
             return true;
         } catch (Exception e) {
             logger.error("更新单位", e);
             return false;
+        }
+    }
+
+    /**
+     * 新增区域映射关系
+     *
+     * @param company
+     */
+    private void addRegionRelation(Company company) {
+        TRegionRelation relation = new TRegionRelation();
+        relation.setRegionId(company.getRegionId());
+        relation.setRelationId(company.getCompanyId());
+        relation.setRelationType(TRegionRelation.RelationType.COMPANY.code());
+        regionRelationDao.save(relation);
+    }
+
+    /**
+     * 依据ID，获取单位对象
+     *
+     * @param companyId
+     * @return
+     */
+    public Company findById(Integer companyId) {
+
+        try {
+            Company company = companyDao.get(companyId);
+
+            //获取关联的区域信息
+            List<TRegionRelation> relations = regionRelationDao.findByCompanyId(companyId);
+            if (relations != null && !relations.isEmpty()) {
+                TRegionRelation relation = relations.get(0);
+                company.setRegionId(relation.getRegionId());
+
+                TRegion region = regionDao.get(relation.getRegionId());
+                if (region != null) {
+                    company.setRegionName(region.getName());
+                }
+            }
+
+            return company;
+        } catch (Exception e) {
+            logger.error(" 依据ID，获取单位对象", e);
+            return new Company();
         }
     }
 
@@ -56,11 +110,7 @@ public class CompanyService {
             companyDao.save(company);
 
             if (company.getRegionId() != null) {//创建关联区域关系
-                TRegionRelation relation = new TRegionRelation();
-                relation.setRegionId(company.getRegionId());
-                relation.setRelationId(company.getCompanyId());
-                relation.setRelationType(TRegionRelation.RelationType.COMPANY.code());
-                regionRelationDao.save(relation);
+                addRegionRelation(company);
             }
 
             return true;

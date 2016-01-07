@@ -2,6 +2,7 @@ package net.deniro.land.module.system.action;
 
 import net.deniro.land.common.dwz.AjaxResponse;
 import net.deniro.land.common.dwz.AjaxResponseError;
+import net.deniro.land.module.component.service.CompFormService;
 import net.deniro.land.module.system.entity.Company;
 import net.deniro.land.module.system.entity.CompanyQueryParam;
 import net.deniro.land.module.system.service.CompanyService;
@@ -50,17 +51,21 @@ public class CompanyController extends BaseController {
             return new AjaxResponseError("操作失败");
         }
 
+        List<String> navTabIds = new ArrayList<String>();
+        navTabIds.add(COMPANY_ID);
+
         if (company.getCompanyId() == null || company.getCompanyId() == 0) {//新增
             boolean isOk = companyService.add(company);
             if (isOk) {
-                List<String> navTabIds = new ArrayList<String>();
-                navTabIds.add(COMPANY_ID);
-
                 return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
             } else
                 return new AjaxResponseError("操作失败");
         } else {//编辑
-            return new AjaxResponseError("操作失败");
+            boolean isOk = companyService.update(company);
+            if (isOk) {
+                return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
+            } else
+                return new AjaxResponseError("操作失败");
         }
     }
 
@@ -68,12 +73,19 @@ public class CompanyController extends BaseController {
      * 跳转至新增或编辑页面
      *
      * @param componentId
+     * @param companyId   单位ID
      * @param mm
      * @param session
      * @return
      */
     @RequestMapping(value = "/addOrEditIndex")
-    public String addOrEditIndex(Integer componentId, ModelMap mm, HttpSession session) {
+    public String addOrEditIndex(Integer componentId, Integer companyId, ModelMap mm,
+                                 HttpSession session) {
+
+        if (companyId != null) {//编辑
+            Company company = companyService.findById(companyId);
+            mm.addAttribute(CompFormService.OBJECT_NAME, company);
+        }
 
         form(componentId, mm, session);
         return COMPONENT_FORM_URL;
