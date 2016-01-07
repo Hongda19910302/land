@@ -44,12 +44,6 @@ public class TRegionRelation implements Serializable {
     private Integer regionId;
 
     /**
-     * 行政地区级别
-     */
-    @Column(name = "REGION_LEVEL", nullable = true, length = 2)
-    private Integer regionLevel;
-
-    /**
      * 关联类型
      */
     public enum RelationType {

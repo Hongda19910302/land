@@ -2,8 +2,10 @@ package net.deniro.land.module.system.service;
 
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.module.system.dao.CompanyDao;
+import net.deniro.land.module.system.dao.RegionRelationDao;
 import net.deniro.land.module.system.entity.Company;
 import net.deniro.land.module.system.entity.CompanyQueryParam;
+import net.deniro.land.module.system.entity.TRegionRelation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,50 @@ public class CompanyService {
 
     @Autowired
     private CompanyDao companyDao;
+
+    @Autowired
+    private RegionRelationDao regionRelationDao;
+
+    /**
+     * 更新单位
+     *
+     * @param company
+     * @return
+     */
+    public boolean update(Company company) {
+        try {
+            companyDao.update(company);
+            return true;
+        } catch (Exception e) {
+            logger.error("更新单位", e);
+            return false;
+        }
+    }
+
+    /**
+     * 新增单位
+     *
+     * @param company
+     * @return
+     */
+    public boolean add(Company company) {
+        try {
+            companyDao.save(company);
+
+            if (company.getRegionId() != null) {//创建关联区域关系
+                TRegionRelation relation = new TRegionRelation();
+                relation.setRegionId(company.getRegionId());
+                relation.setRelationId(company.getCompanyId());
+                relation.setRelationType(TRegionRelation.RelationType.COMPANY.code());
+                regionRelationDao.save(relation);
+            }
+
+            return true;
+        } catch (Exception e) {
+            logger.error("新增单位", e);
+            return false;
+        }
+    }
 
     /**
      * 分页查询

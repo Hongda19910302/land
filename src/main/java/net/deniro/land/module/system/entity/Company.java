@@ -55,6 +55,12 @@ public class Company implements Serializable {
     private Integer status;
 
     /**
+     * 关联的区域ID
+     */
+    @Transient
+    private Integer regionId;
+
+    /**
      * 上级单位
      */
     @Setter
