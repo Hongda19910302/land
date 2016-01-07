@@ -24,7 +24,7 @@
 
     <#--处理隐藏的表单字段-->
     <#list hiddenFormFields as field>
-        var $hidden=$("#${field.fieldName}_${componentId}");
+        var $hidden = $("#${field.fieldName}_${componentId}");
         $hidden.val("${queryParam[field.fieldName]!""}");
         console.log("${queryParam[field.fieldName]!""}");
     </#list>
@@ -280,12 +280,12 @@
                     <input name="companyId" id="companyId_${componentId}" value=""
                            type="hidden" class="special"/>
                         <span><input class="lookupCompanyRegionBtnCompanyName"
-                                name="companyName" id="companyName_${componentId}"
+                                     name="companyName" id="companyName_${componentId}"
                                      type="text" readonly></span>
                     <span class="lookupCompanyRegionBtnRegionTag">所属区域：</span>
                     <input name="regionId" id="regionId_${componentId}" value=""
                            type="hidden" class="special"/>
-                        <span >
+                        <span>
                             <input class="lookupCompanyRegionBtnRegionName"
                                    name="regionName" id="regionName_${componentId}"
                                    type="text"
@@ -410,30 +410,38 @@
             <#list toolBtns as toolBtn>
                 var $toolBarBtn = $("#${toolBtn.btnClassName}_${toolBtn.id}");
                 $toolBarBtn.live("click", function (event) {
-                    var $tbody = $("#table_tbody_${componentId}");
-                    if ($tbody.length == 0) {//没有数据，提示
-                        alertMsg.warn("没有数据，无需处理！");
-                        event.preventDefault();
-                        return;
-                    }
 
-                    var $select = $tbody.find(".selected");
-                    if ($select.length == 0) {//未选择某条记录，提示
-                        alertMsg.warn("请先选择某条记录！");
-                        event.preventDefault();
-                        return;
-                    }
+                    var url = "${toolBtn.url}";//action
+                    var containId = "${toolBtn.id}";//容器ID
+                    var containTitle = "${toolBtn.tabName}";//容器标题
 
-                    //console.log($select.attr("rel"));
-                    var selectedId = $select.attr("rel");//已选择的记录ID
-                    var url = "${toolBtn.url}" + selectedId;
-                    var containId = "${toolBtn.id}" + selectedId;//容器ID
-                    var containTitle = "${toolBtn.tabName} (" + selectedId + ")";//容器标题
+                    if ("${toolBtn.btnClassName}" === "add") {//新增操作
+                    } else {//其他操作，需判断是否已经选择了某条记录
+                        var $tbody = $("#table_tbody_${componentId}");
+                        if ($tbody.length == 0) {//没有数据，提示
+                            alertMsg.warn("没有数据，无需处理！");
+                            event.preventDefault();
+                            return;
+                        }
+
+                        var $select = $tbody.find(".selected");
+                        if ($select.length == 0) {//未选择某条记录，提示
+                            alertMsg.warn("请先选择某条记录！");
+                            event.preventDefault();
+                            return;
+                        }
+
+                        //console.log($select.attr("rel"));
+                        var selectedId = $select.attr("rel");//已选择的记录ID
+                        url += selectedId;
+                        containId += selectedId;
+                        containTitle += "(" + selectedId + ")";
+                    }
 
                     <#switch toolBtn.openType>
                         <#case "TAB">
                             //打开新页签
-                            console.log("containTitle:"+containTitle);
+                            console.log("containTitle:" + containTitle);
                             navTab.openTab(containId, url, {
                                 title: containTitle, fresh: ${toolBtn.isFresh}
                             });
@@ -441,10 +449,10 @@
 
                         <#case "CONFIRM">
                             //打开确认框
-                            alertMsg.confirm("${toolBtn.confirmTip}",{
-                               okCall:function(){
-                                   $.post(url,null,DWZ.ajaxDone,"json");
-                               }
+                            alertMsg.confirm("${toolBtn.confirmTip}", {
+                                okCall: function () {
+                                    $.post(url, null, DWZ.ajaxDone, "json");
+                                }
                             });
 
                             <#break>
