@@ -36,6 +36,11 @@ public class RegionController extends BaseController {
      */
     public static final String REGION_ID = MENU_TAB_PREFIX + "26";
 
+    /**
+     * 假删除
+     * @param currentRegionId
+     * @return
+     */
     @RequestMapping("/delete")
     @ResponseBody
     public AjaxResponse delete(Integer currentRegionId) {

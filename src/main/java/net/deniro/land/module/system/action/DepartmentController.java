@@ -39,6 +39,34 @@ public class DepartmentController extends BaseController {
     public static final String DEPARTMENT_ID = MENU_TAB_PREFIX + "25";
 
     /**
+     * 假删除
+     *
+     * @param currentDepartmentId
+     * @return
+     */
+    @RequestMapping("/fakeDelete")
+    @ResponseBody
+    public AjaxResponse delete(Integer currentDepartmentId) {
+        if (currentDepartmentId == null) {
+            return new AjaxResponseError("操作失败");
+        }
+
+        Department department = departmentService.findById(currentDepartmentId);
+        if (department.getDepartmentId() != null) {
+            department.setStatus(2);
+            boolean isOk = departmentService.update(department);
+            if (isOk) {
+                List<String> navTabIds = new ArrayList<String>();
+                navTabIds.add(DEPARTMENT_ID);
+                return getAjaxSuccess("删除成功", navTabIds);
+            } else {
+                return new AjaxResponseError("操作失败");
+            }
+        } else
+            return new AjaxResponseError("操作失败");
+    }
+
+    /**
      * 新增或更新
      *
      * @param department

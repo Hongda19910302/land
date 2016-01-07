@@ -6,6 +6,25 @@
         //初始化单位树
         initCompanyTree();
 
+        //【删除部门】按钮
+        $("#delete${id}").click(function () {
+            var currentDepartment = findSelectedDepartmentId();//当前选择的部门节点
+            if (currentDepartment && currentDepartment == -1) {
+                alertMsg.warn("请先选择部门！");
+                return;
+            }
+
+            var currentDepartmentId = currentDepartment.departmentId;//当前选择的部门ID
+
+            alertMsg.confirm("确定删除选定的部门？", {
+                okCall: function () {
+                    $("#departmentIndexFormCurrentDepartmentId").val(currentDepartmentId);
+                    $("#departmentIndexForm").submit();
+                }
+            });
+
+        });
+
         //【编辑部门】按钮
         $("#edit${id}").click(function () {
             var currentCompanyId = findSelectedCompanyId();//当前选择的单位ID
@@ -193,6 +212,12 @@
         </div>
     </div>
 </div>
+
+<form id="departmentIndexForm" action="department/fakeDelete" onsubmit="return validateCallback
+(this,navTabAjaxDone)">
+    <input type="hidden" id="departmentIndexFormCurrentDepartmentId"
+           name="currentDepartmentId"/>
+</form>
 
 <div class="formBar dialogBtnRow">
     <ul>
