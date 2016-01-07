@@ -6,6 +6,27 @@
         //初始化单位树
         initCompanyTree();
 
+        //【编辑部门】按钮
+        $("#edit${id}").click(function () {
+            var currentCompanyId = findSelectedCompanyId();//当前选择的单位ID
+            if (currentCompanyId == -1) {
+                alertMsg.warn("请先选择单位！");
+                return;
+            }
+
+            var currentDepartment = findSelectedDepartmentId();//当前选择的部门节点
+            if (currentDepartment == -1) {
+                alertMsg.warn("请先选择部门！");
+                return;
+            }
+
+            var currentDepartmentId = currentDepartment.departmentId;//当前选择的部门ID
+
+            openAddOrEditDepartmentDialog("EDIT", currentCompanyId,
+                    currentDepartmentId, -1);
+
+        });
+
         //【新增子级部门】按钮
         $("#addChild${id}").click(function () {
             openAddBrotherOrChildDepartmentDialog("ADD_CHILD");

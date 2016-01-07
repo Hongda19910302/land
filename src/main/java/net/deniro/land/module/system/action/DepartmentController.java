@@ -95,7 +95,16 @@ public class DepartmentController extends BaseController {
                         return add(department, navTabIds);
                     }
                 }
-
+            case EDIT://编辑
+                Department newDepartment = departmentService.findById(department
+                        .getCurrentDepartmentId());
+                newDepartment.setName(department.getName());
+                newDepartment.setStatus(department.getStatus());
+                boolean isOk = departmentService.update(newDepartment);
+                if (isOk) {
+                    return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
+                } else
+                    return new AjaxResponseError("操作失败");
             default:
                 return new AjaxResponseError("操作失败");
         }
@@ -139,6 +148,22 @@ public class DepartmentController extends BaseController {
                                          session) {
 
         Department department = new Department();
+
+        //解析操作类型
+        OperateType type = null;
+        try {
+            type = OperateType.valueOf(operateType);
+        } catch (IllegalArgumentException e) {
+            logger.error("操作类型无法解析");
+        }
+        if (type != null) {
+            switch (type) {
+                case EDIT://编辑
+                    department = departmentService.findById(currentDepartmentId);
+                    break;
+            }
+        }
+
 
         department.setOperateType(operateType);
         department.setCurrentCompanyId(currentCompanyId);

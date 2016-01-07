@@ -27,6 +27,37 @@ public class DepartmentService {
     private DepartmentDao departmentDao;
 
     /**
+     * 依据ID，获取部门信息
+     *
+     * @param departmentId
+     * @return
+     */
+    public Department findById(Integer departmentId) {
+        try {
+            return departmentDao.get(departmentId);
+        } catch (Exception e) {
+            logger.error("依据ID，获取部门信息", e);
+            return new Department();
+        }
+    }
+
+    /**
+     * 更新部门
+     *
+     * @param department
+     * @return
+     */
+    public boolean update(Department department) {
+        try {
+            departmentDao.update(department);
+            return true;
+        } catch (Exception e) {
+            logger.error("更新部门", e);
+            return false;
+        }
+    }
+
+    /**
      * 新增部门
      *
      * @param department
