@@ -200,7 +200,7 @@
                                                  value="${obj[item.inputName+"Name"]}"
                                         </#if>
                                             ></span>
-                                        <a class="btnLook"
+                                        <a class="btnLook formBtnLook"
                                            href="/comp/lookupRegion?componentId=${componentId}"
                                            target="dialog"
                                         <#--rel:标识此弹出层ID-->

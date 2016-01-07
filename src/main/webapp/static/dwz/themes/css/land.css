@@ -1,3 +1,9 @@
+/*表单组件*/
+.formBtnLook {
+    position: relative;
+    left: 300px;
+}
+
 /*行政区域管理*/
 .regionTree {
     margin-top: 10px;
