@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +35,30 @@ public class CompanyController extends BaseController {
      * 【单位管理】页签
      */
     public static final String COMPANY_ID = MENU_TAB_PREFIX + "24";
+
+    /**
+     * 假删除（改为删除状态）
+     *
+     * @param companyId 单位ID
+     * @return
+     */
+    @RequestMapping(value = "/fakeDelete")
+    @ResponseBody
+    public AjaxResponse fakeDelete(Integer companyId) {
+        if (companyId == null) {
+            return new AjaxResponseError("操作失败");
+        }
+
+        Company company = companyService.findById(companyId);
+        company.setStatus(2);//删除状态
+        boolean isOk = companyService.update(company);
+        if (isOk) {
+            List<String> navTabIds = new ArrayList<String>();
+            navTabIds.add(COMPANY_ID);
+            return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
+        } else
+            return new AjaxResponseError("操作失败");
+    }
 
     /**
      * 新增或编辑
