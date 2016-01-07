@@ -73,8 +73,7 @@ public class DepartmentController extends BaseController {
                     return add(department, navTabIds);
                 }
             case ADD_BROTHER://新增同级部门
-                if (department.getCurrentCompanyId() == -1 || department
-                        .getCurrentDepartmentId() == -1) {
+                if (department.getCurrentCompanyId() == -1) {
                     return new AjaxResponseError("操作失败");
                 } else {
                     department.setCompanyId(department.getCurrentCompanyId());
@@ -84,6 +83,19 @@ public class DepartmentController extends BaseController {
                     }
                     return add(department, navTabIds);
                 }
+            case ADD_CHILD://新增子级部门
+                if (department.getCurrentCompanyId() == -1) {
+                    return new AjaxResponseError("操作失败");
+                } else {
+                    department.setCompanyId(department.getCurrentCompanyId());
+                    if (department.getCurrentDepartmentId() == -1) {
+                        return new AjaxResponseError("操作失败");
+                    } else {
+                        department.setParentId(department.getCurrentDepartmentId());
+                        return add(department, navTabIds);
+                    }
+                }
+
             default:
                 return new AjaxResponseError("操作失败");
         }

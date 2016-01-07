@@ -6,27 +6,14 @@
         //初始化单位树
         initCompanyTree();
 
+        //【新增子级部门】按钮
+        $("#addChild${id}").click(function () {
+            openAddBrotherOrChildDepartmentDialog("ADD_CHILD");
+        });
+
         //【新增同级部门】按钮
         $("#addBorther${id}").click(function () {
-            var currentCompanyId = findSelectedCompanyId();//当前选择的单位ID
-            if (currentCompanyId == -1) {
-                alertMsg.warn("请先选择单位！");
-                return;
-            }
-
-            var currentDepartment = findSelectedDepartmentId();//当前选择的部门节点
-            if (currentDepartment == -1) {
-                alertMsg.warn("请先选择部门！");
-                return;
-            }
-            var currentDepartmentId = currentDepartment.departmentId;//当前选择的部门ID
-            var currentDepartmentParentId = currentDepartment.parentId;//当前选择的部门的父部门ID
-            if (!currentDepartmentParentId) {
-                currentDepartmentParentId = -1;
-            }
-
-            openAddOrEditDepartmentDialog("ADD_BROTHER", currentCompanyId,
-                    currentDepartmentId, currentDepartmentParentId);
+            openAddBrotherOrChildDepartmentDialog("ADD_BROTHER");
         });
 
         //【新增顶级部门】按钮
@@ -40,6 +27,29 @@
 
         });
     });
+
+    //打开新增同级或子部门对话框
+    function openAddBrotherOrChildDepartmentDialog(operateType) {
+        var currentCompanyId = findSelectedCompanyId();//当前选择的单位ID
+        if (currentCompanyId == -1) {
+            alertMsg.warn("请先选择单位！");
+            return;
+        }
+
+        var currentDepartment = findSelectedDepartmentId();//当前选择的部门节点
+        if (currentDepartment == -1) {
+            alertMsg.warn("请先选择部门！");
+            return;
+        }
+        var currentDepartmentId = currentDepartment.departmentId;//当前选择的部门ID
+        var currentDepartmentParentId = currentDepartment.parentId;//当前选择的部门的父部门ID
+        if (!currentDepartmentParentId) {
+            currentDepartmentParentId = -1;
+        }
+
+        openAddOrEditDepartmentDialog(operateType, currentCompanyId,
+                currentDepartmentId, currentDepartmentParentId);
+    }
 
     //查找已选择的部门ID，返回选中的节点
     function findSelectedDepartmentId() {
