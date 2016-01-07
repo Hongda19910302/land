@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * 单位
  *
@@ -19,6 +21,20 @@ public class CompanyController extends BaseController {
 
     @Autowired
     private CompanyService companyService;
+
+    /**
+     * 跳转至新增或编辑页面
+     * @param componentId
+     * @param mm
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/addOrEditIndex")
+    public String addOrEditIndex(Integer componentId, ModelMap mm, HttpSession session) {
+
+        form(componentId, mm, session);
+        return COMPONENT_FORM_URL;
+    }
 
     /**
      * 跳转至单位管理主界面
