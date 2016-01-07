@@ -22,9 +22,19 @@ public class DepartmentController extends BaseController {
 
     /**
      * 跳转至部门管理主界面
+     * @return
+     */
+    @RequestMapping(value = "/index2")
+    public String index2(){
+        return "system/department/index";
+    }
+
+    /**
+     * 跳转至部门管理主界面
      *
      * @return
      */
+    @Deprecated
     @RequestMapping(value = "/index")
     public String index(DepartmentQueryParam queryParam, ModelMap mm) {
         super.pageSearch(mm, departmentService.findPage(queryParam), queryParam, "department/index");

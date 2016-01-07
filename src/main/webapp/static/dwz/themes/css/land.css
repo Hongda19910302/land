@@ -7,7 +7,7 @@
 /*行政区域管理*/
 .regionTree {
     margin-top: 10px;
-    border: 1px solid #617775;
+    border: 1px solid #b8d0d6;
     background: #f0f6e4;
     width: auto;
     height: 97%;
@@ -360,6 +360,45 @@
 
 .lookupTree div > ul {
     height: 100%;
+    overflow: auto;
+    margin: 2px;
+}
+
+/*部门管理页*/
+.departmentManagementTree {
+    position: relative;
+    padding: 5px 5px;
+}
+
+.departmentManagementTree > div {
+    border: 1px solid #B8D0D6;
+    position: absolute;
+    padding: 10px;
+    width: 261px;
+    background: #f0f6e4;
+
+}
+
+.departmentManagementTree > div:first-child {
+    left: 5px;
+}
+
+.departmentManagementTree > div:last-child {
+    left: 293px;
+    width: 78%;
+}
+
+.departmentManagementTree div > span:first-child {
+    overflow: hidden;
+    height: 14px;
+    padding: 2px 5px 2px 20px;
+    line-height: 14px;
+    background: url("../default/images/dialog/chart_organisation.png") no-repeat;
+    font-weight: bold;
+}
+
+.departmentManagementTree div > ul {
+    height: 518px;
     overflow: auto;
     margin: 2px;
 }
