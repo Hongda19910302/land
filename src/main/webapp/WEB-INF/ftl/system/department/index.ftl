@@ -6,44 +6,76 @@
         //初始化单位树
         initCompanyTree();
 
-        $("#addCompanyDepartment${id}").click(function () {
-
+        //【新增同级部门】按钮
+        $("#addBorther${id}").click(function () {
             var treeObj = $.fn.zTree.getZTreeObj("companyTree_${id}");
             var nodes = treeObj.getSelectedNodes();
             if (!nodes || nodes.length == 0) {
                 alertMsg.warn("请先选择某个单位！");
+
+            }
+        });
+
+        //【新增顶级部门】按钮
+        $("#addTop${id}").click(function () {
+            var currentCompanyId = findSelectedCompanyId();//当前选择的单位ID
+            if(currentCompanyId==-1){
+                alertMsg.warn("请先选择单位！");
                 return;
             }
 
-            var currentNode = nodes[0];//当前选择的节点
-            var currentCompanyId = currentNode.companyId;//当前选择的单位ID
-
             var operateType = "ADD_TOP";//操作类型
-            var dialogName = "";//对话框名称
-            switch (operateType) {
-                case "ADD_TOP":
-                    dialogName = "新建顶级部门";
-                    break;
-            }
 
+            openAddOrEditDepartmentDialog(operateType, currentCompanyId);
 
-            $.pdialog.open("department/addOrEditIndex?componentId=5&currentCompanyId=" +
-                    currentCompanyId + "&operateType=" + operateType,
-                    "addOrEditDepartmentIndex",
-                    dialogName, {
-                        //高度
-                        height: 500,
-                        //宽度
-                        width: 800,
-                        //是否使用遮罩
-                        mask: true,
-                        //是否可拖拉
-                        drawable: true,
-                        //是否有【最大化】功能
-                        maxable: true
-                    });
         });
     });
+
+    //查找已选择的单位ID
+    function findSelectedCompanyId(){
+        var treeObj = $.fn.zTree.getZTreeObj("companyTree_${id}");
+        var nodes = treeObj.getSelectedNodes();
+        if (!nodes || nodes.length == 0) {
+            return -1;
+        }else{
+            return nodes[0].companyId;
+        }
+    }
+
+    //打开新建或编辑部门对话框
+    function openAddOrEditDepartmentDialog(operateType, currentCompanyId) {
+        var dialogName = "";//对话框名称
+        switch (operateType) {
+            case "ADD_TOP":
+                dialogName = "新建顶级部门";
+                break;
+            case "ADD_BROTHER":
+                dialogName = "新增同级部门";
+                break;
+            case "ADD_CHILD":
+                dialogName = "新增子部门";
+                break;
+            case "EDIT":
+                dialogName = "编辑";
+                break;
+        }
+
+        $.pdialog.open("department/addOrEditIndex?componentId=5&currentCompanyId=" +
+                currentCompanyId + "&operateType=" + operateType,
+                "addOrEditDepartmentIndex",
+                dialogName, {
+                    //高度
+                    height: 500,
+                    //宽度
+                    width: 800,
+                    //是否使用遮罩
+                    mask: true,
+                    //是否可拖拉
+                    drawable: true,
+                    //是否有【最大化】功能
+                    maxable: true
+                });
+    }
 
     /**
      * 初始化部门树
@@ -114,29 +146,29 @@
         <li>
             <div class="button">
                 <div class="buttonContent">
-                    <button id="addCompanyDepartment${id}"
+                    <button id="addTop${id}"
                             type="button">新增顶级部门
                     </button>
                 </div>
             </div>
             <div class="button">
                 <div class="buttonContent">
-                    <button type="button">新增同级部门</button>
+                    <button id="addBorther${id}" type="button">新增同级部门</button>
                 </div>
             </div>
             <div class="button">
                 <div class="buttonContent">
-                    <button type="button">新增子部门</button>
+                    <button id="addChild${id}" type="button">新增子部门</button>
                 </div>
             </div>
             <div class="button">
                 <div class="buttonContent">
-                    <button type="button">编辑</button>
+                    <button id="edit${id}" type="button">编辑</button>
                 </div>
             </div>
             <div class="button">
                 <div class="buttonContent">
-                    <button type="button">删除</button>
+                    <button id="delete${id}" type="button">删除</button>
                 </div>
             </div>
             <div class="button">
