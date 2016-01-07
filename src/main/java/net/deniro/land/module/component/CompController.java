@@ -118,6 +118,7 @@ public class CompController {
     @RequestMapping(value = "/lookupRegion")
     public String lookupRegion(String componentId, ModelMap mm) {
         mm.addAttribute("componentId", componentId);
+
         return "/component/lookup-region";
     }
 
@@ -180,17 +181,27 @@ public class CompController {
 
         List<TRegion> data = new ArrayList<TRegion>();
 
-
-        if (StringUtils.isBlank(regionId)) {//第一次加载，获取当前登录用户归属公司的所在区域
-            User user = (User) session.getAttribute(UserService.USER_CODE);
-            if (user == null) {
-                return data;
-            }
-            data.addAll(regionService.findByCompanyIdForTree(user.getCompanyId()));
-        } else {
-            data.addAll(regionService.findChildrenByRegionIdForTree(NumberUtils.toInt
-                    (regionId)));
+        User user = (User) session.getAttribute(UserService.USER_CODE);
+        if (user == null) {
+            return data;
         }
+
+        if (user.isSuperAdmin()) {//超级管理员，可查看所有正常状态的区域信息
+            if (StringUtils.isBlank(regionId)) {//第一次加载
+                data.addAll(regionService.findAllTopInNormal());
+            } else {
+                data.addAll(regionService.findChildrenByRegionIdInNormal(NumberUtils.toInt
+                        (regionId)));
+            }
+        } else {
+            if (StringUtils.isBlank(regionId)) {//第一次加载，获取当前登录用户归属公司的所在区域
+                data.addAll(regionService.findByCompanyIdForTree(user.getCompanyId()));
+            } else {
+                data.addAll(regionService.findChildrenByRegionIdForTree(NumberUtils.toInt
+                        (regionId)));
+            }
+        }
+
 
         return data;
     }

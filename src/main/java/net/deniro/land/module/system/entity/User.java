@@ -278,6 +278,15 @@ public class User implements Serializable {
     }
 
     /**
+     * 是否是超级管理员
+     *
+     * @return
+     */
+    public boolean isSuperAdmin() {
+        return this.userId != null && this.userId == 1;
+    }
+
+    /**
      * 登录来源
      */
     public enum LoginSource {
