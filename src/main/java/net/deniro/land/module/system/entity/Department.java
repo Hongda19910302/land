@@ -1,6 +1,5 @@
 package net.deniro.land.module.system.entity;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -91,7 +90,6 @@ public class Department implements Serializable {
     private String icon;
 
 
-
     /**
      * 部门
      */
@@ -152,4 +150,43 @@ public class Department implements Serializable {
         }
     }
 
+    /**
+     * 当前选择的单位ID
+     */
+    @Getter
+    @Setter
+    @Transient
+    private Integer currentCompanyId;
+
+    /**
+     * 操作类型
+     */
+    @Getter
+    @Setter
+    @Transient
+    private String operateType;
+
+    /**
+     * 操作类型
+     */
+    public enum OperateType {
+        /**
+         * 新增顶级部门
+         */
+        ADD_TOP,
+        /**
+         * 新增同级部门
+         */
+        ADD_BROTHER,
+
+        /**
+         * 新增子部门
+         */
+        ADD_CHILD,
+
+        /**
+         * 编辑
+         */
+        EDIT
+    }
 }

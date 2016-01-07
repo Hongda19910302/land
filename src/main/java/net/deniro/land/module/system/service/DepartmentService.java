@@ -27,6 +27,22 @@ public class DepartmentService {
     private DepartmentDao departmentDao;
 
     /**
+     * 新增部门
+     *
+     * @param department
+     * @return
+     */
+    public boolean add(Department department) {
+        try {
+            departmentDao.save(department);
+            return true;
+        } catch (Exception e) {
+            logger.error("新增部门", e);
+            return false;
+        }
+    }
+
+    /**
      * 分页查询
      *
      * @param queryParam 查询参数
