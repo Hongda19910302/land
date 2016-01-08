@@ -9,6 +9,7 @@ import net.deniro.land.module.system.entity.Role;
 import net.deniro.land.module.system.entity.RoleQueryParam;
 import net.deniro.land.module.system.service.MenuService;
 import net.deniro.land.module.system.service.RoleService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -44,21 +45,43 @@ public class RoleController extends BaseController {
 
     /**
      * 查询所有模块树节点
+     *
      * @param backPrivilegeId 模块ID
-     * @param roleId 角色ID
+     * @param roleId          角色ID
      * @return
      */
     @RequestMapping(value = "/findAllModuleNodes")
     @ResponseBody
-    public List<MenuItem> findAllModuleNodes(Integer backPrivilegeId,Integer roleId) {
+    public List<MenuItem> findAllModuleNodes(Integer backPrivilegeId, Integer roleId) {
         List<MenuItem> menuItems;
         if (backPrivilegeId == null) {//首次加载
             menuItems = menuService.findAllTopInDisplay();
         } else {//加载子模块
-            menuItems = menuService.findChildrenInDisplay(backPrivilegeId,roleId);
+            menuItems = menuService.findChildrenInDisplay(backPrivilegeId, roleId);
         }
 
         return menuItems;
+    }
+
+    /**
+     * 设置权限
+     *
+     * @param roleId    角色ID
+     * @param moduleIds 模块ID列表
+     * @return
+     */
+    @RequestMapping(value = "/setAuthority")
+    @ResponseBody
+    public AjaxResponse setAuthority(Integer roleId, String moduleIds) {
+        if (roleId == null || StringUtils.isBlank(moduleIds)) {
+            return new AjaxResponseError("操作失败");
+        }
+
+        boolean isOk = roleService.setAuthority(roleId, moduleIds);
+        if (isOk) {
+            return getAjaxSuccessAndCloseCurrentDialog("设置成功", null);
+        } else
+            return new AjaxResponseError("操作失败");
     }
 
     /**

@@ -1,12 +1,18 @@
 package net.deniro.land.module.system.service;
 
 import net.deniro.land.common.dao.Page;
+import net.deniro.land.module.mobile.dao.BackRolePrivilegeDao;
 import net.deniro.land.module.system.dao.RoleDao;
 import net.deniro.land.module.system.entity.Role;
 import net.deniro.land.module.system.entity.RoleQueryParam;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 角色
@@ -21,6 +27,36 @@ public class RoleService {
 
     @Autowired
     private RoleDao roleDao;
+
+    @Autowired
+    private BackRolePrivilegeDao backRolePrivilegeDao;
+
+    /**
+     * 设置权限
+     *
+     * @param roleId    角色ID
+     * @param moduleIds 模块ID列表
+     * @return
+     */
+    public boolean setAuthority(Integer roleId, String moduleIds) {
+        try {
+            backRolePrivilegeDao.deleteAllByRoleId(roleId);
+
+            //转换为Integer数组
+            String[] ids = moduleIds.split(",");
+            List<Integer> modules = new ArrayList<Integer>();
+            for (int i = 0; i < ids.length; i++) {
+                modules.add(NumberUtils.toInt(ids[i]));
+            }
+
+            backRolePrivilegeDao.batchInsert(modules, roleId);
+
+            return true;
+        } catch (Exception e) {
+            logger.error("设置权限", e);
+            return false;
+        }
+    }
 
     /**
      * 更新
