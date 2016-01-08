@@ -38,6 +38,31 @@ public class RoleController extends BaseController {
     public static final String ROLE_ID = MENU_TAB_PREFIX + "23";
 
     /**
+     * 修改状态
+     *
+     * @param roleId 角色ID
+     * @param status 状态
+     * @return
+     */
+    @RequestMapping(value = "/changeStatus")
+    @ResponseBody
+    public AjaxResponse changeStatus(Integer roleId, Integer status) {
+        if (roleId == null || status == null) {
+            return new AjaxResponseError("操作失败");
+        }
+
+        Role entity = roleService.findById(roleId);
+        entity.setStatus(status);//设置状态值
+        boolean isOk = roleService.update(entity);
+        if (isOk) {
+            List<String> navTabIds = new ArrayList<String>();
+            navTabIds.add(ROLE_ID);
+            return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
+        } else
+            return new AjaxResponseError("操作失败");
+    }
+
+    /**
      * 新增或编辑
      *
      * @param role
