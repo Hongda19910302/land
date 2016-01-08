@@ -25,13 +25,26 @@ public class MenuDao extends BaseDao<MenuItem> {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
+     * 依据父菜单ID，查询所有可见的子菜单模块
+     *
+     * @param parentId 父菜单ID
+     * @return
+     */
+    public List<MenuItem> findChildrenInDisplay(Integer parentId) {
+        String sql = "SELECT * from t_back_privilege x WHERE x.PARENT_ID=:parentId " +
+                "and x.is_display='true' order by x.sort_no";
+        MapSqlParameterSource mps = new MapSqlParameterSource().addValue("parentId", parentId);
+        return findMenuItems(sql, mps);
+    }
+
+    /**
      * 查询所有可见的顶级菜单
      *
      * @return
      */
     public List<MenuItem> findAllTopInDisplay() {
         String sql = "SELECT * from t_back_privilege x WHERE x.PARENT_ID is null and x" +
-                ".is_display='true'";
+                ".is_display='true' order by x.sort_no";
         MapSqlParameterSource mps = new MapSqlParameterSource();
         return findMenuItems(sql, mps);
     }
