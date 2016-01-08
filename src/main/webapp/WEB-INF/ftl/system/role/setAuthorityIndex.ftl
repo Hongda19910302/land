@@ -14,12 +14,14 @@
                 //设置id名称格式规范：id参数名=server接受的参数名
                 autoParam: ["backPrivilegeId=backPrivilegeId"]
             },
-
             callback: {
                 onAsyncSuccess: function () {
                     var zTree = $.fn.zTree.getZTreeObj("authorityTree_${roleId}");
                     expandNodes(zTree.getNodes());
                 }
+            },
+            check:{
+                enable:true
             }
         };
 

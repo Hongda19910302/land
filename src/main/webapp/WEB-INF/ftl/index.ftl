@@ -52,6 +52,8 @@
 <#--树型组件-->
     <script src="${resourceRoot}/dwz/zTree/js/jquery.ztree.core-3.5.js"
             type="text/javascript"></script>
+    <script src="${resourceRoot}/dwz/zTree/js/jquery.ztree.excheck-3.5.js"
+            type="text/javascript"></script>
 
 <#--提示组件-->
     <script src="${resourceRoot}/dwz/opentip/opentip-jquery.min.js"
