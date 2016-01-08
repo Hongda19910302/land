@@ -8,6 +8,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author deniro
  *         2015/11/5
@@ -25,8 +28,17 @@ public class BackRolePrivilegeDaoTest {
     private BackRolePrivilegeDao backRolePrivilegeDao;
 
     @Test
-    public void deleteAllByRoleId(){
-        System.out.println("$$$$$$$$$"+backRolePrivilegeDao.deleteAllByRoleId(1000));
+    public void batchInsert() {
+        List<Integer> moduleIds = new ArrayList<Integer>();
+        moduleIds.add(1001);
+        moduleIds.add(1002);
+
+        System.out.println("$$$$$$$$" + backRolePrivilegeDao.batchInsert(moduleIds, 1000));
+    }
+
+    @Test
+    public void deleteAllByRoleId() {
+        System.out.println("$$$$$$$$$" + backRolePrivilegeDao.deleteAllByRoleId(1000));
     }
 
     @Test

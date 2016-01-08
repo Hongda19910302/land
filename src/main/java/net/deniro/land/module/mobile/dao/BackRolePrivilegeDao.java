@@ -3,7 +3,9 @@ package net.deniro.land.module.mobile.dao;
 import net.deniro.land.common.dao.BaseDao;
 import net.deniro.land.module.mobile.entity.TBackRolePrivilege;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -23,7 +25,29 @@ public class BackRolePrivilegeDao extends BaseDao<TBackRolePrivilege> {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
-     * 删除某个角色下的所有模块权限关系
+     * 批量插入角色与模块权限映射关系
+     * @param moduleIds
+     * @param roleId
+     * @return
+     */
+    public int[] batchInsert(List<Integer> moduleIds, Integer roleId) {
+        String sql = "INSERT INTO t_back_role_privilege(BACK_ROLE_ID, BACK_PRIVILEGE_ID) " +
+                "VALUES ( :roleId, :moduleId) ";
+
+        int size = moduleIds.size();
+        SqlParameterSource[] parameterSources = new SqlParameterSource[size];
+        for (int i = 0; i < size; i++) {
+            MapSqlParameterSource mps = new MapSqlParameterSource();
+            mps.addValue("roleId", roleId);
+            mps.addValue("moduleId", moduleIds.get(i));
+            parameterSources[i] = mps;
+        }
+
+        return namedParameterJdbcTemplate.batchUpdate(sql, parameterSources);
+    }
+
+    /**
+     * 删除某个角色下的所有模块权限映射关系
      *
      * @param roleId
      * @return
