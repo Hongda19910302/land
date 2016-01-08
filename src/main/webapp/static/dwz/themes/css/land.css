@@ -252,17 +252,17 @@
 
 /*禁用*/
 .panelBar .toolBar a.forbidden span {
-    background-position: 0 -1296px;
+    background-position: 0 -1302px;
 }
 
 /*冻结*/
 .panelBar .toolBar a.frozen span {
-    background-position: 0 -1346px;
+    background-position: 0 -1353px;
 }
 
 /*注销*/
 .panelBar .toolBar a.logout span {
-    background-position: 0 -1396px;
+    background-position: 0 -1404px;
 }
 
 /*表单中的地理选择组件*/
