@@ -20,13 +20,19 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/spring-context-base.xml",
         "classpath:spring/spring-context-db.xml", "classpath:spring/spring-context-tx" +
-        ".xml", "classpath:spring/spring-context-dataset-type.xml"})
+        ".xml", "classpath:spring/spring-context-dataset-type.xml",
+        "classpath:spring/spring-context-ftp.xml"})
 @TransactionConfiguration
 @Transactional
 public class MenuDaoTest {
 
     @Autowired
     private MenuDao menuDao;
+
+    @Test
+    public void findAllTopInDisplay() {
+        System.out.println("$$$$$$$$$$$$" + menuDao.findAllTopInDisplay());
+    }
 
 
     @Test

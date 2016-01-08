@@ -25,6 +25,18 @@ public class MenuDao extends BaseDao<MenuItem> {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
+     * 查询所有可见的顶级菜单
+     *
+     * @return
+     */
+    public List<MenuItem> findAllTopInDisplay() {
+        String sql = "SELECT * from t_back_privilege x WHERE x.PARENT_ID is null and x" +
+                ".is_display='true'";
+        MapSqlParameterSource mps = new MapSqlParameterSource();
+        return findMenuItems(sql, mps);
+    }
+
+    /**
      * 依据角色ID，获取可查看的菜单模块ID列表
      */
     public static final String MENU_ITEMS_BY_ROLE_ID_SQL = "SELECT DISTINCT(v" +
