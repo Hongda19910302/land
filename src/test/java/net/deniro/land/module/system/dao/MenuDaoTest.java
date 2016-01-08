@@ -30,6 +30,11 @@ public class MenuDaoTest {
     private MenuDao menuDao;
 
     @Test
+    public void findChildrenIdsByRoleId(){
+        System.out.println("$$$$$$$$$"+menuDao.findChildrenIdsByRoleId(1));
+    }
+
+    @Test
     public void findChildrenInDisplay(){
         System.out.println("$$$$$$$$$$$$$"+menuDao.findChildrenInDisplay(1));
     }

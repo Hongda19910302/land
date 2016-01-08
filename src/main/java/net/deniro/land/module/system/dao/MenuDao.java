@@ -74,6 +74,26 @@ public class MenuDao extends BaseDao<MenuItem> {
             "FROM t_back_role_privilege v WHERE v.BACK_ROLE_ID=:roleId";
 
     /**
+     * 依据角色ID，获取可查看的子菜单模块ID列表
+     *
+     * @return
+     */
+    public List<Integer> findChildrenIdsByRoleId(Integer roleId) {
+        StringBuilder sql = new StringBuilder("SELECT v.BACK_PRIVILEGE_ID FROM t_back_privilege w,t_back_role_privilege v WHERE ");
+        sql.append(" w.BACK_PRIVILEGE_ID=v.BACK_PRIVILEGE_ID AND v.BACK_ROLE_ID=:roleId  AND w" +
+                ".is_display='true' AND w.PARENT_ID IS NOT NULL");
+
+        MapSqlParameterSource mps = new MapSqlParameterSource().addValue("roleId", roleId);
+
+        return namedParameterJdbcTemplate.query(sql.toString(), mps, new
+                RowMapper<Integer>() {
+                    public Integer mapRow(ResultSet resultSet, int i) throws SQLException {
+                        return resultSet.getInt("BACK_PRIVILEGE_ID");
+                    }
+                });
+    }
+
+    /**
      * 查询所有子菜单模块（依据角色ID）
      *
      * @param roleId 角色ID
