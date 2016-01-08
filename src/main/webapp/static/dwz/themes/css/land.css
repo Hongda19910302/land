@@ -403,6 +403,40 @@
     margin: 2px;
 }
 
+/*角色权限设置页*/
+.authorityTree {
+}
+
+.authorityTree > div {
+    border: 1px solid #B8D0D6;
+    position: relative;
+    background: #f0f6e4;
+
+}
+
+.authorityTree > div:first-child {
+    /*left: 7px;*/
+}
+
+.authorityTree > div:last-child {
+    width: 760px;
+    left:7px;
+}
+
+.authorityTree div > span:first-child {
+    overflow: hidden;
+    height: 14px;
+    padding: 2px 5px 2px 20px;
+    line-height: 14px;
+    background: url("../default/images/dialog/chart_organisation.png") no-repeat;
+    font-weight: bold;
+}
+
+.authorityTree div > ul {
+    height: 390px;
+    overflow: auto;
+}
+
 /*单位与部门选择组件*/
 .lookupCompanyDepartmentTree {
     position: relative;

@@ -24,7 +24,7 @@
 </script>
 
 <div class="pageContent">
-    <div class="pageFormContent lookupCompanyDepartmentTree" layoutH="58">
+    <div class="pageFormContent authorityTree" layoutH="58">
         <div>
             <ul id="authorityTree_${roleId}" class="ztree"></ul>
         </div>

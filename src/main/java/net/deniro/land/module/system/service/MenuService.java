@@ -75,11 +75,11 @@ public class MenuService {
         for (MenuItem entity : menuItems) {
             if (parentIds.contains(entity.getBackPrivilegeId())) {//是父节点
                 entity.setIsParent("true");
-                entity.setIconOpen(ICON_URL_PREFIX + "house.png");
-                entity.setIconClose(ICON_URL_PREFIX + "house_go.png");
+                entity.setIconOpen(ICON_URL_PREFIX + "folder.png");
+                entity.setIconClose(ICON_URL_PREFIX + "folder_go.png");
             } else {
                 entity.setIsParent("false");
-                entity.setIcon(ICON_URL_PREFIX + "group.png");
+                entity.setIcon(ICON_URL_PREFIX + "application_view_detail.png");
             }
         }
     }
