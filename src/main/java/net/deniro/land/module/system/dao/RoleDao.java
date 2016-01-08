@@ -48,6 +48,8 @@ public class RoleDao extends BaseDao<Role> {
             hql.append(" and t.companyId=").append(queryParam.getCompanyId());
         }
 
+        hql.append(" order by t.backRoleId desc");
+
 
 
 
