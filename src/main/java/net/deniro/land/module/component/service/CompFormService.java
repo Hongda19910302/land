@@ -6,6 +6,7 @@ import net.deniro.land.module.component.entity.CompFormItem;
 import net.deniro.land.module.component.entity.InputType;
 import net.deniro.land.module.icase.entity.VariableSelectRelation;
 import net.deniro.land.module.system.entity.DataSetType;
+import net.deniro.land.module.system.service.CompanyService;
 import org.apache.commons.collections.map.MultiKeyMap;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,9 @@ public class CompFormService {
     @Resource(name = "commonStatus")
     private Map<String, String> commonStatus;
 
+    @Autowired
+    private CompanyService companyService;
+
     /**
      * 查询 表单组件配置信息
      *
@@ -62,6 +66,10 @@ public class CompFormService {
                                 .getSelectListDataSetType())) {
                             case COMMON_STATUS:
                                 item.setSelectListDataSet(commonStatus);
+                                break;
+                            case COMPANY:
+                                item.setSelectListDataSet(companyService
+                                        .findAllInSelect());
                                 break;
                         }
                         break;
