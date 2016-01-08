@@ -203,6 +203,10 @@ public class CompPageSearchService {
                     case PAGE_SEARCH_BTN_OPEN_TYPE:
                         field.setTransformDataSet(pageSearchBtnOpenType);
                         break;
+                    case COMPANY:
+                        field.setTransformDataSet(companyService
+                                .findAllInSelect());
+                        break;
 
 
                 }
