@@ -4,8 +4,10 @@ import net.deniro.land.common.dao.Page;
 import net.deniro.land.common.dwz.AjaxResponse;
 import net.deniro.land.common.dwz.AjaxResponseError;
 import net.deniro.land.module.component.service.CompFormService;
+import net.deniro.land.module.system.entity.MenuItem;
 import net.deniro.land.module.system.entity.Role;
 import net.deniro.land.module.system.entity.RoleQueryParam;
+import net.deniro.land.module.system.service.MenuService;
 import net.deniro.land.module.system.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,10 +34,43 @@ public class RoleController extends BaseController {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private MenuService menuService;
+
     /**
      * 【角色管理】页签
      */
     public static final String ROLE_ID = MENU_TAB_PREFIX + "23";
+
+    /**
+     * 查询所有模块树节点
+     *
+     * @return
+     */
+    @RequestMapping(value = "/findAllModuleNodes")
+    @ResponseBody
+    public List<MenuItem> findAllModuleNodes(Integer backPrivilegeId) {
+        List<MenuItem> menuItems;
+        if (backPrivilegeId == null) {//首次加载
+            menuItems = menuService.findAllTopInDisplay();
+        } else {//加载子模块
+            menuItems = menuService.findChildrenInDisplay(backPrivilegeId);
+        }
+
+        return menuItems;
+    }
+
+    /**
+     * 跳转到设置权限页面
+     *
+     * @param roleId
+     * @return
+     */
+    @RequestMapping(value = "/setAuthorityIndex")
+    public String setAuthorityIndex(Integer roleId, ModelMap mm) {
+        mm.addAttribute("roleId", roleId);
+        return "system/role/setAuthorityIndex";
+    }
 
     /**
      * 修改状态

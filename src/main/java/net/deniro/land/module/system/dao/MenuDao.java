@@ -25,6 +25,23 @@ public class MenuDao extends BaseDao<MenuItem> {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
+     * 查询所有父菜单项ID（去重、可见状态）
+     *
+     * @return
+     */
+    public List<Integer> findParentIds() {
+        StringBuilder sql = new StringBuilder("SELECT DISTINCT(w.PARENT_ID) PARENT_ID FROM" +
+                " " +
+                "T_BACK_PRIVILEGE w");
+        sql.append(" WHERE w.is_display='true' AND w.PARENT_ID IS NOT NULL");
+        return namedParameterJdbcTemplate.query(sql.toString(), new RowMapper<Integer>() {
+            public Integer mapRow(ResultSet resultSet, int i) throws SQLException {
+                return resultSet.getInt("PARENT_ID");
+            }
+        });
+    }
+
+    /**
      * 依据父菜单ID，查询所有可见的子菜单模块
      *
      * @param parentId 父菜单ID

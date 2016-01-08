@@ -1,6 +1,8 @@
 package net.deniro.land.module.system.entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -61,5 +63,37 @@ public class MenuItem implements Serializable {
      */
     @Transient
     private List<MenuItem> child = new ArrayList<MenuItem>();
+
+    /**
+     * 是否为父节点；true：是；false：否
+     */
+    @Getter
+    @Setter
+    @Transient
+    private String isParent;
+
+    /**
+     * 父节点展开图标
+     */
+    @Getter
+    @Setter
+    @Transient
+    private String iconOpen;
+
+    /**
+     * 父节点折叠图标
+     */
+    @Getter
+    @Setter
+    @Transient
+    private String iconClose;
+
+    /**
+     * 叶子节点图标
+     */
+    @Getter
+    @Setter
+    @Transient
+    private String icon;
 
 }
