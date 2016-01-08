@@ -16,10 +16,30 @@
             },
 
             callback: {
+                onAsyncSuccess: function () {
+                    var zTree = $.fn.zTree.getZTreeObj("authorityTree_${roleId}");
+                    expandNodes(zTree.getNodes());
+                }
             }
         };
 
         $.fn.zTree.init($("#authorityTree_${roleId}"), setting);
+    }
+
+    /**
+     * 递归展开节点列表
+     * @param nodes
+     */
+    function expandNodes(nodes) {
+        if (!nodes) return;
+
+        var zTree = $.fn.zTree.getZTreeObj("authorityTree_${roleId}");
+        for (var i = 0; i < nodes.length; i++) {
+            zTree.expandNode(nodes[i], true, false, false);
+            if (nodes[i].isParent && nodes[i].zAsync) {
+                expandNodes(nodes[i].children);
+            }
+        }
     }
 </script>
 
