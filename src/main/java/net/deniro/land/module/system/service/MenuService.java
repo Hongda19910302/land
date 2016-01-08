@@ -37,7 +37,7 @@ public class MenuService {
     public List<MenuItem> findAllTopInDisplay() {
         try {
             List<MenuItem> items = menuDao.findAllTopInDisplay();
-            setAttribute(items);
+            setAttribute(items, null);
             return items;
         } catch (Exception e) {
             logger.error("查询所有可见的顶级菜单", e);
@@ -49,12 +49,13 @@ public class MenuService {
      * 依据父菜单ID，查询所有可见的子菜单模块
      *
      * @param parentId 父菜单ID
+     * @param roleId   角色ID
      * @return
      */
-    public List<MenuItem> findChildrenInDisplay(Integer parentId) {
+    public List<MenuItem> findChildrenInDisplay(Integer parentId, Integer roleId) {
         try {
             List<MenuItem> items = menuDao.findChildrenInDisplay(parentId);
-            setAttribute(items);
+            setAttribute(items, roleId);
             return items;
         } catch (Exception e) {
             logger.error(" 依据父菜单ID，查询所有可见的子菜单模块", e);
@@ -66,12 +67,24 @@ public class MenuService {
      * 设置属性（是否为父部门、个性化图标）
      *
      * @param menuItems
+     * @param roleId
      */
-    private void setAttribute(List<MenuItem> menuItems) {
+    private void setAttribute(List<MenuItem> menuItems, Integer roleId) {
         String ICON_URL_PREFIX = ResourcePathExposer.getResourceRoot()
                 + "/dwz/themes/default/images/dialog/";
 
         List<Integer> parentIds = menuDao.findParentIds();
+
+        if (roleId != null) {//有权限的模块设置勾选
+            List<Integer> authorityIds = menuDao.findChildrenIdsByRoleId(roleId);
+            for (MenuItem entity : menuItems) {
+                if (authorityIds.contains(entity.getBackPrivilegeId())) {
+                    entity.setChecked("true");
+                }
+            }
+        }
+
+
         for (MenuItem entity : menuItems) {
             if (parentIds.contains(entity.getBackPrivilegeId())) {//是父节点
                 entity.setIsParent("true");

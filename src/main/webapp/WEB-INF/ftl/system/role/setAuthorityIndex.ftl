@@ -12,7 +12,8 @@
                 enable: true,
                 url: "/role/findAllModuleNodes",
                 //设置id名称格式规范：id参数名=server接受的参数名
-                autoParam: ["backPrivilegeId=backPrivilegeId"]
+                autoParam: ["backPrivilegeId=backPrivilegeId"],
+                otherParam: {"roleId": ${roleId}}
             },
             callback: {
                 onAsyncSuccess: function () {

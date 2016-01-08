@@ -96,4 +96,12 @@ public class MenuItem implements Serializable {
     @Transient
     private String icon;
 
+    /**
+     * 节点的勾选状态
+     */
+    @Getter
+    @Setter
+    @Transient
+    private String checked;
+
 }

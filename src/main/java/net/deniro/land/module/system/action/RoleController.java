@@ -44,17 +44,18 @@ public class RoleController extends BaseController {
 
     /**
      * 查询所有模块树节点
-     *
+     * @param backPrivilegeId 模块ID
+     * @param roleId 角色ID
      * @return
      */
     @RequestMapping(value = "/findAllModuleNodes")
     @ResponseBody
-    public List<MenuItem> findAllModuleNodes(Integer backPrivilegeId) {
+    public List<MenuItem> findAllModuleNodes(Integer backPrivilegeId,Integer roleId) {
         List<MenuItem> menuItems;
         if (backPrivilegeId == null) {//首次加载
             menuItems = menuService.findAllTopInDisplay();
         } else {//加载子模块
-            menuItems = menuService.findChildrenInDisplay(backPrivilegeId);
+            menuItems = menuService.findChildrenInDisplay(backPrivilegeId,roleId);
         }
 
         return menuItems;
