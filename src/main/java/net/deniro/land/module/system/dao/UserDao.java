@@ -107,7 +107,7 @@ public class UserDao extends BaseDao<User> {
             hql.append(" and t.departmentId = '").append(queryParam.getDepartmentId()).append("'");
         }
 
-        hql.append(" order by createTime desc");
+        hql.append(" order by userId desc");
 
         return super.pagedQuery(hql.toString(), queryParam.getPageNum(), queryParam
                 .getNumPerPage());
