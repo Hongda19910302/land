@@ -2,10 +2,10 @@ package net.deniro.land.module.system.action;
 
 import net.deniro.land.common.dwz.AjaxResponse;
 import net.deniro.land.common.dwz.AjaxResponseError;
-import net.deniro.land.common.dwz.AjaxResponseSuccess;
 import net.deniro.land.common.service.dwz.Result;
 import net.deniro.land.common.service.dwz.ResultError;
 import net.deniro.land.common.utils.Md5Utils;
+import net.deniro.land.module.component.service.CompFormService;
 import net.deniro.land.module.system.entity.User;
 import net.deniro.land.module.system.entity.UserQueryParam;
 import net.deniro.land.module.system.service.UserService;
@@ -35,6 +35,28 @@ public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;
+
+    /**
+     * 跳转至新增或编辑页面
+     *
+     * @param componentId
+     * @param userId      用户ID
+     * @param mm
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/addOrEditIndex")
+    public String addOrEditIndex(Integer componentId, Integer userId, ModelMap mm,
+                                 HttpSession session) {
+
+        if (userId != null) {//编辑
+            mm.addAttribute(CompFormService.OBJECT_NAME, userService.findById(userId));
+        }
+
+        form(componentId, mm, session);
+        return COMPONENT_FORM_URL;
+    }
+
 
     /**
      * 修改密码

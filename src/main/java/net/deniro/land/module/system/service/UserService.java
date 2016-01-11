@@ -17,9 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.deniro.land.module.system.entity.User.LoginSource;
-import static net.deniro.land.module.system.entity.User.LoginType;
-import static net.deniro.land.module.system.entity.User.Status;
+import static net.deniro.land.module.system.entity.User.*;
 
 /**
  * 用户
@@ -40,6 +38,53 @@ public class UserService {
      * 用户码（用于向action传递参数）
      */
     public static final String USER_CODE = "user";
+
+    /**
+     * 更新
+     *
+     * @param entity
+     * @return
+     */
+    public boolean update(User entity) {
+        try {
+            userDao.update(entity);
+            return true;
+        } catch (Exception e) {
+            logger.error("更新", e);
+            return false;
+        }
+    }
+
+    /**
+     * 新增
+     *
+     * @param entity
+     * @return
+     */
+    public boolean add(User entity) {
+        try {
+            userDao.save(entity);
+            return true;
+        } catch (Exception e) {
+            logger.error("新增", e);
+            return false;
+        }
+    }
+
+    /**
+     * 依据ID，获取用户对象
+     *
+     * @param userId
+     * @return
+     */
+    public User findById(Integer userId) {
+        try {
+            return userDao.get(userId);
+        } catch (Exception e) {
+            logger.error("依据ID，获取用户对象", e);
+            return new User();
+        }
+    }
 
     /**
      * 更新密码
