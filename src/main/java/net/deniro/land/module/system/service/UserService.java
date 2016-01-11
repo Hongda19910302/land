@@ -40,6 +40,17 @@ public class UserService {
     public static final String USER_CODE = "user";
 
     /**
+     * 判断账号是否已存在
+     * @param account
+     * @return
+     */
+    public boolean isExisted(String account){
+        List<User> users=userDao.findByAccount(account);
+        return !(users == null || users.isEmpty());
+
+    }
+
+    /**
      * 更新
      *
      * @param entity

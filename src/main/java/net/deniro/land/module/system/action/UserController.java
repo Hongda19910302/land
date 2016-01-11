@@ -79,6 +79,10 @@ public class UserController extends BaseController {
 
         if (entity.getUserId() == null || entity.getUserId() == 0) {//新增
 
+            if (userService.isExisted(entity.getAccount())) {
+                return new AjaxResponseError("该账号已存在");
+            }
+
             entity.setStatus(User.Status.NORMAL.code());
             entity.setPassword(DEFAULT_PASSWORD);
 
@@ -89,6 +93,13 @@ public class UserController extends BaseController {
                 return new AjaxResponseError("操作失败");
         } else {//编辑
             User newUser = userService.findById(entity.getUserId());
+
+            if (!StringUtils.equals(newUser.getAccount(), entity.getAccount())) {
+                if (userService.isExisted(entity.getAccount())) {
+                    return new AjaxResponseError("该账号已存在");
+                }
+            }
+
             newUser.setName(entity.getName());
             newUser.setAccount(entity.getAccount());
             newUser.setTel(entity.getTel());
