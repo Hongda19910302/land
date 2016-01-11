@@ -44,11 +44,14 @@ public class CompFormService {
     @Resource(name = "commonStatus")
     private Map<String, String> commonStatus;
 
+    @Resource(name = "isYes")
+    private Map<String, String> isYes;
+
     @Resource(name = "sex")
     private Map<String, String> sex;
 
-    @Resource(name="variableFieldType")
-    private Map<String,String> variableFieldType;
+    @Resource(name = "variableFieldType")
+    private Map<String, String> variableFieldType;
 
     @Autowired
     private CompanyService companyService;
@@ -96,6 +99,9 @@ public class CompFormService {
                                 break;
                             case SEX:
                                 item.setSelectListDataSet(sex);
+                                break;
+                            case IS_YES:
+                                item.setSelectListDataSet(isYes);
                                 break;
 
                         }
