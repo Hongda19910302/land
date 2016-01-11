@@ -26,6 +26,53 @@ public class DataTypeService {
     private DataTypeDao dataTypeDao;
 
     /**
+     * 更新
+     *
+     * @param entity
+     * @return
+     */
+    public boolean update(TDataType entity) {
+        try {
+            dataTypeDao.update(entity);
+            return true;
+        } catch (Exception e) {
+            logger.error("更新", e);
+            return false;
+        }
+    }
+
+    /**
+     * 新增
+     *
+     * @param entity
+     * @return
+     */
+    public boolean add(TDataType entity) {
+        try {
+            dataTypeDao.save(entity);
+            return true;
+        } catch (Exception e) {
+            logger.error("新增", e);
+            return false;
+        }
+    }
+
+    /**
+     * 依据ID，获取对象
+     *
+     * @param userId
+     * @return
+     */
+    public TDataType findById(Integer userId) {
+        try {
+            return dataTypeDao.get(userId);
+        } catch (Exception e) {
+            logger.error(" 依据ID，获取对象", e);
+            return new TDataType();
+        }
+    }
+
+    /**
      * 依据可变字段key,获取数据键值对
      *
      * @param variableFieldKey
