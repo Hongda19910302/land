@@ -257,12 +257,12 @@
 
 /*冻结*/
 .panelBar .toolBar a.frozen span {
-    background-position: 0 -1353px;
+    background-position: 0 -1354px;
 }
 
 /*注销*/
 .panelBar .toolBar a.logout span {
-    background-position: 0 -1404px;
+    background-position: 0 -1406px;
 }
 
 /*表单中的地理选择组件*/
