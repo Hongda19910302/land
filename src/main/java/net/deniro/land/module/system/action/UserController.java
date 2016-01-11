@@ -20,6 +20,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
+
+import static net.deniro.land.common.dwz.AjaxResponseSuccess.MENU_TAB_PREFIX;
 
 /**
  * 用户
@@ -35,6 +39,52 @@ public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;
+
+    /**
+     * 【用户管理】页签
+     */
+    public static final String USER_ID = MENU_TAB_PREFIX + "22";
+
+    /**
+     * 默认密码，加密后
+     */
+    public static final String DEFAULT_PASSWORD="49ba59abbe56e057";
+
+    /**
+     * 新增或编辑
+     *
+     * @param entity
+     * @return
+     */
+    @RequestMapping(value = "/addOrEdit")
+    @ResponseBody
+    public AjaxResponse addOrEdit(User entity) {
+
+        if (entity == null) {
+            return new AjaxResponseError("操作失败");
+        }
+
+        List<String> navTabIds = new ArrayList<String>();
+        navTabIds.add(USER_ID);
+
+        if (entity.getUserId() == null || entity.getUserId() == 0) {//新增
+
+            entity.setStatus(User.Status.NORMAL.code());
+            entity.setPassword(DEFAULT_PASSWORD);
+
+            boolean isOk = userService.add(entity);
+            if (isOk) {
+                return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
+            } else
+                return new AjaxResponseError("操作失败");
+        } else {//编辑
+            boolean isOk = userService.update(entity);
+            if (isOk) {
+                return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
+            } else
+                return new AjaxResponseError("操作失败");
+        }
+    }
 
     /**
      * 跳转至新增或编辑页面
