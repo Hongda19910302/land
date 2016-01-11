@@ -136,7 +136,11 @@
                                 <#case "COMPANY_DEPARTMENT"><#-- 单位与部门选择-->
                                     <input name="companyDepartmentText"
                                            type="text" class="${item.inputClass}"
-                                           style="${item.inputCssStyle}"/>
+                                           style="${item.inputCssStyle}"
+                                        <#if obj??><#--展示字段值-->
+                                           value="${obj[item.inputName]}"
+                                        </#if>
+                                            />
                                     <input name="companyId" type="hidden"/>
                                     <input name="departmentId" type="hidden"/>
                                     <a class="btnLook"

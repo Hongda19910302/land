@@ -6,8 +6,12 @@ import net.deniro.land.common.service.dwz.Result;
 import net.deniro.land.common.service.dwz.ResultError;
 import net.deniro.land.common.utils.Md5Utils;
 import net.deniro.land.module.component.service.CompFormService;
+import net.deniro.land.module.system.entity.Company;
+import net.deniro.land.module.system.entity.Department;
 import net.deniro.land.module.system.entity.User;
 import net.deniro.land.module.system.entity.UserQueryParam;
+import net.deniro.land.module.system.service.CompanyService;
+import net.deniro.land.module.system.service.DepartmentService;
 import net.deniro.land.module.system.service.UserService;
 import nl.captcha.Captcha;
 import org.apache.commons.lang3.StringUtils;
@@ -40,6 +44,12 @@ public class UserController extends BaseController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CompanyService companyService;
+
+    @Autowired
+    private DepartmentService departmentService;
+
     /**
      * 【用户管理】页签
      */
@@ -48,7 +58,7 @@ public class UserController extends BaseController {
     /**
      * 默认密码，加密后
      */
-    public static final String DEFAULT_PASSWORD="49ba59abbe56e057";
+    public static final String DEFAULT_PASSWORD = "49ba59abbe56e057";
 
     /**
      * 新增或编辑
@@ -78,7 +88,16 @@ public class UserController extends BaseController {
             } else
                 return new AjaxResponseError("操作失败");
         } else {//编辑
-            boolean isOk = userService.update(entity);
+            User newUser = userService.findById(entity.getUserId());
+            newUser.setName(entity.getName());
+            newUser.setAccount(entity.getAccount());
+            newUser.setTel(entity.getTel());
+            newUser.setRoleId(entity.getRoleId());
+            newUser.setSex(entity.getSex());
+            newUser.setCompanyId(entity.getCompanyId());
+            newUser.setDepartmentId(entity.getDepartmentId());
+
+            boolean isOk = userService.update(newUser);
             if (isOk) {
                 return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
             } else
@@ -100,7 +119,16 @@ public class UserController extends BaseController {
                                  HttpSession session) {
 
         if (userId != null) {//编辑
-            mm.addAttribute(CompFormService.OBJECT_NAME, userService.findById(userId));
+            User user = userService.findById(userId);
+
+            Integer companyId = user.getCompanyId();
+            Company company = companyService.findById(companyId);
+
+            Integer departmentId = user.getDepartmentId();
+            Department department = departmentService.findById(departmentId);
+
+            user.setCompanyDepartmentText(company.getCompanyName() + "/" + department.getName());
+            mm.addAttribute(CompFormService.OBJECT_NAME, user);
         }
 
         form(componentId, mm, session);

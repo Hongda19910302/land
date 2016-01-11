@@ -183,6 +183,14 @@ public class User implements Serializable {
     private String authority;
 
     /**
+     * 归属单位与部门
+     */
+    @Getter
+    @Setter
+    @Transient
+    private String companyDepartmentText;
+
+    /**
      * 获取权限（用于客户端接口）
      *
      * @return
