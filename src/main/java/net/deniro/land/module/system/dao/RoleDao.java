@@ -3,12 +3,15 @@ package net.deniro.land.module.system.dao;
 import net.deniro.land.common.dao.BaseDao;
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.common.entity.QueryParam;
+import net.deniro.land.module.system.entity.Company;
 import net.deniro.land.module.system.entity.Role;
 import net.deniro.land.module.system.entity.RoleQueryParam;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 import static net.deniro.land.module.system.entity.Role.Status.*;
 
@@ -23,6 +26,16 @@ public class RoleDao extends BaseDao<Role> {
 
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    /**
+     * 查询所有角色
+     *
+     * @return
+     */
+    public List<Role> findAll() {
+        StringBuilder hql = new StringBuilder(" from Role where STATUS=0 ");
+        return this.find(hql.toString(), new Object[]{});
+    }
 
     /**
      * 分页查询

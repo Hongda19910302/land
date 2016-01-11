@@ -10,9 +10,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * 角色
@@ -117,6 +115,25 @@ public class RoleService {
         } catch (Exception e) {
             logger.error("分页查询", e);
             return new Page();
+        }
+    }
+
+    /**
+     * 查询所有角色（用于下拉选择）,key：单位ID；value：单位名称
+     *
+     * @return
+     */
+    public Map<String, String> findAllInSelect() {
+        try {
+            List<Role> entities = roleDao.findAll();
+            Map<String, String> maps = new LinkedHashMap<String, String>();
+            for (Role entity : entities) {
+                maps.put(String.valueOf(entity.getBackRoleId()), entity.getBackRoleName());
+            }
+            return maps;
+        } catch (Exception e) {
+            logger.error("查询所有角色", e);
+            return new HashMap<String, String>();
         }
     }
 }

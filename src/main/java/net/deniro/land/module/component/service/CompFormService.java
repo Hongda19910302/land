@@ -7,6 +7,7 @@ import net.deniro.land.module.component.entity.InputType;
 import net.deniro.land.module.icase.entity.VariableSelectRelation;
 import net.deniro.land.module.system.entity.DataSetType;
 import net.deniro.land.module.system.service.CompanyService;
+import net.deniro.land.module.system.service.RoleService;
 import org.apache.commons.collections.map.MultiKeyMap;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,9 @@ public class CompFormService {
     @Autowired
     private CompanyService companyService;
 
+    @Autowired
+    private RoleService roleService;
+
     /**
      * 查询 表单组件配置信息
      *
@@ -73,6 +77,9 @@ public class CompFormService {
                             case COMPANY:
                                 item.setSelectListDataSet(companyService
                                         .findAllInSelect());
+                                break;
+                            case ROLE:
+                                item.setSelectListDataSet(roleService.findAllInSelect());
                                 break;
                             case SEX:
                                 item.setSelectListDataSet(sex);

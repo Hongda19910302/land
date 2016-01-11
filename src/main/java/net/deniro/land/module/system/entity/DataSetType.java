@@ -29,6 +29,11 @@ public enum DataSetType {
     COMPANY,
 
     /**
+     * 角色
+     */
+    ROLE,
+
+    /**
      * 基本状态
      */
     COMMON_STATUS,
