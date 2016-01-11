@@ -42,6 +42,9 @@ public class CompFormService {
     @Resource(name = "commonStatus")
     private Map<String, String> commonStatus;
 
+    @Resource(name = "sex")
+    private Map<String, String> sex;
+
     @Autowired
     private CompanyService companyService;
 
@@ -70,6 +73,9 @@ public class CompFormService {
                             case COMPANY:
                                 item.setSelectListDataSet(companyService
                                         .findAllInSelect());
+                                break;
+                            case SEX:
+                                item.setSelectListDataSet(sex);
                                 break;
                         }
                         break;
