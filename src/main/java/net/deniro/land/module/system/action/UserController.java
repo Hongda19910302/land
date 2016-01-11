@@ -61,6 +61,31 @@ public class UserController extends BaseController {
     public static final String DEFAULT_PASSWORD = "49ba59abbe56e057";
 
     /**
+     * 修改状态
+     *
+     * @param userId 用户ID
+     * @param status 状态
+     * @return
+     */
+    @RequestMapping(value = "/changeStatus")
+    @ResponseBody
+    public AjaxResponse changeStatus(Integer userId, Integer status) {
+        if (userId == null || status == null) {
+            return new AjaxResponseError("操作失败");
+        }
+
+        User entity = userService.findById(userId);
+        entity.setStatus(status);//设置状态值
+        boolean isOk = userService.update(entity);
+        if (isOk) {
+            List<String> navTabIds = new ArrayList<String>();
+            navTabIds.add(USER_ID);
+            return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
+        } else
+            return new AjaxResponseError("操作失败");
+    }
+
+    /**
      * 新增或编辑
      *
      * @param entity
