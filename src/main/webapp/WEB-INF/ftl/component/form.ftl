@@ -86,6 +86,10 @@
 
                                         <#if obj??><#--展示字段值-->
                                            value="${obj[item.inputName]}"
+
+                                           <#if item.isReadOnly='edit-true'>
+                                                readonly="true"
+                                           </#if>
                                         </#if>
 
                                             />

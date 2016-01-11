@@ -93,15 +93,7 @@ public class UserController extends BaseController {
                 return new AjaxResponseError("操作失败");
         } else {//编辑
             User newUser = userService.findById(entity.getUserId());
-
-            if (!StringUtils.equals(newUser.getAccount(), entity.getAccount())) {
-                if (userService.isExisted(entity.getAccount())) {
-                    return new AjaxResponseError("该账号已存在");
-                }
-            }
-
             newUser.setName(entity.getName());
-            newUser.setAccount(entity.getAccount());
             newUser.setTel(entity.getTel());
             newUser.setRoleId(entity.getRoleId());
             newUser.setSex(entity.getSex());
