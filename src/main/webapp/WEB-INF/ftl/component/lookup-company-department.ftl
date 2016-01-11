@@ -5,6 +5,19 @@
         initCompanyTree();
 
         $(".companyDepartmentBtn").click(function () {
+
+        <#if type??>
+            if ("${type}" == "ADD_OR_EDIT_USER") {//新增或编辑用户
+                $.bringBackCompanyAndDepartmentInForm(
+                        {
+                            formId:"${formId}",
+                            companyId: $("#companyId_${pageSearchComponentId}").val(),
+                            companyDepartmentText: $
+                            ("#companyName_${pageSearchComponentId}").val() + "/" + $("#departmentName_${pageSearchComponentId}").val(),
+                            departmentId: $("#departmentId_${pageSearchComponentId}").val()
+                        });
+            }
+        <#else>
             $.bringBackCompanyAndDepartment(
                     {
                         pageSearchComponentId:${pageSearchComponentId},
@@ -13,6 +26,8 @@
                         departmentId: $("#departmentId_${pageSearchComponentId}").val(),
                         departmentName: $("#departmentName_${pageSearchComponentId}").val()
                     });
+        </#if>
+
         });
 
     });

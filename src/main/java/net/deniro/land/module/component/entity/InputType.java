@@ -50,5 +50,10 @@ public enum InputType {
     /**
      * 文件上传
      */
-    UPLOAD
+    UPLOAD,
+
+    /**
+     * 单位与部门选择
+     */
+    COMPANY_DEPARTMENT
 }

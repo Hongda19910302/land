@@ -143,7 +143,7 @@ public class BaseController {
     public AjaxResponseSuccess getAjaxSuccess(String tip, List<String> navTabIds) {
         AjaxResponseSuccess ajaxResponseSuccess = new AjaxResponseSuccess(tip);
 
-        if(navTabIds!=null&&!navTabIds.isEmpty()){
+        if (navTabIds != null && !navTabIds.isEmpty()) {
             ajaxResponseSuccess.setNavTabIds(StringUtils.join(navTabIds.toArray(),
                     NAB_TAB_ID_SPLIT));
         }
@@ -318,7 +318,7 @@ public class BaseController {
         CompForm compForm = compFormService.findById(componentId, user.getCompanyId());
         mm.addAttribute("compForm", compForm);
         mm.addAttribute("componentId", "form_" + componentId + "_" + RandomUtils.nextInt(0, 100));
-
+        mm.addAttribute("randomInt", RandomUtils.nextInt(1, 1000));
     }
 
     /**

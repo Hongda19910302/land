@@ -104,6 +104,7 @@ public class CompController {
         CompForm compForm = compFormService.findById(componentId, user.getCompanyId());
         mm.addAttribute("compForm", compForm);
         mm.addAttribute("componentId", componentId);
+        mm.addAttribute("randomInt", RandomUtils.nextInt(1, 1000));
 
         return "/component/form";
     }
@@ -257,11 +258,16 @@ public class CompController {
      * 跳转至单位、部门选择组件
      *
      * @param pageSearchComponentId 分页查询组件ID
+     * @param type                  类型
+     * @param formId                表单ID
      * @return
      */
     @RequestMapping(value = "/lookupCompanyDepartment")
-    public String lookupCompanyDepartment(Integer pageSearchComponentId, ModelMap mm) {
+    public String lookupCompanyDepartment(Integer pageSearchComponentId, String
+            type, String formId, ModelMap mm) {
         mm.addAttribute("pageSearchComponentId", pageSearchComponentId);
+        mm.addAttribute("type", type);
+        mm.addAttribute("formId", formId);
         return "/component/lookup-company-department";
     }
 

@@ -78,10 +78,10 @@
                                         </#if>
 
                                         <#if item.textMaxLength??><#--输入框最大长度-->
-                                            maxlength="${item.textMaxLength}"
+                                           maxlength="${item.textMaxLength}"
                                         </#if>
                                         <#if item.textMinLength??><#--输入框最小长度-->
-                                            minlength="${item.textMinLength}"
+                                           minlength="${item.textMinLength}"
                                         </#if>
 
                                         <#if obj??><#--展示字段值-->
@@ -131,6 +131,33 @@
                                     .inputClass}" cols="${item.textareaCols}" rows="${item
                                     .textareaRows}"
                                             ><#if obj??>${obj[item.inputName]}</#if></textarea>
+                                    <#break>
+
+                                <#case "COMPANY_DEPARTMENT"><#-- 单位与部门选择-->
+                                    <input name="companyDepartmentText"
+                                           type="text" class="${item.inputClass}"
+                                           style="${item.inputCssStyle}"/>
+                                    <input name="companyId" type="hidden"/>
+                                    <input name="departmentId" type="hidden"/>
+                                    <a class="btnLook"
+                                       href="/comp/lookupCompanyDepartment?pageSearchComponentId=${randomInt}&type=ADD_OR_EDIT_USER&formId=${componentId}"
+                                       target="dialog"
+                                    <#--rel:标识此弹出层ID-->
+                                       rel="lookupCompanyDepartment"
+                                    <#--resizable：是否可变大小-->
+                                       resizable="false"
+                                    <#--minable：是否可最小化-->
+                                       minable="false"
+                                    <#--maxable：是否可最大化-->
+                                       maxable="false"
+                                    <#--是否将背景遮盖-->
+                                       mask="true"
+                                    <#--弹出框宽度-->
+                                       width="600"
+                                    <#--弹出框高度-->
+                                       height="480"
+                                    <#--标题-->
+                                       title="选择单位与部门"></a>
                                     <#break>
 
                                 <#case "UPLOAD"><#-- 文件上传-->

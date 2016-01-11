@@ -137,6 +137,33 @@
 		},
 
 		/**
+		 * 带回选择的单位与部门信息（新增或编辑表单）
+		 * @param args
+		 */
+		bringBackCompanyAndDepartmentInForm: function (args) {
+
+			//获取公司单位选择的字段区域
+			var $CompanyDepartment= $("#"+args.formId);
+			console.log($CompanyDepartment.length);
+
+			//寻找具体字段并赋值
+			$CompanyDepartment.find(":input").each(function(){
+				var $input = $(this);
+				var inputName = $input.attr("name");
+				for (var key in args) {
+					if (key == inputName) {
+						$input.val(args[key]);
+						break;
+					}
+				}
+
+			});
+
+
+			$.pdialog.closeCurrent();
+		},
+
+		/**
 		 * 带回选择的单位与部门信息
 		 * @param args
 		 */
