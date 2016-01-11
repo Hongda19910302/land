@@ -5,6 +5,7 @@ import net.deniro.land.module.component.entity.CompForm;
 import net.deniro.land.module.component.entity.CompFormItem;
 import net.deniro.land.module.component.entity.InputType;
 import net.deniro.land.module.icase.entity.VariableSelectRelation;
+import net.deniro.land.module.icase.service.DataFieldService;
 import net.deniro.land.module.system.entity.DataSetType;
 import net.deniro.land.module.system.service.CompanyService;
 import net.deniro.land.module.system.service.RoleService;
@@ -46,11 +47,17 @@ public class CompFormService {
     @Resource(name = "sex")
     private Map<String, String> sex;
 
+    @Resource(name="variableFieldType")
+    private Map<String,String> variableFieldType;
+
     @Autowired
     private CompanyService companyService;
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private DataFieldService dataFieldService;
 
     /**
      * 查询 表单组件配置信息
@@ -78,12 +85,19 @@ public class CompFormService {
                                 item.setSelectListDataSet(companyService
                                         .findAllInSelect());
                                 break;
+                            case CASE_DATA_TYPE:
+                                item.setSelectListDataSet(dataFieldService.findAllInSelect());
+                                break;
+                            case VARIABLE_FIELD_TYPE:
+                                item.setSelectListDataSet(variableFieldType);
+                                break;
                             case ROLE:
                                 item.setSelectListDataSet(roleService.findAllInSelect());
                                 break;
                             case SEX:
                                 item.setSelectListDataSet(sex);
                                 break;
+
                         }
                         break;
                     case VARIABLE://可变字段

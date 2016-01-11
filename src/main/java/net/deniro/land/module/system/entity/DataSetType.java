@@ -34,6 +34,11 @@ public enum DataSetType {
     ROLE,
 
     /**
+     * 案件字段
+     */
+    CASE_DATA_TYPE,
+
+    /**
      * 基本状态
      */
     COMMON_STATUS,

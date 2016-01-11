@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 案件字段
@@ -26,6 +28,53 @@ public class VariableFieldService {
     private VariableFieldDao variableFieldDao;
 
     /**
+     * 更新
+     *
+     * @param entity
+     * @return
+     */
+    public boolean update(TVariableField entity) {
+        try {
+            variableFieldDao.update(entity);
+            return true;
+        } catch (Exception e) {
+            logger.error("更新", e);
+            return false;
+        }
+    }
+
+    /**
+     * 新增
+     *
+     * @param entity
+     * @return
+     */
+    public boolean add(TVariableField entity) {
+        try {
+            variableFieldDao.save(entity);
+            return true;
+        } catch (Exception e) {
+            logger.error("新增", e);
+            return false;
+        }
+    }
+
+    /**
+     * 依据ID，获取对象
+     *
+     * @param userId
+     * @return
+     */
+    public TVariableField findById(Integer userId) {
+        try {
+            return variableFieldDao.get(userId);
+        } catch (Exception e) {
+            logger.error(" 依据ID，获取对象", e);
+            return new TVariableField();
+        }
+    }
+
+    /**
      * 依据单位ID和客户端对应字段key，获取字段信息
      *
      * @param companyId 单位ID
@@ -34,7 +83,7 @@ public class VariableFieldService {
      */
     public TVariableField find(Integer companyId, String fieldKey) {
         try {
-            return variableFieldDao.find(companyId,fieldKey);
+            return variableFieldDao.find(companyId, fieldKey);
         } catch (Exception e) {
             logger.error(" 依据单位ID和客户端对应字段key，获取字段信息", e);
             return new TVariableField();
