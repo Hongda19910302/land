@@ -140,6 +140,10 @@
                                         <#if obj??><#--展示字段值-->
                                            value="${obj[item.inputName]}"
                                         </#if>
+
+                                            <#if item.isReadOnly>
+                                                readonly="true"
+                                            </#if>
                                             />
                                     <input name="companyId" type="hidden"/>
                                     <input name="departmentId" type="hidden"/>
