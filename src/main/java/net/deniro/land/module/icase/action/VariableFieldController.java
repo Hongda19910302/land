@@ -44,6 +44,31 @@ public class VariableFieldController extends BaseController {
     public static final String VARIABLE_FIELD_ID = MENU_TAB_PREFIX + "27";
 
     /**
+     * 修改状态
+     *
+     * @param variableFieldId ID
+     * @param status 状态
+     * @return
+     */
+    @RequestMapping(value = "/changeStatus")
+    @ResponseBody
+    public AjaxResponse changeStatus(Integer variableFieldId, Integer status) {
+        if (variableFieldId == null || status == null) {
+            return new AjaxResponseError("操作失败");
+        }
+
+        TVariableField entity = variableFieldService.findById(variableFieldId);
+        entity.setStatus(status);//设置状态值
+        boolean isOk = variableFieldService.update(entity);
+        if (isOk) {
+            List<String> navTabIds = new ArrayList<String>();
+            navTabIds.add(VARIABLE_FIELD_ID);
+            return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
+        } else
+            return new AjaxResponseError("操作失败");
+    }
+
+    /**
      * 新增或编辑
      *
      * @param entity
