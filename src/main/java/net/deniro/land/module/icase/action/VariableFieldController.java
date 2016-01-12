@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static net.deniro.land.common.dwz.AjaxResponseSuccess.MENU_TAB_PREFIX;
+import static net.deniro.land.module.icase.entity.TVariableField.BelongToTable.T_CASE;
 import static net.deniro.land.module.icase.entity.TVariableField.Status.AVAILABLE;
 
 /**
@@ -63,6 +64,7 @@ public class VariableFieldController extends BaseController {
 
             entity.setStatus(AVAILABLE.code());
             entity.setFieldKey(getFieldKey(entity.getDataFieldId()));
+            entity.setTableType(T_CASE.code());
 
             boolean isOk = variableFieldService.add(entity);
             if (isOk) {
@@ -80,7 +82,6 @@ public class VariableFieldController extends BaseController {
             newEntity.setIsNull(entity.getIsNull());
             newEntity.setIsPullDown(entity.getIsPullDown());
             newEntity.setIsHide(entity.getIsHide());
-            newEntity.setIsDefault(entity.getIsDefault());
 
             boolean isOk = variableFieldService.update(newEntity);
             if (isOk) {
@@ -110,17 +111,17 @@ public class VariableFieldController extends BaseController {
      * 跳转至新增或编辑页面
      *
      * @param componentId
-     * @param dataTypeId  ID
+     * @param variableFieldId  ID
      * @param mm
      * @param session
      * @return
      */
     @RequestMapping(value = "/addOrEditIndex")
-    public String addOrEditIndex(Integer componentId, Integer dataTypeId, ModelMap mm,
+    public String addOrEditIndex(Integer componentId, Integer variableFieldId, ModelMap mm,
                                  HttpSession session) {
 
-        if (dataTypeId != null) {//编辑
-            TVariableField entity = variableFieldService.findById(dataTypeId);
+        if (variableFieldId != null) {//编辑
+            TVariableField entity = variableFieldService.findById(variableFieldId);
             mm.addAttribute(CompFormService.OBJECT_NAME, entity);
         }
 
