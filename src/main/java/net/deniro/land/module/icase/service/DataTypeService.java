@@ -60,12 +60,12 @@ public class DataTypeService {
     /**
      * 依据ID，获取对象
      *
-     * @param userId
+     * @param dataTypeId
      * @return
      */
-    public TDataType findById(Integer userId) {
+    public TDataType findById(Integer dataTypeId) {
         try {
-            return dataTypeDao.get(userId);
+            return dataTypeDao.get(dataTypeId);
         } catch (Exception e) {
             logger.error(" 依据ID，获取对象", e);
             return new TDataType();
