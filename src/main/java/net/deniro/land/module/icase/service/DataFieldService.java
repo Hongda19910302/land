@@ -26,14 +26,23 @@ public class DataFieldService {
     private DataFieldDao dataFieldDao;
 
     /**
+     * 查询所有
+     *
+     * @return
+     */
+    public List<TDataField> findAll() {
+        return dataFieldDao.findAll();
+    }
+
+    /**
      * 查询所有（用于下拉选择）,key：ID；value：名称
      *
      * @return
      */
     public Map<String, String> findAllInSelect() {
         try {
-            List<TDataField> entities = dataFieldDao.findAll();
             Map<String, String> maps = new LinkedHashMap<String, String>();
+            List<TDataField> entities = dataFieldDao.findAll();
             for (TDataField entity : entities) {
                 maps.put(String.valueOf(entity.getDataFieldId()), entity.getFieldName());
             }
