@@ -110,6 +110,8 @@ public class CompanyController extends BaseController {
             mm.addAttribute(CompFormService.OBJECT_NAME, company);
         }
 
+        mm.addAttribute("isDialog",true);
+
         form(componentId, mm, session);
         return COMPONENT_FORM_URL;
     }

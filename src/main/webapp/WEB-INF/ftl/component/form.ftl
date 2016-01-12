@@ -87,9 +87,9 @@
                                         <#if obj??><#--展示字段值-->
                                            value="${obj[item.inputName]}"
 
-                                           <#if item.isReadOnly='edit-true'>
-                                                readonly="true"
-                                           </#if>
+                                            <#if item.isReadOnly='edit-true'>
+                                           readonly="true"
+                                            </#if>
                                         </#if>
 
                                             />
@@ -145,9 +145,9 @@
                                            value="${obj[item.inputName]}"
                                         </#if>
 
-                                            <#if item.isReadOnly>
-                                                readonly="true"
-                                            </#if>
+                                        <#if item.isReadOnly>
+                                           readonly="true"
+                                        </#if>
                                             />
                                     <input name="companyId" type="hidden"/>
                                     <input name="departmentId" type="hidden"/>
@@ -239,7 +239,14 @@
                                                  value="${obj[item.inputName+"Name"]}"
                                         </#if>
                                             ></span>
-                                        <a class="btnLook formBtnLook"
+                                        <a class="btnLook
+                                        <#if isDialog??&&isDialog>
+                                            formBtnLookDialog
+                                            <#else>
+                                            formBtnLook
+                                        </#if>
+
+                                        "
                                            href="/comp/lookupRegion?componentId=${componentId}"
                                            target="dialog"
                                         <#--rel:标识此弹出层ID-->

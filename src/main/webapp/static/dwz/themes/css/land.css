@@ -1,7 +1,11 @@
 /*表单组件*/
-.formBtnLook {
+.formBtnLookDialog {
     position: relative;
     left: 300px;
+}
+
+.formBtnLook {
+    position: static;
 }
 
 /*行政区域管理*/
