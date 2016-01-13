@@ -59,6 +59,13 @@ public class MenuItem implements Serializable {
     private Integer sortNo;
 
     /**
+     * 是否显示
+     */
+    @Column(name = "IS_DISPLAY", nullable = true, length = 5, insertable = false, updatable =
+            false)
+    private String isDisplay;
+
+    /**
      * 子菜单项
      */
     @Transient

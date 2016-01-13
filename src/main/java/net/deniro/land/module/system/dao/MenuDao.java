@@ -25,6 +25,16 @@ public class MenuDao extends BaseDao<MenuItem> {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
+     * 获取所有菜单模块（可显示）
+     *
+     * @return
+     */
+    public List<MenuItem> findAll() {
+        String hql = " from MenuItem t where t.isDisplay='true' order by t.sortNo";
+        return this.find(hql);
+    }
+
+    /**
      * 查询所有父菜单项ID（去重、可见状态）
      *
      * @return
