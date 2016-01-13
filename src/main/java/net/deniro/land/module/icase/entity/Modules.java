@@ -113,7 +113,7 @@ public class Modules {
             }
             rootNode.setChildren(children);
 
-            logger.info("root:" + root);
+//            logger.info("root:" + root);
         }
 
     }

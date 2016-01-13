@@ -4,6 +4,7 @@ import net.deniro.land.common.dao.Page;
 import net.deniro.land.common.dwz.AjaxResponse;
 import net.deniro.land.common.dwz.AjaxResponseError;
 import net.deniro.land.module.component.service.CompFormService;
+import net.deniro.land.module.icase.entity.ModuleTreeNode;
 import net.deniro.land.module.system.entity.MenuItem;
 import net.deniro.land.module.system.entity.Role;
 import net.deniro.land.module.system.entity.RoleQueryParam;
@@ -46,6 +47,18 @@ public class RoleController extends BaseController {
     /**
      * 查询所有模块树节点
      *
+     * @param roleId 角色ID
+     * @return
+     */
+    @RequestMapping(value = "/findAllModuleNodes2")
+    @ResponseBody
+    public List<ModuleTreeNode> findAllModuleNodes2(Integer roleId) {
+        return menuService.findAllNodes(roleId);
+    }
+
+    /**
+     * 查询所有模块树节点
+     *
      * @param backPrivilegeId 模块ID
      * @param roleId          角色ID
      * @return
@@ -74,7 +87,7 @@ public class RoleController extends BaseController {
     @RequestMapping(value = "/setAuthority")
     @ResponseBody
     public AjaxResponse setAuthority(Integer roleId, String moduleIds) {
-        if (roleId == null || StringUtils.isBlank(moduleIds)) {
+        if (roleId == null) {
             return new AjaxResponseError("操作失败");
         }
 
@@ -94,7 +107,7 @@ public class RoleController extends BaseController {
     @RequestMapping(value = "/setAuthorityIndex")
     public String setAuthorityIndex(Integer roleId, ModelMap mm) {
         mm.addAttribute("roleId", roleId);
-        return "system/role/setAuthorityIndex";
+        return "system/role/setAuthorityIndex2";
     }
 
     /**

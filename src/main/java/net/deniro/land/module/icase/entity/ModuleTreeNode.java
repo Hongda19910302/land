@@ -48,13 +48,22 @@ public class ModuleTreeNode {
     /**
      * 节点的勾选状态
      */
-    private String checked;
+    private String checked="false";
+
+    /**
+     * 节点半勾选状态
+     */
+    private String halfCheck="false";
 
     /**
      * 子节点
      */
     private List<ModuleTreeNode> children;
 
+    /**
+     * 是否展开
+     */
+    private String open = "true";
 
 
 }

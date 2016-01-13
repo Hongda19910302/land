@@ -9,7 +9,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 菜单模块
@@ -30,7 +31,54 @@ public class MenuService {
     @Autowired
     private MenuDao menuDao;
 
+    @Autowired
+    private Modules modules;
 
+    /**
+     * 查询所有模块信息
+     *
+     * @param roleId 角色ID
+     * @return
+     */
+    public List<ModuleTreeNode> findAllNodes(Integer roleId) {
+        try {
+            List<ModuleTreeNode> root = modules.getRoot();
+
+            if (roleId == null)
+                return root;
+
+            //勾选有权限的模块
+            List<Integer> authorityIds = menuDao.findChildrenIdsByRoleId(roleId);
+            for (ModuleTreeNode rootNode : root) {
+
+                boolean isHalfChecked = false;
+
+                List<ModuleTreeNode> children = rootNode.getChildren();
+                int childCount = children.size();//孩子结点数
+                int checkedCount = 0;//孩子结点的勾选数
+                for (ModuleTreeNode childNode : children) {
+                    if (authorityIds.contains(childNode.getBackPrivilegeId())) {
+                        childNode.setChecked("true");
+                        isHalfChecked = true;
+                        checkedCount++;
+                    }
+                }
+
+                if (isHalfChecked) {//半勾选
+                    rootNode.setHalfCheck("true");
+                }
+
+                if (checkedCount == childCount) {//全勾选
+                    rootNode.setChecked("true");
+                    rootNode.setHalfCheck("false");
+                }
+            }
+            return root;
+        } catch (Exception e) {
+            logger.error("查询所有模块信息", e);
+            return new ArrayList<ModuleTreeNode>();
+        }
+    }
 
 
     /**

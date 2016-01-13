@@ -5,6 +5,7 @@ import net.deniro.land.module.mobile.dao.BackRolePrivilegeDao;
 import net.deniro.land.module.system.dao.RoleDao;
 import net.deniro.land.module.system.entity.Role;
 import net.deniro.land.module.system.entity.RoleQueryParam;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,14 +41,17 @@ public class RoleService {
         try {
             backRolePrivilegeDao.deleteAllByRoleId(roleId);
 
-            //转换为Integer数组
-            String[] ids = moduleIds.split(",");
-            List<Integer> modules = new ArrayList<Integer>();
-            for (int i = 0; i < ids.length; i++) {
-                modules.add(NumberUtils.toInt(ids[i]));
+            if (StringUtils.isNotBlank(moduleIds)) {
+                //转换为Integer数组
+                String[] ids = moduleIds.split(",");
+                List<Integer> modules = new ArrayList<Integer>();
+                for (int i = 0; i < ids.length; i++) {
+                    modules.add(NumberUtils.toInt(ids[i]));
+                }
+
+                backRolePrivilegeDao.batchInsert(modules, roleId);
             }
 
-            backRolePrivilegeDao.batchInsert(modules, roleId);
 
             return true;
         } catch (Exception e) {
