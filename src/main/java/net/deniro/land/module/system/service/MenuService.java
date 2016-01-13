@@ -65,6 +65,7 @@ public class MenuService {
                 }
 
                 if (isHalfChecked) {//半勾选
+                    rootNode.setChecked("true");
                     rootNode.setHalfCheck("true");
                 }
 
