@@ -45,8 +45,15 @@ public class Modules {
      */
     private List<ModuleTreeNode> root = new ArrayList<ModuleTreeNode>();
 
-    public List<ModuleTreeNode> getRoot() {
-        return root;
+    public List<ModuleTreeNode> getRoot() throws CloneNotSupportedException {
+        List<ModuleTreeNode> returnRoot = new ArrayList<ModuleTreeNode>();
+
+        for (ModuleTreeNode moduleTreeNode : root) {
+            returnRoot.add(moduleTreeNode.clone());
+        }
+
+
+        return returnRoot;
     }
 
     /**

@@ -2,6 +2,7 @@ package net.deniro.land.module.icase.entity;
 
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  *         2016/1/13
  */
 @Data
-public class ModuleTreeNode {
+public class ModuleTreeNode implements Cloneable {
 
     private Integer backPrivilegeId;
 
@@ -48,12 +49,12 @@ public class ModuleTreeNode {
     /**
      * 节点的勾选状态
      */
-    private String checked="false";
+    private String checked = "false";
 
     /**
      * 节点半勾选状态
      */
-    private String halfCheck="false";
+    private String halfCheck = "false";
 
     /**
      * 子节点
@@ -64,6 +65,26 @@ public class ModuleTreeNode {
      * 是否展开
      */
     private String open = "true";
+
+    /**
+     * 深度拷贝
+     *
+     * @return
+     * @throws CloneNotSupportedException
+     */
+    public ModuleTreeNode clone() throws CloneNotSupportedException {
+        ModuleTreeNode node = (ModuleTreeNode) super.clone();
+
+        if (children != null) {
+            List<ModuleTreeNode> c = new ArrayList<ModuleTreeNode>();
+            for (ModuleTreeNode child : children) {
+                c.add(child.clone());
+            }
+            node.setChildren(c);
+        }
+
+        return node;
+    }
 
 
 }
