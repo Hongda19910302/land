@@ -66,6 +66,7 @@
           class="net.deniro.land.module.icase.entity.VariableSelectRelation"
           init-method="init"/>
 
+
     <!-- 版本项类型-->
     <util:map id="versionType" map-class="java.util.LinkedHashMap">
         <entry key="BUG" value="BUG修复"/>

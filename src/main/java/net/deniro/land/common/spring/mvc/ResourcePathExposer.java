@@ -1,5 +1,7 @@
 package net.deniro.land.common.spring.mvc;
 
+import net.deniro.land.module.icase.entity.Modules;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.ServletContextAware;
 
 import javax.servlet.ServletContext;
@@ -15,6 +17,9 @@ public class ResourcePathExposer implements ServletContextAware {
     private ServletContext servletContext;
     private static String resourceRoot;
 
+    @Autowired
+    private Modules modules;
+
     public void init() {
 //        实际应用中，可以在外部属性文件或数据库保存应用的发布版本号，在此获取。
         String version = "3.9.0";
@@ -28,6 +33,11 @@ public class ResourcePathExposer implements ServletContextAware {
             servletContext.setAttribute("copyright","Copyright &copy; 2015-2016 deniro " +
                     "All Rights Reserved.");//版本信息
         }
+
+        //模块初始化
+        modules.init();
+
+
 
 
     }

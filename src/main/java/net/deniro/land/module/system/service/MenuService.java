@@ -1,14 +1,15 @@
 package net.deniro.land.module.system.service;
 
 import net.deniro.land.common.spring.mvc.ResourcePathExposer;
+import net.deniro.land.module.icase.entity.ModuleTreeNode;
+import net.deniro.land.module.icase.entity.Modules;
 import net.deniro.land.module.system.dao.MenuDao;
 import net.deniro.land.module.system.entity.MenuItem;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * 菜单模块
@@ -29,11 +30,15 @@ public class MenuService {
     @Autowired
     private MenuDao menuDao;
 
+
+
+
     /**
      * 查询所有可见的顶级菜单
      *
      * @return
      */
+    @Deprecated
     public List<MenuItem> findAllTopInDisplay() {
         try {
             List<MenuItem> items = menuDao.findAllTopInDisplay();
@@ -52,6 +57,7 @@ public class MenuService {
      * @param roleId   角色ID
      * @return
      */
+    @Deprecated
     public List<MenuItem> findChildrenInDisplay(Integer parentId, Integer roleId) {
         try {
             List<MenuItem> items = menuDao.findChildrenInDisplay(parentId);

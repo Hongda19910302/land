@@ -52,6 +52,7 @@ public class RoleController extends BaseController {
      */
     @RequestMapping(value = "/findAllModuleNodes")
     @ResponseBody
+    @Deprecated
     public List<MenuItem> findAllModuleNodes(Integer backPrivilegeId, Integer roleId) {
         List<MenuItem> menuItems;
         if (backPrivilegeId == null) {//首次加载
