@@ -8,8 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * 案件下拉项
@@ -84,6 +83,25 @@ public class DataTypeService {
         } catch (Exception e) {
             logger.error(" 依据可变字段key,获取数据键值对", e);
             return new ArrayList<TDataType>();
+        }
+    }
+
+    /**
+     * 查询所有（用于下拉选择）,key：ID；value：名称
+     *
+     * @return
+     */
+    public Map<String, String> findAllInSelect() {
+        try {
+            Map<String, String> maps = new LinkedHashMap<String, String>();
+            List<TDataType> entities = dataTypeDao.findAll();
+            for (TDataType entity : entities) {
+                maps.put(String.valueOf(entity.getDataTypeId()), entity.getDataTypeName());
+            }
+            return maps;
+        } catch (Exception e) {
+            logger.error("查询所有", e);
+            return new HashMap<String, String>();
         }
     }
 

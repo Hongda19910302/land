@@ -29,6 +29,16 @@ public class DataTypeDao extends BaseDao<TDataType> {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
+     * 查询所有
+     *
+     * @return
+     */
+    public List<TDataType> findAll() {
+        StringBuilder hql = new StringBuilder(" from TDataType where 1=1 ");
+        return this.find(hql.toString(), new Object[]{});
+    }
+
+    /**
      * 依据可变字段key,获取数据键值对
      *
      * @param variableFieldKey
