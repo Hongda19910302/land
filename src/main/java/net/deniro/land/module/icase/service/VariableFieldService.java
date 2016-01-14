@@ -38,8 +38,6 @@ public class VariableFieldService {
     public boolean update(TVariableField entity) {
         try {
             variableFieldDao.update(entity);
-
-            selectTypeConfDao.update(entity.getVariableFieldId(), entity.getDataTypeId());
             return true;
         } catch (Exception e) {
             logger.error("更新", e);
