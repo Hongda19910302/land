@@ -82,6 +82,11 @@ public enum DataSetType {
     /**
      * 版本项类型
      */
-    VERSION_TYPE
+    VERSION_TYPE,
+
+    /**
+     * 案件下拉项类型
+     */
+    CASE_SELECT_TYPE
 
 }

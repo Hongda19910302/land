@@ -6,6 +6,7 @@ import net.deniro.land.module.component.entity.CompFormItem;
 import net.deniro.land.module.component.entity.InputType;
 import net.deniro.land.module.icase.entity.VariableSelectRelation;
 import net.deniro.land.module.icase.service.DataFieldService;
+import net.deniro.land.module.icase.service.DataTypeService;
 import net.deniro.land.module.system.entity.DataSetType;
 import net.deniro.land.module.system.service.CompanyService;
 import net.deniro.land.module.system.service.RoleService;
@@ -62,6 +63,9 @@ public class CompFormService {
     @Autowired
     private DataFieldService dataFieldService;
 
+    @Autowired
+    private DataTypeService dataTypeService;
+
     /**
      * 查询 表单组件配置信息
      *
@@ -102,6 +106,9 @@ public class CompFormService {
                                 break;
                             case IS_YES:
                                 item.setSelectListDataSet(isYes);
+                                break;
+                            case CASE_SELECT_TYPE:
+                                item.setSelectListDataSet(dataTypeService.findAllInSelect());
                                 break;
 
                         }
