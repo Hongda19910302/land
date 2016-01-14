@@ -5,7 +5,7 @@
 
     <link href="${resourceRoot}/dwz/themes/default/style.land.css" rel="stylesheet"
           type="text/css" media="screen"/>
-    <link href="${resourceRoot}/dwz/themes/css/core.land.css" rel="stylesheet"
+    <link href="${resourceRoot}/dwz/themes/css/core.land${isCompress}.css" rel="stylesheet"
           type="text/css"
           media="screen"/>
     <link href="${resourceRoot}/dwz/themes/css/land.css" rel="stylesheet"
@@ -35,24 +35,19 @@
     <script src="${resourceRoot}/dwz/js/speedup.js" type="text/javascript"></script>
     <![endif]-->
 
-    <script src="${resourceRoot}/dwz/js/jquery-1.7.2.js" type="text/javascript"></script>
+    <script src="${resourceRoot}/dwz/js/jquery-1.7.2${isCompress}.js"
+            type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/js/jquery.cookie.js" type="text/javascript"></script>
-    <script src="${resourceRoot}/dwz/js/jquery.validate.js" type="text/javascript"></script>
+    <script src="${resourceRoot}/dwz/js/jquery.validate${isCompress}.js" type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/js/jquery.bgiframe.js" type="text/javascript"></script>
 
-    <script src="${resourceRoot}/dwz/form/jquery.form.land.js"
+    <script src="${resourceRoot}/dwz/form/jquery.form.land${isCompress}.js"
             type="text/javascript"></script>
-
-    <script src="${resourceRoot}/dwz/xheditor/xheditor-1.2.1.min.js"
-            type="text/javascript"></script>
-    <script src="${resourceRoot}/dwz/xheditor/xheditor_lang/zh-cn.js"
-            type="text/javascript"></script>
-
 
 <#--树型组件-->
-    <script src="${resourceRoot}/dwz/zTree/js/jquery.ztree.core-3.5.js"
+    <script src="${resourceRoot}/dwz/zTree/js/jquery.ztree.core-3.5${isCompress}.js"
             type="text/javascript"></script>
-    <script src="${resourceRoot}/dwz/zTree/js/jquery.ztree.excheck-3.5.js"
+    <script src="${resourceRoot}/dwz/zTree/js/jquery.ztree.excheck-3.5${isCompress}.js"
             type="text/javascript"></script>
 
 <#--提示组件-->
@@ -60,11 +55,11 @@
             type="text/javascript"></script>
 
 <#--文件上传组件-->
-    <script src="${resourceRoot}/dwz/uploadify/scripts/jquery.uploadify.land.js"
+    <script src="${resourceRoot}/dwz/uploadify/scripts/jquery.uploadify.land${isCompress}.js"
             type="text/javascript"></script>
 
 <#--图片展示组件-->
-    <script src="${resourceRoot}/dwz/galleria/galleria-1.4.2.land.js"
+    <script src="${resourceRoot}/dwz/galleria/galleria-1.4.2.land${isCompress}.js"
             type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/galleria/themes/classic/galleria.classic.js"
             type="text/javascript">
@@ -107,9 +102,6 @@
     <script src="${resourceRoot}/dwz/js/dwz.combox.js" type="text/javascript"></script>
     <script src="${resourceRoot}/dwz/js/dwz.print.js" type="text/javascript"></script>
 
-    <!-- 可以用dwz.min.js替换前面全部dwz.*.js (注意：替换是下面dwz.regional.zh.js还需要引入)
-    <script src="bin/dwz.min.js" type="text/javascript"></script>
-    -->
     <script src="${resourceRoot}/dwz/js/dwz.regional.zh.js" type="text/javascript"></script>
 
     <script type="text/javascript">

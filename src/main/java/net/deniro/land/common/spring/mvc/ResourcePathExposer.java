@@ -32,7 +32,17 @@ public class ResourcePathExposer implements ServletContextAware {
             servletContext.setAttribute("platformInfo","移动巡查执法平台 v"+version);//平台信息
             servletContext.setAttribute("copyright","Copyright &copy; 2015-2016 deniro " +
                     "All Rights Reserved.");//版本信息
+
+            boolean isCompress=true;//是否压缩
+            if(isCompress){
+                servletContext.setAttribute("isCompress",".min");
+            }else{
+                servletContext.setAttribute("isCompress","");
+            }
+
         }
+
+
 
         //模块初始化
         modules.init();
