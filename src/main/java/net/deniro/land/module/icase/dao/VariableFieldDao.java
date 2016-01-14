@@ -52,7 +52,8 @@ public class VariableFieldDao extends BaseDao<TVariableField> {
         sql.append(" LEFT JOIN");
         sql.append(" t_select_type z ON y.SELECT_TYPE_ID=z.SELECT_TYPE_ID");
         sql.append(" LEFT JOIN t_data_type t ON z.DATA_TYPE_ID=t.DATA_TYPE_ID");
-        sql.append(" WHERE x.TABLE_TYPE=0 AND t.DATA_TYPE_VALUE is not null");
+        sql.append(" WHERE x.TABLE_TYPE=0 AND t.DATA_TYPE_VALUE is not null and x" +
+                ".status=0");
         sql.append(" ORDER BY x.COMPANY_ID,x.FIELD_KEY,t.DATA_TYPE_VALUE");
 
         return jdbcTemplate.query(sql.toString(), new RowMapper() {

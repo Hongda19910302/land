@@ -134,22 +134,6 @@ public class VariableFieldController extends BaseController {
     }
 
     /**
-     * 获取TableField
-     *
-     * @param dataFieldId
-     * @return
-     */
-    public String getTableField(Integer dataFieldId) {
-        List<TDataField> tDataFields = dataFieldService.findAll();
-        for (TDataField tDataField : tDataFields) {
-            if (tDataField.getDataFieldId() == dataFieldId) {
-                return tDataField.getTableField();
-            }
-        }
-        return "";
-    }
-
-    /**
      * 跳转至新增或编辑页面
      *
      * @param componentId
