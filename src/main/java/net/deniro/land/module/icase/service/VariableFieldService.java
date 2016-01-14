@@ -119,7 +119,7 @@ public class VariableFieldService {
      */
     public Page findPage(VariableFieldQueryParam queryParam) {
         try {
-            return variableFieldDao.findPage(queryParam);
+            return variableFieldDao.findPage2(queryParam);
         } catch (Exception e) {
             logger.error("分页查询", e);
             return new Page();

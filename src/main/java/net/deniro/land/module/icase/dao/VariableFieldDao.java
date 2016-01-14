@@ -2,6 +2,7 @@ package net.deniro.land.module.icase.dao;
 
 import net.deniro.land.common.dao.BaseDao;
 import net.deniro.land.common.dao.Page;
+import net.deniro.land.module.icase.entity.CaseField;
 import net.deniro.land.module.icase.entity.TVariableField;
 import net.deniro.land.module.icase.entity.VariableFieldQueryParam;
 import net.deniro.land.module.icase.entity.VariableSelectNameValue;
@@ -9,11 +10,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static net.deniro.land.module.icase.entity.TVariableField.BelongToTable.T_CASE;
 import static net.deniro.land.module.icase.entity.TVariableField.Status.AVAILABLE;
@@ -29,6 +33,9 @@ public class VariableFieldDao extends BaseDao<TVariableField> {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
      * 获取（单位ID+可变字段key）与下拉框名值对映射关系
@@ -97,9 +104,71 @@ public class VariableFieldDao extends BaseDao<TVariableField> {
     /**
      * 分页查询
      *
+     * @param queryParam
+     * @return
+     */
+    public Page findPage2(VariableFieldQueryParam queryParam) {
+        StringBuilder sql = new StringBuilder(" FROM t_select_type_conf a,t_variable_field b,t_data_type c," +
+                "t_data_field d");
+        sql.append(" WHERE a.VARIABLE_FIELD_ID=b.VARIABLE_FIELD_ID");
+        sql.append(" AND a.SELECT_TYPE_ID=c.DATA_TYPE_ID");
+        sql.append(" AND b.DATA_FIELD_ID=d.DATA_FIELD_ID");
+
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        /**
+         * 新增查询条件
+         */
+        if (StringUtils.isNotBlank(queryParam.getFieldName())) {
+            sql.append(" and d.FIELD_NAME like '").append(queryParam
+                    .getFieldName())
+                    .append("%'");
+        }
+        if (StringUtils.isNotBlank(queryParam.getCompanyId())) {
+            sql.append(" and b.COMPANY_ID = '").append(queryParam.getCompanyId()).append("'");
+        }
+
+        //查询总数SQL
+        String countSql = "select count(1) " + sql.toString();
+        int count = namedParameterJdbcTemplate.queryForInt(countSql, params);
+
+        sql.append(" ORDER BY a.CONF_ID DESC");
+
+
+        //分页
+        int start = queryParam.getNumPerPage() * (queryParam
+                .getPageNum() - 1);//起始位置
+        sql.append(" limit ").append(start).append(",").append
+                (queryParam.getNumPerPage());
+        String selectSql = " SELECT b.VARIABLE_FIELD_ID,d.FIELD_NAME,c.DATA_TYPE_ID,c.DATA_TYPE_NAME,b.COMPANY_ID,b.STATUS  " + sql.toString();
+
+        //查询
+        List<CaseField> datas = namedParameterJdbcTemplate.query(selectSql, params, new
+                RowMapper<CaseField>() {
+                    public CaseField mapRow(ResultSet resultSet, int i) throws SQLException {
+                        CaseField entity = new CaseField();
+                        entity.setVariableFieldId(resultSet.getInt("VARIABLE_FIELD_ID"));
+                        entity.setFieldName(resultSet.getString("FIELD_NAME"));
+                        entity.setDataTypeId(resultSet.getInt("DATA_TYPE_ID"));
+                        entity.setDataTypeName(resultSet.getString("DATA_TYPE_NAME"));
+                        entity.setCompanyId(resultSet.getInt("COMPANY_ID"));
+                        entity.setStatus(resultSet.getInt("STATUS"));
+                        return entity;
+                    }
+                });
+
+        return new Page(queryParam
+                .getNumPerPage(), start, datas, count);
+
+    }
+
+    /**
+     * 分页查询
+     *
      * @param queryParam 查询参数
      * @return
      */
+    @Deprecated
     public Page findPage(VariableFieldQueryParam queryParam) {
         StringBuilder hql = new StringBuilder(" from TVariableField t where 1=1 ");
 
