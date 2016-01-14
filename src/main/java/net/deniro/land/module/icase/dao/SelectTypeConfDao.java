@@ -22,11 +22,46 @@ public class SelectTypeConfDao extends BaseDao<TSelectTypeConf> {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
+     * 插入
+     *
+     * @param variableFieldId
+     * @param dataTypeId
+     * @return
+     */
+    public int insert(Integer variableFieldId, Integer dataTypeId) {
+        String sql = "insert into t_select_type_conf(VARIABLE_FIELD_ID,SELECT_TYPE_ID) " +
+                "values(:variableFieldId,:dataTypeId)";
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("variableFieldId", variableFieldId);
+        params.put("dataTypeId", dataTypeId);
+
+        return namedParameterJdbcTemplate.update(sql, params);
+    }
+
+    /**
+     * 更新
+     *
+     * @param variableFieldId
+     * @param dataTypeId
+     * @return
+     */
+    public int update(Integer variableFieldId, Integer dataTypeId) {
+        String sql = "update t_select_type_conf set SELECT_TYPE_ID=:dataTypeId " +
+                "where VARIABLE_FIELD_ID=:variableFieldId";
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("variableFieldId", variableFieldId);
+        params.put("dataTypeId", dataTypeId);
+
+        return namedParameterJdbcTemplate.update(sql, params);
+    }
+
+    /**
      * 依据可变字段ID，删除所有记录
      *
      * @param variableFieldId
      * @return
      */
+    @Deprecated
     public int deleteAllByVariableFieldId(Integer variableFieldId) {
         String sql = "delete from t_select_type_conf where " +
                 "VARIABLE_FIELD_ID=:variableFieldId";

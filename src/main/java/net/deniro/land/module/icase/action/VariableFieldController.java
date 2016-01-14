@@ -109,12 +109,14 @@ public class VariableFieldController extends BaseController {
             newEntity.setFieldKey(getFieldKey(entity.getDataFieldId()));
             newEntity.setDataFieldId(entity.getDataFieldId());
             newEntity.setCompanyId(entity.getCompanyId());
-            newEntity.setAlias(entity.getAlias());
-            newEntity.setTableType(entity.getTableType());
-            newEntity.setType(entity.getType());
-            newEntity.setIsNull(entity.getIsNull());
-            newEntity.setIsPullDown(entity.getIsPullDown());
-            newEntity.setIsHide(entity.getIsHide());
+            newEntity.setDataTypeId(entity.getDataTypeId());
+
+//            newEntity.setAlias(entity.getAlias());
+//            newEntity.setType(entity.getType());
+//            newEntity.setIsNull(entity.getIsNull());
+//            newEntity.setIsPullDown(entity.getIsPullDown());
+//            newEntity.setIsHide(entity.getIsHide());
+
 
             boolean isOk = variableFieldService.update(newEntity);
             if (isOk) {

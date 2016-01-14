@@ -3,7 +3,6 @@ package net.deniro.land.module.icase.service;
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.module.icase.dao.SelectTypeConfDao;
 import net.deniro.land.module.icase.dao.VariableFieldDao;
-import net.deniro.land.module.icase.entity.TSelectTypeConf;
 import net.deniro.land.module.icase.entity.TVariableField;
 import net.deniro.land.module.icase.entity.VariableFieldQueryParam;
 import org.apache.log4j.Logger;
@@ -11,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 案件字段
@@ -42,9 +39,7 @@ public class VariableFieldService {
         try {
             variableFieldDao.update(entity);
 
-
-
-
+            selectTypeConfDao.update(entity.getVariableFieldId(), entity.getDataTypeId());
             return true;
         } catch (Exception e) {
             logger.error("更新", e);
@@ -61,6 +56,8 @@ public class VariableFieldService {
     public boolean add(TVariableField entity) {
         try {
             variableFieldDao.save(entity);
+
+            selectTypeConfDao.insert(entity.getVariableFieldId(), entity.getDataTypeId());
             return true;
         } catch (Exception e) {
             logger.error("新增", e);
