@@ -12,6 +12,11 @@ import lombok.Data;
 public class CaseField {
 
     /**
+     * 主键
+     */
+    private Integer confId;
+
+    /**
      * 可变字段ID
      */
     private Integer variableFieldId;
@@ -20,6 +25,16 @@ public class CaseField {
      * 字段名称
      */
     private String fieldName;
+
+    /**
+     * 字段Key
+     */
+    private String fieldKey;
+
+    /**
+     * 字段ID
+     */
+    private Integer dataFieldId;
 
     /**
      * 下拉项ID

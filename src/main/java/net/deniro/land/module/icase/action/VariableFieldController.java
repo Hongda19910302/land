@@ -3,10 +3,7 @@ package net.deniro.land.module.icase.action;
 import net.deniro.land.common.dwz.AjaxResponse;
 import net.deniro.land.common.dwz.AjaxResponseError;
 import net.deniro.land.module.component.service.CompFormService;
-import net.deniro.land.module.icase.entity.TDataField;
-import net.deniro.land.module.icase.entity.TVariableField;
-import net.deniro.land.module.icase.entity.VariableFieldQueryParam;
-import net.deniro.land.module.icase.entity.VariableSelectRelation;
+import net.deniro.land.module.icase.entity.*;
 import net.deniro.land.module.icase.service.DataFieldService;
 import net.deniro.land.module.icase.service.VariableFieldService;
 import net.deniro.land.module.system.action.BaseController;
@@ -50,18 +47,19 @@ public class VariableFieldController extends BaseController {
     /**
      * 修改状态
      *
-     * @param variableFieldId ID
-     * @param status          状态
+     * @param confId ID
+     * @param status 状态
      * @return
      */
     @RequestMapping(value = "/changeStatus")
     @ResponseBody
-    public AjaxResponse changeStatus(Integer variableFieldId, Integer status) {
-        if (variableFieldId == null || status == null) {
+    public AjaxResponse changeStatus(Integer confId, Integer status) {
+        if (confId == null || status == null) {
             return new AjaxResponseError("操作失败");
         }
 
-        TVariableField entity = variableFieldService.findById(variableFieldId);
+        CaseField caseField = variableFieldService.findRelationById(confId);
+        TVariableField entity = variableFieldService.findById(caseField.getVariableFieldId());
         entity.setStatus(status);//设置状态值
         boolean isOk = variableFieldService.update(entity);
         if (isOk) {
@@ -92,7 +90,7 @@ public class VariableFieldController extends BaseController {
         List<String> navTabIds = new ArrayList<String>();
         navTabIds.add(VARIABLE_FIELD_ID);
 
-        if (entity.getVariableFieldId() == null || entity.getVariableFieldId() == 0) {//新增
+        if (entity.getConfId() == null || entity.getConfId() == 0) {//新增
 
             entity.setStatus(AVAILABLE.code());
             entity.setFieldKey(getFieldKey(entity.getDataFieldId()));
@@ -105,25 +103,17 @@ public class VariableFieldController extends BaseController {
             } else
                 return new AjaxResponseError("操作失败");
         } else {//编辑
-            TVariableField newEntity = variableFieldService.findById(entity.getVariableFieldId());
-            newEntity.setFieldKey(getFieldKey(entity.getDataFieldId()));
-            newEntity.setDataFieldId(entity.getDataFieldId());
-            newEntity.setCompanyId(entity.getCompanyId());
-            newEntity.setDataTypeId(entity.getDataTypeId());
-
-//            newEntity.setAlias(entity.getAlias());
-//            newEntity.setType(entity.getType());
-//            newEntity.setIsNull(entity.getIsNull());
-//            newEntity.setIsPullDown(entity.getIsPullDown());
-//            newEntity.setIsHide(entity.getIsHide());
-
-
-            boolean isOk = variableFieldService.update(newEntity);
-            if (isOk) {
-                VariableSelectRelation.init();
-                return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
-            } else
-                return new AjaxResponseError("操作失败");
+//            CaseField newEntity = variableFieldService.findRelationById(entity.getConfId());
+//            newEntity.setFieldKey(getTableField(entity.getDataFieldId()));
+//            newEntity.setDataFieldId(entity.getDataFieldId());
+//            newEntity.setCompanyId(entity.getCompanyId());
+//            newEntity.setConfId(entity.getConfId());
+//            boolean isOk = variableFieldService.update(newEntity);
+//            if (isOk) {
+//                VariableSelectRelation.init();
+//                return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
+//            } else
+            return new AjaxResponseError("操作失败");
         }
     }
 
@@ -134,6 +124,22 @@ public class VariableFieldController extends BaseController {
      * @return
      */
     public String getFieldKey(Integer dataFieldId) {
+        List<TDataField> tDataFields = dataFieldService.findAll();
+        for (TDataField tDataField : tDataFields) {
+            if (tDataField.getDataFieldId() == dataFieldId) {
+                return tDataField.getKey();
+            }
+        }
+        return "";
+    }
+
+    /**
+     * 获取TableField
+     *
+     * @param dataFieldId
+     * @return
+     */
+    public String getTableField(Integer dataFieldId) {
         List<TDataField> tDataFields = dataFieldService.findAll();
         for (TDataField tDataField : tDataFields) {
             if (tDataField.getDataFieldId() == dataFieldId) {

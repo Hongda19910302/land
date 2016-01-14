@@ -3,6 +3,8 @@ package net.deniro.land.module.icase.service;
 import net.deniro.land.common.dao.Page;
 import net.deniro.land.module.icase.dao.SelectTypeConfDao;
 import net.deniro.land.module.icase.dao.VariableFieldDao;
+import net.deniro.land.module.icase.entity.CaseField;
+import net.deniro.land.module.icase.entity.TSelectTypeConf;
 import net.deniro.land.module.icase.entity.TVariableField;
 import net.deniro.land.module.icase.entity.VariableFieldQueryParam;
 import org.apache.log4j.Logger;
@@ -64,14 +66,35 @@ public class VariableFieldService {
     }
 
     /**
-     * 依据ID，获取对象
+     * 依据ID，获取案件字段对象
      *
-     * @param userId
+     * @param id
      * @return
      */
-    public TVariableField findById(Integer userId) {
+    public CaseField findRelationById(Integer id) {
         try {
-            return variableFieldDao.get(userId);
+            TSelectTypeConf conf = selectTypeConfDao.get(id);
+            CaseField entity = new CaseField();
+            entity.setConfId(conf.getConfId());
+            entity.setVariableFieldId(conf.getVariableFieldId());
+            entity.setDataTypeId(conf.getSelectTypeId());
+            return entity;
+        } catch (Exception e) {
+            logger.error(" 依据ID，获取案件字段对象", e);
+            return new CaseField();
+        }
+    }
+
+
+    /**
+     * 依据ID，获取对象
+     *
+     * @param id
+     * @return
+     */
+    public TVariableField findById(Integer id) {
+        try {
+            return variableFieldDao.get(id);
         } catch (Exception e) {
             logger.error(" 依据ID，获取对象", e);
             return new TVariableField();

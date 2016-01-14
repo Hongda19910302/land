@@ -97,7 +97,13 @@ public class TVariableField implements Serializable {
     private Integer isDefault;
 
     /**
-     * 数据键值对 ID
+     * 可变字段与下拉项关系 ID
+     */
+    @Transient
+    private Integer confId;
+
+    /**
+     * 下拉项ID
      */
     @Transient
     private Integer dataTypeId;

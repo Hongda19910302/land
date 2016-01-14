@@ -140,13 +140,14 @@ public class VariableFieldDao extends BaseDao<TVariableField> {
                 .getPageNum() - 1);//起始位置
         sql.append(" limit ").append(start).append(",").append
                 (queryParam.getNumPerPage());
-        String selectSql = " SELECT b.VARIABLE_FIELD_ID,d.FIELD_NAME,c.DATA_TYPE_ID,c.DATA_TYPE_NAME,b.COMPANY_ID,b.STATUS  " + sql.toString();
+        String selectSql = " SELECT a.CONF_ID,b.VARIABLE_FIELD_ID,d.FIELD_NAME,c.DATA_TYPE_ID,c.DATA_TYPE_NAME,b  .COMPANY_ID,b.STATUS  " + sql.toString();
 
         //查询
         List<CaseField> datas = namedParameterJdbcTemplate.query(selectSql, params, new
                 RowMapper<CaseField>() {
                     public CaseField mapRow(ResultSet resultSet, int i) throws SQLException {
                         CaseField entity = new CaseField();
+                        entity.setConfId(resultSet.getInt("CONF_ID"));
                         entity.setVariableFieldId(resultSet.getInt("VARIABLE_FIELD_ID"));
                         entity.setFieldName(resultSet.getString("FIELD_NAME"));
                         entity.setDataTypeId(resultSet.getInt("DATA_TYPE_ID"));
