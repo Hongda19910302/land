@@ -6,6 +6,7 @@ import net.deniro.land.module.component.service.CompFormService;
 import net.deniro.land.module.icase.entity.TDataField;
 import net.deniro.land.module.icase.entity.TVariableField;
 import net.deniro.land.module.icase.entity.VariableFieldQueryParam;
+import net.deniro.land.module.icase.entity.VariableSelectRelation;
 import net.deniro.land.module.icase.service.DataFieldService;
 import net.deniro.land.module.icase.service.VariableFieldService;
 import net.deniro.land.module.system.action.BaseController;
@@ -38,8 +39,11 @@ public class VariableFieldController extends BaseController {
     @Autowired
     private DataFieldService dataFieldService;
 
+    @Autowired
+    private VariableSelectRelation VariableSelectRelation;
+
     /**
-     * 【案件下拉项管理】页签
+     * 【案件字段管理】页签
      */
     public static final String VARIABLE_FIELD_ID = MENU_TAB_PREFIX + "27";
 
@@ -47,7 +51,7 @@ public class VariableFieldController extends BaseController {
      * 修改状态
      *
      * @param variableFieldId ID
-     * @param status 状态
+     * @param status          状态
      * @return
      */
     @RequestMapping(value = "/changeStatus")
@@ -63,6 +67,9 @@ public class VariableFieldController extends BaseController {
         if (isOk) {
             List<String> navTabIds = new ArrayList<String>();
             navTabIds.add(VARIABLE_FIELD_ID);
+
+            VariableSelectRelation.init();
+
             return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
         } else
             return new AjaxResponseError("操作失败");
@@ -93,6 +100,7 @@ public class VariableFieldController extends BaseController {
 
             boolean isOk = variableFieldService.add(entity);
             if (isOk) {
+                VariableSelectRelation.init();
                 return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
             } else
                 return new AjaxResponseError("操作失败");
@@ -110,6 +118,7 @@ public class VariableFieldController extends BaseController {
 
             boolean isOk = variableFieldService.update(newEntity);
             if (isOk) {
+                VariableSelectRelation.init();
                 return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
             } else
                 return new AjaxResponseError("操作失败");
@@ -136,7 +145,7 @@ public class VariableFieldController extends BaseController {
      * 跳转至新增或编辑页面
      *
      * @param componentId
-     * @param variableFieldId  ID
+     * @param variableFieldId ID
      * @param mm
      * @param session
      * @return

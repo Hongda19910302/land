@@ -97,6 +97,12 @@ public class TVariableField implements Serializable {
     private Integer isDefault;
 
     /**
+     * 数据键值对 ID
+     */
+    @Transient
+    private Integer dataTypeId;
+
+    /**
      * 单位
      */
     @ManyToOne(fetch = FetchType.EAGER)

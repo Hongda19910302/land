@@ -1,7 +1,9 @@
 package net.deniro.land.module.icase.service;
 
 import net.deniro.land.common.dao.Page;
+import net.deniro.land.module.icase.dao.SelectTypeConfDao;
 import net.deniro.land.module.icase.dao.VariableFieldDao;
+import net.deniro.land.module.icase.entity.TSelectTypeConf;
 import net.deniro.land.module.icase.entity.TVariableField;
 import net.deniro.land.module.icase.entity.VariableFieldQueryParam;
 import org.apache.log4j.Logger;
@@ -27,6 +29,9 @@ public class VariableFieldService {
     @Autowired
     private VariableFieldDao variableFieldDao;
 
+    @Autowired
+    private SelectTypeConfDao selectTypeConfDao;
+
     /**
      * 更新
      *
@@ -36,6 +41,10 @@ public class VariableFieldService {
     public boolean update(TVariableField entity) {
         try {
             variableFieldDao.update(entity);
+
+
+
+
             return true;
         } catch (Exception e) {
             logger.error("更新", e);
