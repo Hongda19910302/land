@@ -115,6 +115,11 @@ public class VariableFieldController extends BaseController {
             entity.setStatus(AVAILABLE.code());
             entity.setFieldKey(getFieldKey(entity.getDataFieldId()));
             entity.setTableType(T_CASE.code());
+            entity.setIsNull(0);
+            entity.setIsPullDown(0);
+            entity.setIsHide(1);
+            entity.setType(0);
+            entity.setAlias(getFieldName(entity.getDataFieldId()));
 
             boolean isOk = variableFieldService.add(entity);
             if (isOk) {
@@ -122,18 +127,25 @@ public class VariableFieldController extends BaseController {
             } else
                 return new AjaxResponseError("操作失败");
         } else {//编辑
-//            CaseField newEntity = variableFieldService.findRelationById(entity.getConfId());
-//            newEntity.setFieldKey(getTableField(entity.getDataFieldId()));
-//            newEntity.setDataFieldId(entity.getDataFieldId());
-//            newEntity.setCompanyId(entity.getCompanyId());
-//            newEntity.setConfId(entity.getConfId());
-//            boolean isOk = variableFieldService.update(newEntity);
-//            if (isOk) {
-//                variableSelectRelation.init();
-//                return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
-//            } else
             return new AjaxResponseError("操作失败");
         }
+    }
+
+    /**
+     * 获取FieldName
+     *
+     * @param dataFieldId
+     * @return
+     */
+    @Deprecated
+    public String getFieldName(Integer dataFieldId) {
+        List<TDataField> tDataFields = dataFieldService.findAll();
+        for (TDataField tDataField : tDataFields) {
+            if (tDataField.getDataFieldId() == dataFieldId) {
+                return tDataField.getFieldName();
+            }
+        }
+        return "";
     }
 
     /**
@@ -142,6 +154,7 @@ public class VariableFieldController extends BaseController {
      * @param dataFieldId
      * @return
      */
+    @Deprecated
     public String getFieldKey(Integer dataFieldId) {
         List<TDataField> tDataFields = dataFieldService.findAll();
         for (TDataField tDataField : tDataFields) {
