@@ -74,6 +74,7 @@ public class CompFormService {
      */
     public CompForm findById(Integer id, Integer companyId) {
         try {
+            variableSelectRelation.init();//临时处理，解决字段配置变更后，实际新建案件时没有发生变更的问题
             MultiKeyMap selects = variableSelectRelation.getVariableSelects();
 
             CompForm form = compFormDao.load(id);

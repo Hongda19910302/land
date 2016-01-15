@@ -35,7 +35,10 @@ public class VariableSelectRelation {
      * 初始化
      */
     public void init() {
+        variableSelects.clear();
+
         List<VariableSelectNameValue> selects = variableFieldDao.findVariableSelects();
+
         for (VariableSelectNameValue select : selects) {
             String companyId = select.getCompanyId();
             String fieldKey = select.getFieldKey();

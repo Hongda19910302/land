@@ -37,7 +37,7 @@ public class VariableFieldController extends BaseController {
     private DataFieldService dataFieldService;
 
     @Autowired
-    private VariableSelectRelation VariableSelectRelation;
+    private VariableSelectRelation variableSelectRelation;
 
     /**
      * 【案件字段管理】页签
@@ -66,7 +66,7 @@ public class VariableFieldController extends BaseController {
             List<String> navTabIds = new ArrayList<String>();
             navTabIds.add(VARIABLE_FIELD_ID);
 
-            VariableSelectRelation.init();
+            variableSelectRelation.init();
 
             return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
         } else
@@ -91,7 +91,7 @@ public class VariableFieldController extends BaseController {
 
         boolean isOk = variableFieldService.delete(confId);
         if (isOk) {
-            VariableSelectRelation.init();
+            variableSelectRelation.init();
             return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
         } else
             return new AjaxResponseError("操作失败");
@@ -122,7 +122,7 @@ public class VariableFieldController extends BaseController {
 
             boolean isOk = variableFieldService.add(entity);
             if (isOk) {
-                VariableSelectRelation.init();
+                variableSelectRelation.init();
                 return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
             } else
                 return new AjaxResponseError("操作失败");
@@ -134,7 +134,7 @@ public class VariableFieldController extends BaseController {
 //            newEntity.setConfId(entity.getConfId());
 //            boolean isOk = variableFieldService.update(newEntity);
 //            if (isOk) {
-//                VariableSelectRelation.init();
+//                variableSelectRelation.init();
 //                return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
 //            } else
             return new AjaxResponseError("操作失败");

@@ -62,7 +62,7 @@
 
 
     <!-- （单位ID+可变字段key）与下拉框名值对映射关系-->
-    <bean name="VariableSelectRelation"
+    <bean name="variableSelectRelation"
           class="net.deniro.land.module.icase.entity.VariableSelectRelation"
           init-method="init"/>
 
