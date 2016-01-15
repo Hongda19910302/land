@@ -59,7 +59,8 @@ public class CompanyDao extends BaseDao<Company> {
      * @return
      */
     public List<Company> findAll() {
-        StringBuilder hql = new StringBuilder(" from Company where status=0 ");
+        StringBuilder hql = new StringBuilder(" from Company where status=0 order by " +
+                "companyId desc");
         return this.find(hql.toString(), new Object[]{});
     }
 
