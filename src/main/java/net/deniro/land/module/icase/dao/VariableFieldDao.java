@@ -141,7 +141,9 @@ public class VariableFieldDao extends BaseDao<TVariableField> {
                 .getPageNum() - 1);//起始位置
         sql.append(" limit ").append(start).append(",").append
                 (queryParam.getNumPerPage());
-        String selectSql = " SELECT a.CONF_ID,b.VARIABLE_FIELD_ID,d.FIELD_NAME,c.DATA_TYPE_ID,c.DATA_TYPE_NAME,b  .COMPANY_ID,b.STATUS  " + sql.toString();
+        String selectSql = " SELECT a.CONF_ID,b.VARIABLE_FIELD_ID,d.FIELD_NAME," +
+                "c.DATA_TYPE_ID,c.DATA_TYPE_NAME,b  .COMPANY_ID,b.STATUS,  " +
+                "b.ALIAS,b.IS_HIDE " + sql.toString();
 
         //查询
         List<CaseField> datas = namedParameterJdbcTemplate.query(selectSql, params, new
@@ -155,6 +157,8 @@ public class VariableFieldDao extends BaseDao<TVariableField> {
                         entity.setDataTypeName(resultSet.getString("DATA_TYPE_NAME"));
                         entity.setCompanyId(resultSet.getInt("COMPANY_ID"));
                         entity.setStatus(resultSet.getInt("STATUS"));
+                        entity.setAlias(resultSet.getString("ALIAS"));
+                        entity.setIsHide(resultSet.getInt("IS_HIDE"));
                         return entity;
                     }
                 });

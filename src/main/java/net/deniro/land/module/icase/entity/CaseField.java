@@ -55,4 +55,17 @@ public class CaseField {
      * 状态
      */
     private Integer status;
+
+    /**
+     * 字段展示名称（客户端）
+     */
+    private String alias;
+
+
+    /**
+     * 是否隐藏（客户端） 0：隐藏 1：显示
+     */
+    private Integer isHide;
+
+
 }

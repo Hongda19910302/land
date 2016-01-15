@@ -65,9 +65,6 @@ public class VariableFieldController extends BaseController {
         if (isOk) {
             List<String> navTabIds = new ArrayList<String>();
             navTabIds.add(VARIABLE_FIELD_ID);
-
-            variableSelectRelation.init();
-
             return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
         } else
             return new AjaxResponseError("操作失败");
@@ -91,7 +88,6 @@ public class VariableFieldController extends BaseController {
 
         boolean isOk = variableFieldService.delete(confId);
         if (isOk) {
-            variableSelectRelation.init();
             return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
         } else
             return new AjaxResponseError("操作失败");
@@ -122,7 +118,6 @@ public class VariableFieldController extends BaseController {
 
             boolean isOk = variableFieldService.add(entity);
             if (isOk) {
-                variableSelectRelation.init();
                 return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
             } else
                 return new AjaxResponseError("操作失败");

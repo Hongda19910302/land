@@ -106,7 +106,7 @@ public class CaseDao extends BaseDao<TCase> {
         StringBuilder sql = new StringBuilder("SELECT x.FIELD_KEY, x.ALIAS, x.IS_HIDE,x.IS_PULLDOWN,x.VARIABLE_FIELD_ID,y.TABLE_FIELD");
         sql.append(" FROM t_variable_field x,t_data_field y");
         sql.append(" where x.DATA_FIELD_ID=y.DATA_FIELD_ID");
-        sql.append(" AND x.COMPANY_ID =(");
+        sql.append(" and x.status=0 AND x.COMPANY_ID =(");
         sql.append(" SELECT a.COMPANY_ID FROM t_case a WHERE a.CASE_ID=:caseId");
         sql.append(" );");
 
