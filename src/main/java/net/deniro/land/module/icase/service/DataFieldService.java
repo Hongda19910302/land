@@ -6,10 +6,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 数据库对应表字段
@@ -40,11 +37,17 @@ public class DataFieldService {
      * @return
      */
     public Map<String, String> findAllInSelect() {
+
+        List<String> supportedFieldNames = Arrays.asList("用地性质", "违建类型",
+                "巡查结果",
+                "案件来源");//目前支持的字段名称列表
+
         try {
             Map<String, String> maps = new LinkedHashMap<String, String>();
             List<TDataField> entities = dataFieldDao.findAll();
             for (TDataField entity : entities) {
-                maps.put(String.valueOf(entity.getDataFieldId()), entity.getFieldName());
+                if (supportedFieldNames.contains(entity.getFieldName()))
+                    maps.put(String.valueOf(entity.getDataFieldId()), entity.getFieldName());
             }
             return maps;
         } catch (Exception e) {
