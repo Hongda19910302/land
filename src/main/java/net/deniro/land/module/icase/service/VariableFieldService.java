@@ -32,6 +32,32 @@ public class VariableFieldService {
     private SelectTypeConfDao selectTypeConfDao;
 
     /**
+     * 删除
+     *
+     * @param confId
+     * @return
+     */
+    public boolean delete(Integer confId) {
+        try {
+            TSelectTypeConf conf = selectTypeConfDao.get(confId);
+            if (conf != null) {
+                TVariableField variableField = variableFieldDao.get(conf.getVariableFieldId
+                        ());
+                if (variableField != null) {
+                    variableFieldDao.remove(variableField);
+                }
+
+                selectTypeConfDao.remove(conf);
+            }
+
+            return true;
+        } catch (Exception e) {
+            logger.error("删除", e);
+            return false;
+        }
+    }
+
+    /**
      * 更新
      *
      * @param entity

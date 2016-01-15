@@ -74,6 +74,30 @@ public class VariableFieldController extends BaseController {
     }
 
     /**
+     * 删除
+     *
+     * @param confId
+     * @return
+     */
+    @RequestMapping(value = "/delete")
+    @ResponseBody
+    public AjaxResponse delete(Integer confId) {
+        if (confId == null) {
+            return new AjaxResponseError("操作失败");
+        }
+
+        List<String> navTabIds = new ArrayList<String>();
+        navTabIds.add(VARIABLE_FIELD_ID);
+
+        boolean isOk = variableFieldService.delete(confId);
+        if (isOk) {
+            VariableSelectRelation.init();
+            return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
+        } else
+            return new AjaxResponseError("操作失败");
+    }
+
+    /**
      * 新增或编辑
      *
      * @param entity
