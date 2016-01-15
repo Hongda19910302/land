@@ -494,7 +494,7 @@ public class CaseController extends BaseController {
                     "landUsage", String.valueOf(tCase
                             .getLandUsage())));
         }
-        //违法现状
+        //巡查结果
         if (tCase.getStatus() != null) {
             tCase.setStatusInDisplay(findVariableDisplayName(variableSelects, user,
                     "surveyResult", String.valueOf(tCase.getStatus())));

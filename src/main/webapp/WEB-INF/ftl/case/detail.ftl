@@ -91,7 +91,7 @@
                         <td colspan="3">${tCase.landUsageInDisplay}</td>
                     </tr>
                     <tr>
-                        <th>违法现状</th>
+                        <th>巡查结果</th>
                         <td colspan="3">${tCase.statusInDisplay}</td>
                     </tr>
                     <tr>
