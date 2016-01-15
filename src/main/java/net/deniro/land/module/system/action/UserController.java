@@ -122,8 +122,13 @@ public class UserController extends BaseController {
             newUser.setTel(entity.getTel());
             newUser.setRoleId(entity.getRoleId());
             newUser.setSex(entity.getSex());
-            newUser.setCompanyId(entity.getCompanyId());
-            newUser.setDepartmentId(entity.getDepartmentId());
+
+            if (entity.getCompanyId() != null)
+                newUser.setCompanyId(entity.getCompanyId());
+
+            if (entity.getDepartmentId() != null)
+                newUser.setDepartmentId(entity.getDepartmentId());
+
 
             boolean isOk = userService.update(newUser);
             if (isOk) {
