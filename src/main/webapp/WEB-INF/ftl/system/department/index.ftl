@@ -200,7 +200,7 @@
 </script>
 
 <div class="pageContent">
-    <div class="pageFormContent departmentManagementTree" layoutH="238">
+    <div class="pageFormContent departmentManagementTree" layoutH="58">
         <div>
             <span>选择单位</span>
             <ul id="companyTree_${id}" class="ztree"></ul>

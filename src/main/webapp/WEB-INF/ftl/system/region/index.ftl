@@ -112,7 +112,7 @@
     }
 </script>
 <div class="pageContent">
-    <div class="pageFormContent" layoutH="238">
+    <div class="pageFormContent" layoutH="58">
         <div>
             <ul id="regionIndexTree" class="ztree regionTree"></ul>
         </div>
