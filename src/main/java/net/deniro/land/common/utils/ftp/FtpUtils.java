@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.SocketException;
 import java.net.URL;
 import java.util.StringTokenizer;
 import java.util.concurrent.Executor;
@@ -185,6 +186,14 @@ public class FtpUtils {
             }
 
             client.changeDirectory(currentPath);
+        } catch (SocketException e) {
+            logger.error("ftp 出现SocketException异常！尝试重连...");
+            try {
+                heartBeatThread.connect();
+                mkDirs(path);
+            } catch (Exception e1) {
+                logger.error("ftp重连失败！");
+            }
         } catch (IOException e) {
             logger.error("创建层级目录", e);
             client = null;
@@ -198,7 +207,8 @@ public class FtpUtils {
             logger.error("创建层级目录", e);
             client = null;
         } finally {
-            close();
+            if (client.isConnected())
+                close();
         }
     }
 

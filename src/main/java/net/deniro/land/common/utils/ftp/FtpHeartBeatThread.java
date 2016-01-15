@@ -43,7 +43,7 @@ public class FtpHeartBeatThread implements Runnable {
      * @throws FTPException
      * @throws FTPIllegalReplyException
      */
-    private void connect() throws IOException, FTPException, FTPIllegalReplyException {
+    public void connect() throws IOException, FTPException, FTPIllegalReplyException {
         client = new FTPClient();
         client.setCharset(Constants.CHARSET);
         client.setType(FTPClient.TYPE_BINARY);
