@@ -2220,7 +2220,7 @@ body {
 }
 
 .searchBar .searchContent td {
-    padding-right: 20px;
+    padding-right: 10px;
     white-space: nowrap;
     height: 25px
 }

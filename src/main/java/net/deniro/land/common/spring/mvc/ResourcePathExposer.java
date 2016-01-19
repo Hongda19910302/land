@@ -22,7 +22,7 @@ public class ResourcePathExposer implements ServletContextAware {
 
     public void init() {
 //        实际应用中，可以在外部属性文件或数据库保存应用的发布版本号，在此获取。
-        String version = "3.9.0";
+        String version = "3.9.1";
 //        资源逻辑路径带上应用的发布版本号
         resourceRoot = "/static-" + version;
 //        将资源逻辑路径暴露到ServletContext的属性列表中
@@ -33,7 +33,7 @@ public class ResourcePathExposer implements ServletContextAware {
             servletContext.setAttribute("copyright","Copyright &copy; 2015-2016 deniro " +
                     "All Rights Reserved.");//版本信息
 
-            boolean isCompress=true;//是否压缩
+            boolean isCompress=false;//是否压缩
             if(isCompress){
                 servletContext.setAttribute("isCompress",".min");
             }else{

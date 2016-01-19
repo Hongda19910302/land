@@ -278,7 +278,7 @@
 /*分页查询表单中的选择单位与区域组件按钮*/
 .lookupCompanyRegionBtn > a {
     position: relative;
-    left: 520px;
+    left: 508px;
 }
 
 .lookupCompanyRegionBtn > span {
@@ -291,16 +291,17 @@
 }
 
 .lookupCompanyRegionBtnRegionTag {
-    left: -6px;
+    left: -10px;
 }
 
 .lookupCompanyRegionBtnCompanyName {
     position: relative;
-    left: -20px;
+    left: -26px;
 }
 
 .lookupCompanyRegionBtnRegionName {
     position: relative;
+    left:-11px;
 }
 
 /*分页查询表单中的选择单位与部门组件按钮*/
