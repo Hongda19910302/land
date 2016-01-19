@@ -6,6 +6,8 @@ import net.deniro.land.module.icase.dao.DataTypeDao;
 import net.deniro.land.module.icase.dao.SelectTypeConfDao;
 import net.deniro.land.module.icase.dao.VariableFieldDao;
 import net.deniro.land.module.icase.entity.*;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,10 +57,10 @@ public class VariableFieldService {
                     if (dataType.getDataTypeId() == selectedDataType.getDataTypeId()) {
                         dataType.setChecked("true");
                     }
-                    dataType.setName(dataType.getDataTypeName());
-                    dataType.setId(dataType.getDataTypeId());
-                    dataType.setIcon(ICON_URL_PREFIX + "plugin.png");
                 }
+                dataType.setName(dataType.getDataTypeName());
+                dataType.setId(dataType.getDataTypeId());
+                dataType.setIcon(ICON_URL_PREFIX + "plugin.png");
             }
             return dataTypes;
         } catch (Exception e) {
@@ -68,11 +70,39 @@ public class VariableFieldService {
     }
 
     /**
+     * 设置下拉项
+     *
+     * @param selectedIds
+     * @param variableId
+     * @return
+     */
+    public boolean setSelectOpinions(String selectedIds, Integer variableId) {
+        try {
+            //依据variableId，删除相应的关系
+            selectTypeConfDao.deleteAllByVariableFieldId(variableId);
+
+            //批量新增关系
+            String[] array = StringUtils.split(selectedIds, ",");
+            List<Integer> selected = new ArrayList<Integer>();
+            for (String s : array) {
+                selected.add(NumberUtils.toInt(s));
+            }
+            selectTypeConfDao.batchInsert(variableId, selected);
+
+            return true;
+        } catch (Exception e) {
+            logger.error("设置下拉项", e);
+            return false;
+        }
+    }
+
+    /**
      * 删除
      *
      * @param confId
      * @return
      */
+    @Deprecated
     public boolean delete(Integer confId) {
         try {
             TSelectTypeConf conf = selectTypeConfDao.get(confId);

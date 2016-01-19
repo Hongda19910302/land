@@ -11,12 +11,12 @@
             var ids = [];
             for (var i = 0; i < length; i++) {
                 var node = nodes[i];
-                if (node && node.backPrivilegeId) {
-                    ids.push(node.backPrivilegeId);
+                if (node && node.id) {
+                    ids.push(node.id);
                 }
             }
-            //console.log("ids：" + ids.join(","));
-            $("#moduleIds${variableFieldId}").val(ids.join(","));
+//            console.log("ids：" + ids.join(","));
+            $("#selectedIds${variableFieldId}").val(ids.join(","));
 
             $("#setSelectOpinionsForm${variableFieldId}").submit();
 
@@ -50,8 +50,8 @@
 
 <form method="post" id="setSelectOpinionsForm${variableFieldId}"
       onsubmit="return validateCallback(this,navTabAjaxDone)"
-      action="role/setSelectOpinions">
-    <input type="hidden" name="moduleIds" id="moduleIds${variableFieldId}">
+      action="variableField/setSelectOpinions">
+    <input type="hidden" name="selectedIds" id="selectedIds${variableFieldId}">
     <input type="hidden" name="variableFieldId" value="${variableFieldId}">
 </form>
 

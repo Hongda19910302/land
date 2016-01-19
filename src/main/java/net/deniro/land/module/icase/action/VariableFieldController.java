@@ -7,6 +7,7 @@ import net.deniro.land.module.icase.entity.*;
 import net.deniro.land.module.icase.service.DataFieldService;
 import net.deniro.land.module.icase.service.VariableFieldService;
 import net.deniro.land.module.system.action.BaseController;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -40,6 +41,29 @@ public class VariableFieldController extends BaseController {
      * 【案件字段管理】页签
      */
     public static final String VARIABLE_FIELD_ID = MENU_TAB_PREFIX + "27";
+
+    /**
+     * 设置下拉项
+     *
+     * @param selectedIds
+     * @param variableFieldId
+     * @return
+     */
+    @RequestMapping(value = "/setSelectOpinions")
+    @ResponseBody
+    public AjaxResponse setSelectOpinions(String selectedIds, Integer variableFieldId) {
+        if (StringUtils.isBlank(selectedIds) || variableFieldId == null) {
+            return new AjaxResponseError("操作失败");
+        }
+
+        boolean isOk = variableFieldService.setSelectOpinions(selectedIds, variableFieldId);
+        if (isOk) {
+            List<String> navTabIds = new ArrayList<String>();
+            navTabIds.add(VARIABLE_FIELD_ID);
+            return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
+        } else
+            return new AjaxResponseError("操作失败");
+    }
 
     /**
      * 查询所有下拉项的树节点
