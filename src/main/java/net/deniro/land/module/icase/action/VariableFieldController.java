@@ -36,13 +36,34 @@ public class VariableFieldController extends BaseController {
     @Autowired
     private DataFieldService dataFieldService;
 
-    @Autowired
-    private VariableSelectRelation variableSelectRelation;
-
     /**
      * 【案件字段管理】页签
      */
     public static final String VARIABLE_FIELD_ID = MENU_TAB_PREFIX + "27";
+
+    /**
+     * 查询所有下拉项的树节点
+     *
+     * @param variableFieldId ID
+     * @return
+     */
+    @RequestMapping(value = "/findAllSelectOpinionNodes")
+    @ResponseBody
+    public List<TDataType> findAllSelectOpinionNodes(Integer variableFieldId) {
+        return variableFieldService.findAllNodes(variableFieldId);
+    }
+
+    /**
+     * 设置下拉项页面
+     *
+     * @param variableFieldId
+     * @return
+     */
+    @RequestMapping(value = "/setSelectOpinionsIndex")
+    public String setSelectOpinionsIndex(Integer variableFieldId, ModelMap mm) {
+        mm.addAttribute("variableFieldId", variableFieldId);
+        return "case/setSelectOpinionsIndex";
+    }
 
     /**
      * 修改状态

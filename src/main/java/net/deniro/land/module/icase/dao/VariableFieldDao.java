@@ -108,6 +108,7 @@ public class VariableFieldDao extends BaseDao<TVariableField> {
      * @param queryParam
      * @return
      */
+    @Deprecated
     public Page findPage2(VariableFieldQueryParam queryParam) {
         StringBuilder sql = new StringBuilder(" FROM t_select_type_conf a,t_variable_field b,t_data_type c," +
                 "t_data_field d");
@@ -174,7 +175,6 @@ public class VariableFieldDao extends BaseDao<TVariableField> {
      * @param queryParam 查询参数
      * @return
      */
-    @Deprecated
     public Page findPage(VariableFieldQueryParam queryParam) {
         StringBuilder hql = new StringBuilder(" from TVariableField t where 1=1 ");
 

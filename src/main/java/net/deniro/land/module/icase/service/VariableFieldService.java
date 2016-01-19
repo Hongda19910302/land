@@ -1,12 +1,10 @@
 package net.deniro.land.module.icase.service;
 
 import net.deniro.land.common.dao.Page;
+import net.deniro.land.module.icase.dao.DataTypeDao;
 import net.deniro.land.module.icase.dao.SelectTypeConfDao;
 import net.deniro.land.module.icase.dao.VariableFieldDao;
-import net.deniro.land.module.icase.entity.CaseField;
-import net.deniro.land.module.icase.entity.TSelectTypeConf;
-import net.deniro.land.module.icase.entity.TVariableField;
-import net.deniro.land.module.icase.entity.VariableFieldQueryParam;
+import net.deniro.land.module.icase.entity.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +28,40 @@ public class VariableFieldService {
 
     @Autowired
     private SelectTypeConfDao selectTypeConfDao;
+
+    @Autowired
+    private DataTypeDao dataTypeDao;
+
+    /**
+     * 查询所有下拉项信息
+     *
+     * @param variableFieldId 可变字段ID
+     * @return
+     */
+    public List<TDataType> findAllNodes(Integer variableFieldId) {
+        try {
+            List<TDataType> dataTypes = dataTypeDao.findAll();
+            if (dataTypes == null)
+                return new ArrayList<TDataType>();
+
+            //勾选有设置的下拉项
+            List<TDataType> selectedDataTypes = dataTypeDao.findByVariableId
+                    (variableFieldId);
+            for (TDataType dataType : dataTypes) {
+                for (TDataType selectedDataType : selectedDataTypes) {
+                    if (dataType.getDataTypeId() == selectedDataType.getDataTypeId()) {
+                        dataType.setChecked("true");
+                    }
+                    dataType.setName(dataType.getDataTypeName());
+                    dataType.setId(dataType.getDataTypeId());
+                }
+            }
+            return dataTypes;
+        } catch (Exception e) {
+            logger.error("查询所有下拉项信息", e);
+            return new ArrayList<TDataType>();
+        }
+    }
 
     /**
      * 删除
@@ -166,7 +198,7 @@ public class VariableFieldService {
      */
     public Page findPage(VariableFieldQueryParam queryParam) {
         try {
-            return variableFieldDao.findPage2(queryParam);
+            return variableFieldDao.findPage(queryParam);
         } catch (Exception e) {
             logger.error("分页查询", e);
             return new Page();
