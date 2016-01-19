@@ -1,6 +1,7 @@
 package net.deniro.land.module.icase.service;
 
 import net.deniro.land.common.dao.Page;
+import net.deniro.land.common.spring.mvc.ResourcePathExposer;
 import net.deniro.land.module.icase.dao.DataTypeDao;
 import net.deniro.land.module.icase.dao.SelectTypeConfDao;
 import net.deniro.land.module.icase.dao.VariableFieldDao;
@@ -47,6 +48,8 @@ public class VariableFieldService {
             //勾选有设置的下拉项
             List<TDataType> selectedDataTypes = dataTypeDao.findByVariableId
                     (variableFieldId);
+            String ICON_URL_PREFIX = ResourcePathExposer.getResourceRoot()
+                    + "/dwz/themes/default/images/dialog/";
             for (TDataType dataType : dataTypes) {
                 for (TDataType selectedDataType : selectedDataTypes) {
                     if (dataType.getDataTypeId() == selectedDataType.getDataTypeId()) {
@@ -54,6 +57,7 @@ public class VariableFieldService {
                     }
                     dataType.setName(dataType.getDataTypeName());
                     dataType.setId(dataType.getDataTypeId());
+                    dataType.setIcon(ICON_URL_PREFIX + "plugin.png");
                 }
             }
             return dataTypes;
