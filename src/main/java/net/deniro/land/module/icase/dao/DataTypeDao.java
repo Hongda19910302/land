@@ -29,6 +29,35 @@ public class DataTypeDao extends BaseDao<TDataType> {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
+     * 根据可变字段ID，查询下拉项列表
+     *
+     * @return
+     */
+    public List<TDataType> findByVariableId(Integer variableId) {
+        StringBuilder sql = new StringBuilder("SELECT *");
+        sql.append(" FROM t_data_type v WHERE v.DATA_TYPE_ID in(");
+        sql.append(" SELECT u.DATA_TYPE_ID FROM t_select_type u");
+        sql.append(" WHERE u.SELECT_TYPE_ID in(");
+        sql.append(" SELECT t.select_type_id FROM t_select_type_conf t");
+        sql.append(" WHERE t.VARIABLE_FIELD_ID=:variableId))");
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("variableId", variableId);
+
+        return namedParameterJdbcTemplate.query(sql.toString(), params, new
+                RowMapper<TDataType>() {
+                    public TDataType mapRow(ResultSet resultSet, int i) throws SQLException {
+                        TDataType entity = new
+                                TDataType();
+                        entity.setDataTypeId(resultSet.getInt("DATA_TYPE_ID"));
+                        entity.setDataTypeName(resultSet.getString("DATA_TYPE_NAME"));
+                        entity.setDataTypeValue(resultSet.getInt("DATA_TYPE_VALUE"));
+                        return entity;
+                    }
+                });
+    }
+
+    /**
      * 查询所有
      *
      * @return

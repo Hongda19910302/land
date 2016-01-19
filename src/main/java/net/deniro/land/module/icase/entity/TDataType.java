@@ -36,4 +36,34 @@ public class TDataType implements Serializable {
     */
     @Column(name = "data_type_value", nullable = true, length = 10)
     private Integer dataTypeValue;
+
+    /**
+     * 是否为父节点；true：是；false：否
+     */
+    @Transient
+    private String isParent;
+
+    /**
+     * 叶子节点图标
+     */
+    @Transient
+    private String icon;
+
+    /**
+     * 节点的勾选状态
+     */
+    @Transient
+    private String checked = "false";
+
+    /**
+     * 树型结点ID
+     */
+    @Transient
+    private Integer id;
+
+    /**
+     * 树型结点名称
+     */
+    @Transient
+    private String name;
 }
