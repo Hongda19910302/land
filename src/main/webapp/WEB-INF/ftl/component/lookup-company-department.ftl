@@ -8,13 +8,25 @@
 
         <#if type??>
             if ("${type}" == "ADD_OR_EDIT_USER") {//新增或编辑用户
+                var companyId = $("#companyId_${pageSearchComponentId}").val();
+                if (!companyId) {
+                    alertMsg.warn("请选择单位！");
+                    return;
+                }
+
+                var departmentId = $("#departmentId_${pageSearchComponentId}").val();
+                if (!departmentId) {
+                    alertMsg.warn("请选择部门！");
+                    return;
+                }
+
                 $.bringBackCompanyAndDepartmentInForm(
                         {
-                            formId:"${formId}",
-                            companyId: $("#companyId_${pageSearchComponentId}").val(),
+                            formId: "${formId}",
+                            companyId: companyId,
                             companyDepartmentText: $
                             ("#companyName_${pageSearchComponentId}").val() + "/" + $("#departmentName_${pageSearchComponentId}").val(),
-                            departmentId: $("#departmentId_${pageSearchComponentId}").val()
+                            departmentId: departmentId
                         });
             }
         <#else>
