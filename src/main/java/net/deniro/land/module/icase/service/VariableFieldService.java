@@ -97,6 +97,26 @@ public class VariableFieldService {
     }
 
     /**
+     * 依据variableId，删除相关信息
+     *
+     * @param variableId
+     * @return
+     */
+    public boolean deleteByVariableId(Integer variableId) {
+        try {
+            selectTypeConfDao.deleteAllByVariableFieldId(variableId);
+
+            TVariableField field = variableFieldDao.get(variableId);
+            variableFieldDao.remove(field);
+
+            return true;
+        } catch (Exception e) {
+            logger.error(" 依据variableId，删除相关信息", e);
+            return false;
+        }
+    }
+
+    /**
      * 删除
      *
      * @param confId

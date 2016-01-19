@@ -3,7 +3,10 @@ package net.deniro.land.module.icase.action;
 import net.deniro.land.common.dwz.AjaxResponse;
 import net.deniro.land.common.dwz.AjaxResponseError;
 import net.deniro.land.module.component.service.CompFormService;
-import net.deniro.land.module.icase.entity.*;
+import net.deniro.land.module.icase.entity.TDataField;
+import net.deniro.land.module.icase.entity.TDataType;
+import net.deniro.land.module.icase.entity.TVariableField;
+import net.deniro.land.module.icase.entity.VariableFieldQueryParam;
 import net.deniro.land.module.icase.service.DataFieldService;
 import net.deniro.land.module.icase.service.VariableFieldService;
 import net.deniro.land.module.system.action.BaseController;
@@ -92,19 +95,18 @@ public class VariableFieldController extends BaseController {
     /**
      * 修改状态
      *
-     * @param confId ID
-     * @param status 状态
+     * @param variableFieldId ID
+     * @param status          状态
      * @return
      */
     @RequestMapping(value = "/changeStatus")
     @ResponseBody
-    public AjaxResponse changeStatus(Integer confId, Integer status) {
-        if (confId == null || status == null) {
+    public AjaxResponse changeStatus(Integer variableFieldId, Integer status) {
+        if (variableFieldId == null || status == null) {
             return new AjaxResponseError("操作失败");
         }
 
-        CaseField caseField = variableFieldService.findRelationById(confId);
-        TVariableField entity = variableFieldService.findById(caseField.getVariableFieldId());
+        TVariableField entity = variableFieldService.findById(variableFieldId);
         entity.setStatus(status);//设置状态值
         boolean isOk = variableFieldService.update(entity);
         if (isOk) {
@@ -118,20 +120,20 @@ public class VariableFieldController extends BaseController {
     /**
      * 删除
      *
-     * @param confId
+     * @param variableFieldId
      * @return
      */
     @RequestMapping(value = "/delete")
     @ResponseBody
-    public AjaxResponse delete(Integer confId) {
-        if (confId == null) {
+    public AjaxResponse delete(Integer variableFieldId) {
+        if (variableFieldId == null) {
             return new AjaxResponseError("操作失败");
         }
 
         List<String> navTabIds = new ArrayList<String>();
         navTabIds.add(VARIABLE_FIELD_ID);
 
-        boolean isOk = variableFieldService.delete(confId);
+        boolean isOk = variableFieldService.deleteByVariableId(variableFieldId);
         if (isOk) {
             return getAjaxSuccessAndCloseCurrentDialog("操作成功", navTabIds);
         } else
