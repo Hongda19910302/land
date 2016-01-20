@@ -33,7 +33,8 @@ public class RoleDao extends BaseDao<Role> {
      * @return
      */
     public List<Role> findAll() {
-        StringBuilder hql = new StringBuilder(" from Role where STATUS=0 ");
+        StringBuilder hql = new StringBuilder(" from Role where STATUS=0 order by " +
+                "backRoleId desc");
         return this.find(hql.toString(), new Object[]{});
     }
 
