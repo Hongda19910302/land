@@ -38,6 +38,7 @@ public class RegionController extends BaseController {
 
     /**
      * 假删除
+     *
      * @param currentRegionId
      * @return
      */
@@ -94,12 +95,23 @@ public class RegionController extends BaseController {
                 case ADD_BROTHER://新增同级区域
                     if (region.getCurrentRegionParentId() == null || region.getCurrentRegionParentId()
                             == 0) {//新增顶级区域
+                        region.setRegionLevel(1);//设置区域级别
                     } else {//新增非顶级区域，需要保存父区域ID
                         region.setParentId(region.getCurrentRegionParentId());
+
+                        //设置区域级别
+                        TRegion parentRegion = regionService.findById(region
+                                .getCurrentRegionParentId());
+                        region.setRegionLevel(parentRegion.getRegionLevel() + 1);
                     }
                     break;
                 case ADD_CHILD://新增子区域
                     region.setParentId(region.getCurrentRegionId());
+
+                    //设置区域级别
+                    TRegion parentRegion = regionService.findById(region
+                            .getCurrentRegionId());
+                    region.setRegionLevel(parentRegion.getRegionLevel() + 1);
                     break;
             }
 
