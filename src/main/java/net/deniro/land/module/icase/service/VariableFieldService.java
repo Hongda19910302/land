@@ -60,7 +60,7 @@ public class VariableFieldService {
                 }
                 dataType.setName(dataType.getDataTypeName());
                 dataType.setId(dataType.getDataTypeId());
-                dataType.setIcon(ICON_URL_PREFIX + "plugin.png");
+                dataType.setIcon(ICON_URL_PREFIX + "database_connect.png");
             }
             return dataTypes;
         } catch (Exception e) {
