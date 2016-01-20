@@ -109,8 +109,8 @@
 
     <!-- 性别-->
     <util:map id="sex" map-class="java.util.LinkedHashMap">
-        <entry key="0" value="女"/>
         <entry key="1" value="男"/>
+        <entry key="0" value="女"/>
     </util:map>
 
     <!-- 是否状态-->
