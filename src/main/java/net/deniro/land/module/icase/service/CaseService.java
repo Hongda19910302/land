@@ -15,6 +15,8 @@ import net.deniro.land.module.icase.entity.*;
 import net.deniro.land.module.icase.entity.TAttachmentRelation.RelationType;
 import net.deniro.land.module.icase.entity.TCase.InstructionState;
 import net.deniro.land.module.icase.entity.TCaseAudit.AuditResult;
+import net.deniro.land.module.message.entity.TMsgResult;
+import net.deniro.land.module.message.service.MsgResultService;
 import net.deniro.land.module.system.dao.RegionDao;
 import net.deniro.land.module.system.dao.UserDao;
 import net.deniro.land.module.system.entity.TRegion;
@@ -27,6 +29,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.persistence.Column;
 import java.io.File;
 import java.lang.reflect.Field;
@@ -89,6 +92,12 @@ public class CaseService {
 
     @Autowired
     private DataTypeService dataTypeService;
+
+    @Autowired
+    private MsgResultService msgResultService;
+
+    @Resource(name = "messageTempalte")
+    private Map<String, String> messageTempalte;
 
     /**
      * 巡查结果的数据映射关系
@@ -546,7 +555,11 @@ public class CaseService {
                             .REGISTER,
                     "建立新案件", caseParam.getRemark());
 
-            //todo 生成案件短信规则
+            /**
+             * 新增消息
+             */
+            caseParam.setCaseId(tCase.getCaseId());
+            msgResultService.add(generateMsg(caseParam, "立案通知"));
 
             return true;
         } catch (Exception e) {
@@ -555,6 +568,33 @@ public class CaseService {
         }
 
 
+    }
+
+    /**
+     * 生成消息
+     *
+     * @param caseParam
+     * @param type      消息模板类型
+     * @return
+     */
+    private TMsgResult generateMsg(CaseParam caseParam, String type) {
+        TMsgResult entity = new TMsgResult();
+        entity.setCaseId(caseParam.getCaseId());
+        entity.setCreateTime(new Date());
+        entity.setIsDel(0);
+        entity.setIsRead(0);
+        entity.setUserId(NumberUtils.toInt(caseParam.getUserId()));
+
+        String title = type;
+        entity.setRuleName(title);
+        String content = messageTempalte.get(title);
+        content = StringUtils.replace(content, "%{地址}", caseParam.getIllegalArea());
+        content = StringUtils.replace(content, "%{违法当事人}", caseParam.getParties());
+        content = StringUtils.replace(content, "%{违法面积}", String.valueOf(caseParam
+                .getIllegalAreaSpace
+                        ()));
+        entity.setMsgContent(content);
+        return entity;
     }
 
     /**
