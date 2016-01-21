@@ -10,6 +10,7 @@ import net.deniro.land.module.icase.service.CaseService;
 import net.deniro.land.module.icase.service.DataTypeService;
 import net.deniro.land.module.icase.service.VariableFieldService;
 import net.deniro.land.module.message.entity.MsgResultQueryParam;
+import net.deniro.land.module.message.entity.TMsgResult;
 import net.deniro.land.module.message.service.MsgResultService;
 import net.deniro.land.module.system.entity.Department;
 import net.deniro.land.module.system.entity.TRegion;
@@ -17,6 +18,7 @@ import net.deniro.land.module.system.entity.User;
 import net.deniro.land.module.system.service.DepartmentService;
 import net.deniro.land.module.system.service.RegionService;
 import net.deniro.land.module.system.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
@@ -81,16 +83,31 @@ public class MobileController {
     public static final String COMMON_RESULT_TEMPLATE_NAME = "commonResult";
 
     /**
-     * 消息设为已读（预留）
+     * 消息设为已读
      *
+     * @param messageId 消息ID
+     * @param msgtype    设置类型
      * @param mm
      * @return
      */
     @RequestMapping(value = "set-readed-message")
-    public String setMessageRead(ModelMap mm) {
+    public String setMessageRead(String messageId, Integer msgtype, ModelMap mm) {
         ResponseResult r = null;
 
+        if (StringUtils.isBlank(messageId) || msgtype == null) {
+            r = new FailureResult();
+            mm.addAttribute("r", r);
+            return URL_PREFIX + COMMON_RESULT_TEMPLATE_NAME;
+        }
+
         try {
+            String[] msgIds = messageId.split(",");
+            for (String msgId : msgIds) {
+                TMsgResult msgResult = msgResultService.get(NumberUtils.toInt(msgId));
+                msgResult.setIsRead(1);
+                msgResultService.update(msgResult);
+            }
+
             r = new SuccessResult();
         } catch (Exception e) {
             logger.error("消息设为已读", e);
@@ -129,7 +146,7 @@ public class MobileController {
      * @return
      */
     @RequestMapping(value = "get-user-message")
-    public String findMyMessages(MsgResultQueryParam param,ModelMap mm) {
+    public String findMyMessages(MsgResultQueryParam param, ModelMap mm) {
         ResponseResult r = null;
 
         try {

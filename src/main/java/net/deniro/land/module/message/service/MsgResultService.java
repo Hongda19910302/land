@@ -23,6 +23,37 @@ public class MsgResultService {
     private MsgResultDao msgResultDao;
 
     /**
+     * 获取
+     *
+     * @param msgId
+     * @return
+     */
+    public TMsgResult get(Integer msgId) {
+        try {
+            return msgResultDao.get(msgId);
+        } catch (Exception e) {
+            logger.error("获取", e);
+            return new TMsgResult();
+        }
+    }
+
+    /**
+     * 更新
+     *
+     * @param msgResult
+     * @return
+     */
+    public boolean update(TMsgResult msgResult) {
+        try {
+            msgResultDao.update(msgResult);
+            return true;
+        } catch (Exception e) {
+            logger.error("更新", e);
+            return false;
+        }
+    }
+
+    /**
      * 分页查询
      *
      * @param queryParam 查询参数
