@@ -86,7 +86,7 @@ public class MobileController {
      * 消息设为已读
      *
      * @param messageId 消息ID
-     * @param msgtype    设置类型
+     * @param msgtype   设置类型
      * @param mm
      * @return
      */
@@ -119,16 +119,31 @@ public class MobileController {
     }
 
     /**
-     * 删除我的消息（预留）
+     * 删除我的消息
      *
+     * @param messageId
+     * @param msgtype
      * @param mm
      * @return
      */
     @RequestMapping(value = "del-user-message")
-    public String delMyMessages(ModelMap mm) {
+    public String delMyMessages(String messageId, Integer msgtype, ModelMap mm) {
         ResponseResult r = null;
 
+        if (StringUtils.isBlank(messageId) || msgtype == null) {
+            r = new FailureResult();
+            mm.addAttribute("r", r);
+            return URL_PREFIX + COMMON_RESULT_TEMPLATE_NAME;
+        }
+
         try {
+            String[] msgIds = messageId.split(",");
+            for (String msgId : msgIds) {
+                TMsgResult msgResult = msgResultService.get(NumberUtils.toInt(msgId));
+                msgResult.setIsDel(1);
+                msgResultService.update(msgResult);
+            }
+
             r = new SuccessResult();
         } catch (Exception e) {
             logger.error("删除我的消息", e);
