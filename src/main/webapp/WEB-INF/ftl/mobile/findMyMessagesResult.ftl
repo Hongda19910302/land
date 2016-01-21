@@ -15,7 +15,7 @@
 "date":"${(data.createTime)!''}",
 "title":"${data.ruleName?default('')?replace('\r\n','')?replace('\n','')?replace('"','&#34;')}",
 "content":"${data.msgContent?default('')?replace('\r\n','')?replace('\n','')?replace('"','&#34;')}",
-"caseId":"${(data.getTCase().caseId)!''}",
+"caseId":"${(data.caseId)!''}",
 
 "caseState":"1"
 }
