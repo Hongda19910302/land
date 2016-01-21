@@ -580,10 +580,11 @@ public class CaseService {
     private TMsgResult generateMsg(CaseParam caseParam, String type) {
         TMsgResult entity = new TMsgResult();
         entity.setCaseId(caseParam.getCaseId());
+        entity.setUserId(NumberUtils.toInt(caseParam.getUserId()));
+
         entity.setCreateTime(new Date());
         entity.setIsDel(0);
         entity.setIsRead(0);
-        entity.setUserId(NumberUtils.toInt(caseParam.getUserId()));
 
         String title = type;
         entity.setRuleName(title);
@@ -1098,6 +1099,16 @@ public class CaseService {
                     tCase.setStatus(INSPECT.code());
                     description = "通过立案审核！";
                     operationType = REGISTER_AUDIT;
+
+                    //新增消息
+                    CaseParam caseParam = new CaseParam();
+                    caseParam.setCaseId(caseId);
+                    caseParam.setUserId(String.valueOf(inspector.getUserId()));
+                    caseParam.setIllegalArea(tCase.getIllegalArea());
+                    caseParam.setIllegalAreaSpace(tCase.getIllegalAreaSpace());
+                    caseParam.setParties(tCase.getParties());
+                    msgResultService.add(generateMsg(caseParam, "一级消息"));
+
                     break;
                 case NO_PASS:
                     tCase.setStatus(CANCEL.code());
@@ -1114,8 +1125,6 @@ public class CaseService {
              */
             addFlowLog(caseId, userId, operationType,
                     description, remark);
-
-            //todo 立案审核通过，写入短信
 
             return true;
         } catch (Exception e) {
