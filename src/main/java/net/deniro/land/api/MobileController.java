@@ -9,6 +9,8 @@ import net.deniro.land.module.icase.entity.*;
 import net.deniro.land.module.icase.service.CaseService;
 import net.deniro.land.module.icase.service.DataTypeService;
 import net.deniro.land.module.icase.service.VariableFieldService;
+import net.deniro.land.module.message.entity.MsgResultQueryParam;
+import net.deniro.land.module.message.service.MsgResultService;
 import net.deniro.land.module.system.entity.Department;
 import net.deniro.land.module.system.entity.TRegion;
 import net.deniro.land.module.system.entity.User;
@@ -65,6 +67,9 @@ public class MobileController {
     @Autowired
     private DataTypeService dataTypeService;
 
+    @Autowired
+    private MsgResultService msgResultService;
+
     /**
      * 渲染文件的路径前缀
      */
@@ -118,16 +123,24 @@ public class MobileController {
     }
 
     /**
-     * 我的消息（预留）
+     * 我的消息
      *
      * @param mm
      * @return
      */
     @RequestMapping(value = "get-user-message")
-    public String findMyMessages(ModelMap mm) {
+    public String findMyMessages(MsgResultQueryParam param,ModelMap mm) {
         ResponseResult r = null;
 
         try {
+            param.setIsDel(0);
+            param.setNumPerPage(param.getLimit());
+            param.setPageNum(param.getPageNo());
+
+            Page page = msgResultService.findPage(param);
+            mm.addAttribute("page", page);
+            mm.addAttribute("pageNo", param.getPageNo());
+
             r = new SuccessResult();
         } catch (Exception e) {
             logger.error("我的消息", e);

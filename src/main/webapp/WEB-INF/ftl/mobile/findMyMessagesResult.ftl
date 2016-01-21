@@ -3,12 +3,13 @@
 "describe":"${r.describe?default('')}"
 <#if page??>
 ,
-"totalnum":${page.totalSize.toString()},
-"totalpagenum":${page.totalPageSize.toString()},
+"totalpagenum":"<#if page??>${page.getTotalPageCount()?default('')}<#else>0</#if>",
+"totalnum":<#if page??>${page.getTotalCount()?default('')}<#else>0</#if>,
+"pageNo":${pageNo},
 "list":
-[<#list page.currentPageData as data>
+[<#list page.data as data>
 {
-"messageId":${data.msgId.toString()!''},
+"messageId":"${(data.msgId)?default('')}",
 "messageType":"1",
 "messageIsRead":"${(data.isRead)!''}",
 "date":"${(data.createTime)!''}",

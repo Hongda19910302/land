@@ -1,6 +1,8 @@
 package net.deniro.land.module.message.service;
 
+import net.deniro.land.common.dao.Page;
 import net.deniro.land.module.message.dao.MsgResultDao;
+import net.deniro.land.module.message.entity.MsgResultQueryParam;
 import net.deniro.land.module.message.entity.TMsgResult;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,21 @@ public class MsgResultService {
 
     @Autowired
     private MsgResultDao msgResultDao;
+
+    /**
+     * 分页查询
+     *
+     * @param queryParam 查询参数
+     * @return
+     */
+    public Page findPage(MsgResultQueryParam queryParam) {
+        try {
+            return msgResultDao.findPage(queryParam);
+        } catch (Exception e) {
+            logger.error("分页查询", e);
+            return new Page();
+        }
+    }
 
     /**
      * 新增
