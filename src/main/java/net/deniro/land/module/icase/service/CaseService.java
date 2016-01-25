@@ -411,6 +411,7 @@ public class CaseService {
             //处理当事人
             if (StringUtils.isNotBlank(caseParam.getPunisher())) {
                 tCase.setParties(caseParam.getPunisher());
+                caseParam.setParties(caseParam.getPunisher());
             } else {
                 tCase.setParties(caseParam.getParties());
             }
@@ -425,6 +426,7 @@ public class CaseService {
             //处理违法面积
             if (caseParam.getSpace() != null && caseParam.getSpace() != 0) {
                 tCase.setIllegalAreaSpace(caseParam.getSpace());
+                caseParam.setIllegalAreaSpace(caseParam.getSpace());
             } else {
                 tCase.setIllegalAreaSpace(caseParam.getIllegalAreaSpace());
             }
@@ -432,6 +434,7 @@ public class CaseService {
             //处理违法地址
             if (StringUtils.isNotBlank(caseParam.getIllegalAddr())) {
                 tCase.setIllegalArea(caseParam.getIllegalAddr());
+                caseParam.setIllegalArea(caseParam.getIllegalAddr());
             } else {
                 tCase.setIllegalArea(caseParam.getIllegalArea());
             }
