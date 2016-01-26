@@ -6,7 +6,7 @@
 
     <groupId>net.deniro</groupId>
     <artifactId>land</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>3.10.1</version>
 
     <!-- 国土行政执法信息平台-->
     <name>deniro-land</name>
