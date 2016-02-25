@@ -413,7 +413,7 @@ public class BaseController {
      * 判断当前登录账号是否是超级管理员
      *
      * @param session 当前session
-     * @return 
+     * @return
      */
     public boolean isSuperAdmin(HttpSession session) {
         User user = getCurrentUser(session);
