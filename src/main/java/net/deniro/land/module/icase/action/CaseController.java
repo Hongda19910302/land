@@ -867,10 +867,6 @@ public class CaseController extends BaseController {
         return query(queryParam, mm, session, "case/registerAuditIndex");
     }
 
-    /**
-     * 超级管理员ID
-     */
-    public static final Integer SUPER_ADMIN_ID = 1;
 
     /**
      * 跳转至【案件查询】
@@ -883,13 +879,12 @@ public class CaseController extends BaseController {
      */
     @RequestMapping(value = "/query")
     public String query(CaseParam queryParam, ModelMap mm, HttpSession session, String url) {
+        User user = getCurrentUser(session);
+        Integer currentUserId = user.getUserId();
 
-        Integer currentUserId = getCurrentUserId(session);
-        //判断是否是超级管理员
-        if (currentUserId == SUPER_ADMIN_ID) {
+        if (isSuperAdmin(session)) {
             queryParam.setSuperAdmin(true);
-        }else {//设置当前登录账号的企业作为条件
-            User user=getCurrentUser(session);
+        } else {
             queryParam.setCompanyId(user.getCompanyId());
         }
 

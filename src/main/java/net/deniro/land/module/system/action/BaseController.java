@@ -41,6 +41,12 @@ public class BaseController {
     static Logger logger = Logger.getLogger(BaseController.class);
 
     /**
+     * 超级管理员ID
+     */
+    public static final Integer SUPER_ADMIN_ID = 1;
+
+
+    /**
      * 分页查询组件URL地址
      */
     public static final String COMPONENT_IMAGES_DISPLAY_URL = "/component/images-display";
@@ -401,5 +407,21 @@ public class BaseController {
 
         //传递action地址
         mm.addAttribute("actionUrl", actionUrl);
+    }
+
+    /**
+     * 判断当前登录账号是否是超级管理员
+     *
+     * @param session
+     * @return
+     */
+    public boolean isSuperAdmin(HttpSession session) {
+        User user = getCurrentUser(session);
+        if (user == null) {
+            return false;
+        }
+
+        //判断是否是超级管理员
+        return user.getUserId() == SUPER_ADMIN_ID;
     }
 }

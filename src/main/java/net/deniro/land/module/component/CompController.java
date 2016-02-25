@@ -6,6 +6,8 @@ import net.deniro.land.module.component.entity.CompForm;
 import net.deniro.land.module.component.entity.CompanyTreeNode;
 import net.deniro.land.module.component.entity.TreeQueryParam;
 import net.deniro.land.module.component.service.CompFormService;
+import net.deniro.land.module.system.action.BaseController;
+import net.deniro.land.module.system.entity.Company;
 import net.deniro.land.module.system.entity.Department;
 import net.deniro.land.module.system.entity.TRegion;
 import net.deniro.land.module.system.entity.User;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +38,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/comp")
-public class CompController {
+public class CompController extends BaseController {
 
     @Autowired
     private DepartmentService departmentService;
@@ -80,33 +83,6 @@ public class CompController {
         }
 
         return "/component/lookupGeographicCoordinates";
-    }
-
-    /**
-     * 跳转至表单组件
-     *
-     * @param componentId
-     * @param mm
-     * @param session
-     * @return
-     */
-    @Deprecated
-    @RequestMapping(value = "/form")
-    public String form(Integer componentId, ModelMap mm, HttpSession session) {
-        User user = (User) session.getAttribute(UserService.USER_CODE);
-
-        //获取当前用户的区域信息
-        List<TRegion> regions = regionService.findByCompanyIdForTree(user.getCompanyId());
-        if (regions != null && !regions.isEmpty()) {
-            mm.addAttribute("currentUserRegion", regions.get(0));
-        }
-
-        CompForm compForm = compFormService.findById(componentId, user.getCompanyId());
-        mm.addAttribute("compForm", compForm);
-        mm.addAttribute("componentId", componentId);
-        mm.addAttribute("randomInt", RandomUtils.nextInt(1, 1000));
-
-        return "/component/form";
     }
 
 
@@ -210,14 +186,28 @@ public class CompController {
     /**
      * 查询所有单位树节点
      *
+     * @param session
      * @return
      */
     @RequestMapping(value = "/findAllCompany")
     @ResponseBody
-    public List<CompanyTreeNode> findAllCompany() {
+    public List<CompanyTreeNode> findAllCompany(HttpSession session) {
         List<CompanyTreeNode> tree = new ArrayList<CompanyTreeNode>();
 
-        Map<String, String> companys = companyService.findAllInSelect();
+
+        Map<String, String> companys = new HashMap<String, String>();
+        if (isSuperAdmin(session)) {
+            companys = companyService.findAllInSelect();
+        } else {
+            User user = getCurrentUser(session);
+            if (user != null) {
+                companys.put(String.valueOf(user.getCompany().getCompanyId()), user.getCompany()
+                        .getCompanyName());
+            }
+
+        }
+
+
         for (String s : companys.keySet()) {
             CompanyTreeNode companyTreeNode = new CompanyTreeNode();
             companyTreeNode.setCompanyId(s);
