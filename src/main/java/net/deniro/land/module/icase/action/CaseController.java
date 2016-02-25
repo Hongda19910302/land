@@ -888,6 +888,9 @@ public class CaseController extends BaseController {
         //判断是否是超级管理员
         if (currentUserId == SUPER_ADMIN_ID) {
             queryParam.setSuperAdmin(true);
+        }else {//设置当前登录账号的企业作为条件
+            User user=getCurrentUser(session);
+            queryParam.setCompanyId(user.getCompanyId());
         }
 
         if (queryParam.getModuleType() != null) {
