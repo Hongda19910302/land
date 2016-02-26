@@ -236,11 +236,18 @@ public class VariableFieldController extends BaseController {
 
     /**
      * 跳转至案件字段主界面
-     *
+     * @param queryParam
+     * @param mm
+     * @param session
      * @return
      */
     @RequestMapping(value = "/index")
-    public String index(VariableFieldQueryParam queryParam, ModelMap mm) {
+    public String index(VariableFieldQueryParam queryParam, ModelMap mm, HttpSession session) {
+
+        if (!isSuperAdmin(session)) {
+            queryParam.setCompanyId(String.valueOf(getCurrentUser(session).getCompanyId()));
+        }
+
         super.pageSearch(mm, variableFieldService.findPage(queryParam), queryParam, "variableField/index");
         return COMPONENT_PAGE_SEARCH_URL;
     }
