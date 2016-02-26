@@ -110,7 +110,7 @@ public class CompanyController extends BaseController {
             mm.addAttribute(CompFormService.OBJECT_NAME, company);
         }
 
-        mm.addAttribute("isDialog",true);
+        mm.addAttribute("isDialog", true);
 
         form(componentId, mm, session);
         return COMPONENT_FORM_URL;
@@ -119,10 +119,18 @@ public class CompanyController extends BaseController {
     /**
      * 跳转至单位管理主界面
      *
+     * @param queryParam
+     * @param mm
+     * @param session
      * @return
      */
     @RequestMapping(value = "/index")
-    public String index(CompanyQueryParam queryParam, ModelMap mm) {
+    public String index(CompanyQueryParam queryParam, ModelMap mm, HttpSession session) {
+        if (!isSuperAdmin(session)) {
+            queryParam.setCompanyId(String.valueOf(getCurrentUser(session).getCompanyId()));
+        }
+
+
         super.pageSearch(mm, companyService.findPage(queryParam), queryParam, "company/index");
         return COMPONENT_PAGE_SEARCH_URL;
     }
