@@ -203,10 +203,18 @@ public class RoleController extends BaseController {
     /**
      * 跳转至角色管理主界面
      *
+     * @param queryParam
+     * @param mm
+     * @param session
      * @return
      */
     @RequestMapping(value = "/index")
-    public String index(RoleQueryParam queryParam, ModelMap mm) {
+    public String index(RoleQueryParam queryParam, ModelMap mm, HttpSession session) {
+
+        if (!isSuperAdmin(session)) {
+            queryParam.setCompanyId(getCurrentUser(session).getCompanyId());
+        }
+
         super.pageSearch(mm, roleService.findPage(queryParam), queryParam, "role/index");
         return COMPONENT_PAGE_SEARCH_URL;
     }
