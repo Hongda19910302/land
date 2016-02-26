@@ -135,6 +135,8 @@
             <ul class="nav">
                 <li><a href="user/modifyPwdIndex?componentId=2"
                        target="navTab">修改密码</a></li>
+                <li><a href="user/info?componentId=10"
+                       target="navTab">个人信息</a></li>
                 <li><a id="exit" href="#">退出</a></li>
             </ul>
         </div>

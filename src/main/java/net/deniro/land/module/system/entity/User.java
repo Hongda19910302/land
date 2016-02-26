@@ -339,4 +339,33 @@ public class User implements Serializable {
         }
     }
 
+    /**
+     * 企业名称
+     */
+    @Transient
+    private String companyName;
+
+    public String getCompanyName(){
+        return this.getCompany().getCompanyName();
+    }
+
+    /**
+     * 部门名称
+     */
+    @Transient
+    private String departmentName;
+
+    public String getDepartmentName(){
+        return this.getDepartment().getName();
+    }
+
+    /**
+     * 角色名称
+     */
+    @Transient
+    private String roleName;
+
+    public String getRoleName(){
+        return this.getRole().getBackRoleName();
+    }
 }

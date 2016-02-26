@@ -216,6 +216,29 @@ public class UserController extends BaseController {
     }
 
     /**
+     * 跳转到个人信息页
+     *
+     * @param componentId
+     * @param mm
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/info")
+    public String info(Integer componentId, ModelMap mm,
+                                 HttpSession
+                                         session) {
+
+        User user=userService.findById(getCurrentUserId(session));
+        if(user!=null){
+            mm.addAttribute(CompFormService.OBJECT_NAME, user);
+        }
+
+
+        form(componentId, mm, session);
+        return COMPONENT_FORM_URL;
+    }
+
+    /**
      * 跳转至账户管理主界面
      * @param queryParam
      * @param mm
