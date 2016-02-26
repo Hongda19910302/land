@@ -217,11 +217,18 @@ public class UserController extends BaseController {
 
     /**
      * 跳转至账户管理主界面
-     *
+     * @param queryParam
+     * @param mm
+     * @param session
      * @return
      */
     @RequestMapping(value = "/index")
-    public String index(UserQueryParam queryParam, ModelMap mm) {
+    public String index(UserQueryParam queryParam, ModelMap mm,HttpSession session) {
+
+        if (!isSuperAdmin(session)) {
+            queryParam.setCompanyId(String.valueOf(getCurrentUser(session).getCompanyId()));
+        }
+
         super.pageSearch(mm, userService.findPage(queryParam), queryParam, "user/index");
         return COMPONENT_PAGE_SEARCH_URL;
     }
