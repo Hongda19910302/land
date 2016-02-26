@@ -51,6 +51,7 @@ public class SessionTimeoutInterceptor implements HandlerInterceptor {
         if (user != null) {//放行
             return true;
         } else {//session已失效，抛出异常
+            logger.warn("非法请求："+requestUrl);
             throw new SessionTimeoutException();
         }
     }
