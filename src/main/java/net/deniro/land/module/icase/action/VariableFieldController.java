@@ -243,12 +243,13 @@ public class VariableFieldController extends BaseController {
      */
     @RequestMapping(value = "/index")
     public String index(VariableFieldQueryParam queryParam, ModelMap mm, HttpSession session) {
-
+        //案件字段管理，如果不是超级管理员，就加入当前账号所属企业作为基础查询条件
         if (!isSuperAdmin(session)) {
             queryParam.setCompanyId(String.valueOf(getCurrentUser(session).getCompanyId()));
         }
 
-        super.pageSearch(mm, variableFieldService.findPage(queryParam), queryParam, "variableField/index");
+        super.pageSearch(mm, variableFieldService.findPage(queryParam), queryParam,
+                "variableField/index",session);
         return COMPONENT_PAGE_SEARCH_URL;
     }
 

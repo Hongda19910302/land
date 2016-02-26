@@ -286,12 +286,17 @@ public class User implements Serializable {
     }
 
     /**
+     * 超级管理员ID
+     */
+    public static final Integer SUPER_ADMIN_ID = 1;
+
+    /**
      * 是否是超级管理员
      *
      * @return
      */
     public boolean isSuperAdmin() {
-        return this.userId != null && this.userId == 1;
+        return this.userId != null && this.userId == SUPER_ADMIN_ID;
     }
 
     /**

@@ -7,6 +7,7 @@ import net.deniro.land.module.component.dao.CompPageSearchTableDao;
 import net.deniro.land.module.component.dao.CompPageSearchToolBarDao;
 import net.deniro.land.module.component.entity.*;
 import net.deniro.land.module.system.entity.DataSetType;
+import net.deniro.land.module.system.entity.User;
 import net.deniro.land.module.system.service.CompanyService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -149,6 +151,17 @@ public class CompPageSearchService {
      * @return
      */
     public CompPageSearch findById(Integer id) {
+        return findById(id, null);
+    }
+
+    /**
+     * 查询 分页查询组件配置信息
+     *
+     * @param id
+     * @param currentUser 当前登录账号
+     * @return
+     */
+    public CompPageSearch findById(Integer id, User currentUser) {
         try {
             CompPageSearch pageSearch = compPageSearchDao.load(id);
 
@@ -228,8 +241,17 @@ public class CompPageSearchService {
                                 field.setSelectListDataSet(commonStatus);
                                 break;
                             case COMPANY:
-                                field.setSelectListDataSet(companyService
-                                        .findAllInSelect());
+                                Map<String, String> datas = new LinkedHashMap<String, String>();
+                                //如果不是超级管理员，就只加入当前账号所属企业
+                                if (currentUser != null && !currentUser.isSuperAdmin()) {
+                                    datas.put(String.valueOf(currentUser.getCompany().getCompanyId()),
+                                            currentUser
+                                                    .getCompany().getCompanyName());
+                                } else {
+                                    datas = companyService
+                                            .findAllInSelect();
+                                }
+                                field.setSelectListDataSet(datas);
                                 break;
                             case ROLE_STATUS:
                                 field.setSelectListDataSet(roleStatus);

@@ -126,12 +126,14 @@ public class CompanyController extends BaseController {
      */
     @RequestMapping(value = "/index")
     public String index(CompanyQueryParam queryParam, ModelMap mm, HttpSession session) {
+        //单元管理，如果不是超级管理员，就加入当前账号所属企业作为基础查询条件
         if (!isSuperAdmin(session)) {
             queryParam.setCompanyId(String.valueOf(getCurrentUser(session).getCompanyId()));
         }
 
 
-        super.pageSearch(mm, companyService.findPage(queryParam), queryParam, "company/index");
+        super.pageSearch(mm, companyService.findPage(queryParam), queryParam,
+                "company/index",session);
         return COMPONENT_PAGE_SEARCH_URL;
     }
 }

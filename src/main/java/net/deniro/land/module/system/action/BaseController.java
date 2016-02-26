@@ -40,10 +40,7 @@ public class BaseController {
 
     static Logger logger = Logger.getLogger(BaseController.class);
 
-    /**
-     * 超级管理员ID
-     */
-    public static final Integer SUPER_ADMIN_ID = 1;
+
 
 
     /**
@@ -335,7 +332,23 @@ public class BaseController {
      * @param queryParam 查询参数
      * @param actionUrl  action地址
      */
-    public void pageSearch(ModelMap mm, Page page, QueryParam queryParam, String actionUrl) {
+    public void pageSearch(ModelMap mm, Page page, QueryParam queryParam, String
+            actionUrl) {
+        pageSearch(mm, page, queryParam, actionUrl, null);
+
+    }
+
+    /**
+     * 调用分页查询组件
+     *
+     * @param mm
+     * @param page       分页查询结果
+     * @param queryParam 查询参数
+     * @param actionUrl  action地址
+     * @param session
+     */
+    public void pageSearch(ModelMap mm, Page page, QueryParam queryParam, String
+            actionUrl, HttpSession session) {
         try {
             //分页查询
             mm.addAttribute("page", page);
@@ -348,8 +361,18 @@ public class BaseController {
 
             switch (ComponentType.valueOf(queryParam.getComponentType())) {
                 case PAGE_SEARCH:
-                    CompPageSearch compPageSearch = compPageSearchService.findById(queryParam
-                            .getComponentId());
+
+                    CompPageSearch compPageSearch;
+                    if(session!=null){
+                        User user=getCurrentUser(session);
+                        compPageSearch=compPageSearchService.findById(queryParam
+                                .getComponentId(),user);
+                    }else {
+                        compPageSearch=compPageSearchService.findById(queryParam
+                                .getComponentId());
+                    }
+
+
 
                     /**
                      * 处理隐藏的表单查询参数
@@ -422,6 +445,6 @@ public class BaseController {
         }
 
         //判断是否是超级管理员
-        return user.getUserId() == SUPER_ADMIN_ID;
+        return user.getUserId() == User.SUPER_ADMIN_ID;
     }
 }
