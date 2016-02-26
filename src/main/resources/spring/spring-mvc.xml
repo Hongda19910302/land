@@ -136,6 +136,8 @@
                         <value>/login.jsp</value>
                         <value>/favicon.ico</value>
                         <value>/gtweb/android</value>
+                        <!-- apk下载-->
+                        <value>/ydxczf</value>
                     </list>
                 </property>
             </bean>
