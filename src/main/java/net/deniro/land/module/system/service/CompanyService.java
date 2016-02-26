@@ -4,10 +4,7 @@ import net.deniro.land.common.dao.Page;
 import net.deniro.land.module.system.dao.CompanyDao;
 import net.deniro.land.module.system.dao.RegionDao;
 import net.deniro.land.module.system.dao.RegionRelationDao;
-import net.deniro.land.module.system.entity.Company;
-import net.deniro.land.module.system.entity.CompanyQueryParam;
-import net.deniro.land.module.system.entity.TRegion;
-import net.deniro.land.module.system.entity.TRegionRelation;
+import net.deniro.land.module.system.entity.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +30,25 @@ public class CompanyService {
 
     @Autowired
     private RegionDao regionDao;
+
+    /**
+     * 获取用于下拉选择框的企业数据
+     *
+     * @param currentUser 当前登录账号
+     * @return key：企业ID；value：企业名称
+     */
+    public Map<String, String> findForSelectsCompanys(User currentUser) {
+        Map<String, String> datas = new LinkedHashMap<String, String>();
+        //如果不是超级管理员，就只加入当前账号所属企业
+        if (currentUser != null && !currentUser.isSuperAdmin()) {
+            datas.put(String.valueOf(currentUser.getCompany().getCompanyId()),
+                    currentUser
+                            .getCompany().getCompanyName());
+        } else {
+            datas = findAllInSelect();
+        }
+        return datas;
+    }
 
     /**
      * 更新单位
