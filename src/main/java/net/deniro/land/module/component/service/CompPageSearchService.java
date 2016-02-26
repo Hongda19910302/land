@@ -241,17 +241,8 @@ public class CompPageSearchService {
                                 field.setSelectListDataSet(commonStatus);
                                 break;
                             case COMPANY:
-                                Map<String, String> datas = new LinkedHashMap<String, String>();
-                                //如果不是超级管理员，就只加入当前账号所属企业
-                                if (currentUser != null && !currentUser.isSuperAdmin()) {
-                                    datas.put(String.valueOf(currentUser.getCompany().getCompanyId()),
-                                            currentUser
-                                                    .getCompany().getCompanyName());
-                                } else {
-                                    datas = companyService
-                                            .findAllInSelect();
-                                }
-                                field.setSelectListDataSet(datas);
+                                field.setSelectListDataSet(companyService
+                                        .findForSelectsCompanys(currentUser));
                                 break;
                             case ROLE_STATUS:
                                 field.setSelectListDataSet(roleStatus);

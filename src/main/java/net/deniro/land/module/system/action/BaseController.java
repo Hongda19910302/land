@@ -318,7 +318,7 @@ public class BaseController {
     public void form(Integer componentId, ModelMap mm, HttpSession session) {
         User user = (User) session.getAttribute(UserService.USER_CODE);
 
-        CompForm compForm = compFormService.findById(componentId, user.getCompanyId());
+        CompForm compForm = compFormService.findById(componentId, user.getCompanyId(),user);
         mm.addAttribute("compForm", compForm);
         mm.addAttribute("componentId", "form_" + componentId + "_" + RandomUtils.nextInt(0, 100));
         mm.addAttribute("randomInt", RandomUtils.nextInt(1, 1000));

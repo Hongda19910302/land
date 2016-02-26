@@ -8,6 +8,7 @@ import net.deniro.land.module.icase.entity.VariableSelectRelation;
 import net.deniro.land.module.icase.service.DataFieldService;
 import net.deniro.land.module.icase.service.DataTypeService;
 import net.deniro.land.module.system.entity.DataSetType;
+import net.deniro.land.module.system.entity.User;
 import net.deniro.land.module.system.service.CompanyService;
 import net.deniro.land.module.system.service.RoleService;
 import org.apache.commons.collections.map.MultiKeyMap;
@@ -73,6 +74,17 @@ public class CompFormService {
      * @return
      */
     public CompForm findById(Integer id, Integer companyId) {
+        return findById(id,companyId,null);
+    }
+
+    /**
+     * 查询 表单组件配置信息
+     * @param id
+     * @param companyId 企业ID
+     * @param currentUser 当前登录账号
+     * @return
+     */
+    public CompForm findById(Integer id, Integer companyId,User currentUser) {
         try {
             variableSelectRelation.init();//临时处理，解决字段配置变更后，实际新建案件时没有发生变更的问题
             MultiKeyMap selects = variableSelectRelation.getVariableSelects();
@@ -91,7 +103,7 @@ public class CompFormService {
                                 break;
                             case COMPANY:
                                 item.setSelectListDataSet(companyService
-                                        .findAllInSelect());
+                                        .findForSelectsCompanys(currentUser));
                                 break;
                             case CASE_DATA_TYPE:
                                 item.setSelectListDataSet(dataFieldService.findAllInSelect());
