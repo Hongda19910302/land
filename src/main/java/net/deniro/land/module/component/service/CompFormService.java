@@ -74,17 +74,18 @@ public class CompFormService {
      * @return
      */
     public CompForm findById(Integer id, Integer companyId) {
-        return findById(id,companyId,null);
+        return findById(id, companyId, null);
     }
 
     /**
      * 查询 表单组件配置信息
+     *
      * @param id
-     * @param companyId 企业ID
+     * @param companyId   企业ID
      * @param currentUser 当前登录账号
      * @return
      */
-    public CompForm findById(Integer id, Integer companyId,User currentUser) {
+    public CompForm findById(Integer id, Integer companyId, User currentUser) {
         try {
             variableSelectRelation.init();//临时处理，解决字段配置变更后，实际新建案件时没有发生变更的问题
             MultiKeyMap selects = variableSelectRelation.getVariableSelects();
@@ -103,7 +104,7 @@ public class CompFormService {
                                 break;
                             case COMPANY:
                                 item.setSelectListDataSet(companyService
-                                        .findForSelectsCompanys(currentUser));
+                                        .findForSelects(currentUser));
                                 break;
                             case CASE_DATA_TYPE:
                                 item.setSelectListDataSet(dataFieldService.findAllInSelect());
@@ -112,7 +113,7 @@ public class CompFormService {
                                 item.setSelectListDataSet(variableFieldType);
                                 break;
                             case ROLE:
-                                item.setSelectListDataSet(roleService.findAllInSelect());
+                                item.setSelectListDataSet(roleService.findForSelects(currentUser));
                                 break;
                             case SEX:
                                 item.setSelectListDataSet(sex);

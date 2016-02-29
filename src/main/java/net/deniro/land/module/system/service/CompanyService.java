@@ -37,7 +37,7 @@ public class CompanyService {
      * @param currentUser 当前登录账号
      * @return key：企业ID；value：企业名称
      */
-    public Map<String, String> findForSelectsCompanys(User currentUser) {
+    public Map<String, String> findForSelects(User currentUser) {
         Map<String, String> datas = new LinkedHashMap<String, String>();
         //如果不是超级管理员，就只加入当前账号所属企业
         if (currentUser != null && !currentUser.isSuperAdmin()) {

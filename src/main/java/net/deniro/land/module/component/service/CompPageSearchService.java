@@ -9,13 +9,13 @@ import net.deniro.land.module.component.entity.*;
 import net.deniro.land.module.system.entity.DataSetType;
 import net.deniro.land.module.system.entity.User;
 import net.deniro.land.module.system.service.CompanyService;
+import net.deniro.land.module.system.service.RoleService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -83,6 +83,9 @@ public class CompPageSearchService {
 
     @Autowired
     private CompPageSearchToolBarDao compPageSearchToolBarDao;
+
+    @Autowired
+    private RoleService roleService;
 
     /**
      * 分页查询组件中的工具栏
@@ -242,10 +245,10 @@ public class CompPageSearchService {
                                 break;
                             case COMPANY:
                                 field.setSelectListDataSet(companyService
-                                        .findForSelectsCompanys(currentUser));
+                                        .findForSelects(currentUser));
                                 break;
                             case ROLE_STATUS:
-                                field.setSelectListDataSet(roleStatus);
+                                field.setSelectListDataSet(roleService.findForSelects(currentUser));
                                 break;
                             case HAS_STATUS:
                                 field.setSelectListDataSet(hasStatus);
