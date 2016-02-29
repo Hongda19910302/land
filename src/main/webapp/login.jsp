@@ -76,7 +76,7 @@
             var androidDownloadTip = new Opentip($androidDownload, {showOn: null, style: 'dark'});//验证码图片提示
 
             $androidDownload.click(function () {//点击二维码下载
-                window.open("http://120.25.203.234:8080/ydxczf1.0.0.apk");
+                window.open("${resourceRoot}/client/ydxczf1.0.0.apk");
                 androidDownloadTip.hide();
             }).mouseover(function () {//出现提示
                 androidDownloadTip.setContent("扫码下载或者直接点击下载");
