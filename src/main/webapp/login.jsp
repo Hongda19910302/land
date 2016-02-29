@@ -22,6 +22,7 @@
         $(function () {
             handleCodeImg();
             login();
+            handleAndroidDownload();
         });
 
         //登录
@@ -66,6 +67,22 @@
                 codeImgTip.show();
             }).mouseout(function () {//隐藏提示
                 codeImgTip.hide();
+            });
+        }
+
+        //处理android下载
+        function handleAndroidDownload(){
+            var $androidDownload = $(".qrCode");
+            var androidDownloadTip = new Opentip($androidDownload, {showOn: null, style: 'dark'});//验证码图片提示
+
+            $androidDownload.click(function () {//点击二维码下载
+                window.open("http://120.25.203.234:8080/ydxczf1.0.0.apk");
+                androidDownloadTip.hide();
+            }).mouseover(function () {//出现提示
+                androidDownloadTip.setContent("扫码下载或者直接点击下载");
+                androidDownloadTip.show();
+            }).mouseout(function () {//隐藏提示
+                androidDownloadTip.hide();
             });
         }
 
@@ -157,15 +174,23 @@
         <div class="login_banner"><img
                 src="${resourceRoot}/dwz/themes/default/images/login_banner.jpg"/></div>
         <div class="login_main">
-            <%--<ul class="helpList">--%>
-            <%--<li><a href="#">下载驱动程序</a></li>--%>
-            <%--<li><a href="#">如何安装密钥驱动程序？</a></li>--%>
-            <%--<li><a href="#">忘记密码怎么办？</a></li>--%>
-            <%--<li><a href="#">为什么登录失败？</a></li>--%>
-            <%--</ul>--%>
-            <%--<div class="login_inner">--%>
-            <%--<p>发现在初始，解决在萌芽</p>--%>
-            <%--</div>--%>
+            <ul class="helpList">
+                <%--<li><a href="#">下载客户端</a></li>--%>
+                <%--<li><a href="#">如何安装密钥驱动程序？</a></li>--%>
+                <%--<li><a href="#">忘记密码怎么办？</a></li>--%>
+                <%--<li><a href="#">为什么登录失败？</a></li>--%>
+            </ul>
+            <div class="login_inner">
+                <p>
+
+                <div class="androidDownload">
+                    <img class="qrCode"
+                         src="${resourceRoot}/dwz/themes/default/images/android-code.png">
+
+                    <div class="qrCodeRemark">android客户端</div>
+                </div>
+                </p>
+            </div>
         </div>
     </div>
     <div id="login_footer">

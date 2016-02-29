@@ -172,6 +172,19 @@ body {
     height: 270px;
 }
 
+.qrCode {
+    height: 50%;
+    cursor: pointer;
+}
+
+.qrCodeRemark {
+    margin-left: 10px;
+    margin-top: 5px;
+}
+
+.androidDownload{
+}
+
 .login_main {
     display: block;
     height: 200px;
