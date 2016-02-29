@@ -28,6 +28,19 @@ public class RoleDao extends BaseDao<Role> {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     /**
+     * 依据企业ID，获取角色列表
+     *
+     * @param companyId 企业ID
+     * @return
+     */
+    public List<Role> findByCompanyId(Integer companyId) {
+        StringBuilder hql = new StringBuilder(" from Role where STATUS=0 and companyId=? " +
+                "order by " +
+                "backRoleId desc");
+        return this.find(hql.toString(), companyId);
+    }
+
+    /**
      * 查询所有角色
      *
      * @return
@@ -55,17 +68,14 @@ public class RoleDao extends BaseDao<Role> {
             hql.append(" and t.backRoleName like '").append(queryParam.getBackRoleName())
                     .append("%'");
         }
-        if(queryParam.getStatus()!=null){
+        if (queryParam.getStatus() != null) {
             hql.append(" and t.status=").append(queryParam.getStatus());
         }
-        if(queryParam.getCompanyId()!=null){
+        if (queryParam.getCompanyId() != null) {
             hql.append(" and t.companyId=").append(queryParam.getCompanyId());
         }
 
         hql.append(" order by t.backRoleId desc");
-
-
-
 
 
         return super.pagedQuery(hql.toString(), queryParam.getPageNum(), queryParam

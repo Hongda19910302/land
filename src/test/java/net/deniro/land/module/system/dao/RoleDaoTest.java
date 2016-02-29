@@ -1,7 +1,6 @@
 package net.deniro.land.module.system.dao;
 
 import net.deniro.land.common.dao.Page;
-import net.deniro.land.common.entity.QueryParam;
 import net.deniro.land.module.system.entity.Role;
 import net.deniro.land.module.system.entity.RoleQueryParam;
 import org.junit.Test;
@@ -21,12 +20,19 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring/spring-context-base.xml",
         "classpath:spring/spring-context-db.xml", "classpath:spring/spring-context-tx" +
-        ".xml", "classpath:spring/spring-context-dataset-type.xml"})@TransactionConfiguration
+        ".xml", "classpath:spring/spring-context-dataset-type.xml",
+        "classpath:spring/spring-context-ftp.xml"})
+@TransactionConfiguration
 @Transactional
 public class RoleDaoTest {
 
     @Autowired
     private RoleDao roleDao;
+
+    @Test
+    public void findByCompanyId() {
+        System.out.println(roleDao.findByCompanyId(21));
+    }
 
     @Test
     public void testFindPage() throws Exception {
