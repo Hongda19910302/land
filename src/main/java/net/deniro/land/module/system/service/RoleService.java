@@ -5,6 +5,7 @@ import net.deniro.land.module.mobile.dao.BackRolePrivilegeDao;
 import net.deniro.land.module.system.dao.RoleDao;
 import net.deniro.land.module.system.entity.Role;
 import net.deniro.land.module.system.entity.RoleQueryParam;
+import net.deniro.land.module.system.entity.User;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.log4j.Logger;
@@ -29,6 +30,29 @@ public class RoleService {
 
     @Autowired
     private BackRolePrivilegeDao backRolePrivilegeDao;
+
+    /**
+     * 获取用于下拉选择框的角色数据
+     *
+     * @param currentUser 当前登录账号
+     * @return key：角色ID；value：角色名称
+     */
+    public Map<String, String> findForSelects(User currentUser) {
+        Map<String, String> datas = new LinkedHashMap<String, String>();
+        //如果不是超级管理员，就只加入当前账号所属企业所拥有的角色
+        if (currentUser != null && !currentUser.isSuperAdmin()) {
+            List<Role> roles = roleDao.findByCompanyId(currentUser.getCompanyId());
+            for (Role role : roles) {
+                datas.put(String.valueOf(role.getBackRoleId()),
+                        role.getBackRoleName());
+            }
+
+
+        } else {
+            datas = findAllInSelect();
+        }
+        return datas;
+    }
 
     /**
      * 设置权限
